@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo: menú digital de rotisería (ejemplo ficticio) · MARCEM</title>
+<meta name="description" content="Probá un menú digital hecho por MARCEM: elegís varios platos, ves el total y mandás el pedido por WhatsApp. Ejemplo ficticio.">
+<link rel="canonical" href="https://marcem-digital.vercel.app/demo-catalogo.html">
+<meta name="theme-color" content="#082A3A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="MARCEM">
+<meta property="og:title" content="Demo: menú digital de rotisería (ejemplo ficticio) · MARCEM">
+<meta property="og:description" content="Probá un menú digital hecho por MARCEM: elegís varios platos, ves el total y mandás el pedido por WhatsApp. Ejemplo ficticio.">
+<meta property="og:url" content="https://marcem-digital.vercel.app/demo-catalogo.html">
+<meta property="og:image" content="https://marcem-digital.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+  body { margin: 0; font-family: "Manrope", system-ui, sans-serif; color: #12181C; background: #F5F7F8; -webkit-font-smoothing: antialiased; }
+  a { text-decoration: none; color: inherit; }
+  .top { position: relative; overflow: hidden; background: #082A3A; color: #FFFFFF; padding: 20px 16px 112px; box-sizing: border-box; }
+  .grid-bg { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px); background-size: 40px 40px; -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, #000 25%, transparent 75%); mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, #000 25%, transparent 75%); }
+  .glow { position: absolute; width: 340px; height: 340px; border-radius: 999px; background: #1E6A89; opacity: 0.55; filter: blur(80px); top: -150px; right: -130px; pointer-events: none; }
+  .inner { position: relative; z-index: 1; width: 100%; max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .back { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; min-height: 36px; font-size: 13px; font-weight: 700; color: #B9D0DA; transition: color 0.2s, gap 0.2s; }
+  .back:hover { color: #FFFFFF; gap: 9px; }
+  .pill { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; border: 1px dashed rgba(255,255,255,0.35); background: rgba(255,255,255,0.06); font-size: 11px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: #D5E6ED; }
+  .card { position: relative; z-index: 2; width: 100%; max-width: 480px; margin: -88px auto 0; background: #FFFFFF; border: 1px solid #DDE3E6; border-radius: 22px; padding: 22px 18px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; box-shadow: 0 24px 50px rgba(8,42,58,0.14); }
+  .q { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 800; color: #12181C; }
+  .q-num { width: 26px; height: 26px; border-radius: 999px; background: #E4EEF1; color: #0B3D53; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .opt { cursor: pointer; width: 100%; min-height: 52px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1.5px solid #DDE3E6; background: #FFFFFF; border-radius: 14px; padding: 12px 14px; font-family: "Manrope", sans-serif; font-size: 15px; font-weight: 600; color: #12181C; text-align: left; transition: border-color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.15s; box-sizing: border-box; }
+  .opt:hover { border-color: #A9C6D2; }
+  .opt:active { transform: scale(0.99); }
+  .opt-selected { border-color: #0B3D53; background: #E4EEF1; box-shadow: 0 0 0 3px rgba(11,61,83,0.10); }
+  .price { font-size: 14px; font-weight: 700; color: #4B5760; }
+  .opt-selected .price { color: #0B3D53; }
+  .total { display: flex; flex-direction: column; gap: 4px; padding: 18px; border-radius: 16px; background: linear-gradient(160deg, #F5F7F8, #E4EEF1); }
+  .cta { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 14px 20px; border-radius: 999px; color: #FFFFFF; font-size: 16px; font-weight: 700; transition: background 0.25s, box-shadow 0.25s, transform 0.2s; box-sizing: border-box; }
+  .cta-on { box-shadow: 0 10px 28px rgba(37,211,102,0.30); }
+  .cta-on:hover { transform: translateY(-2px); }
+  .foot { width: 100%; max-width: 480px; margin: 20px auto 0; padding: 0 16px 40px; box-sizing: border-box; text-align: center; font-size: 13px; line-height: 20px; color: #4B5760; }
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  @keyframes drift { from { transform: translate(0, 0) scale(1); } to { transform: translate(-60px, 40px) scale(1.15); } }
+  @media (prefers-reduced-motion: no-preference) {
+    .rise { animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    .d2 { animation-delay: 0.12s; } .d3 { animation-delay: 0.24s; }
+    .glow { animation: drift 16s ease-in-out infinite alternate; }
+  }
+  @media (min-width: 760px) {
+    .top { padding: 32px 24px 120px; }
+    .card { padding: 30px 28px; }
+  }
+
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 6px; margin: 0 -2px; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex-shrink: 0; cursor: pointer; min-height: 40px; padding: 8px 16px; border-radius: 999px; border: 1.5px solid #DDE3E6; background: #FFFFFF; font-family: "Manrope", sans-serif; font-size: 14px; font-weight: 700; color: #4B5760; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+  .chip[aria-pressed="true"] { background: #0B3D53; border-color: #0B3D53; color: #FFFFFF; }
+  .info { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 13px; color: #4B5760; }
+  .info span { display: inline-flex; align-items: center; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 99px; background: #25D366; }
+  .cat-title { margin: 6px 0 0; font-size: 12px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: #1E6A89; }
+  .item { display: flex; gap: 14px; align-items: flex-start; justify-content: space-between; padding: 14px 0; border-top: 1px solid #EEF2F4; }
+  .item:first-of-type { border-top: 0; }
+  .item-name { font-size: 16px; font-weight: 800; color: #12181C; }
+  .item-desc { margin-top: 3px; font-size: 13px; line-height: 19px; color: #4B5760; }
+  .item-price { margin-top: 6px; font-size: 15px; font-weight: 800; color: #0B3D53; }
+  .add { flex-shrink: 0; cursor: pointer; min-height: 40px; padding: 8px 16px; border-radius: 999px; border: 1.5px solid #0B3D53; background: #FFFFFF; font-family: "Manrope", sans-serif; font-size: 14px; font-weight: 800; color: #0B3D53; transition: background 0.2s; }
+  .add:hover { background: #E4EEF1; }
+  .step { flex-shrink: 0; display: inline-flex; align-items: center; border-radius: 999px; background: #0B3D53; color: #FFFFFF; }
+  .step button { cursor: pointer; width: 40px; height: 40px; border: 0; background: transparent; color: #FFFFFF; font-size: 20px; font-weight: 800; font-family: "Manrope", sans-serif; }
+  .step span { min-width: 22px; text-align: center; font-size: 15px; font-weight: 800; }
+  .group[hidden], .step[hidden], .add[hidden] { display: none; }
+  .bar { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 30; max-width: 456px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 10px 10px 18px; border-radius: 999px; background: #082A3A; color: #FFFFFF; box-shadow: 0 16px 40px rgba(8,42,58,0.35); transform: translateY(140%); transition: transform 0.3s cubic-bezier(0.2,0.7,0.2,1); }
+  .bar.show { transform: none; }
+  .bar b { font-size: 16px; }
+  .bar small { display: block; font-size: 12px; color: #B9D0DA; font-weight: 600; }
+  .bar button { cursor: pointer; min-height: 44px; padding: 10px 18px; border: 0; border-radius: 999px; background: #25D366; color: #FFFFFF; font-family: "Manrope", sans-serif; font-size: 14px; font-weight: 800; }
+  .sheet-bg { position: fixed; inset: 0; z-index: 40; background: rgba(8,42,58,0.5); opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+  .sheet-bg.show { opacity: 1; pointer-events: auto; }
+  .sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; max-width: 480px; margin: 0 auto; max-height: 88vh; overflow-y: auto; box-sizing: border-box; padding: 22px 18px 24px; border-radius: 24px 24px 0 0; background: #FFFFFF; display: flex; flex-direction: column; gap: 16px; transform: translateY(105%); transition: transform 0.3s cubic-bezier(0.2,0.7,0.2,1); }
+  .sheet.show { transform: none; }
+  .line { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 0; border-top: 1px solid #EEF2F4; font-size: 14px; }
+  .line:first-child { border-top: 0; }
+  .line-name { font-weight: 700; color: #12181C; }
+  .line-sub { font-size: 13px; color: #4B5760; }
+  .seg { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .seg button { cursor: pointer; min-height: 46px; border-radius: 12px; border: 1.5px solid #DDE3E6; background: #FFFFFF; font-family: "Manrope", sans-serif; font-size: 14px; font-weight: 700; color: #12181C; }
+  .seg button[aria-pressed="true"] { border-color: #0B3D53; background: #E4EEF1; box-shadow: 0 0 0 3px rgba(11,61,83,0.10); }
+  .fld { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 700; color: #12181C; }
+  .fld input, .fld textarea { min-height: 46px; padding: 10px 12px; border-radius: 12px; border: 1.5px solid #DDE3E6; font-family: "Manrope", sans-serif; font-size: 15px; color: #12181C; box-sizing: border-box; resize: vertical; }
+  .fld input:focus, .fld textarea:focus { outline: none; border-color: #0B3D53; box-shadow: 0 0 0 3px rgba(11,61,83,0.12); }
+  .x { cursor: pointer; width: 40px; height: 40px; border: 0; border-radius: 999px; background: #F5F7F8; color: #12181C; font-size: 20px; }
+</style>
+</head>
+<body>
+<div style="width: 100%; min-height: 100vh; display: flex; flex-direction: column;">
+  <div class="top">
+    <div class="grid-bg"></div>
+    <div class="glow"></div>
+    <div class="inner">
+      <a href="./" class="back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+        Volver a MARCEM
+      </a>
+      <span class="pill rise">Demo — ejemplo ficticio</span>
+      <h1 class="rise d2" style="margin: 0; font-size: 28px; line-height: 35px; font-weight: 800; letter-spacing: -0.01em;">Rotisería Ejemplo</h1>
+      <p class="rise d3" style="margin: 0; font-size: 15px; line-height: 23px; color: #B9D0DA;">Así se ve un menú digital hecho por MARCEM: el cliente arma su pedido y te lo manda por WhatsApp en un solo mensaje. Ni el local ni los precios son reales.</p>
+    </div>
+  </div>
+
+  <div style="padding: 0 16px; box-sizing: border-box;">
+    <div class="card rise d3" style="gap: 18px;">
+      <div class="info"><span><span class="dot"></span>Abierto hoy de 11 a 15 y de 19 a 23 hs</span><span>Envíos en zona centro</span></div>
+      <div class="chips" role="group" aria-label="Filtrar por categoría"><button class="chip" type="button" data-cat="todo" aria-pressed="true">Todo</button><button class="chip" type="button" data-cat="minutas" aria-pressed="false">Minutas</button><button class="chip" type="button" data-cat="pastas" aria-pressed="false">Pastas</button><button class="chip" type="button" data-cat="empanadas" aria-pressed="false">Empanadas</button><button class="chip" type="button" data-cat="postres" aria-pressed="false">Postres</button></div>
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+      <section class="group" data-cat="minutas" aria-labelledby="h-minutas">
+        <h2 class="cat-title" id="h-minutas">Minutas</h2>
+        <div class="item" data-id="0" data-name="Milanesa napolitana con fritas" data-price="12500">
+          <div>
+            <div class="item-name">Milanesa napolitana con fritas</div>
+            <div class="item-desc">Milanesa de ternera, salsa, jamón y muzzarella.</div>
+            <div class="item-price">$12.500</div>
+          </div>
+          <button class="add" type="button" aria-label="Agregar Milanesa napolitana con fritas">Agregar</button>
+          <div class="step" hidden><button type="button" data-d="-1" aria-label="Quitar uno">−</button><span aria-live="polite">0</span><button type="button" data-d="1" aria-label="Sumar uno">+</button></div>
+        </div>
+        <div class="item" data-id="1" data-name="Suprema a la suiza con puré" data-price="13000">
+          <div>
+            <div class="item-name">Suprema a la suiza con puré</div>
+            <div class="item-desc">Pechuga rebozada con salsa blanca y queso gratinado.</div>
+            <div class="item-price">$13.000</div>
+          </div>
+          <button class="add" type="button" aria-label="Agregar Suprema a la suiza con puré">Agregar</button>
+          <div class="step" hidden><button type="button" data-d="-1" aria-label="Quitar uno">−</button><span aria-live="polite">0</span><button type="button" data-d="1" aria-label="Sumar uno">+</button></div>
+        </div>
+        <div class="item" data-id="2" data-name="Hamburguesa completa" data-price="9800">
+          <div>
+            <div class="item-name">Hamburguesa completa</div>
+            <div class="item-desc">Carne casera, lechuga, tomate, huevo y papas.</div>
+            <div class="item-price">$9.800</div>
+          </div>
+          <button class="add" type="button" aria-label="Agregar Hamburguesa completa">Agregar</button>
+          <div class="step" hidden><button type="button" data-d="-1" aria-label="Quitar uno">−</button><span aria-live="polite">0</span><button type="button" data-d="1" aria-label="Sumar uno">+</button></div>
+        </div>
+      </section>
+      <section class="group" data-cat="pastas" aria-labelledby="h-pastas">
+        <h2 class="cat-title" id="h-pastas">Pastas</h2>
+        <div class="item" data-id="3" data-name="Sorrentinos de jamón y queso" data-price="10500">
+          <div>
+            <div class="item-name">Sorrentinos de jamón y queso</div>
+            <div class="item-desc">Con salsa a elección: fileto, crema o mixta.</div>
+            <div class="item-price">$10.500</div>
+          </div>
+          <button class="add" type="button" aria-label="Agregar Sorrentinos de jamón y queso">Agregar</button>
+          <div class="step" hidden><button type="button" data-d="-1" aria-label="Quitar uno">−</button><span aria-live="polite">0</span><button type="button" data-d="1" aria-label="Sumar uno">+</button></div>
+        </div>
+        <div class="item" data-id="4" data-name="Ñoquis de papa" data-price="8500">
+          <div>
+            <div class="item-name">Ñoquis de papa</div>
+            <div class="item-desc">Hechos en el día, con salsa a elección.</div>
+            <div class="item-price">$8.500</div>
+          </div>
+          <button class="add" type="button" aria-label="Agregar Ñoquis de papa">Agregar</button>
+          <div class="step" hidden><button type="button" data-d="-1" aria-label="Quitar uno">−</button><span aria-live="polite">0</span><button type="button" data-d="1" aria-label="Sumar uno">+</button></div>
+        </div>
+        <div class="item" data-id="5" data-name="Lasagna de verdura" data-price="11000">
+          <div>
+            <div class="item-name">Lasagna de verdura</div>
+            <div class="item-desc">Porción abundante, con salsa bechamel.</div>
+            <div class="item-price">$11.000</div>
+          </div>
+          <button class="add" type="button" aria-label="Agregar Lasagna de verdura">Agregar</button>
+          <div class="step" hidden><button type="button" data-d="-1" aria-label="Quitar uno">−</button><span aria-live="polite">0</span><button type="button" data-d="1" aria-label="Sumar uno">+</button></div>
+        </div>
+      </section>
+      <section class="group" data-cat="empanadas" aria-labelledby="h-empanadas">
+        <h2 class="cat-title" id="h-empanadas">Empanadas</h2>
+        <div class="item" data-id="6" data-name="Empanada de carne cortada a cuchillo" data-price="1600">
+          <div>
+            <div class="item-name">Empanada de carne cortada a cuchillo</div>
+            <div class="item-desc">Precio por unidad.</div>
+            <div class="item-price">$1.600</div>
+          </div>
+          <button class="add" type="button" aria-label="Agregar Empanada de carne cortada a cuchillo">Agregar</button>
+          <div class="step" hidden><button type="button" data-d="-1" aria-label="Quitar uno">−</button><span aria-live="polite">0</span><button type="button" data-d="1" aria-label="Sumar uno">+</button></div>
+        </div>
+        <div class="item" data-id="7" data-name="Empanada de jamón y queso" data-price="1500">
+          <div>
+            <div class="item-name">Empanada de jamón y queso</div>
+            <div class="item-desc">Precio por unidad.</div>
+            <div class="item-price">$1.500</div>
+          </div>
+          <button class="add" type="button" aria-label="Agregar Empanada de jamón y queso">Agregar</button>
+          <div class="step" hidden><button type="button" data-d="-1" aria-label="Quitar uno">−</button><span aria-live="polite">0</span><button type="button" data-d="1" aria-label="Sumar uno">+</button></div>
+        </div>
+        <div class="item" data-id="8" data-name="Docena surtida" data-price="17000">
+          <div>
+            <div class="item-name">Docena surtida</div>
+            <div class="item-desc">Elegís los gustos en las aclaraciones.</div>
+            <div class="item-price">$17.000</div>
+          </div>
+          <button class="add" type="button" aria-label="Agregar Docena surtida">Agregar</button>
+          <div class="step" hidden><button type="button" data-d="-1" aria-label="Quitar uno">−</button><span aria-live="polite">0</span><button type="button" data-d="1" aria-label="Sumar uno">+</button></div>
+        </div>
+      </section>
+      <section class="group" data-cat="postres" aria-labelledby="h-postres">
+        <h2 class="cat-title" id="h-postres">Postres</h2>
+        <div class="item" data-id="9" data-name="Flan casero" data-price="4500">
+          <div>
+            <div class="item-name">Flan casero</div>
+            <div class="item-desc">Con dulce de leche o crema.</div>
+            <div class="item-price">$4.500</div>
+          </div>
+          <button class="add" type="button" aria-label="Agregar Flan casero">Agregar</button>
+          <div class="step" hidden><button type="button" data-d="-1" aria-label="Quitar uno">−</button><span aria-live="polite">0</span><button type="button" data-d="1" aria-label="Sumar uno">+</button></div>
+        </div>
+        <div class="item" data-id="10" data-name="Tiramisú" data-price="5500">
+          <div>
+            <div class="item-name">Tiramisú</div>
+            <div class="item-desc">Porción individual.</div>
+            <div class="item-price">$5.500</div>
+          </div>
+          <button class="add" type="button" aria-label="Agregar Tiramisú">Agregar</button>
+          <div class="step" hidden><button type="button" data-d="-1" aria-label="Quitar uno">−</button><span aria-live="polite">0</span><button type="button" data-d="1" aria-label="Sumar uno">+</button></div>
+        </div>
+      </section>
+      </div>
+    </div>
+  </div>
+
+  <p class="foot" style="padding-bottom: 110px;">Esto es un ejemplo del tipo de catálogo o menú que MARCEM puede armar para tu negocio — con tus productos, tus precios y tu WhatsApp.</p>
+
+  <div class="bar" id="bar" aria-live="polite"><div><b id="bar-total">$0</b><small id="bar-count">0 productos</small></div><button type="button" id="ver">Ver pedido</button></div>
+  <div class="sheet-bg" id="bg"></div>
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-t">
+    <div style="display: flex; align-items: center; justify-content: space-between;"><h2 id="sheet-t" style="margin: 0; font-size: 20px; font-weight: 800;">Tu pedido</h2><button class="x" type="button" id="cerrar" aria-label="Cerrar">×</button></div>
+    <div id="lines"></div>
+    <div class="seg" role="group" aria-label="Entrega"><button type="button" data-e="Retiro en el local" aria-pressed="true">Retiro en el local</button><button type="button" data-e="Envío a domicilio" aria-pressed="false">Envío a domicilio</button></div>
+    <label class="fld" id="dir-wrap" hidden>Dirección<input id="dir" autocomplete="street-address" placeholder="Calle, número, piso"></label>
+    <label class="fld">Aclaraciones (opcional)<textarea id="nota" rows="2" placeholder="Ej.: sorrentinos con salsa mixta, 6 de carne y 6 de jyq"></textarea></label>
+    <div style="display: flex; justify-content: space-between; align-items: baseline; padding-top: 4px; border-top: 1px solid #DDE3E6;"><span style="font-size: 14px; font-weight: 700; color: #4B5760;">Total</span><b id="sheet-total" style="font-size: 26px; color: #0B3D53;">$0</b></div>
+    <a class="cta cta-on" id="enviar" href="#" target="_blank" rel="noopener" style="background: #25D366;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Enviar pedido por WhatsApp</a>
+  </div>
+</div>
+<script>
+(function(){
+  var qty={}, entrega='Retiro en el local';
+  var items=[].slice.call(document.querySelectorAll('.item'));
+  function fmt(n){return '$'+n.toLocaleString('es-AR');}
+  function info(id){var el=document.querySelector('.item[data-id="'+id+'"]');return {name:el.dataset.name,price:+el.dataset.price};}
+  function render(){
+    var count=0,total=0;
+    items.forEach(function(el){
+      var q=qty[el.dataset.id]||0;
+      el.querySelector('.add').hidden=q>0; el.querySelector('.step').hidden=q===0;
+      el.querySelector('.step span').textContent=q;
+      count+=q; total+=q*(+el.dataset.price);
+    });
+    document.getElementById('bar').classList.toggle('show',count>0);
+    document.getElementById('bar-total').textContent=fmt(total);
+    document.getElementById('bar-count').textContent=count+(count===1?' producto':' productos');
+    document.getElementById('sheet-total').textContent=fmt(total);
+    var lines=document.getElementById('lines'); lines.innerHTML='';
+    Object.keys(qty).forEach(function(id){ if(!qty[id]) return; var it=info(id);
+      var row=document.createElement('div'); row.className='line';
+      row.innerHTML='<div><div class="line-name"></div><div class="line-sub"></div></div><div class="step"><button type="button" data-id="'+id+'" data-d="-1" aria-label="Quitar uno">−</button><span>'+qty[id]+'</span><button type="button" data-id="'+id+'" data-d="1" aria-label="Sumar uno">+</button></div>';
+      row.querySelector('.line-name').textContent=it.name; row.querySelector('.line-sub').textContent=qty[id]+' × '+fmt(it.price)+' = '+fmt(qty[id]*it.price);
+      lines.appendChild(row);
+    });
+    if(count===0) close();
+    var msg='¡Hola! Quiero hacer este pedido:\n';
+    Object.keys(qty).forEach(function(id){ if(qty[id]){var it=info(id); msg+='• '+qty[id]+' × '+it.name+' ('+fmt(qty[id]*it.price)+')\n';} });
+    msg+='Total: '+fmt(total)+'\nEntrega: '+entrega;
+    var dir=document.getElementById('dir').value.trim(); if(entrega==='Envío a domicilio'&&dir) msg+=' — '+dir;
+    var nota=document.getElementById('nota').value.trim(); if(nota) msg+='\nAclaraciones: '+nota;
+    document.getElementById('enviar').href='https://wa.me/5493364626434?text='+encodeURIComponent(msg);
+  }
+  function change(id,d){ qty[id]=Math.max(0,(qty[id]||0)+d); render(); }
+  items.forEach(function(el){
+    el.querySelector('.add').addEventListener('click',function(){change(el.dataset.id,1);});
+    el.querySelectorAll('.step button').forEach(function(b){b.addEventListener('click',function(){change(el.dataset.id,+b.dataset.d);});});
+  });
+  document.getElementById('lines').addEventListener('click',function(e){var b=e.target.closest('button[data-id]'); if(b) change(b.dataset.id,+b.dataset.d);});
+  var sheet=document.getElementById('sheet'), bg=document.getElementById('bg');
+  function open(){sheet.classList.add('show');bg.classList.add('show');}
+  function close(){sheet.classList.remove('show');bg.classList.remove('show');}
+  document.getElementById('ver').addEventListener('click',open);
+  document.getElementById('cerrar').addEventListener('click',close); bg.addEventListener('click',close);
+  document.querySelectorAll('.seg button').forEach(function(b){b.addEventListener('click',function(){
+    entrega=b.dataset.e; document.querySelectorAll('.seg button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+    document.getElementById('dir-wrap').hidden=entrega!=='Envío a domicilio'; render();
+  });});
+  ['dir','nota'].forEach(function(i){document.getElementById(i).addEventListener('input',render);});
+  var chips=document.querySelectorAll('.chip');
+  chips.forEach(function(c){ c.addEventListener('click',function(){
+    chips.forEach(function(x){ x.setAttribute('aria-pressed', x===c ? 'true' : 'false'); });
+    document.querySelectorAll('.group').forEach(function(g){ g.hidden = !(c.dataset.cat==='todo' || g.dataset.cat===c.dataset.cat); });
+  }); });
+  render();
+})();
+</script>
+</body>
+</html>

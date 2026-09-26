@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo: agenda de turnos para consultorio (ejemplo ficticio) · MARCEM</title>
+<meta name="description" content="Probá un sistema de turnos hecho por MARCEM: agenda semanal, pacientes, recordatorios por WhatsApp y reserva online. Ejemplo ficticio.">
+<link rel="canonical" href="https://marcem-digital.vercel.app/demo-turnos.html">
+<meta name="theme-color" content="#082A3A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="MARCEM">
+<meta property="og:title" content="Demo: agenda de turnos para consultorio (ejemplo ficticio) · MARCEM">
+<meta property="og:description" content="Probá un sistema de turnos hecho por MARCEM: agenda semanal, pacientes, recordatorios por WhatsApp y reserva online. Ejemplo ficticio.">
+<meta property="og:url" content="https://marcem-digital.vercel.app/demo-turnos.html">
+<meta property="og:image" content="https://marcem-digital.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+  body { margin: 0; font-family: "Manrope", system-ui, sans-serif; color: #12181C; background: #F5F7F8; -webkit-font-smoothing: antialiased; }
+  a { text-decoration: none; color: inherit; }
+  .top { position: relative; overflow: hidden; background: #082A3A; color: #FFFFFF; padding: 20px 16px 112px; box-sizing: border-box; }
+  .grid-bg { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px); background-size: 40px 40px; -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, #000 25%, transparent 75%); mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, #000 25%, transparent 75%); }
+  .glow { position: absolute; width: 340px; height: 340px; border-radius: 999px; background: #1E6A89; opacity: 0.55; filter: blur(80px); top: -150px; right: -130px; pointer-events: none; }
+  .inner { position: relative; z-index: 1; width: 100%; max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .back { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; min-height: 36px; font-size: 13px; font-weight: 700; color: #B9D0DA; transition: color 0.2s, gap 0.2s; }
+  .back:hover { color: #FFFFFF; gap: 9px; }
+  .pill { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; border: 1px dashed rgba(255,255,255,0.35); background: rgba(255,255,255,0.06); font-size: 11px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: #D5E6ED; }
+  .card { position: relative; z-index: 2; width: 100%; max-width: 480px; margin: -88px auto 0; background: #FFFFFF; border: 1px solid #DDE3E6; border-radius: 22px; padding: 22px 18px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; box-shadow: 0 24px 50px rgba(8,42,58,0.14); }
+  .q { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 800; color: #12181C; }
+  .q-num { width: 26px; height: 26px; border-radius: 999px; background: #E4EEF1; color: #0B3D53; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .opt { cursor: pointer; width: 100%; min-height: 52px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1.5px solid #DDE3E6; background: #FFFFFF; border-radius: 14px; padding: 12px 14px; font-family: "Manrope", sans-serif; font-size: 15px; font-weight: 600; color: #12181C; text-align: left; transition: border-color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.15s; box-sizing: border-box; }
+  .opt:hover { border-color: #A9C6D2; }
+  .opt:active { transform: scale(0.99); }
+  .opt-selected { border-color: #0B3D53; background: #E4EEF1; box-shadow: 0 0 0 3px rgba(11,61,83,0.10); }
+  .price { font-size: 14px; font-weight: 700; color: #4B5760; }
+  .opt-selected .price { color: #0B3D53; }
+  .total { display: flex; flex-direction: column; gap: 4px; padding: 18px; border-radius: 16px; background: linear-gradient(160deg, #F5F7F8, #E4EEF1); }
+  .cta { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 14px 20px; border-radius: 999px; color: #FFFFFF; font-size: 16px; font-weight: 700; transition: background 0.25s, box-shadow 0.25s, transform 0.2s; box-sizing: border-box; }
+  .cta-on { box-shadow: 0 10px 28px rgba(37,211,102,0.30); }
+  .cta-on:hover { transform: translateY(-2px); }
+  .foot { width: 100%; max-width: 480px; margin: 20px auto 0; padding: 0 16px 40px; box-sizing: border-box; text-align: center; font-size: 13px; line-height: 20px; color: #4B5760; }
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  @keyframes drift { from { transform: translate(0, 0) scale(1); } to { transform: translate(-60px, 40px) scale(1.15); } }
+  @media (prefers-reduced-motion: no-preference) {
+    .rise { animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    .d2 { animation-delay: 0.12s; } .d3 { animation-delay: 0.24s; }
+    .glow { animation: drift 16s ease-in-out infinite alternate; }
+  }
+  @media (min-width: 760px) {
+    .top { padding: 32px 24px 120px; }
+    .card { padding: 30px 28px; }
+  }
+
+  [hidden] { display: none !important; }
+  .panel { display: flex; flex-direction: column; gap: 16px; }
+  .tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 4px; border-radius: 14px; background: #EEF3F5; }
+  .tab { cursor: pointer; min-height: 42px; padding: 6px 4px; border: 0; border-radius: 10px; background: transparent; font-family: "Manrope", sans-serif; font-size: 13px; font-weight: 800; color: #4B5760; transition: background 0.2s, color 0.2s, box-shadow 0.2s; }
+  .tab[aria-selected="true"] { background: #FFFFFF; color: #0B3D53; box-shadow: 0 2px 10px rgba(8,42,58,0.12); }
+  .kicker { display: block; font-size: 12px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: #1E6A89; }
+  .week-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .week-head b { font-size: 19px; font-weight: 800; color: #12181C; }
+  .nav-btn { cursor: pointer; flex-shrink: 0; width: 42px; height: 42px; border-radius: 999px; border: 1.5px solid #DDE3E6; background: #FFFFFF; color: #0B3D53; font-size: 22px; font-weight: 800; line-height: 1; font-family: "Manrope", sans-serif; }
+  .nav-btn:hover { border-color: #A9C6D2; }
+  .days { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
+  .day { cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 1px; min-height: 64px; padding: 8px 0; border-radius: 14px; border: 1.5px solid #DDE3E6; background: #FFFFFF; font-family: "Manrope", sans-serif; color: #12181C; transition: background 0.2s, border-color 0.2s, color 0.2s; }
+  .day small { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #4B5760; }
+  .day b { font-size: 18px; font-weight: 800; }
+  .day i { font-style: normal; font-size: 11px; font-weight: 700; color: #1E6A89; }
+  .day.hoy { border-color: #25D366; }
+  .day[aria-pressed="true"] { background: #0B3D53; border-color: #0B3D53; color: #FFFFFF; }
+  .day[aria-pressed="true"] small, .day[aria-pressed="true"] i { color: #B9D0DA; }
+  .day:disabled { cursor: not-allowed; opacity: 0.45; }
+  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .stat { padding: 12px; border-radius: 14px; background: linear-gradient(160deg, #F5F7F8, #E4EEF1); display: flex; flex-direction: column; gap: 2px; }
+  .stat b { font-size: 22px; font-weight: 800; color: #0B3D53; }
+  .stat span { font-size: 12px; font-weight: 700; color: #4B5760; }
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 6px; margin: 0 -2px; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex-shrink: 0; cursor: pointer; min-height: 38px; padding: 7px 14px; border-radius: 999px; border: 1.5px solid #DDE3E6; background: #FFFFFF; font-family: "Manrope", sans-serif; font-size: 13px; font-weight: 700; color: #4B5760; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+  .chip[aria-pressed="true"] { background: #0B3D53; border-color: #0B3D53; color: #FFFFFF; }
+  .lista { display: flex; flex-direction: column; gap: 10px; }
+  .turno { display: flex; flex-direction: column; gap: 10px; padding: 12px; border: 1.5px solid #DDE3E6; border-radius: 16px; background: #FFFFFF; transition: border-color 0.2s, box-shadow 0.2s; }
+  .turno.open { border-color: #0B3D53; box-shadow: 0 8px 24px rgba(8,42,58,0.10); }
+  .turno.flash { animation: flash 1.6s ease-out; }
+  @keyframes flash { 0% { box-shadow: 0 0 0 6px rgba(37,211,102,0.45); } 100% { box-shadow: 0 8px 24px rgba(8,42,58,0.10); } }
+  .turno.est-atendido .t-top, .turno.est-ausente .t-top { opacity: 0.6; }
+  .t-top { cursor: pointer; width: 100%; display: flex; align-items: center; gap: 12px; padding: 0; border: 0; background: transparent; text-align: left; font-family: "Manrope", sans-serif; color: inherit; }
+  .t-hora { flex-shrink: 0; min-width: 58px; padding: 8px 0; border-radius: 12px; background: #0B3D53; color: #FFFFFF; font-size: 15px; font-weight: 800; text-align: center; }
+  .t-txt { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .t-name { font-size: 15px; font-weight: 800; color: #12181C; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .t-motivo { font-size: 13px; color: #4B5760; }
+  .badges { margin-left: auto; flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+  .badge { padding: 4px 9px; border-radius: 999px; font-size: 10.5px; font-weight: 800; letter-spacing: 0.4px; text-transform: uppercase; white-space: nowrap; }
+  .b-pendiente { background: #FFF4DB; color: #7A5200; }
+  .b-confirmado { background: #E4EEF1; color: #0B3D53; }
+  .b-atendido { background: #E3F7EA; color: #146B34; }
+  .b-ausente { background: #FDECEA; color: #B42318; }
+  .b-online { background: transparent; border: 1px solid #25D366; color: #146B34; }
+  .t-more { display: flex; flex-direction: column; gap: 10px; padding-top: 10px; border-top: 1px solid #EEF2F4; }
+  .meta { font-size: 13px; line-height: 19px; color: #4B5760; }
+  .acts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .acts-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .btn { cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 42px; padding: 8px 10px; border-radius: 12px; border: 1.5px solid #DDE3E6; background: #FFFFFF; font-family: "Manrope", sans-serif; font-size: 13px; font-weight: 800; color: #0B3D53; transition: all 0.2s; box-sizing: border-box; text-align: center; }
+  .btn:hover { border-color: #A9C6D2; }
+  .btn-pri { border-color: #0B3D53; background: #0B3D53; color: #FFFFFF; }
+  .btn-pri:hover { background: #082A3A; border-color: #082A3A; }
+  .btn-wa { border-color: #25D366; background: #25D366; color: #FFFFFF; }
+  .btn-wa:hover { background: #1DA851; border-color: #1DA851; }
+  .btn-soft { border-color: transparent; background: #F5F7F8; }
+  .btn-danger { color: #B42318; }
+  .btn-main { width: 100%; min-height: 50px; border: 0; border-radius: 999px; background: #0B3D53; color: #FFFFFF; font-size: 15px; }
+  .btn-main:hover { background: #082A3A; }
+  .libre { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1.5px dashed #C9D5DA; border-radius: 16px; font-size: 14px; font-weight: 700; color: #4B5760; }
+  .libre .t-hora { background: #E4EEF1; color: #0B3D53; }
+  .libre .btn { margin-left: auto; }
+  .form { display: flex; flex-direction: column; gap: 12px; padding: 16px; border-radius: 16px; background: #F5F7F8; }
+  .field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 700; color: #12181C; }
+  .field input, .field select { width: 100%; min-height: 46px; padding: 10px 12px; border-radius: 12px; border: 1.5px solid #DDE3E6; background: #FFFFFF; font-family: "Manrope", sans-serif; font-size: 16px; color: #12181C; box-sizing: border-box; }
+  .field input:focus, .field select:focus { outline: none; border-color: #0B3D53; box-shadow: 0 0 0 3px rgba(11,61,83,0.12); }
+  .row2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .err { font-size: 13px; font-weight: 700; color: #B42318; }
+  .err:empty { display: none; }
+  .empty { padding: 18px; border-radius: 16px; background: #F5F7F8; text-align: center; font-size: 14px; color: #4B5760; }
+  .pac { display: flex; flex-direction: column; border: 1.5px solid #DDE3E6; border-radius: 16px; background: #FFFFFF; }
+  .pac.open { border-color: #0B3D53; }
+  .pac-top { cursor: pointer; display: flex; align-items: center; gap: 12px; padding: 12px; border: 0; background: transparent; text-align: left; font-family: "Manrope", sans-serif; color: inherit; }
+  .ini { flex-shrink: 0; width: 42px; height: 42px; border-radius: 999px; background: #E4EEF1; color: #0B3D53; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; }
+  .pac-more { display: flex; flex-direction: column; gap: 10px; padding: 0 12px 12px; }
+  .hist { display: flex; flex-direction: column; border-radius: 12px; background: #F5F7F8; padding: 4px 12px; }
+  .hist div { display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; border-top: 1px solid #E6ECEF; font-size: 13px; color: #12181C; }
+  .hist div:first-child { border-top: 0; }
+  .hist span:last-child { color: #4B5760; text-align: right; }
+  .note { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: 14px; background: #E4EEF1; font-size: 13px; line-height: 19px; color: #0B3D53; font-weight: 600; }
+  .slots { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .slot { cursor: pointer; min-height: 44px; border-radius: 12px; border: 1.5px solid #DDE3E6; background: #FFFFFF; font-family: "Manrope", sans-serif; font-size: 14px; font-weight: 800; color: #12181C; }
+  .slot[aria-pressed="true"] { background: #0B3D53; border-color: #0B3D53; color: #FFFFFF; }
+  .slot:disabled { cursor: not-allowed; background: #F5F7F8; border-color: #F0F3F5; color: #B0BAC0; text-decoration: line-through; }
+  .step-t { display: flex; flex-direction: column; gap: 10px; }
+  .big { width: 100%; min-height: 54px; border: 0; border-radius: 999px; font-family: "Manrope", sans-serif; font-size: 16px; font-weight: 800; color: #FFFFFF; background: #0B3D53; cursor: pointer; transition: background 0.2s, transform 0.2s; }
+  .big:disabled { background: #B9C2C7; cursor: not-allowed; }
+  .ok { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 12px 4px; text-align: center; }
+  .ok-ic { width: 60px; height: 60px; border-radius: 999px; background: #E3F7EA; color: #146B34; display: flex; align-items: center; justify-content: center; }
+  .ok h3 { margin: 0; font-size: 21px; font-weight: 800; color: #12181C; }
+  .ok p { margin: 0; font-size: 14px; line-height: 21px; color: #4B5760; }
+  .link { cursor: pointer; border: 0; background: none; padding: 6px; font-family: "Manrope", sans-serif; font-size: 13px; font-weight: 800; color: #1E6A89; text-decoration: underline; }
+  .toast { position: fixed; left: 50%; bottom: 16px; z-index: 60; display: flex; align-items: center; gap: 14px; max-width: calc(100% - 32px); padding: 12px 12px 12px 18px; border-radius: 999px; background: #082A3A; color: #FFFFFF; font-size: 14px; font-weight: 700; box-shadow: 0 16px 40px rgba(8,42,58,0.35); box-sizing: border-box; transform: translate(-50%, 160%); transition: transform 0.3s cubic-bezier(0.2,0.7,0.2,1); }
+  .toast.show { transform: translate(-50%, 0); }
+  .toast button { cursor: pointer; flex-shrink: 0; min-height: 34px; padding: 6px 12px; border: 0; border-radius: 999px; background: rgba(255,255,255,0.12); color: #8EC5DA; font-family: "Manrope", sans-serif; font-size: 13px; font-weight: 800; }
+</style>
+</head>
+<body>
+<div style="width: 100%; min-height: 100vh; display: flex; flex-direction: column;">
+  <div class="top">
+    <div class="grid-bg"></div>
+    <div class="glow"></div>
+    <div class="inner">
+      <a href="./" class="back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+        Volver a MARCEM
+      </a>
+      <span class="pill rise">Demo — ejemplo ficticio</span>
+      <h1 class="rise d2" style="margin: 0; font-size: 28px; line-height: 35px; font-weight: 800; letter-spacing: -0.01em;">Consultorio Ejemplo · Turnos</h1>
+      <p class="rise d3" style="margin: 0; font-size: 15px; line-height: 23px; color: #B9D0DA;">Así se ve un sistema de turnos hecho por MARCEM: agenda semanal, fichas de pacientes, recordatorios por WhatsApp y reserva online. Ni el consultorio ni los pacientes son reales.</p>
+    </div>
+  </div>
+  <div style="padding: 0 16px; box-sizing: border-box;">
+    <div class="card rise d3" style="gap: 18px;">
+      <div class="tabs" role="tablist" aria-label="Secciones">
+        <button class="tab" type="button" role="tab" data-tab="agenda" aria-selected="true" aria-controls="p-agenda">Agenda</button>
+        <button class="tab" type="button" role="tab" data-tab="pacientes" aria-selected="false" aria-controls="p-pacientes">Pacientes</button>
+        <button class="tab" type="button" role="tab" data-tab="reservar" aria-selected="false" aria-controls="p-reservar">Reserva online</button>
+      </div>
+
+      <section class="panel" id="p-agenda" role="tabpanel">
+        <div class="week-head">
+          <button class="nav-btn" type="button" id="prev" aria-label="Semana anterior">‹</button>
+          <div style="text-align: center;"><span class="kicker" id="week-label">Semana</span><b id="sel-label">Hoy</b></div>
+          <button class="nav-btn" type="button" id="next" aria-label="Semana siguiente">›</button>
+        </div>
+        <div class="days" id="days" role="group" aria-label="Días de la semana"></div>
+        <div class="stats" aria-live="polite">
+          <div class="stat"><b id="s-total">0</b><span>Turnos</span></div>
+          <div class="stat"><b id="s-conf">0</b><span>Confirmados</span></div>
+          <div class="stat"><b id="s-libres">0</b><span>Libres</span></div>
+        </div>
+        <div class="chips" id="filtros" role="group" aria-label="Filtrar turnos">
+          <button class="chip" type="button" data-f="todos" aria-pressed="true">Todos</button>
+          <button class="chip" type="button" data-f="pendiente" aria-pressed="false">Por confirmar</button>
+          <button class="chip" type="button" data-f="confirmado" aria-pressed="false">Confirmados</button>
+          <button class="chip" type="button" data-f="libres" aria-pressed="false">Horarios libres</button>
+        </div>
+        <button class="btn btn-main" type="button" id="nuevo" aria-expanded="false">+ Nuevo turno</button>
+        <form class="form" id="form" hidden>
+          <label class="field">Paciente<input id="f-nombre" list="dl-pac" autocomplete="off" placeholder="Buscá o escribí un nombre nuevo"></label>
+          <div class="row2">
+            <label class="field">Horario<select id="f-hora"></select></label>
+            <label class="field">Motivo<select id="f-motivo"><option>Control</option><option>Primera consulta</option><option>Resultados de estudios</option><option>Certificado</option></select></label>
+          </div>
+          <span class="err" id="f-err" role="alert"></span>
+          <div class="acts"><button class="btn" type="button" id="cancelar">Cancelar</button><button class="btn btn-pri" type="submit">Guardar turno</button></div>
+        </form>
+        <div class="lista" id="lista" aria-live="polite"></div>
+      </section>
+
+      <section class="panel" id="p-pacientes" role="tabpanel" hidden>
+        <label class="field">Buscar paciente<input id="buscar" type="search" autocomplete="off" placeholder="Nombre u obra social"></label>
+        <span class="meta" id="pac-count"></span>
+        <div class="lista" id="pac-lista"></div>
+      </section>
+
+      <section class="panel" id="p-reservar" role="tabpanel" hidden>
+        <div class="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 1px;"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg><span>Así lo ve tu paciente: entra desde un link en tu Instagram o WhatsApp y reserva solo, sin llamarte. Solo ve los horarios libres.</span></div>
+        <div id="r-form" class="panel">
+          <div class="step-t"><span class="q"><span class="q-num">1</span>Elegí el día</span><div class="days" id="r-days" role="group" aria-label="Días disponibles"></div></div>
+          <div class="step-t"><span class="q"><span class="q-num">2</span>Elegí el horario</span><div class="slots" id="r-slots" role="group" aria-label="Horarios"></div></div>
+          <div class="step-t"><span class="q"><span class="q-num">3</span>Tus datos</span>
+            <label class="field">Nombre y apellido<input id="r-nombre" autocomplete="name" placeholder="Ej.: Laura Gómez"></label>
+            <div class="row2">
+              <label class="field">WhatsApp<input id="r-tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="336 15..."></label>
+              <label class="field">Motivo<select id="r-motivo"><option>Control</option><option>Primera consulta</option><option>Resultados de estudios</option><option>Certificado</option></select></label>
+            </div>
+          </div>
+          <span class="err" id="r-err" role="alert"></span>
+          <button class="big" type="button" id="r-btn" disabled>Reservar turno</button>
+        </div>
+        <div id="r-ok" hidden></div>
+      </section>
+    </div>
+  </div>
+
+  <p class="foot">Esto es un ejemplo del tipo de sistema simple que MARCEM puede armar para tu negocio — para turnos, pedidos o seguimiento, con tus reglas. Los cambios que hagas quedan guardados solo en este dispositivo.<br><button class="link" type="button" id="reset">Reiniciar demo</button></p>
+  <datalist id="dl-pac"></datalist>
+  <div class="toast" id="toast" role="status" aria-live="polite"><span id="toast-t"></span><button type="button" id="toast-u" hidden>Deshacer</button></div>
+
+</div>
+<script>
+(function(){
+  var KEY = 'marcem-demo-turnos-v2';
+  var NEGOCIO = 'Consultorio Ejemplo';
+  var SLOTS = [];
+  [[9,13],[16,20]].forEach(function(r){ for (var h = r[0]; h < r[1]; h++) { SLOTS.push(p2(h)+':00', p2(h)+':30'); } });
+  var MOTIVOS = ['Control','Primera consulta','Resultados de estudios','Certificado'];
+  var DN = ['dom','lun','mar','mié','jue','vie','sáb'];
+  var DL = ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  var MES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  var EST = { pendiente: 'Por confirmar', confirmado: 'Confirmado', atendido: 'Atendido', ausente: 'Ausente' };
+
+  function p2(n){ return (n < 10 ? '0' : '') + n; }
+  function iso(d){ return d.getFullYear() + '-' + p2(d.getMonth()+1) + '-' + p2(d.getDate()); }
+  function parse(s){ var p = s.split('-'); return new Date(+p[0], p[1]-1, +p[2]); }
+  function addDays(d, n){ var x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate()+n); return x; }
+  function monday(d){ return addDays(d, -((d.getDay()+6)%7)); }
+  function corto(s){ var d = parse(s); return DN[d.getDay()] + ' ' + d.getDate() + '/' + (d.getMonth()+1); }
+  function largo(s){ var d = parse(s); return DL[d.getDay()] + ' ' + d.getDate() + ' de ' + MES[d.getMonth()]; }
+  function mins(h){ var p = h.split(':'); return +p[0]*60 + +p[1]; }
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function ini(n){ return n.split(' ').filter(Boolean).slice(0,2).map(function(w){ return w[0].toUpperCase(); }).join(''); }
+  function $(id){ return document.getElementById(id); }
+
+  var now = new Date();
+  var HOY = iso(now);
+  var NOW_MIN = now.getHours()*60 + now.getMinutes();
+  var BASE = now.getDay() === 0 ? addDays(now, 1) : new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  function pasado(fecha, hora){ return fecha < HOY || (fecha === HOY && mins(hora) <= NOW_MIN); }
+
+  // ---------- datos de ejemplo ----------
+  function seed(){
+    var s = 11;
+    function rnd(){ s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; }
+    var nombres = [['Ana López','OSDE'],['Carlos Gómez','PAMI'],['Lucía Fernández','Particular'],['Martín Rodríguez','Swiss Medical'],['Sofía Martínez','OSDE'],['Diego Pereyra','IOMA'],['Valeria Sosa','Particular'],['Julián Romero','Galeno'],['Camila Díaz','OSDE'],['Roberto Álvarez','PAMI'],['Florencia Ruiz','Particular'],['Hernán Torres','IOMA'],['Paula Medina','Swiss Medical'],['Gustavo Herrera','PAMI']];
+    var pac = nombres.map(function(n, i){ return { id: 'p'+i, nombre: n[0], obra: n[1], tel: '336 15' + (41+i*3) + '-' + (1203 + i*457) }; });
+    var tur = [], k = 0;
+    for (var off = -28; off <= 20; off++) {
+      var d = addDays(BASE, off); if (d.getDay() === 0) continue;
+      var f = iso(d), dens = off < -7 ? 0.25 : (off > 7 ? 0.3 : 0.5);
+      SLOTS.forEach(function(h){
+        if (d.getDay() === 6 && mins(h) >= 13*60) return;
+        if (rnd() > dens) return;
+        var est;
+        if (pasado(f, h)) est = rnd() < 0.9 ? 'atendido' : 'ausente';
+        else est = (off <= 2 && rnd() < 0.6) ? 'confirmado' : 'pendiente';
+        tur.push({ id: 't'+(k++), fecha: f, hora: h, pid: pac[Math.floor(rnd()*pac.length)].id, motivo: MOTIVOS[Math.floor(rnd()*MOTIVOS.length)], estado: est, online: rnd() < 0.25 });
+      });
+    }
+    return { v: HOY, turnos: tur, pacientes: pac, n: k };
+  }
+  var db;
+  try { db = JSON.parse(localStorage.getItem(KEY)); } catch (e) { db = null; }
+  if (!db || db.v !== HOY) db = seed();
+  function save(){ try { localStorage.setItem(KEY, JSON.stringify(db)); } catch (e) {} }
+
+  function pac(id){ for (var i = 0; i < db.pacientes.length; i++) if (db.pacientes[i].id === id) return db.pacientes[i]; return null; }
+  function delDia(f){ return db.turnos.filter(function(t){ return t.fecha === f; }).sort(function(a,b){ return mins(a.hora) - mins(b.hora); }); }
+  function slotsDia(f){ return parse(f).getDay() === 6 ? SLOTS.filter(function(h){ return mins(h) < 13*60; }) : (parse(f).getDay() === 0 ? [] : SLOTS); }
+  function libres(f, excepto){
+    var ocup = {}; delDia(f).forEach(function(t){ if (t.id !== excepto) ocup[t.hora] = 1; });
+    return slotsDia(f).filter(function(h){ return !ocup[h] && !pasado(f, h); });
+  }
+  function buscarPac(nombre, tel){
+    var n = nombre.trim().toLowerCase();
+    for (var i = 0; i < db.pacientes.length; i++) if (db.pacientes[i].nombre.toLowerCase() === n) return db.pacientes[i];
+    var p = { id: 'p' + Date.now(), nombre: nombre.trim(), obra: 'Particular', tel: tel || '' };
+    db.pacientes.push(p); return p;
+  }
+  function waRecordatorio(t){
+    var p = pac(t.pid);
+    var msg = 'Hola ' + p.nombre.split(' ')[0] + ', te recordamos tu turno en ' + NEGOCIO + ' el ' + largo(t.fecha) + ' a las ' + t.hora + ' hs. ¿Nos confirmás tu asistencia? ¡Gracias!';
+    return 'https://wa.me/?text=' + encodeURIComponent(msg);
+  }
+
+  // ---------- estado de pantalla ----------
+  var ui = { tab: 'agenda', sel: iso(BASE), week: iso(monday(BASE)), filtro: 'todos', open: null, moving: null, pacOpen: null, flash: null, rDia: null, rHora: null };
+
+  // ---------- toast ----------
+  var toastT, undoFn = null;
+  function toast(txt, undo){
+    $('toast-t').textContent = txt; undoFn = undo || null; $('toast-u').hidden = !undo;
+    $('toast').classList.add('show'); clearTimeout(toastT);
+    toastT = setTimeout(function(){ $('toast').classList.remove('show'); undoFn = null; }, undo ? 5000 : 2600);
+  }
+  $('toast-u').addEventListener('click', function(){ if (undoFn) { undoFn(); undoFn = null; } $('toast').classList.remove('show'); });
+
+  // ---------- tabs ----------
+  function setTab(t){
+    ui.tab = t;
+    document.querySelectorAll('.tab').forEach(function(b){ b.setAttribute('aria-selected', b.dataset.tab === t ? 'true' : 'false'); });
+    ['agenda','pacientes','reservar'].forEach(function(x){ $('p-'+x).hidden = x !== t; });
+    render();
+  }
+  document.querySelectorAll('.tab').forEach(function(b){ b.addEventListener('click', function(){ setTab(b.dataset.tab); }); });
+
+  // ---------- agenda ----------
+  function renderAgenda(){
+    var wk = parse(ui.week), html = '';
+    for (var i = 0; i < 6; i++) {
+      var d = addDays(wk, i), f = iso(d), n = delDia(f).length;
+      html += '<button class="day' + (f === HOY ? ' hoy' : '') + '" type="button" data-f="' + f + '" aria-pressed="' + (f === ui.sel) + '" aria-label="' + largo(f) + ', ' + n + ' turnos"><small>' + DN[d.getDay()] + '</small><b>' + d.getDate() + '</b><i>' + (n ? n + ' t.' : '—') + '</i></button>';
+    }
+    $('days').innerHTML = html;
+    var fin = addDays(wk, 5);
+    $('week-label').textContent = 'Semana del ' + wk.getDate() + '/' + (wk.getMonth()+1) + ' al ' + fin.getDate() + '/' + (fin.getMonth()+1);
+    $('sel-label').textContent = (ui.sel === HOY ? 'Hoy, ' : '') + largo(ui.sel);
+
+    var dia = delDia(ui.sel), lib = libres(ui.sel);
+    $('s-total').textContent = dia.length;
+    $('s-conf').textContent = dia.filter(function(t){ return t.estado === 'confirmado'; }).length;
+    $('s-libres').textContent = lib.length;
+    document.querySelectorAll('#filtros .chip').forEach(function(c){ c.setAttribute('aria-pressed', c.dataset.f === ui.filtro ? 'true' : 'false'); });
+    $('nuevo').hidden = !lib.length;
+
+    var out = '';
+    if (ui.filtro === 'libres') {
+      out = lib.map(function(h){ return '<div class="libre"><span class="t-hora">' + h + '</span>Libre<button class="btn" type="button" data-act="asignar" data-h="' + h + '">+ Asignar</button></div>'; }).join('');
+      if (!out) out = '<div class="empty">' + (ui.sel < HOY ? 'Este día ya pasó.' : 'No quedan horarios libres este día.') + '</div>';
+    } else {
+      var lista = dia.filter(function(t){ return ui.filtro === 'todos' || t.estado === ui.filtro; });
+      out = lista.map(turnoHTML).join('');
+      if (!out) out = '<div class="empty">' + (dia.length ? 'No hay turnos con ese estado.' : 'No hay turnos cargados para este día.') + '</div>';
+    }
+    $('lista').innerHTML = out;
+    if (ui.flash) { var el = document.querySelector('.turno[data-id="' + ui.flash + '"]'); if (el) { el.classList.add('flash'); el.scrollIntoView({ block: 'center', behavior: 'smooth' }); } ui.flash = null; }
+  }
+
+  function turnoHTML(t){
+    var p = pac(t.pid), open = ui.open === t.id;
+    var h = '<div class="turno est-' + t.estado + (open ? ' open' : '') + '" data-id="' + t.id + '">'
+      + '<button class="t-top" type="button" data-act="toggle" aria-expanded="' + open + '"><span class="t-hora">' + t.hora + '</span>'
+      + '<span class="t-txt"><span class="t-name">' + esc(p.nombre) + '</span><span class="t-motivo">' + esc(t.motivo) + '</span></span>'
+      + '<span class="badges"><span class="badge b-' + t.estado + '">' + EST[t.estado] + '</span>' + (t.online ? '<span class="badge b-online">Online</span>' : '') + '</span></button>';
+    if (open) {
+      h += '<div class="t-more"><span class="meta">' + esc(p.obra) + (p.tel ? ' · ' + esc(p.tel) : '') + (t.online ? ' · Reservó desde la web' : ' · Cargado por el consultorio') + '</span>';
+      if (ui.moving === t.id) {
+        h += movingHTML(t);
+      } else if (t.estado === 'pendiente' || t.estado === 'confirmado') {
+        h += '<div class="acts">'
+          + (t.estado === 'pendiente' ? '<button class="btn btn-pri" type="button" data-act="confirmar">Confirmar</button>' : '<button class="btn btn-pri" type="button" data-act="atendido">Marcar atendido</button>')
+          + '<a class="btn btn-wa" href="' + waRecordatorio(t) + '" target="_blank" rel="noopener">' + WA + 'Recordatorio</a></div>'
+          + '<div class="acts acts-3"><button class="btn btn-soft" type="button" data-act="mover">Reprogramar</button>'
+          + '<button class="btn btn-soft" type="button" data-act="ausente">Ausente</button>'
+          + '<button class="btn btn-soft btn-danger" type="button" data-act="cancelar">Cancelar</button></div>';
+      } else {
+        h += '<div class="acts"><button class="btn btn-soft" type="button" data-act="deshacer">Deshacer estado</button><button class="btn" type="button" data-act="ficha">Ver ficha</button></div>';
+      }
+      if (t.estado === 'pendiente' || t.estado === 'confirmado') h += '<button class="link" type="button" data-act="ficha" style="align-self: flex-start; padding-left: 0;">Ver ficha de ' + esc(p.nombre.split(' ')[0]) + ' →</button>';
+      h += '</div>';
+    }
+    return h + '</div>';
+  }
+
+  function diasFuturos(n){ var out = [], d = new Date(BASE); while (out.length < n) { if (d.getDay() !== 0) out.push(iso(d)); d = addDays(d, 1); } return out; }
+  function movingHTML(t){
+    var dias = diasFuturos(12).filter(function(f){ return libres(f, t.id).length; });
+    var f0 = dias.indexOf(t.fecha) >= 0 ? t.fecha : dias[0];
+    return '<div class="form" style="padding: 12px;"><div class="row2">'
+      + '<label class="field">Nuevo día<select data-mv="dia">' + dias.map(function(f){ return '<option value="' + f + '"' + (f === f0 ? ' selected' : '') + '>' + corto(f) + '</option>'; }).join('') + '</select></label>'
+      + '<label class="field">Horario<select data-mv="hora">' + horaOpts(f0, t.id, t.hora) + '</select></label></div>'
+      + '<div class="acts"><button class="btn" type="button" data-act="mover-no">Volver</button><button class="btn btn-pri" type="button" data-act="mover-ok">Guardar cambio</button></div></div>';
+  }
+  function horaOpts(f, excepto, actual){ return libres(f, excepto).map(function(h){ return '<option' + (h === actual ? ' selected' : '') + '>' + h + '</option>'; }).join(''); }
+
+  $('lista').addEventListener('change', function(e){
+    if (e.target.dataset.mv === 'dia') { var box = e.target.closest('.turno'); box.querySelector('[data-mv="hora"]').innerHTML = horaOpts(e.target.value, box.dataset.id); }
+  });
+  $('lista').addEventListener('click', function(e){
+    var b = e.target.closest('[data-act]'); if (!b) return;
+    var act = b.dataset.act;
+    if (act === 'asignar') { abrirForm(b.dataset.h); return; }
+    var box = b.closest('.turno'), t = db.turnos.filter(function(x){ return x.id === box.dataset.id; })[0];
+    var prev = t.estado;
+    if (act === 'toggle') { ui.open = ui.open === t.id ? null : t.id; ui.moving = null; }
+    else if (act === 'confirmar') { t.estado = 'confirmado'; toast('Turno de ' + pac(t.pid).nombre.split(' ')[0] + ' confirmado'); }
+    else if (act === 'atendido') { t.estado = 'atendido'; ui.open = null; toast('Marcado como atendido', function(){ t.estado = prev; save(); render(); }); }
+    else if (act === 'ausente') { t.estado = 'ausente'; ui.open = null; toast('Marcado como ausente', function(){ t.estado = prev; save(); render(); }); }
+    else if (act === 'deshacer') { t.estado = 'confirmado'; }
+    else if (act === 'cancelar') {
+      var i = db.turnos.indexOf(t); db.turnos.splice(i, 1); ui.open = null;
+      toast('Turno cancelado · horario liberado', function(){ db.turnos.splice(i, 0, t); save(); render(); });
+    }
+    else if (act === 'mover') { ui.moving = t.id; }
+    else if (act === 'mover-no') { ui.moving = null; }
+    else if (act === 'mover-ok') {
+      var nf = box.querySelector('[data-mv="dia"]').value, nh = box.querySelector('[data-mv="hora"]').value;
+      if (!nf || !nh) return;
+      t.fecha = nf; t.hora = nh; t.estado = 'pendiente'; ui.moving = null; ui.sel = nf; ui.week = iso(monday(parse(nf))); ui.flash = t.id;
+      toast('Turno movido al ' + corto(nf) + ' a las ' + nh);
+    }
+    else if (act === 'ficha') { ui.pacOpen = t.pid; $('buscar').value = ''; setTab('pacientes'); save(); return; }
+    save(); render();
+  });
+
+  $('days').addEventListener('click', function(e){ var b = e.target.closest('.day'); if (!b) return; ui.sel = b.dataset.f; ui.open = null; ui.moving = null; toggleForm(false); render(); });
+  function moverSemana(n){ var wk = addDays(parse(ui.week), 7*n); ui.week = iso(wk); ui.sel = iso(addDays(wk, parse(ui.sel).getDay() === 0 ? 0 : (parse(ui.sel).getDay()+6)%7)); ui.open = null; toggleForm(false); render(); }
+  $('prev').addEventListener('click', function(){ moverSemana(-1); });
+  $('next').addEventListener('click', function(){ moverSemana(1); });
+  document.querySelectorAll('#filtros .chip').forEach(function(c){ c.addEventListener('click', function(){ ui.filtro = c.dataset.f; render(); }); });
+
+  // nuevo turno
+  function toggleForm(show){ $('form').hidden = !show; $('nuevo').setAttribute('aria-expanded', show ? 'true' : 'false'); $('f-err').textContent = ''; }
+  function abrirForm(hora, nombre){
+    $('f-hora').innerHTML = horaOpts(ui.sel, null, hora);
+    $('dl-pac').innerHTML = db.pacientes.map(function(p){ return '<option value="' + esc(p.nombre) + '">'; }).join('');
+    $('f-nombre').value = nombre || '';
+    toggleForm(true); $('form').scrollIntoView({ block: 'center', behavior: 'smooth' });
+    if (!nombre) setTimeout(function(){ $('f-nombre').focus(); }, 300);
+  }
+  $('nuevo').addEventListener('click', function(){ if ($('form').hidden) abrirForm(); else toggleForm(false); });
+  $('cancelar').addEventListener('click', function(){ toggleForm(false); });
+  $('form').addEventListener('submit', function(e){
+    e.preventDefault();
+    var n = $('f-nombre').value.trim(), h = $('f-hora').value;
+    if (!n) { $('f-err').textContent = 'Completá el nombre del paciente.'; return; }
+    if (!h) { $('f-err').textContent = 'No quedan horarios libres este día.'; return; }
+    var p = buscarPac(n);
+    var t = { id: 't' + (db.n++), fecha: ui.sel, hora: h, pid: p.id, motivo: $('f-motivo').value, estado: 'pendiente', online: false };
+    db.turnos.push(t); ui.filtro = 'todos'; ui.open = t.id; ui.flash = t.id;
+    toggleForm(false); save(); render(); toast('Turno guardado para las ' + h);
+  });
+
+  // ---------- pacientes ----------
+  function renderPacientes(){
+    var q = $('buscar').value.trim().toLowerCase();
+    var lista = db.pacientes.filter(function(p){ return !q || p.nombre.toLowerCase().indexOf(q) >= 0 || p.obra.toLowerCase().indexOf(q) >= 0; })
+      .sort(function(a, b){ return a.nombre.localeCompare(b.nombre); });
+    $('pac-count').textContent = lista.length + (lista.length === 1 ? ' paciente' : ' pacientes');
+    $('pac-lista').innerHTML = lista.map(function(p){
+      var tur = db.turnos.filter(function(t){ return t.pid === p.id; });
+      var prox = tur.filter(function(t){ return !pasado(t.fecha, t.hora); }).sort(function(a, b){ return (a.fecha + a.hora) < (b.fecha + b.hora) ? -1 : 1; })[0];
+      var hist = tur.filter(function(t){ return pasado(t.fecha, t.hora); }).sort(function(a, b){ return (a.fecha + a.hora) > (b.fecha + b.hora) ? -1 : 1; });
+      var open = ui.pacOpen === p.id;
+      var h = '<div class="pac' + (open ? ' open' : '') + '" data-pid="' + p.id + '"><button class="pac-top" type="button" data-pa="toggle" aria-expanded="' + open + '"><span class="ini">' + esc(ini(p.nombre)) + '</span>'
+        + '<span class="t-txt"><span class="t-name">' + esc(p.nombre) + '</span><span class="t-motivo">' + esc(p.obra) + ' · ' + hist.filter(function(t){ return t.estado === 'atendido'; }).length + ' visitas</span></span>'
+        + '<span class="badges">' + (prox ? '<span class="badge b-confirmado">' + corto(prox.fecha) + '</span>' : '<span class="badge" style="background:#F5F7F8;color:#4B5760;">Sin turno</span>') + '</span></button>';
+      if (open) {
+        h += '<div class="pac-more"><span class="meta">' + (p.tel ? 'WhatsApp: ' + esc(p.tel) + '<br>' : '') + (prox ? 'Próximo turno: ' + largo(prox.fecha) + ' a las ' + prox.hora + ' (' + EST[prox.estado].toLowerCase() + ')' : 'No tiene turnos próximos.') + '</span>';
+        h += '<span class="kicker">Historial</span><div class="hist">' + (hist.length ? hist.slice(0, 5).map(function(t){ return '<div><span>' + corto(t.fecha) + ' · ' + esc(t.motivo) + '</span><span>' + EST[t.estado] + '</span></div>'; }).join('') : '<div><span>Todavía sin visitas</span><span></span></div>') + '</div>';
+        h += '<div class="acts"><button class="btn btn-pri" type="button" data-pa="turno">Dar turno</button><a class="btn btn-wa" href="https://wa.me/?text=' + encodeURIComponent('Hola ' + p.nombre.split(' ')[0] + ', te escribimos de ' + NEGOCIO + '.') + '" target="_blank" rel="noopener">' + WA + 'WhatsApp</a></div></div>';
+      }
+      return h + '</div>';
+    }).join('') || '<div class="empty">No encontramos pacientes con ese nombre.</div>';
+  }
+  $('buscar').addEventListener('input', renderPacientes);
+  $('pac-lista').addEventListener('click', function(e){
+    var b = e.target.closest('[data-pa]'); if (!b) return;
+    var pid = b.closest('.pac').dataset.pid;
+    if (b.dataset.pa === 'toggle') { ui.pacOpen = ui.pacOpen === pid ? null : pid; renderPacientes(); }
+    else if (b.dataset.pa === 'turno') {
+      var f = diasFuturos(12).filter(function(x){ return libres(x).length; })[0];
+      ui.sel = f; ui.week = iso(monday(parse(f))); ui.filtro = 'todos'; ui.open = null;
+      setTab('agenda'); abrirForm(null, pac(pid).nombre);
+    }
+  });
+
+  // ---------- reserva online (vista paciente) ----------
+  function renderReserva(){
+    var dias = diasFuturos(6);
+    if (!ui.rDia || dias.indexOf(ui.rDia) < 0) ui.rDia = dias.filter(function(f){ return libres(f).length; })[0] || dias[0];
+    $('r-days').innerHTML = dias.map(function(f){
+      var d = parse(f), n = libres(f).length;
+      return '<button class="day" type="button" data-f="' + f + '" aria-pressed="' + (f === ui.rDia) + '"' + (n ? '' : ' disabled') + '><small>' + DN[d.getDay()] + '</small><b>' + d.getDate() + '</b><i>' + (n ? n + ' libres' : 'Completo') + '</i></button>';
+    }).join('');
+    var lib = libres(ui.rDia);
+    if (lib.indexOf(ui.rHora) < 0) ui.rHora = null;
+    $('r-slots').innerHTML = slotsDia(ui.rDia).map(function(h){
+      var ok = lib.indexOf(h) >= 0;
+      return '<button class="slot" type="button" data-h="' + h + '" aria-pressed="' + (h === ui.rHora) + '"' + (ok ? '' : ' disabled aria-label="' + h + ' ocupado"') + '>' + h + '</button>';
+    }).join('');
+    checkReserva();
+  }
+  function checkReserva(){
+    var ok = ui.rDia && ui.rHora && $('r-nombre').value.trim().length > 2 && $('r-tel').value.replace(/\D/g, '').length >= 8;
+    $('r-btn').disabled = !ok;
+    $('r-btn').textContent = ui.rHora ? 'Reservar ' + corto(ui.rDia) + ' · ' + ui.rHora : 'Reservar turno';
+  }
+  $('r-days').addEventListener('click', function(e){ var b = e.target.closest('.day'); if (!b || b.disabled) return; ui.rDia = b.dataset.f; ui.rHora = null; renderReserva(); });
+  $('r-slots').addEventListener('click', function(e){ var b = e.target.closest('.slot'); if (!b || b.disabled) return; ui.rHora = b.dataset.h; renderReserva(); });
+  ['r-nombre','r-tel'].forEach(function(i){ $(i).addEventListener('input', checkReserva); });
+  $('r-btn').addEventListener('click', function(){
+    if ($('r-btn').disabled) return;
+    var n = $('r-nombre').value.trim(), p = buscarPac(n, $('r-tel').value.trim());
+    if (!p.tel) p.tel = $('r-tel').value.trim();
+    var t = { id: 't' + (db.n++), fecha: ui.rDia, hora: ui.rHora, pid: p.id, motivo: $('r-motivo').value, estado: 'pendiente', online: true };
+    db.turnos.push(t); save();
+    $('r-form').hidden = true; $('r-ok').hidden = false;
+    $('r-ok').innerHTML = '<div class="ok"><span class="ok-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>'
+      + '<h3>¡Listo, ' + esc(n.split(' ')[0]) + '!</h3><p>Tu turno quedó reservado para el <b>' + largo(t.fecha) + ' a las ' + t.hora + ' hs</b>. Te vamos a escribir por WhatsApp para confirmarlo.</p></div>'
+      + '<div class="note" style="margin-top: 4px;"><span>En el sistema real, en este momento el turno ya aparece en la agenda del consultorio — sin llamados ni mensajes de ida y vuelta.</span></div>'
+      + '<button class="big" type="button" data-r="ver" style="margin-top: 4px;">Ver cómo le aparece al consultorio →</button>'
+      + '<button class="link" type="button" data-r="otra" style="align-self: center;">Reservar otro turno</button>';
+    $('r-ok').dataset.tid = t.id;
+  });
+  $('r-ok').addEventListener('click', function(e){
+    var b = e.target.closest('[data-r]'); if (!b) return;
+    var tid = $('r-ok').dataset.tid;
+    $('r-form').hidden = false; $('r-ok').hidden = true; ui.rHora = null; $('r-nombre').value = ''; $('r-tel').value = '';
+    if (b.dataset.r === 'ver') {
+      var t = db.turnos.filter(function(x){ return x.id === tid; })[0];
+      ui.sel = t.fecha; ui.week = iso(monday(parse(t.fecha))); ui.filtro = 'todos'; ui.open = t.id; ui.flash = t.id;
+      toggleForm(false); setTab('agenda');
+    } else renderReserva();
+  });
+
+  // ---------- general ----------
+  var WA = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>';
+  function render(){ if (ui.tab === 'agenda') renderAgenda(); else if (ui.tab === 'pacientes') renderPacientes(); else renderReserva(); }
+  $('reset').addEventListener('click', function(){
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    db = seed(); ui.sel = iso(BASE); ui.week = iso(monday(BASE)); ui.open = null; ui.moving = null; ui.pacOpen = null; ui.filtro = 'todos'; ui.rHora = null;
+    toggleForm(false); $('r-form').hidden = false; $('r-ok').hidden = true;
+    render(); toast('Demo reiniciada');
+  });
+  render();
+})();
+
+</script>
+</body>
+</html>
