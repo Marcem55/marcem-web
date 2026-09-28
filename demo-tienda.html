@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo: catálogo de tienda de ropa (ejemplo ficticio) · MARCEM</title>
+<meta name="description" content="Probá un catálogo de ropa hecho por MARCEM: elegís talle y color, armás el pedido y lo mandás por WhatsApp. Ejemplo ficticio.">
+<link rel="canonical" href="https://marcem-digital.vercel.app/demo-tienda.html">
+<meta name="theme-color" content="#082A3A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="MARCEM">
+<meta property="og:title" content="Demo: catálogo de tienda de ropa (ejemplo ficticio) · MARCEM">
+<meta property="og:description" content="Probá un catálogo de ropa hecho por MARCEM: elegís talle y color, armás el pedido y lo mandás por WhatsApp. Ejemplo ficticio.">
+<meta property="og:url" content="https://marcem-digital.vercel.app/demo-tienda.html">
+<meta property="og:image" content="https://marcem-digital.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+  body { margin: 0; font-family: "Manrope", system-ui, sans-serif; color: #12181C; background: #F5F7F8; -webkit-font-smoothing: antialiased; }
+  a { text-decoration: none; color: inherit; }
+  .top { position: relative; overflow: hidden; background: #082A3A; color: #FFFFFF; padding: 20px 16px 112px; box-sizing: border-box; }
+  .grid-bg { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px); background-size: 40px 40px; -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, #000 25%, transparent 75%); mask-image: radial-gradient(ellipse 90% 80% at 50% 30%, #000 25%, transparent 75%); }
+  .glow { position: absolute; width: 340px; height: 340px; border-radius: 999px; background: #1E6A89; opacity: 0.55; filter: blur(80px); top: -150px; right: -130px; pointer-events: none; }
+  .inner { position: relative; z-index: 1; width: 100%; max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .back { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; min-height: 36px; font-size: 13px; font-weight: 700; color: #B9D0DA; transition: color 0.2s, gap 0.2s; }
+  .back:hover { color: #FFFFFF; gap: 9px; }
+  .pill { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; border: 1px dashed rgba(255,255,255,0.35); background: rgba(255,255,255,0.06); font-size: 11px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: #D5E6ED; }
+  .card { position: relative; z-index: 2; width: 100%; max-width: 480px; margin: -88px auto 0; background: #FFFFFF; border: 1px solid #DDE3E6; border-radius: 22px; padding: 22px 18px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px; box-shadow: 0 24px 50px rgba(8,42,58,0.14); }
+  .q { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 800; color: #12181C; }
+  .q-num { width: 26px; height: 26px; border-radius: 999px; background: #E4EEF1; color: #0B3D53; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .opt { cursor: pointer; width: 100%; min-height: 52px; display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1.5px solid #DDE3E6; background: #FFFFFF; border-radius: 14px; padding: 12px 14px; font-family: "Manrope", sans-serif; font-size: 15px; font-weight: 600; color: #12181C; text-align: left; transition: border-color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.15s; box-sizing: border-box; }
+  .opt:hover { border-color: #A9C6D2; }
+  .opt:active { transform: scale(0.99); }
+  .opt-selected { border-color: #0B3D53; background: #E4EEF1; box-shadow: 0 0 0 3px rgba(11,61,83,0.10); }
+  .price { font-size: 14px; font-weight: 700; color: #4B5760; }
+  .opt-selected .price { color: #0B3D53; }
+  .total { display: flex; flex-direction: column; gap: 4px; padding: 18px; border-radius: 16px; background: linear-gradient(160deg, #F5F7F8, #E4EEF1); }
+  .cta { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 14px 20px; border-radius: 999px; color: #FFFFFF; font-size: 16px; font-weight: 700; transition: background 0.25s, box-shadow 0.25s, transform 0.2s; box-sizing: border-box; }
+  .cta-on { box-shadow: 0 10px 28px rgba(37,211,102,0.30); }
+  .cta-on:hover { transform: translateY(-2px); }
+  .foot { width: 100%; max-width: 480px; margin: 20px auto 0; padding: 0 16px 40px; box-sizing: border-box; text-align: center; font-size: 13px; line-height: 20px; color: #4B5760; }
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  @keyframes drift { from { transform: translate(0, 0) scale(1); } to { transform: translate(-60px, 40px) scale(1.15); } }
+  @media (prefers-reduced-motion: no-preference) {
+    .rise { animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    .d2 { animation-delay: 0.12s; } .d3 { animation-delay: 0.24s; }
+    .glow { animation: drift 16s ease-in-out infinite alternate; }
+  }
+  @media (min-width: 760px) {
+    .top { padding: 32px 24px 120px; }
+    .card { padding: 30px 28px; }
+  }
+
+  .chips { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 6px; margin: 0 -2px; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex-shrink: 0; cursor: pointer; min-height: 40px; padding: 8px 16px; border-radius: 999px; border: 1.5px solid #DDE3E6; background: #FFFFFF; font-family: "Manrope", sans-serif; font-size: 14px; font-weight: 700; color: #4B5760; transition: background 0.2s, color 0.2s, border-color 0.2s; }
+  .chip[aria-pressed="true"] { background: #0B3D53; border-color: #0B3D53; color: #FFFFFF; }
+  .info { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 13px; color: #4B5760; }
+  .info span { display: inline-flex; align-items: center; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 99px; background: #25D366; }
+  .cat-title { margin: 6px 0 0; font-size: 12px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: #1E6A89; }
+  .item { display: flex; gap: 14px; align-items: flex-start; justify-content: space-between; padding: 14px 0; border-top: 1px solid #EEF2F4; }
+  .item:first-of-type { border-top: 0; }
+  .item-name { font-size: 16px; font-weight: 800; color: #12181C; }
+  .item-desc { margin-top: 3px; font-size: 13px; line-height: 19px; color: #4B5760; }
+  .item-price { margin-top: 6px; font-size: 15px; font-weight: 800; color: #0B3D53; }
+  .add { flex-shrink: 0; cursor: pointer; min-height: 40px; padding: 8px 16px; border-radius: 999px; border: 1.5px solid #0B3D53; background: #FFFFFF; font-family: "Manrope", sans-serif; font-size: 14px; font-weight: 800; color: #0B3D53; transition: background 0.2s; }
+  .add:hover { background: #E4EEF1; }
+  .step { flex-shrink: 0; display: inline-flex; align-items: center; border-radius: 999px; background: #0B3D53; color: #FFFFFF; }
+  .step button { cursor: pointer; width: 40px; height: 40px; border: 0; background: transparent; color: #FFFFFF; font-size: 20px; font-weight: 800; font-family: "Manrope", sans-serif; }
+  .step span { min-width: 22px; text-align: center; font-size: 15px; font-weight: 800; }
+  .group[hidden], .step[hidden], .add[hidden] { display: none; }
+  .bar { position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 30; max-width: 456px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 10px 10px 18px; border-radius: 999px; background: #082A3A; color: #FFFFFF; box-shadow: 0 16px 40px rgba(8,42,58,0.35); transform: translateY(140%); transition: transform 0.3s cubic-bezier(0.2,0.7,0.2,1); }
+  .bar.show { transform: none; }
+  .bar b { font-size: 16px; }
+  .bar small { display: block; font-size: 12px; color: #B9D0DA; font-weight: 600; }
+  .bar button { cursor: pointer; min-height: 44px; padding: 10px 18px; border: 0; border-radius: 999px; background: #25D366; color: #FFFFFF; font-family: "Manrope", sans-serif; font-size: 14px; font-weight: 800; }
+  .sheet-bg { position: fixed; inset: 0; z-index: 40; background: rgba(8,42,58,0.5); opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+  .sheet-bg.show { opacity: 1; pointer-events: auto; }
+  .sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; max-width: 480px; margin: 0 auto; max-height: 88vh; overflow-y: auto; box-sizing: border-box; padding: 22px 18px 24px; border-radius: 24px 24px 0 0; background: #FFFFFF; display: flex; flex-direction: column; gap: 16px; transform: translateY(105%); transition: transform 0.3s cubic-bezier(0.2,0.7,0.2,1); }
+  .sheet.show { transform: none; }
+  .line { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 0; border-top: 1px solid #EEF2F4; font-size: 14px; }
+  .line:first-child { border-top: 0; }
+  .line-name { font-weight: 700; color: #12181C; }
+  .line-sub { font-size: 13px; color: #4B5760; }
+  .seg { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .seg button { cursor: pointer; min-height: 46px; border-radius: 12px; border: 1.5px solid #DDE3E6; background: #FFFFFF; font-family: "Manrope", sans-serif; font-size: 14px; font-weight: 700; color: #12181C; }
+  .seg button[aria-pressed="true"] { border-color: #0B3D53; background: #E4EEF1; box-shadow: 0 0 0 3px rgba(11,61,83,0.10); }
+  .fld { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 700; color: #12181C; }
+  .fld input, .fld textarea { min-height: 46px; padding: 10px 12px; border-radius: 12px; border: 1.5px solid #DDE3E6; font-family: "Manrope", sans-serif; font-size: 15px; color: #12181C; box-sizing: border-box; resize: vertical; }
+  .fld input:focus, .fld textarea:focus { outline: none; border-color: #0B3D53; box-shadow: 0 0 0 3px rgba(11,61,83,0.12); }
+  .x { cursor: pointer; width: 40px; height: 40px; border: 0; border-radius: 999px; background: #F5F7F8; color: #12181C; font-size: 20px; }
+
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .prod { cursor: pointer; display: flex; flex-direction: column; gap: 8px; padding: 0; border: 0; background: transparent; text-align: left; font-family: "Manrope", sans-serif; color: inherit; }
+  .prod[hidden] { display: none; }
+  .ph { position: relative; aspect-ratio: 4 / 5; border-radius: 16px; background: linear-gradient(160deg, #F2F5F6, #E3EAED); display: flex; align-items: center; justify-content: center; padding: 18%; box-sizing: border-box; overflow: hidden; transition: transform 0.2s; }
+  .prod:hover .ph { transform: translateY(-2px); }
+  .ph .qty { position: absolute; top: 8px; right: 8px; min-width: 26px; height: 26px; padding: 0 7px; border-radius: 99px; background: #0B3D53; color: #FFFFFF; font-size: 13px; font-weight: 800; display: flex; align-items: center; justify-content: center; box-sizing: border-box; }
+  .ph .qty[hidden] { display: none; }
+  .dots { display: flex; gap: 5px; }
+  .dots i { width: 12px; height: 12px; border-radius: 99px; border: 1px solid rgba(18,24,28,0.2); }
+  .p-name { font-size: 14.5px; font-weight: 800; color: #12181C; line-height: 1.3; }
+  .p-price { font-size: 15px; font-weight: 800; color: #0B3D53; }
+  .opt-t { font-size: 13px; font-weight: 800; color: #12181C; }
+  .opt-t span { font-weight: 600; color: #4B5760; }
+  .swatches { display: flex; gap: 10px; flex-wrap: wrap; }
+  .sw { cursor: pointer; width: 44px; height: 44px; border-radius: 99px; border: 3px solid #FFFFFF; box-shadow: 0 0 0 1.5px #DDE3E6; }
+  .sw[aria-pressed="true"] { box-shadow: 0 0 0 2.5px #0B3D53; }
+  .sizes { display: flex; gap: 8px; flex-wrap: wrap; }
+  .sz { cursor: pointer; min-width: 52px; min-height: 44px; padding: 8px 12px; border-radius: 12px; border: 1.5px solid #DDE3E6; background: #FFFFFF; font-family: "Manrope", sans-serif; font-size: 15px; font-weight: 800; color: #12181C; }
+  .sz[aria-pressed="true"] { background: #0B3D53; border-color: #0B3D53; color: #FFFFFF; }
+  .big-ph { height: 200px; border-radius: 18px; background: linear-gradient(160deg, #F2F5F6, #E3EAED); display: flex; align-items: center; justify-content: center; padding: 6% 0; box-sizing: border-box; }
+  .big-ph .ill { width: auto; height: 100%; }
+  .add-btn { cursor: pointer; min-height: 52px; border: 0; border-radius: 999px; background: #0B3D53; color: #FFFFFF; font-family: "Manrope", sans-serif; font-size: 16px; font-weight: 800; }
+  .add-btn:disabled { background: #B9C2C7; cursor: not-allowed; }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .line-sw { display: inline-block; width: 12px; height: 12px; border-radius: 99px; border: 1px solid rgba(18,24,28,0.2); vertical-align: -1px; margin-right: 5px; }
+</style>
+</head>
+<body>
+<div style="width: 100%; min-height: 100vh; display: flex; flex-direction: column;">
+  <div class="top">
+    <div class="grid-bg"></div>
+    <div class="glow"></div>
+    <div class="inner">
+      <a href="./" class="back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></svg>
+        Volver a MARCEM
+      </a>
+      <span class="pill rise">Demo — ejemplo ficticio</span>
+      <h1 class="rise d2" style="margin: 0; font-size: 28px; line-height: 35px; font-weight: 800; letter-spacing: -0.01em;">Tienda Ejemplo</h1>
+      <p class="rise d3" style="margin: 0; font-size: 15px; line-height: 23px; color: #B9D0DA;">Así se ve un catálogo de ropa hecho por MARCEM: tu cliente elige talle y color, arma el pedido y te llega completo por WhatsApp. Ni la tienda ni los precios son reales.</p>
+    </div>
+  </div>
+
+  <div style="padding: 0 16px; box-sizing: border-box;">
+    <div class="card rise d3" style="gap: 18px;">
+      <div class="info"><span><span class="dot"></span>Envíos a todo el país</span><span>Cambios dentro de los 30 días</span></div>
+      <div class="chips" role="group" aria-label="Filtrar por categoría"><button class="chip" type="button" data-cat="todo" aria-pressed="true">Todo</button><button class="chip" type="button" data-cat="remeras" aria-pressed="false">Remeras</button><button class="chip" type="button" data-cat="abrigos" aria-pressed="false">Abrigos</button><button class="chip" type="button" data-cat="pantalones" aria-pressed="false">Pantalones</button><button class="chip" type="button" data-cat="accesorios" aria-pressed="false">Accesorios</button></div>
+      <div class="grid" id="grid">
+        <button class="prod" type="button" data-id="remera" data-cat="remeras" aria-label="Remera básica de algodón, $14.900">
+          <span class="ph"><svg viewBox="0 0 100 100" width="100%" height="100%" aria-hidden="true" class="ill"><g fill="#F4F3EE" stroke="rgba(18,24,28,0.28)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M30 18 L42 13 Q50 22 58 13 L70 18 L87 33 L77 45 L70 40 L70 87 L30 87 L30 40 L23 45 L13 33 Z"/></g></svg><span class="qty" hidden>0</span></span>
+          <span class="dots"><i style="background: #F4F3EE;"></i><i style="background: #232326;"></i><i style="background: #6F7C4E;"></i></span>
+          <span class="p-name">Remera básica de algodón</span>
+          <span class="p-price">$14.900</span>
+        </button>
+        <button class="prod" type="button" data-id="oversize" data-cat="remeras" aria-label="Remera oversize, $17.500">
+          <span class="ph"><svg viewBox="0 0 100 100" width="100%" height="100%" aria-hidden="true" class="ill"><g fill="#E8DFCC" stroke="rgba(18,24,28,0.28)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M30 18 L42 13 Q50 22 58 13 L70 18 L87 33 L77 45 L70 40 L70 87 L30 87 L30 40 L23 45 L13 33 Z"/></g></svg><span class="qty" hidden>0</span></span>
+          <span class="dots"><i style="background: #E8DFCC;"></i><i style="background: #8E9398;"></i><i style="background: #B8664A;"></i></span>
+          <span class="p-name">Remera oversize</span>
+          <span class="p-price">$17.500</span>
+        </button>
+        <button class="prod" type="button" data-id="buzo" data-cat="abrigos" aria-label="Buzo con capucha, $32.000">
+          <span class="ph"><svg viewBox="0 0 100 100" width="100%" height="100%" aria-hidden="true" class="ill"><g fill="#AEB2B5" stroke="rgba(18,24,28,0.28)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M35 21 Q50 5 65 21 L72 23 L88 64 L78 68 L70 46 L70 88 L30 88 L30 46 L22 68 L12 64 L28 23 Z"/><path d="M40 66 L60 66 L62 78 L38 78 Z" fill="none"/></g></svg><span class="qty" hidden>0</span></span>
+          <span class="dots"><i style="background: #AEB2B5;"></i><i style="background: #2E3E5C;"></i><i style="background: #6E2437;"></i></span>
+          <span class="p-name">Buzo con capucha</span>
+          <span class="p-price">$32.000</span>
+        </button>
+        <button class="prod" type="button" data-id="campera" data-cat="abrigos" aria-label="Campera de jean, $48.000">
+          <span class="ph"><svg viewBox="0 0 100 100" width="100%" height="100%" aria-hidden="true" class="ill"><g fill="#8FAAC6" stroke="rgba(18,24,28,0.28)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M36 16 L50 24 L64 16 L73 20 L88 64 L78 68 L70 46 L70 88 L30 88 L30 46 L22 68 L12 64 L27 20 Z"/><path d="M50 24 L50 88" fill="none"/><path d="M36 50 L44 50 M56 50 L64 50" fill="none"/></g></svg><span class="qty" hidden>0</span></span>
+          <span class="dots"><i style="background: #8FAAC6;"></i><i style="background: #34496B;"></i></span>
+          <span class="p-name">Campera de jean</span>
+          <span class="p-price">$48.000</span>
+        </button>
+        <button class="prod" type="button" data-id="jean" data-cat="pantalones" aria-label="Jean mom, $38.500">
+          <span class="ph"><svg viewBox="0 0 100 100" width="100%" height="100%" aria-hidden="true" class="ill"><g fill="#9BB4CD" stroke="rgba(18,24,28,0.28)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M31 12 L69 12 L73 90 L56 90 L50 38 L44 90 L27 90 Z"/><path d="M31 20 L69 20" fill="none"/></g></svg><span class="qty" hidden>0</span></span>
+          <span class="dots"><i style="background: #9BB4CD;"></i><i style="background: #2A2C2F;"></i></span>
+          <span class="p-name">Jean mom</span>
+          <span class="p-price">$38.500</span>
+        </button>
+        <button class="prod" type="button" data-id="gorra" data-cat="accesorios" aria-label="Gorra de gabardina, $12.000">
+          <span class="ph"><svg viewBox="0 0 100 100" width="100%" height="100%" aria-hidden="true" class="ill"><g fill="#232326" stroke="rgba(18,24,28,0.28)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M20 62 Q20 30 50 28 Q80 30 80 62 Z"/><path d="M20 62 L94 64 Q92 72 72 70 L20 68 Z"/></g></svg><span class="qty" hidden>0</span></span>
+          <span class="dots"><i style="background: #232326;"></i><i style="background: #CDB999;"></i></span>
+          <span class="p-name">Gorra de gabardina</span>
+          <span class="p-price">$12.000</span>
+        </button>
+        <button class="prod" type="button" data-id="tote" data-cat="accesorios" aria-label="Tote bag de lienzo, $9.500">
+          <span class="ph"><svg viewBox="0 0 100 100" width="100%" height="100%" aria-hidden="true" class="ill"><g fill="#E8DFCC" stroke="rgba(18,24,28,0.28)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><path d="M38 40 Q38 16 50 16 Q62 16 62 40" fill="none"/><path d="M22 40 L78 40 L74 90 L26 90 Z"/></g></svg><span class="qty" hidden>0</span></span>
+          <span class="dots"><i style="background: #E8DFCC;"></i></span>
+          <span class="p-name">Tote bag de lienzo</span>
+          <span class="p-price">$9.500</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <p class="foot" style="padding-bottom: 110px;">Esto es un ejemplo del tipo de catálogo que MARCEM puede armar para tu tienda — con tus fotos, tus talles, tus precios y tu WhatsApp. El stock se confirma por mensaje.</p>
+
+  <div class="bar" id="bar" aria-live="polite"><div><b id="bar-total">$0</b><small id="bar-count">0 prendas</small></div><button type="button" id="ver">Ver pedido</button></div>
+  <div class="sheet-bg" id="bg"></div>
+
+  <div class="sheet" id="psheet" role="dialog" aria-modal="true" aria-labelledby="p-t">
+    <div class="row"><h2 id="p-t" style="margin: 0; font-size: 20px; font-weight: 800;">Producto</h2><button class="x" type="button" data-close aria-label="Cerrar">×</button></div>
+    <div class="big-ph" id="p-img"></div>
+    <div class="row"><span id="p-desc" style="font-size: 14px; color: #4B5760;"></span><b id="p-price" style="font-size: 20px; color: #0B3D53; flex-shrink: 0;"></b></div>
+    <div style="display: flex; flex-direction: column; gap: 10px;"><span class="opt-t">Color: <span id="p-col"></span></span><div class="swatches" id="p-sw" role="group" aria-label="Color"></div></div>
+    <div style="display: flex; flex-direction: column; gap: 10px;"><span class="opt-t">Talle: <span id="p-tal">elegí uno</span></span><div class="sizes" id="p-sz" role="group" aria-label="Talle"></div></div>
+    <div class="row"><span class="opt-t">Cantidad</span><div class="step"><button type="button" id="p-menos" aria-label="Uno menos">−</button><span id="p-q">1</span><button type="button" id="p-mas" aria-label="Uno más">+</button></div></div>
+    <button class="add-btn" type="button" id="p-add" disabled>Elegí un talle</button>
+  </div>
+
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-t">
+    <div class="row"><h2 id="sheet-t" style="margin: 0; font-size: 20px; font-weight: 800;">Tu pedido</h2><button class="x" type="button" data-close aria-label="Cerrar">×</button></div>
+    <div id="lines"></div>
+    <div class="seg" role="group" aria-label="Entrega"><button type="button" data-e="Retiro" aria-pressed="true">Retiro</button><button type="button" data-e="Envío" aria-pressed="false">Envío</button></div>
+    <label class="fld" id="dir-wrap" hidden>Dirección y ciudad<input id="dir" autocomplete="street-address" placeholder="Calle, número, ciudad"></label>
+    <label class="fld">Aclaraciones (opcional)<textarea id="nota" rows="2" placeholder="Ej.: si no hay M en negro, me sirve en verde"></textarea></label>
+    <div style="display: flex; justify-content: space-between; align-items: baseline; padding-top: 4px; border-top: 1px solid #DDE3E6;"><span style="font-size: 14px; font-weight: 700; color: #4B5760;">Total</span><b id="sheet-total" style="font-size: 26px; color: #0B3D53;">$0</b></div>
+    <a class="cta cta-on" id="enviar" href="#" target="_blank" rel="noopener" style="background: #25D366;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Enviar pedido por WhatsApp</a>
+    <span style="font-size: 12.5px; color: #4B5760; text-align: center;">Te confirman stock y forma de pago por WhatsApp.</span>
+  </div>
+</div>
+<script>
+var DATA={"remera": {"n": "Remera básica de algodón", "d": "Algodón peinado, calce regular.", "p": 14900, "s": "remera", "c": [["Blanco", "#F4F3EE"], ["Negro", "#232326"], ["Verde oliva", "#6F7C4E"]], "t": ["S", "M", "L", "XL"]}, "oversize": {"n": "Remera oversize", "d": "Calce holgado, hombro caído.", "p": 17500, "s": "remera", "c": [["Crudo", "#E8DFCC"], ["Gris", "#8E9398"], ["Terracota", "#B8664A"]], "t": ["S", "M", "L", "XL"]}, "buzo": {"n": "Buzo con capucha", "d": "Frisa por dentro, bolsillo canguro.", "p": 32000, "s": "buzo", "c": [["Gris melange", "#AEB2B5"], ["Azul marino", "#2E3E5C"], ["Bordó", "#6E2437"]], "t": ["S", "M", "L", "XL"]}, "campera": {"n": "Campera de jean", "d": "Clásica, con botones metálicos.", "p": 48000, "s": "campera", "c": [["Celeste", "#8FAAC6"], ["Azul oscuro", "#34496B"]], "t": ["S", "M", "L"]}, "jean": {"n": "Jean mom", "d": "Tiro alto, rígido.", "p": 38500, "s": "jean", "c": [["Celeste", "#9BB4CD"], ["Negro", "#2A2C2F"]], "t": ["36", "38", "40", "42", "44"]}, "gorra": {"n": "Gorra de gabardina", "d": "Regulable atrás.", "p": 12000, "s": "gorra", "c": [["Negro", "#232326"], ["Beige", "#CDB999"]], "t": ["Único"]}, "tote": {"n": "Tote bag de lienzo", "d": "Con bolsillo interno.", "p": 9500, "s": "bolsa", "c": [["Crudo", "#E8DFCC"]], "t": ["Único"]}};var SHAPES={"remera": "<path d=\"M30 18 L42 13 Q50 22 58 13 L70 18 L87 33 L77 45 L70 40 L70 87 L30 87 L30 40 L23 45 L13 33 Z\"/>", "buzo": "<path d=\"M35 21 Q50 5 65 21 L72 23 L88 64 L78 68 L70 46 L70 88 L30 88 L30 46 L22 68 L12 64 L28 23 Z\"/><path d=\"M40 66 L60 66 L62 78 L38 78 Z\" fill=\"none\"/>", "campera": "<path d=\"M36 16 L50 24 L64 16 L73 20 L88 64 L78 68 L70 46 L70 88 L30 88 L30 46 L22 68 L12 64 L27 20 Z\"/><path d=\"M50 24 L50 88\" fill=\"none\"/><path d=\"M36 50 L44 50 M56 50 L64 50\" fill=\"none\"/>", "jean": "<path d=\"M31 12 L69 12 L73 90 L56 90 L50 38 L44 90 L27 90 Z\"/><path d=\"M31 20 L69 20\" fill=\"none\"/>", "gorra": "<path d=\"M20 62 Q20 30 50 28 Q80 30 80 62 Z\"/><path d=\"M20 62 L94 64 Q92 72 72 70 L20 68 Z\"/>", "bolsa": "<path d=\"M38 40 Q38 16 50 16 Q62 16 62 40\" fill=\"none\"/><path d=\"M22 40 L78 40 L74 90 L26 90 Z\"/>"};
+(function(){
+  var cart=[], entrega='Retiro', cur=null, sel={};
+  function $(i){return document.getElementById(i);}
+  function fmt(n){return '$'+n.toLocaleString('es-AR');}
+  function ill(shape,color){return '<svg viewBox="0 0 100 100" aria-hidden="true" class="ill" style="height:100%;width:auto;"><g fill="'+color+'" stroke="rgba(18,24,28,0.28)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">'+SHAPES[shape]+'</g></svg>';}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  var bg=$('bg'), ps=$('psheet'), sh=$('sheet');
+  function open(el){[ps,sh].forEach(function(s){s.classList.toggle('show',s===el);}); bg.classList.add('show');}
+  function close(){ps.classList.remove('show');sh.classList.remove('show');bg.classList.remove('show');}
+  document.querySelectorAll('[data-close]').forEach(function(b){b.addEventListener('click',close);}); bg.addEventListener('click',close);
+
+  // producto
+  function renderP(){
+    var d=DATA[cur], col=d.c[sel.c];
+    $('p-t').textContent=d.n; $('p-desc').textContent=d.d; $('p-price').textContent=fmt(d.p);
+    $('p-img').innerHTML=ill(d.s,col[1]); $('p-col').textContent=col[0];
+    $('p-sw').innerHTML=d.c.map(function(c,i){return '<button class="sw" type="button" data-i="'+i+'" aria-pressed="'+(i===sel.c)+'" aria-label="'+esc(c[0])+'" style="background:'+c[1]+'"></button>';}).join('');
+    $('p-sz').innerHTML=d.t.map(function(t){return '<button class="sz" type="button" data-t="'+esc(t)+'" aria-pressed="'+(t===sel.t)+'">'+esc(t)+'</button>';}).join('');
+    $('p-tal').textContent=sel.t||'elegí uno'; $('p-q').textContent=sel.q;
+    $('p-add').disabled=!sel.t; $('p-add').textContent=sel.t?('Agregar al pedido · '+fmt(d.p*sel.q)):'Elegí un talle';
+  }
+  document.querySelectorAll('.prod').forEach(function(b){b.addEventListener('click',function(){
+    cur=b.dataset.id; var d=DATA[cur]; sel={c:0,t:d.t.length===1?d.t[0]:null,q:1}; renderP(); open(ps);
+  });});
+  $('p-sw').addEventListener('click',function(e){var b=e.target.closest('.sw'); if(b){sel.c=+b.dataset.i; renderP();}});
+  $('p-sz').addEventListener('click',function(e){var b=e.target.closest('.sz'); if(b){sel.t=b.dataset.t; renderP();}});
+  $('p-menos').addEventListener('click',function(){sel.q=Math.max(1,sel.q-1);renderP();});
+  $('p-mas').addEventListener('click',function(){sel.q=Math.min(20,sel.q+1);renderP();});
+  $('p-add').addEventListener('click',function(){
+    if(!sel.t) return; var d=DATA[cur], col=d.c[sel.c][0];
+    var ex=cart.filter(function(l){return l.id===cur&&l.col===col&&l.t===sel.t;})[0];
+    if(ex) ex.q+=sel.q; else cart.push({id:cur,col:col,hex:d.c[sel.c][1],t:sel.t,q:sel.q});
+    close(); render();
+  });
+
+  // pedido
+  function render(){
+    var count=0,total=0,per={};
+    cart.forEach(function(l){count+=l.q; total+=l.q*DATA[l.id].p; per[l.id]=(per[l.id]||0)+l.q;});
+    document.querySelectorAll('.prod').forEach(function(b){var q=per[b.dataset.id]||0, el=b.querySelector('.qty'); el.hidden=!q; el.textContent=q;});
+    $('bar').classList.toggle('show',count>0);
+    $('bar-total').textContent=fmt(total); $('bar-count').textContent=count+(count===1?' prenda':' prendas');
+    $('sheet-total').textContent=fmt(total);
+    $('lines').innerHTML=cart.map(function(l,i){var d=DATA[l.id];
+      return '<div class="line"><div><div class="line-name">'+esc(d.n)+'</div><div class="line-sub"><span class="line-sw" style="background:'+l.hex+'"></span>'+esc(l.col)+(l.t==='Único'?'':' · Talle '+esc(l.t))+' · '+fmt(l.q*d.p)+'</div></div><div class="step"><button type="button" data-i="'+i+'" data-d="-1" aria-label="Quitar uno">−</button><span>'+l.q+'</span><button type="button" data-i="'+i+'" data-d="1" aria-label="Sumar uno">+</button></div></div>';}).join('');
+    if(!count && sh.classList.contains('show')) close();
+    var msg='¡Hola! Quiero hacer este pedido:\n';
+    cart.forEach(function(l){var d=DATA[l.id]; msg+='• '+l.q+' × '+d.n+' — '+l.col+(l.t==='Único'?'':', talle '+l.t)+' ('+fmt(l.q*d.p)+')\n';});
+    msg+='Total: '+fmt(total)+'\nEntrega: '+entrega;
+    var dir=$('dir').value.trim(); if(entrega==='Envío'&&dir) msg+=' — '+dir;
+    var nota=$('nota').value.trim(); if(nota) msg+='\nAclaraciones: '+nota;
+    msg+='\n¿Me confirmás stock?';
+    $('enviar').href='https://wa.me/5493364626434?text='+encodeURIComponent(msg);
+  }
+  $('lines').addEventListener('click',function(e){var b=e.target.closest('button[data-i]'); if(!b) return; var l=cart[+b.dataset.i]; l.q+=+b.dataset.d; if(l.q<=0) cart.splice(+b.dataset.i,1); render();});
+  $('ver').addEventListener('click',function(){open(sh);});
+  document.querySelectorAll('.seg button').forEach(function(b){b.addEventListener('click',function(){
+    entrega=b.dataset.e; document.querySelectorAll('.seg button').forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+    $('dir-wrap').hidden=entrega!=='Envío'; render();
+  });});
+  ['dir','nota'].forEach(function(i){$(i).addEventListener('input',render);});
+  var chips=document.querySelectorAll('.chip');
+  chips.forEach(function(c){c.addEventListener('click',function(){
+    chips.forEach(function(x){x.setAttribute('aria-pressed',x===c?'true':'false');});
+    document.querySelectorAll('.prod').forEach(function(p){p.hidden=!(c.dataset.cat==='todo'||p.dataset.cat===c.dataset.cat);});
+  });});
+  render();
+})();
+</script>
+</body>
+</html>
