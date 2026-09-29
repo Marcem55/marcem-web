@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Propuesta para FM Servicios · MARCEM</title>
+<meta name="description" content="Maqueta de página con servicios, trabajos y pedido de presupuesto por WhatsApp.">
+<link rel="canonical" href="https://marcem-digital.vercel.app/propuesta-fm.html">
+<meta name="theme-color" content="#082A3A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="MARCEM">
+<meta property="og:title" content="Propuesta para FM Servicios · MARCEM">
+<meta property="og:description" content="Maqueta de página con servicios, trabajos y pedido de presupuesto por WhatsApp.">
+<meta property="og:url" content="https://marcem-digital.vercel.app/propuesta-fm.html">
+<meta property="og:image" content="https://marcem-digital.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap">
+<style>
+  :root { --bg: #F5F5F1; --card: #FFFFFF; --ink: #141414; --ink2: #5A5E5B; --green: #3E5E4F; --green-d: #2C463A; --green-t: #E3ECE6; --line: #E2E2DC; --wa: #25D366; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { margin: 0; text-wrap: balance; letter-spacing: -0.02em; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+  .wrap { width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+  .demo { background: #0B3D53; color: #D5E6ED; font-size: 13px; font-weight: 600; }
+  .demo .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; padding-top: 6px; padding-bottom: 6px; }
+  .demo span { display: inline-flex; align-items: center; gap: 8px; }
+  .demo i { flex-shrink: 0; width: 8px; height: 8px; border-radius: 9px; background: #25D366; }
+  .demo a { color: #FFFFFF; font-weight: 800; text-decoration: none; white-space: nowrap; }
+
+  .nav { position: sticky; top: 0; z-index: 20; background: rgba(20,20,20,0.96); color: #FFFFFF; }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 62px; }
+  .word { font-size: 22px; font-weight: 900; letter-spacing: -0.04em; text-decoration: none; }
+  .word small { font-size: 15px; font-weight: 500; letter-spacing: 0; margin-left: 4px; color: #C9CFCB; }
+  .nav-links { display: none; gap: 22px; font-size: 15px; font-weight: 600; }
+  .nav-links a { text-decoration: none; color: #C9CFCB; }
+  .nav-links a:hover { color: #FFFFFF; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 12px 24px; border-radius: 12px; border: 0; font-family: inherit; font-weight: 800; font-size: 16px; text-decoration: none; cursor: pointer; transition: transform 0.2s, background 0.2s; }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-green { background: var(--green); color: #FFFFFF; }
+  .btn-green:hover { background: var(--green-d); }
+  .btn-wa { background: var(--wa); color: #FFFFFF; }
+  .btn-line { background: transparent; color: #FFFFFF; border: 1.5px solid rgba(255,255,255,0.4); }
+  .btn-sm { min-height: 42px; padding: 8px 16px; font-size: 14px; }
+
+  .hero { background: #141414; color: #FFFFFF; padding: 44px 0 56px; overflow: hidden; }
+  .hero .wrap { display: grid; gap: 32px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: #9FC2AE; }
+  .hero h1 { font-size: 40px; line-height: 1.04; font-weight: 900; margin-top: 14px; }
+  .hero h1 span { color: #9FC2AE; }
+  .hero p { margin: 16px 0 0; font-size: 18px; color: #C9CFCB; max-width: 32em; }
+  .ctas { display: flex; flex-direction: column; gap: 12px; margin-top: 26px; }
+  .who { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .who span { padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.22); font-size: 14px; color: #E4E8E5; }
+  .ph-grid { display: grid; grid-template-columns: 1.2fr 1fr; grid-template-rows: 1fr 1fr; gap: 10px; min-height: 280px; }
+  .ph { position: relative; border-radius: 16px; background: repeating-linear-gradient(135deg, #252825 0 14px, #2B2F2C 14px 28px); border: 1.5px dashed rgba(255,255,255,0.22); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 14px; text-align: center; color: #AEB6B1; font-size: 13px; font-weight: 600; }
+  .ph svg { color: #9FC2AE; }
+  .ph.tall { grid-row: span 2; }
+
+  section.block { padding: 56px 0; }
+  .s-head { display: flex; flex-direction: column; gap: 8px; margin-bottom: 26px; max-width: 42em; }
+  .s-head .eyebrow { color: var(--green); }
+  .s-head h2 { font-size: 32px; line-height: 1.1; font-weight: 900; }
+  .s-head p { margin: 0; color: var(--ink2); font-size: 17px; }
+
+  .services { display: grid; gap: 12px; }
+  .svc { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+  .svc-top { display: flex; gap: 14px; align-items: center; }
+  .ic { flex-shrink: 0; width: 48px; height: 48px; border-radius: 14px; background: var(--green-t); color: var(--green-d); display: flex; align-items: center; justify-content: center; }
+  .svc h3 { font-size: 19px; font-weight: 800; }
+  .svc p { margin: 0; color: var(--ink2); font-size: 15px; }
+  .svc button { align-self: flex-start; margin-top: 2px; background: none; border: 0; padding: 6px 0; font-family: inherit; font-size: 15px; font-weight: 800; color: var(--green); cursor: pointer; }
+  .svc button:hover { text-decoration: underline; }
+
+  .alt { background: #ECECE6; }
+  .ba { display: grid; gap: 14px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 8px; }
+  .pair .ph { min-height: 150px; background: repeating-linear-gradient(135deg, #DADAD3 0 12px, #E2E2DB 12px 24px); border-color: #C3C3BA; color: #5A5E5B; border-radius: 12px; }
+  .pair .ph b { font-size: 12px; letter-spacing: 1.4px; padding: 4px 10px; border-radius: 6px; background: #141414; color: #FFFFFF; }
+  .pair .ph.after b { background: var(--green); }
+  .pair figcaption { grid-column: 1 / -1; padding: 8px 8px 4px; font-size: 14px; font-weight: 700; }
+
+  .quote { display: grid; gap: 20px; }
+  .form { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 22px 18px; display: flex; flex-direction: column; gap: 18px; }
+  .q { display: flex; flex-direction: column; gap: 10px; }
+  .q > span { font-size: 15px; font-weight: 800; }
+  .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opt { cursor: pointer; min-height: 44px; padding: 8px 14px; border-radius: 10px; border: 1.5px solid var(--line); background: #FFFFFF; font-family: inherit; font-size: 15px; font-weight: 600; color: var(--ink); }
+  .opt[aria-pressed="true"] { background: #141414; border-color: #141414; color: #FFFFFF; }
+  .field input { width: 100%; min-height: 48px; padding: 10px 14px; border-radius: 10px; border: 1.5px solid var(--line); font-family: inherit; font-size: 16px; }
+  .field input:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-t); }
+  .preview { background: #141414; color: #FFFFFF; border-radius: 20px; padding: 22px 18px; display: flex; flex-direction: column; gap: 14px; }
+  .preview .eyebrow { color: #9FC2AE; }
+  .chat { background: #ECE5DD; border-radius: 14px; padding: 14px; }
+  .bubble { background: #D9FDD3; color: #141414; border-radius: 12px 12px 4px 12px; padding: 12px 14px; font-size: 15px; line-height: 1.5; white-space: pre-wrap; margin-left: 12%; box-shadow: 0 1px 0 rgba(0,0,0,0.08); }
+  .preview p { margin: 0; font-size: 14px; color: #C9CFCB; }
+
+  .steps { display: grid; gap: 12px; }
+  .step { display: flex; gap: 16px; align-items: flex-start; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 18px; }
+  .step b { flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px; background: var(--green); color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 900; }
+  .step h3 { font-size: 18px; font-weight: 800; }
+  .step p { margin: 4px 0 0; color: var(--ink2); font-size: 15px; }
+
+  .contact { background: var(--green-d); color: #FFFFFF; padding: 56px 0; }
+  .contact .wrap { display: grid; gap: 24px; }
+  .contact h2 { font-size: 34px; line-height: 1.08; font-weight: 900; }
+  .contact p { margin: 10px 0 0; color: #D3E0D8; font-size: 17px; }
+  .contact ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; color: #E6EEE9; }
+  .contact li { display: flex; gap: 10px; align-items: center; }
+
+  .made { padding: 28px 0 110px; }
+  .made-box { display: flex; flex-direction: column; gap: 14px; padding: 22px 20px; border-radius: 18px; background: #0B3D53; color: #D5E6ED; font-size: 15px; }
+  .made-box b { color: #FFFFFF; font-size: 17px; }
+  .made-box ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+
+  .float { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 30; width: 58px; height: 58px; border-radius: 999px; background: var(--wa); color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 30px rgba(37,211,102,0.38); }
+
+  @media (min-width: 760px) {
+    .nav-links { display: flex; }
+    .hero { padding: 72px 0 84px; }
+    .hero .wrap { grid-template-columns: 1.1fr 0.9fr; align-items: center; gap: 48px; }
+    .hero h1 { font-size: 58px; }
+    .ctas { flex-direction: row; }
+    .services { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .ba { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .quote { grid-template-columns: 1.2fr 0.8fr; align-items: start; }
+    .preview { position: sticky; top: 90px; }
+    .steps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .step { flex-direction: column; }
+    section.block { padding: 84px 0; }
+    .s-head h2 { font-size: 40px; }
+    .contact .wrap { grid-template-columns: 1.2fr 0.8fr; align-items: center; }
+    .contact h2 { font-size: 44px; }
+  }
+</style>
+
+<div class="demo">
+  <div class="wrap">
+    <span><i></i>Maqueta para FM Servicios, hecha por MARCEM · fotos y algunos textos son de ejemplo</span>
+    <a href="#marcem">Qué es esto ↓</a>
+  </div>
+</div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="word" href="#inicio">FM<small>Servicios</small></a>
+    <nav class="nav-links" aria-label="Secciones"><a href="#servicios">Servicios</a><a href="#trabajos">Trabajos</a><a href="#presupuesto">Presupuesto</a></nav>
+    <a class="btn btn-wa btn-sm" href="#presupuesto">Pedir presupuesto</a>
+  </div>
+</header>
+
+<main id="inicio">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">San Nicolás y alrededores</span>
+        <h1>Mantenimiento, limpieza y espacios verdes. <span>Un solo equipo para todo.</span></h1>
+        <p>Nos ocupamos del terreno, del patio, de los arreglos pendientes y de dejar todo prolijo. Contanos qué necesitás y te pasamos presupuesto por WhatsApp.</p>
+        <div class="ctas">
+          <a class="btn btn-wa" href="#presupuesto"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Pedir presupuesto</a>
+          <a class="btn btn-line" href="#trabajos">Ver trabajos</a>
+        </div>
+        <div class="who"><span>Hogares</span><span>Empresas</span><span>Industrias</span></div>
+      </div>
+      <div class="ph-grid" aria-hidden="true">
+        <div class="ph tall"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Foto de trabajo<br>(de su Instagram)</div>
+        <div class="ph"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Equipo trabajando</div>
+        <div class="ph"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Maquinaria</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="servicios">
+    <div class="wrap">
+      <div class="s-head">
+        <span class="eyebrow">Servicios</span>
+        <h2>¿Qué necesitás resolver?</h2>
+        <p>Tocá "Pedir presupuesto" en el servicio que te interesa y te lleva directo al formulario.</p>
+      </div>
+      <div class="services">
+        <div class="svc"><div class="svc-top"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22V12"/><path d="M12 12c0-5 4-8 9-8 0 5-4 8-9 8Z"/><path d="M12 15c0-4-3-6-8-6 0 4 3 6 8 6Z"/></svg></span><h3>Espacios verdes</h3></div><p>Corte de pasto, desmalezado, poda y mantenimiento de jardines.</p><button type="button" data-s="Espacios verdes">Pedir presupuesto →</button></div>
+        <div class="svc"><div class="svc-top"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18"/><path d="M5 20V9l7-5 7 5v11"/><path d="M9 20v-6h6v6"/></svg></span><h3>Limpieza de terrenos</h3></div><p>Terrenos y lotes listos para usar, construir o vender.</p><button type="button" data-s="Limpieza de terreno">Pedir presupuesto →</button></div>
+        <div class="svc"><div class="svc-top"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="17" r="3"/><path d="M10 17h6l3-7h-6l-2-4H6"/><path d="M13 10l2 7"/></svg></span><h3>Chipeado de ramas</h3></div><p>¿Podaste y quedó un montón de ramas? Las reducimos en el lugar.</p><button type="button" data-s="Chipeado de ramas">Pedir presupuesto →</button></div>
+        <div class="svc"><div class="svc-top"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h6v4H4z"/><path d="M10 6h6l4 4"/><path d="M20 10l-2 2M20 14l-3 1M19 18l-3-1"/></svg></span><h3>Hidrolavado</h3></div><p>Patios, veredas, paredes y espacios exteriores.</p><button type="button" data-s="Hidrolavado">Pedir presupuesto →</button></div>
+        <div class="svc"><div class="svc-top"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4Z"/></svg></span><h3>Mantenimiento y arreglos</h3></div><p>Esa persiana, esa pérdida, ese enchufe, esa puerta que no cierra.</p><button type="button" data-s="Mantenimiento y arreglos">Pedir presupuesto →</button></div>
+        <div class="svc"><div class="svc-top"><span class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h8v8H3zM13 13h8v8h-8z"/><path d="M13 3h8v8h-8zM3 13h8v8H3z" opacity="0.45"/></svg></span><h3>Pisos de parquet</h3></div><p>Restauración para que vuelvan a lucir sin tener que cambiarlos.</p><button type="button" data-s="Pisos de parquet">Pedir presupuesto →</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt" id="trabajos">
+    <div class="wrap">
+      <div class="s-head">
+        <span class="eyebrow">Trabajos</span>
+        <h2>Antes y después</h2>
+        <p>Acá van sus fotos reales. Es lo que más convence a quien está por pedir presupuesto.</p>
+      </div>
+      <div class="ba">
+        <figure class="pair" style="margin: 0;"><div class="ph"><b>ANTES</b><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></div><div class="ph after"><b>DESPUÉS</b><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></div><figcaption>Limpieza de terreno</figcaption></figure>
+        <figure class="pair" style="margin: 0;"><div class="ph"><b>ANTES</b><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></div><div class="ph after"><b>DESPUÉS</b><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></div><figcaption>Hidrolavado</figcaption></figure>
+        <figure class="pair" style="margin: 0;"><div class="ph"><b>ANTES</b><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></div><div class="ph after"><b>DESPUÉS</b><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></div><figcaption>Piso de parquet</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="presupuesto">
+    <div class="wrap">
+      <div class="s-head">
+        <span class="eyebrow">Presupuesto</span>
+        <h2>Contanos qué necesitás</h2>
+        <p>Cuatro preguntas rápidas y te llega todo ordenado a nuestro WhatsApp.</p>
+      </div>
+      <div class="quote">
+        <form class="form" id="f" onsubmit="return false">
+          <div class="q"><span>1. ¿Qué servicio?</span><div class="opts" data-k="servicio">
+            <button class="opt" type="button">Espacios verdes</button><button class="opt" type="button">Limpieza de terreno</button><button class="opt" type="button">Chipeado de ramas</button><button class="opt" type="button">Hidrolavado</button><button class="opt" type="button">Mantenimiento y arreglos</button><button class="opt" type="button">Pisos de parquet</button>
+          </div></div>
+          <div class="q"><span>2. ¿Para qué lugar?</span><div class="opts" data-k="lugar">
+            <button class="opt" type="button">Casa</button><button class="opt" type="button">Empresa o comercio</button><button class="opt" type="button">Industria</button><button class="opt" type="button">Terreno o lote</button>
+          </div></div>
+          <div class="q"><span>3. ¿Qué tamaño, más o menos?</span><div class="opts" data-k="tamano">
+            <button class="opt" type="button">Chico</button><button class="opt" type="button">Mediano</button><button class="opt" type="button">Grande</button><button class="opt" type="button">No sé, mejor lo ven</button>
+          </div></div>
+          <div class="q"><span>4. ¿Una vez o seguido?</span><div class="opts" data-k="frecuencia">
+            <button class="opt" type="button">Por única vez</button><button class="opt" type="button">Mantenimiento mensual</button>
+          </div></div>
+          <label class="field q"><span>¿En qué barrio o localidad?</span><input id="zona" autocomplete="off" placeholder="Ej.: Barrio Somisa, San Nicolás"></label>
+          <label class="field q"><span>Tu nombre</span><input id="nombre" autocomplete="name" placeholder="Ej.: Laura"></label>
+          <a class="btn btn-wa" id="send" href="#" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Enviar pedido por WhatsApp</a>
+        </form>
+        <aside class="preview" aria-live="polite">
+          <span class="eyebrow">Así les llega el pedido</span>
+          <div class="chat"><div class="bubble" id="msg"></div></div>
+          <p>Con esto ya saben qué es, dónde y de qué tamaño. Solo falta pedir un par de fotos y pasar el precio.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="block alt">
+    <div class="wrap">
+      <div class="s-head">
+        <span class="eyebrow">Cómo trabajamos</span>
+        <h2>Simple, de principio a fin</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><b>1</b><div><h3>Nos escribís</h3><p>Desde esta página o por WhatsApp, con lo que necesitás.</p></div></div>
+        <div class="step"><b>2</b><div><h3>Te pasamos presupuesto</h3><p>Con fotos o una visita, según el trabajo.</p></div></div>
+        <div class="step"><b>3</b><div><h3>Lo dejamos listo</h3><p>Coordinamos día y horario, y hacemos el trabajo.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact">
+    <div class="wrap">
+      <div>
+        <h2>¿Tenés algo pendiente?</h2>
+        <p>Escribinos y lo resolvemos.</p>
+        <div class="ctas"><a class="btn btn-wa" href="#presupuesto"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Pedir presupuesto</a></div>
+      </div>
+      <ul>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>San Nicolás y alrededores</li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>@fmservicios.sn</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="made" id="marcem">
+  <div class="wrap">
+    <div class="made-box">
+      <b>Esto es una maqueta que armó MARCEM para FM Servicios.</b>
+      <span>Las fotos son espacios reservados y algunos textos son de ejemplo. En la versión final van sus fotos, sus textos y su WhatsApp. Incluiría:</span>
+      <ul>
+        <li>Página propia, pensada primero para el celular, con su link para la bio de Instagram.</li>
+        <li>Servicios ordenados y galería de antes y después con sus fotos.</li>
+        <li>Formulario de presupuesto que les manda el pedido completo por WhatsApp.</li>
+        <li>Una ronda de ajustes y la publicación online.</li>
+      </ul>
+      <a class="btn btn-wa" href="https://wa.me/5493364626434?text=Hola%20Marcelo%2C%20vimos%20la%20maqueta%20para%20FM%20Servicios.%20Charlemos." target="_blank" rel="noopener" style="align-self: flex-start;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Charlarlo con Marcelo</a>
+    </div>
+  </div>
+</footer>
+
+<a class="float" href="#presupuesto" aria-label="Pedir presupuesto por WhatsApp"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></a>
+
+<script>
+(function () {
+  var sel = { servicio: 'Espacios verdes', lugar: 'Casa', tamano: 'Mediano', frecuencia: 'Por única vez' };
+  function paint() {
+    document.querySelectorAll('.opts').forEach(function (g) {
+      g.querySelectorAll('.opt').forEach(function (b) { b.setAttribute('aria-pressed', b.textContent === sel[g.dataset.k] ? 'true' : 'false'); });
+    });
+    var zona = document.getElementById('zona').value.trim(), nombre = document.getElementById('nombre').value.trim();
+    var m = '¡Hola FM! ' + (nombre ? 'Soy ' + nombre + '. ' : '') + 'Quiero pedir presupuesto:\n'
+      + '• Servicio: ' + sel.servicio + '\n'
+      + '• Lugar: ' + sel.lugar + '\n'
+      + '• Tamaño: ' + sel.tamano + '\n'
+      + '• ' + sel.frecuencia + '\n'
+      + '• Zona: ' + (zona || '[barrio o localidad]');
+    document.getElementById('msg').textContent = m;
+    document.getElementById('send').href = 'https://wa.me/?text=' + encodeURIComponent(m);
+  }
+  document.querySelectorAll('.opts').forEach(function (g) {
+    g.addEventListener('click', function (e) { var b = e.target.closest('.opt'); if (!b) return; sel[g.dataset.k] = b.textContent; paint(); });
+  });
+  ['zona', 'nombre'].forEach(function (i) { document.getElementById(i).addEventListener('input', paint); });
+  document.querySelectorAll('.svc button').forEach(function (b) {
+    b.addEventListener('click', function () { sel.servicio = b.dataset.s; paint(); document.getElementById('presupuesto').scrollIntoView({ behavior: 'smooth' }); });
+  });
+  paint();
+})();
+</script>
+
+</body>
+</html>
