@@ -402,6 +402,35 @@
           </div>
         </div>
       </div>
+
+      <!-- EN CURSO -->
+      <style>
+        .wip { margin-top: 40px; display: flex; flex-direction: column; gap: 18px; }
+        .wip-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 16px; }
+        .wip-tag { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; background: #FFFFFF; color: #0B3D53; border: 1px solid #C7DCE4; }
+        .wip-tag i { width: 7px; height: 7px; border-radius: 9px; background: #25D366; }
+        @media (min-width: 900px) { .wip-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; } }
+      </style>
+      <div class="wip reveal">
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <h3 style="margin: 0; font-size: 22px; font-weight: 800; color: #0B3D53;">En desarrollo ahora</h3>
+          <p style="margin: 0; font-size: 15px; line-height: 23px; color: #4B5760;">Negocios reales con los que estoy trabajando. Cuando estén publicados, se suman a los casos.</p>
+        </div>
+        <div class="wip-grid">
+          <div class="card" style="display: flex; flex-direction: column; gap: 8px; background: #F5F7F8;">
+            <span class="wip-tag"><i></i>En desarrollo</span>
+            <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">DeColores</h3>
+            <span style="font-size: 13px; font-weight: 700; color: #1E6A89;">Stickers, cuadernos y agendas personalizadas</span>
+            <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Catálogo digital: cada producto con sus diseños para elegir, y el pedido completo en un solo mensaje de WhatsApp.</p>
+          </div>
+          <div class="card" style="display: flex; flex-direction: column; gap: 8px; background: #F5F7F8;">
+            <span class="wip-tag"><i></i>En desarrollo</span>
+            <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">FM Servicios</h3>
+            <span style="font-size: 13px; font-weight: 700; color: #1E6A89;">Mantenimiento, limpieza y espacios verdes · San Nicolás</span>
+            <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Página con pedido de presupuesto por WhatsApp y, después, una herramienta interna para ordenar presupuestos.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
