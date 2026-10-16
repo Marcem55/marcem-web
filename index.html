@@ -354,7 +354,48 @@
         <h2 class="sec-title">Casos reales</h2>
         <p class="sec-sub">Herramientas ya desarrolladas y en uso, no promesas.</p>
       </div>
-      <div class="grid-3 reveal">
+      <style>
+        .cases-2 { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+        .cases-2 .shot { height: 236px; }
+        .shot-phones { display: flex; justify-content: center; gap: 14px; padding: 22px 20px 0; }
+        .shot .shot-phones img, .shot-phones img { width: 126px; height: 100%; flex: none; border-radius: 16px 16px 0 0; }
+        .case-wide { margin-top: 16px; }
+        .case-wide .shot-demo { height: 220px; }
+        @media (min-width: 900px) {
+          .cases-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+          .cases-2 .shot { height: 280px; }
+          .shot-phones img { width: 150px; }
+          .case-wide { margin-top: 22px; flex-direction: row; }
+          .case-wide .shot-demo { width: 340px; height: auto; min-height: 230px; flex: none; }
+          .case-wide .case-body { justify-content: center; padding: 28px 32px; }
+        }
+      </style>
+      <div class="cases-2 reveal">
+        <div class="card case">
+          <div class="shot shot-phones"><img loading="lazy" src="caso-decolores.jpg" alt="Catálogo digital de DeColores en el celular"></div>
+          <div class="case-body">
+            <span class="tag">Caso real</span>
+            <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">DeColores</h3>
+            <span style="font-size: 13px; font-weight: 700; color: #1E6A89;">Stickers, cuadernos y agendas personalizadas</span>
+            <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Catálogo digital: cada producto con sus diseños para elegir, y el pedido completo en un solo mensaje de WhatsApp.</p>
+            <a href="https://decolores.pages.dev/" target="_blank" rel="noopener" class="link-arrow">Ver el catálogo
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="card case">
+          <div class="shot shot-phones"><img loading="lazy" src="caso-fm-landing.jpg" alt="Página de FM Servicios en el celular"><img loading="lazy" src="caso-fm-sistema.jpg" alt="Pantalla de inicio del sistema de gestión de FM Servicios, con datos de ejemplo"></div>
+          <div class="case-body">
+            <span class="tag">Caso real</span>
+            <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">FM Servicios</h3>
+            <span style="font-size: 13px; font-weight: 700; color: #1E6A89;">Mantenimiento, limpieza y espacios verdes · San Nicolás</span>
+            <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Página para pedir presupuesto por WhatsApp y un sistema interno para manejar presupuestos, trabajos, cobros y clientes desde el celular.</p>
+            <span style="font-size: 12px; color: #6B7780;">Captura del sistema con datos de ejemplo.</span>
+            <a href="https://fmservicios.pages.dev/" target="_blank" rel="noopener" class="link-arrow">Ver la página
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+            </a>
+          </div>
+        </div>
         <div class="card case">
           <div class="shot"><img loading="lazy" src="planje.png" alt="Captura de Planje"></div>
           <div class="case-body">
@@ -374,7 +415,8 @@
             </a>
           </div>
         </div>
-        <div class="card case">
+      </div>
+        <div class="card case case-wide reveal">
           <div class="shot shot-demo">
             <div style="width: 236px; border-radius: 16px 16px 0 0; background: #F5F7F8; padding: 14px 12px 0; display: flex; flex-direction: column; gap: 7px; box-shadow: 0 -6px 24px rgba(0,0,0,0.25);">
               <span class="m-label">Demo · ejemplo ficticio</span>
@@ -388,7 +430,7 @@
             <span class="tag tag-demo">Demos — ejemplos ficticios</span>
             <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">Probá cómo funciona</h3>
             <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Un ejemplo funcionando para cada servicio, con negocios y precios inventados. La landing es esta misma web.</p>
-            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 4px;">
+            <div style="display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 4px;">
               <a href="demo-cotizador.html" class="link-arrow">Cotizador · Cerrajería
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
             </a>
@@ -401,7 +443,6 @@
             </div>
           </div>
         </div>
-      </div>
 
       <!-- EN CURSO -->
       <style>
@@ -417,18 +458,6 @@
           <p style="margin: 0; font-size: 15px; line-height: 23px; color: #4B5760;">Negocios reales con los que estoy trabajando. Cuando cada proyecto esté publicado, se suma a los casos.</p>
         </div>
         <div class="wip-grid">
-          <div class="card" style="display: flex; flex-direction: column; gap: 8px; background: #F5F7F8;">
-            <span class="wip-tag"><i></i>En desarrollo</span>
-            <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">DeColores</h3>
-            <span style="font-size: 13px; font-weight: 700; color: #1E6A89;">Stickers, cuadernos y agendas personalizadas</span>
-            <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Catálogo digital: cada producto con sus diseños para elegir, y el pedido completo en un solo mensaje de WhatsApp.</p>
-          </div>
-          <div class="card" style="display: flex; flex-direction: column; gap: 8px; background: #F5F7F8;">
-            <span class="wip-tag"><i></i>En desarrollo</span>
-            <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">FM Servicios</h3>
-            <span style="font-size: 13px; font-weight: 700; color: #1E6A89;">Mantenimiento, limpieza y espacios verdes · San Nicolás</span>
-            <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Página con pedido de presupuesto por WhatsApp y, después, una herramienta interna para ordenar presupuestos.</p>
-          </div>
           <div class="card" style="display: flex; flex-direction: column; gap: 8px; background: #F5F7F8;">
             <span class="wip-tag"><i></i>En curso</span>
             <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">Viviendas Country House</h3>
