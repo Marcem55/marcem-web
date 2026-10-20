@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo: landing para médica dermatóloga (ejemplo ficticio) · MARCEM</title>
+<meta name="description" content="Probá una landing para médicos hecha por MARCEM: próximos turnos a la vista y reserva online. Ejemplo ficticio.">
+<link rel="canonical" href="https://marcem-digital.vercel.app/demo-dermatologa.html">
+<meta name="theme-color" content="#082A3A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="MARCEM">
+<meta property="og:title" content="Demo: landing para médica dermatóloga (ejemplo ficticio) · MARCEM">
+<meta property="og:description" content="Probá una landing para médicos hecha por MARCEM: próximos turnos a la vista y reserva online. Ejemplo ficticio.">
+<meta property="og:url" content="https://marcem-digital.vercel.app/demo-dermatologa.html">
+<meta property="og:image" content="https://marcem-digital.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  img, svg { display: block; }
+  .demo-bar { background: #0B3D53; color: #D5E6ED; font: 700 13px/1.3 system-ui, -apple-system, sans-serif; }
+  .demo-bar .in { max-width: 1100px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+  .demo-bar span { display: inline-flex; gap: 8px; align-items: center; }
+  .demo-bar i { width: 8px; height: 8px; border-radius: 9px; background: #25D366; }
+  .demo-bar a { color: #FFFFFF; text-decoration: none; white-space: nowrap; }
+  .made { padding: 28px 20px 110px; font: 14px/1.5 system-ui, -apple-system, sans-serif; }
+  .made .in { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .made-box { display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 18px; background: #0B3D53; color: #D5E6ED; }
+  .made-box b { color: #FFFFFF; font-size: 16px; }
+  .made-box a { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 12px 22px; border-radius: 999px; background: #25D366; color: #FFFFFF; font-weight: 700; text-decoration: none; flex-shrink: 0; }
+  .float { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 40; width: 58px; height: 58px; border-radius: 999px; background: #25D366; color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 30px rgba(37,211,102,0.38); }
+  @media (min-width: 760px) { .made-box { flex-direction: row; align-items: center; justify-content: space-between; } }
+
+  :root { --bg: #F7F9FC; --ink: #1B2433; --mut: #586375; --ac: #3E64A8; --acd: #2E4D85; --soft: #E3EBF7; --line: #E1E7EF; }
+  body { background: var(--bg); color: var(--ink); font-family: "Plus Jakarta Sans", system-ui, sans-serif; font-size: 16px; line-height: 1.55; }
+  .w { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+  nav.top { position: sticky; top: 0; z-index: 20; background: rgba(247,249,252,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  nav.top .w { display: flex; justify-content: space-between; align-items: center; min-height: 64px; gap: 12px; }
+  .logo { display: flex; flex-direction: column; text-decoration: none; line-height: 1.2; }
+  .logo b { font-size: 16px; font-weight: 800; } .logo small { font-size: 12px; color: var(--ac); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  .b { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 12px 22px; border-radius: 14px; font-weight: 700; font-size: 15.5px; text-decoration: none; }
+  .b-ac { background: var(--ac); color: #FFFFFF; } .b-ac:hover { background: var(--acd); }
+  .b-sm { min-height: 42px; padding: 8px 16px; font-size: 14px; }
+  .hero { padding: 48px 0 40px; text-align: center; }
+  .pill { display: inline-block; padding: 7px 14px; border-radius: 99px; background: var(--soft); color: var(--acd); font-size: 13px; font-weight: 700; }
+  h1 { font-size: 40px; line-height: 1.08; letter-spacing: -0.03em; margin: 18px auto 0; max-width: 14em; font-weight: 800; }
+  h1 span { color: var(--ac); }
+  .lead { margin: 16px auto 0; max-width: 34em; color: var(--mut); font-size: 17.5px; }
+  .agenda { margin: 32px auto 0; max-width: 520px; background: #FFFFFF; border: 1px solid var(--line); border-radius: 22px; padding: 20px; text-align: left; box-shadow: 0 18px 40px rgba(27,36,51,0.07); }
+  .agenda h2 { margin: 0; font-size: 15px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+  .agenda h2 i { width: 8px; height: 8px; border-radius: 9px; background: #2BB673; }
+  .slots { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; margin-top: 14px; }
+  .slot { display: flex; flex-direction: column; align-items: center; padding: 10px 6px; border-radius: 14px; border: 1.5px solid var(--line); text-decoration: none; }
+  .slot:hover { border-color: var(--ac); background: var(--soft); }
+  .slot small { font-size: 12px; color: var(--mut); font-weight: 600; } .slot b { font-size: 17px; }
+  .agenda .more { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 14px; font-size: 14px; flex-wrap: wrap; }
+  .agenda .more a { font-weight: 700; color: var(--ac); text-decoration: none; }
+  .agenda .more .alt { color: var(--mut); font-weight: 600; }
+  section { padding: 52px 0; }
+  h2.t { font-size: 28px; letter-spacing: -0.02em; margin: 0 0 8px; font-weight: 800; }
+  p.s { margin: 0 0 24px; color: var(--mut); }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip { padding: 12px 16px; border-radius: 14px; background: #FFFFFF; border: 1px solid var(--line); font-weight: 600; font-size: 15px; }
+  .tl { display: grid; gap: 0; position: relative; }
+  .tl div { position: relative; padding: 0 0 26px 52px; }
+  .tl div::before { content: attr(data-n); position: absolute; left: 0; top: 0; width: 34px; height: 34px; border-radius: 12px; background: var(--ac); color: #FFFFFF; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .tl div::after { content: ""; position: absolute; left: 16px; top: 38px; bottom: 4px; width: 2px; background: var(--soft); }
+  .tl div:last-child::after { display: none; }
+  .tl h3 { margin: 4px 0 4px; font-size: 18px; } .tl p { margin: 0; color: var(--mut); }
+  .facts { display: grid; gap: 10px; }
+  .fact { background: #FFFFFF; border: 1px solid var(--line); border-radius: 18px; padding: 18px; }
+  .fact small { display: block; color: var(--mut); font-size: 13px; font-weight: 600; } .fact b { font-size: 17px; }
+  details { background: #FFFFFF; border: 1px solid var(--line); border-radius: 16px; } details + details { margin-top: 10px; }
+  summary { cursor: pointer; list-style: none; padding: 18px 20px; font-weight: 700; min-height: 56px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+  summary::-webkit-details-marker { display: none; } summary::after { content: "+"; color: var(--ac); font-size: 22px; } details[open] summary::after { content: "−"; }
+  details p { margin: 0; padding: 0 20px 18px; color: var(--mut); }
+  .fin { background: var(--ac); color: #FFFFFF; border-radius: 28px; padding: 32px 24px; text-align: center; }
+  .fin h2 { margin: 0; font-size: 28px; font-weight: 800; } .fin p { margin: 8px 0 20px; color: #DCE6F6; }
+  .fin .row { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+  .fin .b-w { background: #FFFFFF; color: var(--acd); } .fin .b-o { border: 1.5px solid rgba(255,255,255,0.6); color: #FFFFFF; }
+  @media (min-width: 760px) { h1 { font-size: 60px; } .hero { padding: 80px 0 64px; } .facts { grid-template-columns: repeat(3, minmax(0,1fr)); } .tl { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 24px; } .tl div { padding: 52px 0 0 0; } .tl div::after { left: 44px; right: 0; top: 16px; bottom: auto; width: auto; height: 2px; } h2.t { font-size: 36px; } .fin .row { flex-direction: row; justify-content: center; } }
+</style>
+<div class="demo-bar"><div class="in"><span><i></i>Demo — ejemplo ficticio hecho por MARCEM</span><a href="./">Volver a MARCEM →</a></div></div>
+<nav class="top"><div class="w"><a class="logo" href="#"><b>Dra. Ana Ejemplo</b><small>Dermatología</small></a><a class="b b-ac b-sm" href="demo-turnos.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Turnos</a></div></nav>
+<main>
+  <div class="hero"><div class="w">
+    <span class="pill">Dermatología clínica · San Nicolás</span>
+    <h1>Tu piel, <span>en buenas manos.</span></h1>
+    <p class="lead">Control de lunares, acné, manchas y caída del cabello, para adultos y adolescentes. Te explico qué tenés y qué hacer, sin apuro.</p>
+    <div class="agenda">
+      <h2><i></i>Próximos turnos libres</h2>
+      <div class="slots">
+        <a class="slot" href="demo-turnos.html"><small>Mié 22</small><b>10:30</b></a>
+        <a class="slot" href="demo-turnos.html"><small>Jue 23</small><b>16:00</b></a>
+        <a class="slot" href="demo-turnos.html"><small>Vie 24</small><b>9:00</b></a>
+      </div>
+      <div class="more"><a href="demo-turnos.html">Ver todos los horarios →</a><a class="alt" href="https://wa.me/?text=Hola%20Dra.%20Ana%2C%20quiero%20pedir%20un%20turno." target="_blank" rel="noopener">¿Preferís WhatsApp?</a></div>
+    </div>
+  </div></div>
+  <section style="background: #FFFFFF; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);"><div class="w">
+    <h2 class="t">Motivos de consulta</h2><p class="s">Lo que más atiendo en el consultorio.</p>
+    <div class="chips"><span class="chip">Control de lunares</span><span class="chip">Acné</span><span class="chip">Manchas</span><span class="chip">Caída del cabello</span><span class="chip">Rosácea</span><span class="chip">Verrugas</span><span class="chip">Uñas</span><span class="chip">Alergias en la piel</span></div>
+  </div></section>
+  <section><div class="w">
+    <h2 class="t">Cómo es la consulta</h2><p class="s">De la reserva al control, sin vueltas.</p>
+    <div class="tl">
+      <div data-n="1"><h3>Reservás online</h3><p>Elegís día y horario. Te llega un recordatorio por WhatsApp el día antes.</p></div>
+      <div data-n="2"><h3>Te reviso</h3><p>Revisión completa de la piel y te explico lo que veo, con palabras simples.</p></div>
+      <div data-n="3"><h3>Indicaciones claras</h3><p>Te llevás el tratamiento por escrito y coordinamos el próximo control.</p></div>
+    </div>
+  </div></section>
+  <section style="padding-top: 0;"><div class="w">
+    <div class="facts">
+      <div class="fact"><small>Atención</small><b>Particular y obras sociales</b></div>
+      <div class="fact"><small>Duración</small><b>Consultas de 30 minutos</b></div>
+      <div class="fact"><small>Consultorio</small><b>Calle Ejemplo 123 (ficticia)</b></div>
+    </div>
+  </div></section>
+  <section style="padding-top: 0;"><div class="w" style="max-width: 760px;">
+    <h2 class="t">Preguntas frecuentes</h2><p class="s">Si no está acá, escribime.</p>
+    <details><summary>¿Con qué obras sociales atendés?</summary><p>Escribime por WhatsApp con el nombre de la tuya y te confirmo si la tomo.</p></details>
+    <details><summary>¿Cada cuánto conviene controlar los lunares?</summary><p>Depende de cada persona. En la consulta te digo cada cuánto volver según tu piel y tus antecedentes.</p></details>
+    <details><summary>¿Puedo cambiar el turno?</summary><p>Sí, desde el mismo link de reservas o avisándome por WhatsApp con un día de anticipación.</p></details>
+    <details><summary>¿Qué tengo que llevar?</summary><p>Si tenés estudios anteriores o usás alguna crema o medicación, traé los datos.</p></details>
+  </div></section>
+  <section style="padding-top: 0;"><div class="w"><div class="fin">
+    <h2>¿Reservamos tu turno?</h2><p>Elegí el horario que te quede cómodo.</p>
+    <div class="row"><a class="b b-w" href="demo-turnos.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Reservar online</a><a class="b b-o" href="https://wa.me/?text=Hola%20Dra.%20Ana%2C%20quiero%20pedir%20un%20turno." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Escribir por WhatsApp</a></div>
+  </div></div></section>
+</main>
+<footer class="made" style="color: #586375;"><div class="in"><div class="made-box"><div><b>Esta página es una demo de MARCEM.</b><br>La profesional, los horarios y la dirección son ficticios. Así puede quedar la tuya: con tu nombre, tu estilo y tu WhatsApp.</div><a href="https://wa.me/5493364626434?text=Hola%20Marcelo%2C%20vi%20la%20demo%20de%20landing%20para%20m%C3%A9dicos%20y%20quiero%20una%20para%20mi%20trabajo." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Quiero una así</a></div><span>Demo hecha por <a href="./">MARCEM · Soluciones digitales</a></span></div></footer>
+<a class="float" href="https://wa.me/?text=Hola%20Dra.%20Ana%2C%20quiero%20pedir%20un%20turno." target="_blank" rel="noopener" aria-label="Pedir turno por WhatsApp"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></a>
+</body>
+</html>

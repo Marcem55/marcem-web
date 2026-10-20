@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo: landing para peluquería (ejemplo ficticio) · MARCEM</title>
+<meta name="description" content="Probá una landing para peluquerías hecha por MARCEM: precios, looks y reserva online. Ejemplo ficticio.">
+<link rel="canonical" href="https://marcem-digital.vercel.app/demo-peluqueria.html">
+<meta name="theme-color" content="#082A3A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="MARCEM">
+<meta property="og:title" content="Demo: landing para peluquería (ejemplo ficticio) · MARCEM">
+<meta property="og:description" content="Probá una landing para peluquerías hecha por MARCEM: precios, looks y reserva online. Ejemplo ficticio.">
+<meta property="og:url" content="https://marcem-digital.vercel.app/demo-peluqueria.html">
+<meta property="og:image" content="https://marcem-digital.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  img, svg { display: block; }
+  .demo-bar { background: #0B3D53; color: #D5E6ED; font: 700 13px/1.3 system-ui, -apple-system, sans-serif; }
+  .demo-bar .in { max-width: 1100px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+  .demo-bar span { display: inline-flex; gap: 8px; align-items: center; }
+  .demo-bar i { width: 8px; height: 8px; border-radius: 9px; background: #25D366; }
+  .demo-bar a { color: #FFFFFF; text-decoration: none; white-space: nowrap; }
+  .made { padding: 28px 20px 110px; font: 14px/1.5 system-ui, -apple-system, sans-serif; }
+  .made .in { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .made-box { display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 18px; background: #0B3D53; color: #D5E6ED; }
+  .made-box b { color: #FFFFFF; font-size: 16px; }
+  .made-box a { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 12px 22px; border-radius: 999px; background: #25D366; color: #FFFFFF; font-weight: 700; text-decoration: none; flex-shrink: 0; }
+  .float { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 40; width: 58px; height: 58px; border-radius: 999px; background: #25D366; color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 30px rgba(37,211,102,0.38); }
+  @media (min-width: 760px) { .made-box { flex-direction: row; align-items: center; justify-content: space-between; } }
+
+  :root { --cream: #F4EFE9; --ink: #141414; --mut: #5E5650; --blush: #E7C6B8; --line: #DDD3C9; }
+  body { background: var(--cream); color: var(--ink); font-family: "Figtree", system-ui, sans-serif; font-size: 16px; line-height: 1.55; }
+  .w { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+  nav.t { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; gap: 12px; }
+  nav.t b { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
+  nav.t a { font-weight: 700; font-size: 14px; text-decoration: none; padding: 10px 16px; border: 1.5px solid var(--ink); border-radius: 99px; }
+  .big { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 800; font-size: clamp(52px, 16vw, 128px); line-height: 0.92; letter-spacing: -0.03em; margin: 24px 0 0; overflow-wrap: anywhere; }
+  .big span { display: block; color: #8A5E4E; }
+  .tagl { margin: 18px 0 0; font-size: 18px; color: var(--mut); max-width: 28em; }
+  .ctas { display: flex; flex-direction: column; gap: 10px; margin: 28px 0 40px; }
+  .bk { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 12px 24px; border-radius: 99px; background: var(--ink); color: #FFFFFF; font-weight: 700; text-decoration: none; }
+  .bl { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 12px 24px; border-radius: 99px; background: var(--blush); color: var(--ink); font-weight: 700; text-decoration: none; }
+  .mq { background: var(--ink); color: var(--cream); overflow: hidden; white-space: nowrap; padding: 14px 0; font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 700; font-size: 20px; }
+  .mq div { display: inline-block; padding-left: 20px; animation: mq 28s linear infinite; }
+  @keyframes mq { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .mq div { animation: none; } }
+  section { padding: 56px 0; }
+  h2 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 800; font-size: 40px; letter-spacing: -0.03em; margin: 0; line-height: 1; }
+  .sub { margin: 10px 0 24px; color: var(--mut); }
+  ul.menu { list-style: none; margin: 0; padding: 0; }
+  ul.menu li { display: flex; align-items: baseline; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 17px; }
+  ul.menu i { flex: 1; border-bottom: 2px dotted #BFB2A5; transform: translateY(-4px); }
+  ul.menu b { white-space: nowrap; }
+  .small { font-size: 13px; color: var(--mut); margin-top: 12px; }
+  .looks { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+  .look { aspect-ratio: 3 / 4; border-radius: 18px; display: flex; align-items: flex-end; padding: 12px; }
+  .look span { background: #FFFFFF; color: var(--ink); font-size: 13px; font-weight: 700; padding: 6px 10px; border-radius: 99px; }
+  .hours { display: grid; grid-template-columns: 1fr auto; gap: 0; border-top: 1px solid var(--line); }
+  .hours span, .hours b { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .res { background: var(--blush); border-radius: 28px; padding: 28px 22px; }
+  .res ol { margin: 16px 0 22px; padding-left: 20px; } .res li { margin: 6px 0; }
+  details { border-bottom: 1px solid var(--line); } summary { cursor: pointer; list-style: none; padding: 16px 0; font-weight: 700; display: flex; justify-content: space-between; gap: 12px; min-height: 54px; align-items: center; }
+  summary::-webkit-details-marker { display: none; } summary::after { content: "+"; font-size: 22px; } details[open] summary::after { content: "−"; }
+  details p { margin: 0 0 16px; color: var(--mut); }
+  @media (min-width: 760px) {  .ctas { flex-direction: row; } .looks { grid-template-columns: repeat(3, minmax(0,1fr)); } .two { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; } h2 { font-size: 52px; } }
+</style>
+<div class="demo-bar"><div class="in"><span><i></i>Demo — ejemplo ficticio hecho por MARCEM</span><a href="./">Volver a MARCEM →</a></div></div>
+<header><div class="w">
+  <nav class="t"><b>Estudio Ejemplo</b><a href="demo-turnos.html">Reservar</a></nav>
+  <h1 class="big">Estudio<span>Ejemplo</span></h1>
+  <p class="tagl">Peluquería en San Nicolás. Corte, color y peinados con tiempo para escucharte. Reservás online y llegás sin esperar.</p>
+  <div class="ctas"><a class="bk" href="demo-turnos.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Reservá tu turno</a><a class="bl" href="https://wa.me/?text=Hola%2C%20quiero%20sacar%20un%20turno." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Consultar por WhatsApp</a></div>
+</div></header>
+<div class="mq" aria-hidden="true"><div>Corte ✦ Color ✦ Mechas ✦ Balayage ✦ Alisados ✦ Nutrición ✦ Peinados ✦ Corte ✦ Color ✦ Mechas ✦ Balayage ✦ Alisados ✦ Nutrición ✦ Peinados ✦ Corte ✦ Color ✦ Mechas ✦ Balayage ✦ Alisados ✦ Nutrición ✦ Peinados ✦ Corte ✦ Color ✦ Mechas ✦ Balayage ✦ Alisados ✦ Nutrición ✦ Peinados ✦</div></div>
+<main>
+  <section><div class="w two">
+    <div><h2>Precios</h2><p class="sub">Para que sepas antes de venir.</p>
+      <ul class="menu"><li><span>Corte mujer</span><i></i><b>$18.000</b></li><li><span>Corte hombre</span><i></i><b>$12.000</b></li><li><span>Corte niños</span><i></i><b>$9.000</b></li><li><span>Color raíz</span><i></i><b>$28.000</b></li><li><span>Mechas o balayage</span><i></i><b>desde $55.000</b></li><li><span>Alisado</span><i></i><b>desde $60.000</b></li><li><span>Nutrición</span><i></i><b>$15.000</b></li><li><span>Peinado para eventos</span><i></i><b>$25.000</b></li></ul>
+      <p class="small">Precios de ejemplo. El final depende del largo y del producto.</p></div>
+    <div style="margin-top: 40px;"><h2>Looks</h2><p class="sub">Algunos trabajos del estudio.</p><div class="looks"><div class="look" style="background: #D8B38A;"><span>Balayage miel</span></div><div class="look" style="background: #2B2523;"><span>Bob recto</span></div><div class="look" style="background: #E9DCC9;"><span>Rubio cenizo</span></div><div class="look" style="background: #8C5B3F;"><span>Cobrizo suave</span></div><div class="look" style="background: #C9B8A6;"><span>Ondas sueltas</span></div><div class="look" style="background: #4A3B33;"><span>Corte en capas</span></div></div></div>
+  </div></section>
+  <section style="padding-top: 0;"><div class="w two">
+    <div class="res"><h2 style="font-size: 32px;">Reservar es fácil</h2>
+      <ol><li>Elegís el servicio.</li><li>Elegís día y horario libre.</li><li>Te llega el recordatorio por WhatsApp el día antes.</li></ol>
+      <a class="bk" href="demo-turnos.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Ver horarios libres</a></div>
+    <div style="margin-top: 40px;"><h2 style="font-size: 32px;">Horarios</h2>
+      <div class="hours" style="margin-top: 16px;"><span>Martes a viernes</span><b>10 a 20 h</b><span>Sábados</span><b>9 a 18 h</b><span>Domingo y lunes</span><b>Cerrado</b></div>
+      <p class="small">Calle Ejemplo 123, San Nicolás (dirección ficticia).</p></div>
+  </div></section>
+  <section style="padding-top: 0;"><div class="w" style="max-width: 760px;">
+    <h2 style="font-size: 32px;">Preguntas</h2>
+    <div style="margin-top: 12px; border-top: 1px solid var(--line);">
+      <details><summary>¿Puedo cambiar mi turno?</summary><p>Sí, avisanos por WhatsApp con un día de anticipación y lo reprogramamos.</p></details>
+      <details><summary>¿Cuánto dura un color?</summary><p>Alrededor de dos horas, según el largo y el tipo de color.</p></details>
+      <details><summary>¿Cómo se paga?</summary><p>Efectivo, transferencia y tarjetas.</p></details>
+      <details><summary>¿Hacen peinados a domicilio?</summary><p>Para eventos, sí. Consultanos con tiempo por WhatsApp.</p></details>
+    </div>
+  </div></section>
+</main>
+<footer class="made" style="color: #5E5650;"><div class="in"><div class="made-box"><div><b>Esta página es una demo de MARCEM.</b><br>La peluquería, los precios y la dirección son ficticios. Así puede quedar la tuya: con tu nombre, tu estilo y tu WhatsApp.</div><a href="https://wa.me/5493364626434?text=Hola%20Marcelo%2C%20vi%20la%20demo%20de%20landing%20para%20peluquer%C3%ADas%20y%20quiero%20una%20para%20mi%20trabajo." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Quiero una así</a></div><span>Demo hecha por <a href="./">MARCEM · Soluciones digitales</a></span></div></footer>
+<a class="float" href="https://wa.me/?text=Hola%2C%20quiero%20sacar%20un%20turno." target="_blank" rel="noopener" aria-label="Sacar turno por WhatsApp"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></a>
+</body>
+</html>

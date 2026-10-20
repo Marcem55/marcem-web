@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo: landing para abogado laboral (ejemplo ficticio) · MARCEM</title>
+<meta name="description" content="Probá una landing para abogados hecha por MARCEM: elegís tu situación y consultás por WhatsApp. Ejemplo ficticio.">
+<link rel="canonical" href="https://marcem-digital.vercel.app/demo-abogado.html">
+<meta name="theme-color" content="#082A3A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="MARCEM">
+<meta property="og:title" content="Demo: landing para abogado laboral (ejemplo ficticio) · MARCEM">
+<meta property="og:description" content="Probá una landing para abogados hecha por MARCEM: elegís tu situación y consultás por WhatsApp. Ejemplo ficticio.">
+<meta property="og:url" content="https://marcem-digital.vercel.app/demo-abogado.html">
+<meta property="og:image" content="https://marcem-digital.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  img, svg { display: block; }
+  .demo-bar { background: #0B3D53; color: #D5E6ED; font: 700 13px/1.3 system-ui, -apple-system, sans-serif; }
+  .demo-bar .in { max-width: 1100px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+  .demo-bar span { display: inline-flex; gap: 8px; align-items: center; }
+  .demo-bar i { width: 8px; height: 8px; border-radius: 9px; background: #25D366; }
+  .demo-bar a { color: #FFFFFF; text-decoration: none; white-space: nowrap; }
+  .made { padding: 28px 20px 110px; font: 14px/1.5 system-ui, -apple-system, sans-serif; }
+  .made .in { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .made-box { display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 18px; background: #0B3D53; color: #D5E6ED; }
+  .made-box b { color: #FFFFFF; font-size: 16px; }
+  .made-box a { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 12px 22px; border-radius: 999px; background: #25D366; color: #FFFFFF; font-weight: 700; text-decoration: none; flex-shrink: 0; }
+  .float { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 40; width: 58px; height: 58px; border-radius: 999px; background: #25D366; color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 30px rgba(37,211,102,0.38); }
+  @media (min-width: 760px) { .made-box { flex-direction: row; align-items: center; justify-content: space-between; } }
+
+  :root { --navy: #14213D; --navy2: #1C2C4F; --paper: #F6F4EF; --ink: #1A1F2B; --mut: #545B68; --gold: #B08D57; --gold2: #8C6D3E; --line: #E2DED4; }
+  body { background: var(--paper); color: var(--ink); font-family: "Source Sans 3", system-ui, sans-serif; font-size: 17px; line-height: 1.6; }
+  h1, h2, h3 { font-family: "Playfair Display", Georgia, serif; font-weight: 700; margin: 0; }
+  .w { max-width: 1000px; margin: 0 auto; padding: 0 22px; }
+  .hero { background: var(--navy); color: #FFFFFF; padding: 26px 0 56px; }
+  .hero nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 40px; border-bottom: 1px solid rgba(176,141,87,0.35); }
+  .hero nav b { font-family: "Playfair Display", serif; font-size: 19px; } .hero nav small { display: block; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 700; }
+  .hero nav a { color: #FFFFFF; font-weight: 700; font-size: 15px; text-decoration: none; border-bottom: 2px solid var(--gold); padding-bottom: 2px; }
+  .kick { margin-top: 40px; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 700; }
+  .hero h1 { margin-top: 14px; font-size: 40px; line-height: 1.12; max-width: 13em; }
+  .hero h1 em { color: #E3C894; font-style: italic; }
+  .hero p { margin: 18px 0 0; max-width: 34em; color: #C9D1E0; font-size: 18px; }
+  .bg { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 12px 24px; border-radius: 4px; background: var(--gold); color: var(--navy); font-weight: 700; text-decoration: none; margin-top: 28px; }
+  .bg:hover { background: #C4A26B; }
+  section { padding: 56px 0; }
+  .lbl { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold2); font-weight: 700; }
+  h2 { font-size: 30px; line-height: 1.15; margin-top: 10px; }
+  .pick { margin-top: 24px; background: #FFFFFF; border: 1px solid var(--line); padding: 22px; }
+  .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opt { min-height: 44px; padding: 10px 16px; border: 1.5px solid var(--line); background: var(--paper); color: var(--ink); font: 600 15px/1.2 "Source Sans 3", sans-serif; cursor: pointer; border-radius: 2px; }
+  .opt[aria-pressed="true"] { background: var(--navy); color: #FFFFFF; border-color: var(--navy); }
+  .ans { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
+  .ans h3 { font-size: 21px; } .ans p { margin: 8px 0 0; color: var(--mut); }
+  .ans a { display: inline-flex; align-items: center; gap: 10px; margin-top: 16px; min-height: 50px; padding: 12px 20px; background: #25D366; color: #FFFFFF; font-weight: 700; text-decoration: none; border-radius: 4px; }
+  .areas { margin-top: 24px; border-top: 1px solid var(--line); }
+  .area { display: grid; grid-template-columns: 56px 1fr; gap: 6px 14px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .area span { font-family: "Playfair Display", serif; font-size: 30px; color: var(--gold); line-height: 1; }
+  .area h3 { font-size: 20px; } .area p { grid-column: 2; margin: 0; color: var(--mut); }
+  .note { border-left: 0; border: 1.5px solid var(--gold); padding: 22px; background: #FFFFFF; }
+  .note b { font-family: "Playfair Display", serif; font-size: 21px; display: block; } .note p { margin: 6px 0 0; color: var(--mut); }
+  .cols { display: grid; gap: 22px; margin-top: 24px; }
+  .cols div { border-top: 3px solid var(--navy); padding-top: 14px; } .cols h3 { font-size: 19px; } .cols p { margin: 6px 0 0; color: var(--mut); }
+  details { border-bottom: 1px solid var(--line); } summary { cursor: pointer; list-style: none; padding: 18px 0; font-weight: 700; display: flex; justify-content: space-between; gap: 12px; min-height: 56px; align-items: center; }
+  summary::-webkit-details-marker { display: none; } summary::after { content: "+"; color: var(--gold2); font-size: 22px; } details[open] summary::after { content: "−"; }
+  details p { margin: 0 0 18px; color: var(--mut); }
+  .fin { background: var(--navy); color: #FFFFFF; padding: 56px 0; }
+  .fin p { color: #C9D1E0; margin: 10px 0 0; } .fin small { display: block; margin-top: 22px; color: #9FAAC0; font-size: 15px; }
+  @media (min-width: 760px) { .hero h1 { font-size: 58px; } h2 { font-size: 40px; } .cols { grid-template-columns: repeat(3, minmax(0,1fr)); } .two { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; } }
+</style>
+<div class="demo-bar"><div class="in"><span><i></i>Demo — ejemplo ficticio hecho por MARCEM</span><a href="./">Volver a MARCEM →</a></div></div>
+<header class="hero"><div class="w">
+  <nav><div><small>Estudio jurídico</small><b>Dr. Martín Ejemplo</b></div><a href="https://wa.me/?text=Hola%20Mart%C3%ADn%2C%20quiero%20hacerte%20una%20consulta%20laboral." target="_blank" rel="noopener">Consultar</a></nav>
+  <div class="kick">Derecho laboral · San Nicolás</div>
+  <h1>Si tenés un problema en el trabajo, <em>tenés derechos.</em> Conocelos.</h1>
+  <p>Despidos, trabajo no registrado, accidentes y reclamos de sueldo. Te explico qué te corresponde antes de que firmes nada.</p>
+  <a class="bg" href="https://wa.me/?text=Hola%20Mart%C3%ADn%2C%20quiero%20hacerte%20una%20consulta%20laboral." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Contame tu caso</a>
+</div></header>
+<main>
+  <section><div class="w">
+    <div class="lbl">Primer paso</div>
+    <h2>¿Qué te pasó?</h2>
+    <div class="pick">
+      <div class="opts" role="group" aria-label="Elegí tu situación">
+        <button class="opt" type="button" data-k="0" aria-pressed="true">Me despidieron</button>
+        <button class="opt" type="button" data-k="1" aria-pressed="false">Trabajo en negro</button>
+        <button class="opt" type="button" data-k="2" aria-pressed="false">Tuve un accidente</button>
+        <button class="opt" type="button" data-k="3" aria-pressed="false">Me deben plata</button>
+      </div>
+      <div class="ans" aria-live="polite"><h3 id="ah"></h3><p id="ap"></p><a id="aw" href="https://wa.me/?text=Hola%20Mart%C3%ADn%2C%20quiero%20hacerte%20una%20consulta%20laboral." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg><span id="al">Consultar este caso</span></a></div>
+    </div>
+  </div></section>
+  <section style="padding-top: 0;"><div class="w two">
+    <div>
+      <div class="lbl">Áreas</div>
+      <h2>En qué te puedo ayudar</h2>
+      <div class="areas">
+        <div class="area"><span>01</span><h3>Despidos</h3><p>Con causa, sin causa o de palabra. Revisamos la liquidación final.</p></div>
+        <div class="area"><span>02</span><h3>Trabajo no registrado</h3><p>Si estás en negro o registrado con menos horas o sueldo.</p></div>
+        <div class="area"><span>03</span><h3>Accidentes laborales</h3><p>En el trabajo o en el trayecto, y el reclamo a la ART.</p></div>
+        <div class="area"><span>04</span><h3>Sueldos adeudados</h3><p>Horas extra, aguinaldo, vacaciones y pagos atrasados.</p></div>
+      </div>
+    </div>
+    <div style="margin-top: 32px;">
+      <div class="note"><b>Los reclamos tienen plazos.</b><p>Si pasa mucho tiempo, se puede perder el derecho a reclamar. Por eso conviene consultar cuanto antes, aunque todavía no sepas si vas a hacer algo.</p></div>
+      <div class="cols" style="grid-template-columns: 1fr;">
+        <div><h3>1 · Me contás</h3><p>Por WhatsApp o en el estudio. Todo queda entre nosotros.</p></div>
+        <div><h3>2 · Te explico</h3><p>Qué te corresponde, cuánto puede llevar y cuánto cuesta, antes de avanzar.</p></div>
+        <div><h3>3 · Avanzamos</h3><p>Me ocupo de los trámites y te mantengo al tanto en cada paso.</p></div>
+      </div>
+    </div>
+  </div></section>
+  <section style="padding-top: 0;"><div class="w" style="max-width: 760px;">
+    <div class="lbl">Preguntas</div><h2>Lo que más me consultan</h2>
+    <div style="margin-top: 16px; border-top: 1px solid var(--line);">
+      <details><summary>¿Cuánto cuesta la consulta?</summary><p>En el primer mensaje te digo cómo trabajo y cuáles son los honorarios. Sin sorpresas.</p></details>
+      <details><summary>¿Tengo que ir al estudio?</summary><p>No es necesario: la primera charla puede ser por videollamada o por WhatsApp.</p></details>
+      <details><summary>¿Qué papeles tengo que tener?</summary><p>Recibos de sueldo, telegramas o cartas documento, y cualquier mensaje o papel del trabajo.</p></details>
+      <details><summary>¿Me conviene firmar lo que me dieron?</summary><p>Antes de firmar un acuerdo o una liquidación, consultá. Es mucho más fácil revisarlo antes que después.</p></details>
+    </div>
+  </div></section>
+</main>
+<section class="fin"><div class="w">
+  <div class="lbl" style="color: var(--gold);">Contacto</div>
+  <h2>Contame qué pasó.</h2>
+  <p>Te respondo en el día, de lunes a viernes.</p>
+  <a class="bg" href="https://wa.me/?text=Hola%20Mart%C3%ADn%2C%20quiero%20hacerte%20una%20consulta%20laboral." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Escribir por WhatsApp</a>
+  <small>Estudio en Calle Ejemplo 123, San Nicolás (dirección ficticia) · Tomo y folio de ejemplo</small>
+</div></section>
+<footer class="made" style="color: #545B68;"><div class="in"><div class="made-box"><div><b>Esta página es una demo de MARCEM.</b><br>El abogado, los datos y la dirección son ficticios. Así puede quedar la tuya: con tu nombre, tu estilo y tu WhatsApp.</div><a href="https://wa.me/5493364626434?text=Hola%20Marcelo%2C%20vi%20la%20demo%20de%20landing%20para%20abogados%20y%20quiero%20una%20para%20mi%20trabajo." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Quiero una así</a></div><span>Demo hecha por <a href="./">MARCEM · Soluciones digitales</a></span></div></footer>
+<a class="float" href="https://wa.me/?text=Hola%20Mart%C3%ADn%2C%20quiero%20hacerte%20una%20consulta%20laboral." target="_blank" rel="noopener" aria-label="Consultar por WhatsApp"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></a>
+<script>
+(function () {
+  var D = [
+    ['Te despidieron', 'Revisamos si la liquidación final está bien hecha: indemnización, preaviso, vacaciones y aguinaldo proporcional. Si no firmaste nada todavía, mejor.', 'Hola Martín, me despidieron y quiero saber si me pagaron bien.'],
+    ['Trabajás en negro', 'Tenés derecho a estar registrado con tu sueldo y tus horas reales. Vemos cómo reclamarlo y qué podés cobrar.', 'Hola Martín, trabajo en negro y quiero saber qué puedo hacer.'],
+    ['Tuviste un accidente', 'Si fue en el trabajo o en el camino, la ART tiene que cubrirte. Te explico cómo seguir y qué te corresponde.', 'Hola Martín, tuve un accidente laboral y quiero consultar.'],
+    ['Te deben plata', 'Sueldos atrasados, horas extra, aguinaldo o vacaciones que no te pagaron. Vemos cuánto es y cómo reclamarlo.', 'Hola Martín, me deben plata del trabajo y quiero consultar.']
+  ];
+  var bs = document.querySelectorAll('.opt');
+  function set(k) {
+    bs.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.k == k ? 'true' : 'false'); });
+    document.getElementById('ah').textContent = D[k][0];
+    document.getElementById('ap').textContent = D[k][1];
+    document.getElementById('aw').href = 'https://wa.me/?text=' + encodeURIComponent(D[k][2]);
+  }
+  bs.forEach(function (b) { b.addEventListener('click', function () { set(b.dataset.k); }); });
+  set(0);
+})();
+</script>
+</body>
+</html>

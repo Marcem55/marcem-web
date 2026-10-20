@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo: landing para kinesiólogo (ejemplo ficticio) · MARCEM</title>
+<meta name="description" content="Probá una landing para kinesiólogos hecha por MARCEM: elegís dónde te duele y reservás online. Ejemplo ficticio.">
+<link rel="canonical" href="https://marcem-digital.vercel.app/demo-kinesiologo.html">
+<meta name="theme-color" content="#082A3A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="MARCEM">
+<meta property="og:title" content="Demo: landing para kinesiólogo (ejemplo ficticio) · MARCEM">
+<meta property="og:description" content="Probá una landing para kinesiólogos hecha por MARCEM: elegís dónde te duele y reservás online. Ejemplo ficticio.">
+<meta property="og:url" content="https://marcem-digital.vercel.app/demo-kinesiologo.html">
+<meta property="og:image" content="https://marcem-digital.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  img, svg { display: block; }
+  .demo-bar { background: #0B3D53; color: #D5E6ED; font: 700 13px/1.3 system-ui, -apple-system, sans-serif; }
+  .demo-bar .in { max-width: 1100px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+  .demo-bar span { display: inline-flex; gap: 8px; align-items: center; }
+  .demo-bar i { width: 8px; height: 8px; border-radius: 9px; background: #25D366; }
+  .demo-bar a { color: #FFFFFF; text-decoration: none; white-space: nowrap; }
+  .made { padding: 28px 20px 110px; font: 14px/1.5 system-ui, -apple-system, sans-serif; }
+  .made .in { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .made-box { display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 18px; background: #0B3D53; color: #D5E6ED; }
+  .made-box b { color: #FFFFFF; font-size: 16px; }
+  .made-box a { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 12px 22px; border-radius: 999px; background: #25D366; color: #FFFFFF; font-weight: 700; text-decoration: none; flex-shrink: 0; }
+  .float { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 40; width: 58px; height: 58px; border-radius: 999px; background: #25D366; color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 30px rgba(37,211,102,0.38); }
+  @media (min-width: 760px) { .made-box { flex-direction: row; align-items: center; justify-content: space-between; } }
+
+  :root { --dk: #0F2A2E; --dk2: #16383D; --tl: #1F6F6B; --lime: #C6F25A; --lt: #F2F7F6; --ink: #13201F; --mut: #51605E; --line: #DCE6E4; }
+  body { background: var(--lt); color: var(--ink); font-family: "Barlow", system-ui, sans-serif; font-size: 16.5px; line-height: 1.55; }
+  h1, h2, h3 { font-family: "Barlow Condensed", sans-serif; text-transform: uppercase; margin: 0; letter-spacing: 0.01em; }
+  .w { max-width: 1060px; margin: 0 auto; padding: 0 20px; }
+  .hero { background: var(--dk); color: #FFFFFF; padding: 0 0 48px; }
+  .hero nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 0; }
+  .hero nav b { font-family: "Barlow Condensed", sans-serif; font-size: 20px; text-transform: uppercase; white-space: nowrap; } .hero nav b em { color: var(--lime); font-style: normal; }
+  .hero nav a { color: var(--lime); font-weight: 700; text-decoration: none; white-space: nowrap; }
+  .hero h1 { font-size: 64px; line-height: 0.95; font-weight: 800; margin-top: 24px; }
+  .hero h1 span { color: var(--lime); }
+  .hero p { margin: 18px 0 0; color: #B7CBC8; font-size: 18px; max-width: 32em; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .tags span { padding: 8px 12px; border: 1px solid rgba(198,242,90,0.4); color: #E4F5D8; font-size: 14px; font-weight: 600; border-radius: 6px; }
+  .ctas { display: flex; flex-direction: column; gap: 10px; margin-top: 28px; }
+  .bl { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 12px 24px; border-radius: 8px; background: var(--lime); color: var(--dk); font-weight: 800; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; }
+  .bo { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 12px 24px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.4); color: #FFFFFF; font-weight: 700; text-decoration: none; }
+  section { padding: 56px 0; }
+  h2 { font-size: 40px; line-height: 1; font-weight: 800; }
+  .sub { margin: 10px 0 24px; color: var(--mut); }
+  .zone { display: grid; gap: 20px; background: #FFFFFF; border: 1px solid var(--line); border-radius: 22px; padding: 20px; }
+  .fig { background: var(--dk); border-radius: 16px; display: flex; justify-content: center; padding: 18px 0; }
+  .fig svg { width: 150px; height: auto; }
+  .fig .pt { fill: rgba(198,242,90,0.25); stroke: var(--lime); stroke-width: 2; transition: r 0.2s, fill 0.2s; }
+  .fig .pt.on { fill: var(--lime); }
+  .zb { display: flex; flex-wrap: wrap; gap: 8px; }
+  .zb button { min-height: 44px; padding: 10px 16px; border-radius: 8px; border: 1.5px solid var(--line); background: var(--lt); color: var(--ink); font: 700 15px/1 "Barlow", sans-serif; cursor: pointer; }
+  .zb button[aria-pressed="true"] { background: var(--dk); color: var(--lime); border-color: var(--dk); }
+  .zt h3 { font-size: 28px; margin-top: 16px; } .zt p { margin: 6px 0 0; color: var(--mut); }
+  .zt a { display: inline-flex; align-items: center; gap: 10px; margin-top: 16px; min-height: 50px; padding: 12px 20px; border-radius: 8px; background: #25D366; color: #FFFFFF; font-weight: 700; text-decoration: none; }
+  .bar { display: flex; height: 64px; border-radius: 12px; overflow: hidden; margin-top: 20px; font-weight: 700; font-size: 14px; }
+  .bar div { display: flex; flex-direction: column; justify-content: center; padding: 0 12px; }
+  .bar b { font-family: "Barlow Condensed", sans-serif; font-size: 22px; }
+  .legend { display: grid; gap: 12px; margin-top: 18px; }
+  .legend div { display: flex; gap: 12px; align-items: flex-start; } .legend i { flex: none; width: 14px; height: 14px; border-radius: 4px; margin-top: 5px; }
+  .legend p { margin: 0; color: var(--mut); } .legend strong { color: var(--ink); }
+  .home { background: var(--dk); color: #FFFFFF; border-radius: 22px; padding: 26px 22px; }
+  .home p { color: #B7CBC8; margin: 8px 0 0; }
+  .home ul { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .home li { display: flex; gap: 10px; align-items: center; padding: 12px 14px; background: var(--dk2); border-radius: 10px; font-weight: 600; }
+  .home li span { margin-left: auto; color: var(--lime); font-weight: 700; font-size: 14px; }
+  details { background: #FFFFFF; border: 1px solid var(--line); border-radius: 12px; } details + details { margin-top: 8px; }
+  summary { cursor: pointer; list-style: none; padding: 16px 18px; font-weight: 700; display: flex; justify-content: space-between; gap: 12px; min-height: 54px; align-items: center; }
+  summary::-webkit-details-marker { display: none; } summary::after { content: "+"; color: var(--tl); font-size: 22px; } details[open] summary::after { content: "−"; }
+  details p { margin: 0; padding: 0 18px 16px; color: var(--mut); }
+  @media (min-width: 760px) { .hero h1 { font-size: 104px; } .ctas { flex-direction: row; } .zone { grid-template-columns: 220px 1fr; align-items: center; padding: 28px; } .two { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: start; } h2 { font-size: 56px; } }
+</style>
+<div class="demo-bar"><div class="in"><span><i></i>Demo — ejemplo ficticio hecho por MARCEM</span><a href="./">Volver a MARCEM →</a></div></div>
+<header class="hero"><div class="w">
+  <nav><b>Pablo Ejemplo <em>· Kine</em></b><a href="demo-turnos.html">Turnos →</a></nav>
+  <h1>Volvé a moverte <span>sin dolor.</span></h1>
+  <p>Kinesiología y rehabilitación en San Nicolás. Lesiones deportivas, espalda, cuello y recuperación después de cirugías.</p>
+  <div class="tags"><span>Sesiones de 45 min</span><span>Deportistas y no tanto</span><span>Plan para casa</span></div>
+  <div class="ctas"><a class="bl" href="demo-turnos.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Reservá online</a><a class="bo" href="https://wa.me/?text=Hola%20Pablo%2C%20quiero%20pedir%20un%20turno." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Consultar por WhatsApp</a></div>
+</div></header>
+<main>
+  <section><div class="w">
+    <h2>¿Dónde te duele?</h2><p class="sub">Tocá la zona y te cuento cómo lo trabajamos.</p>
+    <div class="zone">
+      <div class="fig" aria-hidden="true"><svg viewBox="0 0 120 240">
+        <circle cx="60" cy="24" r="16" fill="#24484D"/>
+        <path d="M38 50h44l8 70-12 4-6-46v66l6 86h-14l-4-74-4 74H42l6-86V78l-6 46-12-4Z" fill="#24484D"/>
+        <circle class="pt" data-z="0" cx="60" cy="44" r="7"/>
+        <circle class="pt" data-z="1" cx="40" cy="58" r="7"/>
+        <circle class="pt" data-z="2" cx="60" cy="100" r="7"/>
+        <circle class="pt" data-z="3" cx="52" cy="176" r="7"/>
+        <circle class="pt" data-z="4" cx="68" cy="222" r="7"/>
+      </svg></div>
+      <div>
+        <div class="zb" role="group" aria-label="Elegí la zona">
+          <button type="button" data-z="0" aria-pressed="false">Cuello</button>
+          <button type="button" data-z="1" aria-pressed="false">Hombro</button>
+          <button type="button" data-z="2" aria-pressed="true">Espalda</button>
+          <button type="button" data-z="3" aria-pressed="false">Rodilla</button>
+          <button type="button" data-z="4" aria-pressed="false">Tobillo</button>
+        </div>
+        <div class="zt" aria-live="polite"><h3 id="zh"></h3><p id="zp"></p><a id="zw" href="https://wa.me/?text=Hola%20Pablo%2C%20quiero%20pedir%20un%20turno." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Pedir turno para esto</a></div>
+      </div>
+    </div>
+  </div></section>
+  <section style="padding-top: 0;"><div class="w two">
+    <div>
+      <h2>Una sesión, por dentro</h2><p class="sub">45 minutos, nada de aparatos y a casa.</p>
+      <div class="bar" aria-hidden="true">
+        <div style="flex: 10; background: var(--dk); color: #FFFFFF;"><b>10'</b></div>
+        <div style="flex: 20; background: var(--tl); color: #FFFFFF;"><b>20'</b></div>
+        <div style="flex: 15; background: var(--lime); color: var(--dk);"><b>15'</b></div>
+      </div>
+      <div class="legend">
+        <div><i style="background: var(--dk);"></i><p><strong>Evaluación.</strong> Cómo llegaste, qué cambió desde la última vez.</p></div>
+        <div><i style="background: var(--tl);"></i><p><strong>Terapia manual.</strong> Trabajo sobre la zona que duele.</p></div>
+        <div><i style="background: var(--lime); border: 1px solid #9CC43F;"></i><p><strong>Ejercicios.</strong> Los aprendés acá para hacerlos en casa.</p></div>
+      </div>
+    </div>
+    <div class="home" style="margin-top: 32px;">
+      <h2 style="font-size: 34px;">Tu plan para casa</h2>
+      <p>Te llevás una rutina corta, con videos, para seguir entre sesiones.</p>
+      <ul><li>Movilidad de cadera<span>2 × 10</span></li><li>Puente de glúteos<span>3 × 12</span></li><li>Estiramiento de isquios<span>30 seg</span></li></ul>
+    </div>
+  </div></section>
+  <section style="padding-top: 0;"><div class="w" style="max-width: 760px;">
+    <h2 style="font-size: 40px;">Preguntas</h2>
+    <div style="margin-top: 16px;">
+      <details><summary>¿Necesito orden médica?</summary><p>Si venís por obra social, sí. En forma particular podés venir sin orden.</p></details>
+      <details><summary>¿Cuántas sesiones voy a necesitar?</summary><p>Depende de cada caso. Después de la primera evaluación te digo un estimado.</p></details>
+      <details><summary>¿Qué ropa llevo?</summary><p>Ropa cómoda que te permita moverte y dejar la zona a tratar a la vista.</p></details>
+      <details><summary>¿Dónde atendés?</summary><p>En Calle Ejemplo 123, San Nicolás (dirección ficticia). Lunes a viernes de 8 a 20 y sábados de 9 a 13.</p></details>
+    </div>
+  </div></section>
+</main>
+<footer class="made" style="color: #51605E;"><div class="in"><div class="made-box"><div><b>Esta página es una demo de MARCEM.</b><br>El profesional, la rutina y la dirección son ficticios. Así puede quedar la tuya: con tu nombre, tu estilo y tu WhatsApp.</div><a href="https://wa.me/5493364626434?text=Hola%20Marcelo%2C%20vi%20la%20demo%20de%20landing%20para%20kinesi%C3%B3logos%20y%20quiero%20una%20para%20mi%20trabajo." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Quiero una así</a></div><span>Demo hecha por <a href="./">MARCEM · Soluciones digitales</a></span></div></footer>
+<a class="float" href="https://wa.me/?text=Hola%20Pablo%2C%20quiero%20pedir%20un%20turno." target="_blank" rel="noopener" aria-label="Pedir turno por WhatsApp"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></a>
+<script>
+(function () {
+  var D = [
+    ['Cuello', 'Contracturas y dolor por postura, muchas horas de compu o celular. Trabajamos movilidad y fuerza para que no vuelva.', 'Hola Pablo, tengo dolor de cuello y quiero pedir un turno.'],
+    ['Hombro', 'Tendinitis, dolor al levantar el brazo o recuperación después de una lesión o cirugía.', 'Hola Pablo, tengo dolor de hombro y quiero pedir un turno.'],
+    ['Espalda', 'Lumbalgia, contracturas y dolor al estar mucho tiempo sentado o parado. Terapia manual y ejercicios para fortalecer.', 'Hola Pablo, tengo dolor de espalda y quiero pedir un turno.'],
+    ['Rodilla', 'Esguinces, meniscos, postoperatorios de ligamentos o dolor al correr. Volvemos de a poco a la actividad.', 'Hola Pablo, tengo dolor de rodilla y quiero pedir un turno.'],
+    ['Tobillo', 'Esguinces y torceduras que no terminan de curar. Trabajamos estabilidad para que no se repita.', 'Hola Pablo, tengo un problema en el tobillo y quiero pedir un turno.']
+  ];
+  var bs = document.querySelectorAll('.zb button'), ps = document.querySelectorAll('.fig .pt');
+  function set(z) {
+    bs.forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.z == z ? 'true' : 'false'); });
+    ps.forEach(function (p) { p.classList.toggle('on', p.dataset.z == z); p.setAttribute('r', p.dataset.z == z ? 10 : 7); });
+    document.getElementById('zh').textContent = D[z][0];
+    document.getElementById('zp').textContent = D[z][1];
+    document.getElementById('zw').href = 'https://wa.me/?text=' + encodeURIComponent(D[z][2]);
+  }
+  bs.forEach(function (b) { b.addEventListener('click', function () { set(b.dataset.z); }); });
+  set(2);
+})();
+</script>
+</body>
+</html>
