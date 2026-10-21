@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo: página para viajes de 15 (ejemplo ficticio) · MARCEM</title>
+<meta name="description" content="Probá una página para agencias de viajes de quinceañeras hecha por MARCEM: itinerario y plan de cuotas. Ejemplo ficticio.">
+<link rel="canonical" href="https://marcem-digital.vercel.app/demo-viaje-15.html">
+<meta name="theme-color" content="#082A3A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="MARCEM">
+<meta property="og:title" content="Demo: página para viajes de 15 (ejemplo ficticio) · MARCEM">
+<meta property="og:description" content="Probá una página para agencias de viajes de quinceañeras hecha por MARCEM: itinerario y plan de cuotas. Ejemplo ficticio.">
+<meta property="og:url" content="https://marcem-digital.vercel.app/demo-viaje-15.html">
+<meta property="og:image" content="https://marcem-digital.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@1,9..144,600&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  img, svg { display: block; }
+  .demo-bar { background: #0B3D53; color: #D5E6ED; font: 700 13px/1.3 system-ui, -apple-system, sans-serif; }
+  .demo-bar .in { max-width: 1100px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+  .demo-bar span { display: inline-flex; gap: 8px; align-items: center; }
+  .demo-bar i { width: 8px; height: 8px; border-radius: 9px; background: #25D366; }
+  .demo-bar a { color: #FFFFFF; text-decoration: none; white-space: nowrap; }
+  .made { padding: 28px 20px 110px; font: 14px/1.5 system-ui, -apple-system, sans-serif; }
+  .made .in { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .made-box { display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 18px; background: #0B3D53; color: #D5E6ED; }
+  .made-box b { color: #FFFFFF; font-size: 16px; }
+  .made-box a { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 12px 22px; border-radius: 999px; background: #25D366; color: #FFFFFF; font-weight: 700; text-decoration: none; flex-shrink: 0; }
+  .float { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 40; width: 58px; height: 58px; border-radius: 999px; background: #25D366; color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 30px rgba(37,211,102,0.38); }
+  @media (min-width: 760px) { .made-box { flex-direction: row; align-items: center; justify-content: space-between; } }
+
+  .mdl { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: flex-end; justify-content: center; z-index: 60; padding: 10px; }
+  .mdl.on { display: flex; }
+  .sh { background: #FFFFFF; color: #16181D; border-radius: 22px; padding: 18px; width: 100%; max-width: 480px; font-family: system-ui, -apple-system, sans-serif; }
+  .sh h3 { margin: 0; font-size: 19px; }
+  .sh .bub { margin-top: 12px; background: #DCF8C6; border-radius: 16px 16px 4px 16px; padding: 12px 14px; font-size: 15.5px; white-space: pre-line; }
+  .sh p { margin: 10px 0 0; font-size: 13.5px; color: #5A5F6A; }
+  .sh button { margin-top: 12px; width: 100%; min-height: 50px; border: none; border-radius: 12px; background: #16181D; color: #FFFFFF; font: 700 16px/1 system-ui, sans-serif; cursor: pointer; }
+  @media (min-width: 760px) { .mdl { align-items: center; } }
+
+  :root { --bg: #FFF7FB; --ink: #241638; --mut: #6A5C7E; --pink: #E0458E; --pink2: #B82E6F; --lila: #7B5CE0; --soft: #F8E6F1; --line: #EFDDEA; --gold: #F5C26B; }
+  body { background: var(--bg); color: var(--ink); font-family: "Plus Jakarta Sans", system-ui, sans-serif; font-size: 16.5px; line-height: 1.55; }
+  h1, h2, h3 { margin: 0; font-weight: 800; letter-spacing: -0.02em; }
+  .w { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+  .nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; gap: 10px; }
+  .nav b { font-size: 19px; font-weight: 800; } .nav b em { font-family: "Fraunces", serif; font-style: italic; color: var(--pink); font-weight: 600; }
+  .nav a { font-weight: 800; font-size: 14px; text-decoration: none; padding: 10px 14px; border-radius: 99px; background: var(--ink); color: #FFFFFF; white-space: nowrap; }
+  .hero { position: relative; border-radius: 30px; overflow: hidden; padding: 30px 22px 26px; color: #FFFFFF; background: linear-gradient(150deg, #2A1B4D 0%, #5B3AAE 45%, #E0458E 100%); }
+  .hero .st { position: absolute; border-radius: 99px; background: #FFFFFF; }
+  .hero > *:not(.st) { position: relative; }
+  .hero span.k { display: inline-block; font-size: 12.5px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; background: rgba(255,255,255,0.16); padding: 6px 10px; border-radius: 99px; }
+  .hero h1 { font-size: clamp(36px, 10vw, 62px); line-height: 1.02; margin-top: 14px; }
+  .hero h1 em { font-family: "Fraunces", serif; font-style: italic; font-weight: 600; color: var(--gold); }
+  .hero p { margin: 12px 0 0; color: #F1E6FA; max-width: 31em; }
+  .hero .salidas { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .hero .salidas span { background: #FFFFFF; color: var(--ink); font-weight: 800; font-size: 14px; padding: 8px 12px; border-radius: 12px; }
+  section { padding: 30px 0; }
+  h2 { font-size: clamp(27px, 7vw, 40px); line-height: 1.08; }
+  .sub { margin: 6px 0 16px; color: var(--mut); }
+  .inc { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+  .inc div { background: #FFFFFF; border: 1.5px solid var(--line); border-radius: 18px; padding: 14px; }
+  .inc b { display: block; font-size: 16px; } .inc small { color: var(--mut); font-size: 13.5px; line-height: 1.35; display: block; margin-top: 2px; }
+  .inc i { display: block; width: 30px; height: 30px; border-radius: 10px; background: var(--soft); margin-bottom: 8px; position: relative; }
+  .inc i::after { content: ""; position: absolute; inset: 9px; border-radius: 99px; background: var(--pink); }
+  .itin { background: #FFFFFF; border: 1.5px solid var(--line); border-radius: 24px; padding: 16px; }
+  .dts { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+  .dt { flex: none; min-height: 42px; padding: 8px 12px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--bg); font: 700 14px/1 "Plus Jakarta Sans", sans-serif; color: var(--ink); cursor: pointer; }
+  .dt[aria-pressed="true"] { background: var(--lila); border-color: var(--lila); color: #FFFFFF; }
+  .dd { margin-top: 14px; } .dd h3 { font-size: 22px; } .dd p { margin: 6px 0 0; color: var(--mut); }
+  .plan { background: var(--ink); color: #FFFFFF; border-radius: 26px; padding: 22px; }
+  .plan .sub { color: #CFC3E6; }
+  .lb { display: block; font-weight: 800; margin: 14px 0 8px; color: var(--gold); font-size: 15px; }
+  .chs { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ch { min-height: 44px; padding: 8px 14px; border-radius: 12px; border: 1.5px solid rgba(255,255,255,0.3); background: transparent; color: #FFFFFF; font: 700 15px/1.2 "Plus Jakarta Sans", sans-serif; cursor: pointer; }
+  .ch[aria-pressed="true"] { background: var(--pink); border-color: var(--pink); }
+  .res { margin-top: 18px; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+  .res div { background: rgba(255,255,255,0.08); border-radius: 16px; padding: 12px; }
+  .res small { display: block; color: #CFC3E6; font-size: 13px; } .res b { font-size: 22px; }
+  .res .big { grid-column: 1 / -1; background: #FFFFFF; color: var(--ink); } .res .big small { color: var(--mut); } .res .big b { font-size: 30px; color: var(--pink2); }
+  .note { font-size: 13px; color: #A99BC4; margin: 10px 0 0; }
+  .go { margin-top: 14px; width: 100%; min-height: 56px; border: none; border-radius: 16px; background: #25D366; color: #FFFFFF; font: 800 17px/1 "Plus Jakarta Sans", sans-serif; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; }
+  .seg { display: grid; gap: 10px; }
+  .sg { display: flex; gap: 14px; align-items: flex-start; background: var(--soft); border-radius: 18px; padding: 16px; }
+  .sg span { flex: none; width: 44px; height: 44px; border-radius: 14px; background: #FFFFFF; color: var(--pink2); font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .sg h3 { font-size: 17px; } .sg p { margin: 2px 0 0; color: var(--mut); font-size: 15px; }
+  .fict { font-size: 13px; color: var(--mut); margin-top: 10px; }
+  @media (min-width: 760px) { .inc { grid-template-columns: repeat(3, minmax(0,1fr)); } .two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; } .seg { grid-template-columns: repeat(3, minmax(0,1fr)); } .hero { padding: 44px 40px; } }
+</style>
+<div class="demo-bar"><div class="in"><span><i></i>Demo — ejemplo ficticio hecho por MARCEM</span><a href="./">Volver a MARCEM →</a></div></div>
+<div class="w">
+  <nav class="nav"><b>Quince <em>Ejemplo</em> Viajes</b><a href="#plan">Planificar el viaje</a></nav>
+  <header class="hero">
+    <i class="st" style="width: 6px; height: 6px; top: 22px; right: 40px; opacity: 0.8;"></i><i class="st" style="width: 4px; height: 4px; top: 60px; right: 90px; opacity: 0.6;"></i><i class="st" style="width: 8px; height: 8px; top: 40px; right: 140px; opacity: 0.5;"></i>
+    <span class="k">Viaje de 15 · Orlando</span>
+    <h1>Sus 15, en <em>Disney.</em> Con todo resuelto.</h1>
+    <p>Un viaje en grupo para quinceañeras, con coordinadoras que las acompañan todo el tiempo y la tranquilidad de las familias desde el primer día.</p>
+    <div class="salidas"><span>Salida enero</span><span>Salida julio</span><span>12 días</span></div>
+  </header>
+</div>
+<main>
+  <section><div class="w">
+    <h2>Qué incluye</h2><p class="sub">Todo lo que hace falta para que solo se ocupen de disfrutar.</p>
+    <div class="inc">
+      <div><i></i><b>Vuelos</b><small>Ida y vuelta con el grupo y las coordinadoras.</small></div>
+      <div><i></i><b>Hotel</b><small>Habitaciones compartidas entre amigas.</small></div>
+      <div><i></i><b>Parques</b><small>Entradas a los parques de Disney y Universal.</small></div>
+      <div><i></i><b>Comidas</b><small>Desayuno y cena todos los días.</small></div>
+      <div><i></i><b>Fiesta de 15</b><small>Cena de gala, fotos y video del viaje.</small></div>
+      <div><i></i><b>Asistencia</b><small>Seguro médico y de viaje durante toda la estadía.</small></div>
+    </div>
+  </div></section>
+  <section style="padding-top: 0;"><div class="w two">
+    <div><h2>Día por día</h2><p class="sub">Un itinerario pensado para que no se pierdan nada.</p></div>
+    <div class="itin"><div class="dts" id="q-d" role="group" aria-label="Días"><button type="button" class="dt" data-i="0" aria-pressed="true">Día 1-2</button><button type="button" class="dt" data-i="1" aria-pressed="false">Día 3-7</button><button type="button" class="dt" data-i="2" aria-pressed="false">Día 8-9</button><button type="button" class="dt" data-i="3" aria-pressed="false">Día 10</button><button type="button" class="dt" data-i="4" aria-pressed="false">Día 11-12</button></div><div class="dd" aria-live="polite"><h3 id="q-dt"></h3><p id="q-dp"></p></div></div>
+  </div></section>
+  <section id="plan" style="padding-top: 0;"><div class="w"><div class="plan">
+    <h2>Planificá el viaje en cuotas</h2><p class="sub">Elegí cuándo cumple 15 y cuándo quieren viajar. Te mostramos cuánto tiempo tienen para pagarlo.</p>
+    <span class="lb">¿En qué año cumple 15?</span>
+    <div class="chs" id="q-a"><button type="button" class="ch" data-v="2027" aria-pressed="true">2027</button><button type="button" class="ch" data-v="2028" aria-pressed="false">2028</button><button type="button" class="ch" data-v="2029" aria-pressed="false">2029</button></div>
+    <span class="lb">¿Qué salida prefieren?</span>
+    <div class="chs" id="q-s"><button type="button" class="ch" data-v="1" aria-pressed="true">Enero</button><button type="button" class="ch" data-v="7" aria-pressed="false">Julio</button></div>
+    <div class="res" aria-live="polite">
+      <div><small>Salida</small><b id="q-sal"></b></div>
+      <div><small>Cuotas mensuales</small><b id="q-n"></b></div>
+      <div class="big"><small>Cuota estimada</small><b id="q-c"></b></div>
+    </div>
+    <p class="note">Valor del viaje de ejemplo: USD 7.900. Cálculo orientativo para la demo, sin intereses.</p>
+    <button class="go" type="button" id="q-go"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Quiero más información</button>
+  </div></div></section>
+  <section style="padding-top: 0;"><div class="w">
+    <h2>Tranquilidad para las familias</h2><p class="sub">Lo que más nos preguntan los papás.</p>
+    <div class="seg">
+      <div class="sg"><span>1</span><div><h3>Coordinadoras con el grupo</h3><p>Acompañan a las chicas en todo momento, del aeropuerto a la vuelta.</p></div></div>
+      <div class="sg"><span>2</span><div><h3>Grupo de WhatsApp para familias</h3><p>Fotos y novedades todos los días durante el viaje.</p></div></div>
+      <div class="sg"><span>3</span><div><h3>Reuniones informativas</h3><p>Antes de viajar, para resolver todas las dudas.</p></div></div>
+    </div>
+    <p class="fict">Agencia, itinerario, servicios y precios de ejemplo. Sin relación con The Walt Disney Company ni con Universal.</p>
+  </div></section>
+</main>
+<footer class="made" style="color: #6A5C7E;"><div class="in"><div class="made-box"><div><b>Esta página es una demo de MARCEM.</b><br>La agencia, el viaje y los precios son ficticios. Así puede quedar la tuya: con tu nombre, tu estilo y tu WhatsApp.</div><a href="https://wa.me/5493364626434?text=Hola%20Marcelo%2C%20vi%20la%20demo%20de%20landing%20para%20agencias%20de%20viajes%20y%20quiero%20una%20para%20mi%20trabajo." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Quiero una así</a></div><span>Demo hecha por <a href="./">MARCEM · Soluciones digitales</a></span></div></footer>
+<a class="float" href="https://wa.me/?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20viaje%20de%2015." target="_blank" rel="noopener" aria-label="Consultar por WhatsApp"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></a>
+<div class="mdl" id="mdl" role="dialog" aria-modal="true" aria-labelledby="mdl-h"><div class="sh"><h3 id="mdl-h">Así llega por WhatsApp</h3><div class="bub" id="mdl-m"></div><p>En la web real este botón abre WhatsApp con el mensaje listo. En la demo solo te lo mostramos.</p><button type="button" onclick="document.getElementById('mdl').classList.remove('on')">Entendido</button></div></div>
+<script>
+function showWA(m){document.getElementById('mdl-m').textContent=m;document.getElementById('mdl').classList.add('on');}
+(function () {
+  var D = [["Llegada y bienvenida","Vuelo con las coordinadoras, check-in en el hotel y fiesta de bienvenida del grupo."],["Parques de Disney","Días completos en los parques de Disney, con entradas incluidas y grupos chicos con su coordinadora."],["Universal y más","Parques de Universal y una noche de shopping en los outlets."],["La gran fiesta de 15","Cena de gala y fiesta del grupo, con fotos y video para llevarse."],["Playa y regreso","Día de playa, últimas compras y vuelta a casa con las coordinadoras."]];
+  var dg = document.getElementById('q-d');
+  function day(i) { document.getElementById('q-dt').textContent = D[i][0]; document.getElementById('q-dp').textContent = D[i][1]; dg.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', +x.dataset.i === i); }); }
+  dg.addEventListener('click', function (e) { var b = e.target.closest('[data-i]'); if (b) day(+b.dataset.i); });
+  day(0);
+  var anio = 2027, mes = 1, PRECIO = 7900, MES = ['', 'enero', '', '', '', '', '', 'julio'];
+  function sel(id, cb) { var g = document.getElementById(id); g.addEventListener('click', function (e) { var b = e.target.closest('[data-v]'); if (!b) return; g.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); cb(+b.dataset.v); calc(); }); }
+  sel('q-a', function (v) { anio = v; }); sel('q-s', function (v) { mes = v; });
+  function calc() {
+    var y = mes === 1 ? anio + 1 : anio;
+    var now = new Date(), n = (y - now.getFullYear()) * 12 + (mes - 1 - now.getMonth()) - 1;
+    if (n < 1) n = 1;
+    document.getElementById('q-sal').textContent = MES[mes][0].toUpperCase() + MES[mes].slice(1) + ' ' + y;
+    document.getElementById('q-n').textContent = n;
+    document.getElementById('q-c').textContent = 'USD ' + Math.ceil(PRECIO / n).toLocaleString('es-AR');
+  }
+  calc();
+  document.getElementById('q-go').onclick = function () { showWA('Hola, mi hija cumple 15 en ' + anio + ' y nos interesa la salida de ' + document.getElementById('q-sal').textContent.toLowerCase() + '. ¿Me pasan más información y los planes de pago?'); };
+})();
+</script>
+</body>
+</html>

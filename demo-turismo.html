@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo: página para agencia de viajes (ejemplo ficticio) · MARCEM</title>
+<meta name="description" content="Probá una página para agencias de viajes hecha por MARCEM: destinos y cotización por WhatsApp. Ejemplo ficticio.">
+<link rel="canonical" href="https://marcem-digital.vercel.app/demo-turismo.html">
+<meta name="theme-color" content="#082A3A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="MARCEM">
+<meta property="og:title" content="Demo: página para agencia de viajes (ejemplo ficticio) · MARCEM">
+<meta property="og:description" content="Probá una página para agencias de viajes hecha por MARCEM: destinos y cotización por WhatsApp. Ejemplo ficticio.">
+<meta property="og:url" content="https://marcem-digital.vercel.app/demo-turismo.html">
+<meta property="og:image" content="https://marcem-digital.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;700&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  img, svg { display: block; }
+  .demo-bar { background: #0B3D53; color: #D5E6ED; font: 700 13px/1.3 system-ui, -apple-system, sans-serif; }
+  .demo-bar .in { max-width: 1100px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+  .demo-bar span { display: inline-flex; gap: 8px; align-items: center; }
+  .demo-bar i { width: 8px; height: 8px; border-radius: 9px; background: #25D366; }
+  .demo-bar a { color: #FFFFFF; text-decoration: none; white-space: nowrap; }
+  .made { padding: 28px 20px 110px; font: 14px/1.5 system-ui, -apple-system, sans-serif; }
+  .made .in { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .made-box { display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 18px; background: #0B3D53; color: #D5E6ED; }
+  .made-box b { color: #FFFFFF; font-size: 16px; }
+  .made-box a { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 12px 22px; border-radius: 999px; background: #25D366; color: #FFFFFF; font-weight: 700; text-decoration: none; flex-shrink: 0; }
+  .float { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 40; width: 58px; height: 58px; border-radius: 999px; background: #25D366; color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 30px rgba(37,211,102,0.38); }
+  @media (min-width: 760px) { .made-box { flex-direction: row; align-items: center; justify-content: space-between; } }
+
+  .mdl { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: flex-end; justify-content: center; z-index: 60; padding: 10px; }
+  .mdl.on { display: flex; }
+  .sh { background: #FFFFFF; color: #16181D; border-radius: 22px; padding: 18px; width: 100%; max-width: 480px; font-family: system-ui, -apple-system, sans-serif; }
+  .sh h3 { margin: 0; font-size: 19px; }
+  .sh .bub { margin-top: 12px; background: #DCF8C6; border-radius: 16px 16px 4px 16px; padding: 12px 14px; font-size: 15.5px; white-space: pre-line; }
+  .sh p { margin: 10px 0 0; font-size: 13.5px; color: #5A5F6A; }
+  .sh button { margin-top: 12px; width: 100%; min-height: 50px; border: none; border-radius: 12px; background: #16181D; color: #FFFFFF; font: 700 16px/1 system-ui, sans-serif; cursor: pointer; }
+  @media (min-width: 760px) { .mdl { align-items: center; } }
+
+  :root { --bg: #FBF7F1; --ink: #14303A; --mut: #556B72; --ac: #0E7C86; --ac2: #0A5B63; --coral: #F07E5B; --sand: #F3E7D3; --line: #E7DED0; }
+  body { background: var(--bg); color: var(--ink); font-family: "DM Sans", system-ui, sans-serif; font-size: 16.5px; line-height: 1.55; }
+  h1, h2, h3 { font-family: "DM Serif Display", Georgia, serif; font-weight: 400; margin: 0; }
+  .w { max-width: 1060px; margin: 0 auto; padding: 0 20px; }
+  .nav { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; }
+  .nav b { font-family: "DM Serif Display", serif; font-size: 22px; font-weight: 400; } .nav b i { color: var(--coral); font-style: normal; }
+  .nav a { font-weight: 700; font-size: 14.5px; text-decoration: none; padding: 10px 14px; border-radius: 99px; background: var(--ink); color: #FFFFFF; }
+  .hero { position: relative; border-radius: 28px; overflow: hidden; min-height: 440px; background: linear-gradient(180deg,#FFD9A8 0%,#F6A57E 30%,#0E7C86 31%,#0A5B63 100%); color: #FFFFFF; padding: 28px 22px; display: flex; flex-direction: column; justify-content: flex-end; }
+  .hero::before { content: ""; position: absolute; left: 50%; top: 9%; width: 96px; height: 96px; border-radius: 999px; background: #FFF1D6; transform: translateX(-50%); opacity: 0.9; }
+  .hero > * { position: relative; }
+  .hero span { font-size: 13px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; }
+  .hero h1 { font-size: clamp(38px, 10vw, 64px); line-height: 1.02; margin-top: 8px; }
+  .hero h1 em { color: #FFE2B8; }
+  .hero p { margin: 10px 0 0; max-width: 30em; color: #E4F3F4; }
+  section { padding: 32px 0; }
+  h2 { font-size: clamp(30px, 7vw, 42px); line-height: 1.05; }
+  .sub { margin: 6px 0 18px; color: var(--mut); }
+  .pks { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+  .pk { background: #FFFFFF; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
+  .pv { aspect-ratio: 4 / 3; display: flex; align-items: flex-end; padding: 10px; }
+  .pv span { background: rgba(255,255,255,0.9); color: var(--ink); font-size: 12px; font-weight: 700; padding: 4px 8px; border-radius: 99px; }
+  .pb { padding: 12px; } .pb h3 { font-size: 21px; } .pb p { margin: 2px 0 6px; color: var(--mut); font-size: 14px; line-height: 1.35; } .pb b { font-size: 14.5px; color: var(--ac2); }
+  .arma { background: var(--ink); color: #FFFFFF; border-radius: 26px; padding: 22px; }
+  .arma h2 { color: #FFFFFF; } .arma .sub { color: #B9CFD4; }
+  .lb { display: block; font-weight: 700; font-size: 15px; margin: 16px 0 8px; color: #FFE2B8; }
+  .chs { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ch { min-height: 44px; padding: 8px 14px; border-radius: 99px; border: 1.5px solid rgba(255,255,255,0.3); background: transparent; color: #FFFFFF; font: 700 15px/1.2 "DM Sans", sans-serif; cursor: pointer; }
+  .ch[aria-pressed="true"] { background: var(--coral); border-color: var(--coral); }
+  .pp { display: flex; align-items: center; gap: 14px; }
+  .pp button { width: 48px; height: 48px; border-radius: 14px; border: 1.5px solid rgba(255,255,255,0.3); background: transparent; color: #FFFFFF; font: 700 22px/1 "DM Sans", sans-serif; cursor: pointer; }
+  .pp b { font-size: 22px; min-width: 110px; text-align: center; }
+  .go { margin-top: 20px; width: 100%; min-height: 56px; border: none; border-radius: 16px; background: #25D366; color: #FFFFFF; font: 700 17px/1 "DM Sans", sans-serif; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; }
+  .why { display: grid; gap: 10px; }
+  .why div { background: var(--sand); border-radius: 18px; padding: 16px; } .why h3 { font-size: 21px; } .why p { margin: 4px 0 0; color: var(--mut); font-size: 15px; }
+  .fict { font-size: 13px; color: var(--mut); margin-top: 10px; }
+  @media (min-width: 760px) { .pks { grid-template-columns: repeat(4, minmax(0,1fr)); } .why { grid-template-columns: repeat(3, minmax(0,1fr)); } .hero { min-height: 480px; padding: 40px; } }
+</style>
+<div class="demo-bar"><div class="in"><span><i></i>Demo — ejemplo ficticio hecho por MARCEM</span><a href="./">Volver a MARCEM →</a></div></div>
+<div class="w">
+  <nav class="nav"><b>Viajes <i>Ejemplo</i></b><a href="#arma">Cotizar viaje</a></nav>
+  <header class="hero"><span>Agencia de viajes · San Nicolás</span><h1>Vos elegí el lugar. <em>Nosotros el resto.</em></h1><p>Paquetes armados y viajes a medida, con asesoramiento de verdad: pasajes, alojamiento, traslados y excursiones.</p></header>
+</div>
+<main>
+  <section><div class="w"><h2>Destinos de esta temporada</h2><p class="sub">Precios por persona, de ejemplo.</p><div class="pks"><article class="pk"><div class="pv" style="background:linear-gradient(160deg,#9CC3E6 0%,#5C8FBF 45%,#2F5C46 46%,#1F3F30 100%);"><span>Bariloche</span></div><div class="pb"><h3>Bariloche</h3><p>Lagos, nieve y chocolate</p><b>desde USD 690</b></div></article><article class="pk"><div class="pv" style="background:linear-gradient(160deg,#F6C99A 0%,#E39A6A 45%,#7A4B6B 46%,#4E2E44 100%);"><span>Mendoza</span></div><div class="pb"><h3>Mendoza</h3><p>Bodegas y montaña</p><b>desde USD 540</b></div></article><article class="pk"><div class="pv" style="background:linear-gradient(160deg,#F9DDA4 0%,#E8A85C 48%,#B4553A 49%,#7F3526 100%);"><span>Norte argentino</span></div><div class="pb"><h3>Norte argentino</h3><p>Salta, Jujuy y la quebrada</p><b>desde USD 610</b></div></article><article class="pk"><div class="pv" style="background:linear-gradient(160deg,#BDE7F2 0%,#6FC4D9 45%,#F2DFB0 46%,#E8C98A 100%);"><span>Playas de Brasil</span></div><div class="pb"><h3>Playas de Brasil</h3><p>Florianópolis y Búzios</p><b>desde USD 880</b></div></article></div></div></section>
+  <section id="arma" style="padding-top: 0;"><div class="w"><div class="arma">
+    <h2>Armá tu viaje</h2><p class="sub">Elegí destino, fecha y cuántos viajan. Te mandamos la cotización por WhatsApp.</p>
+    <span class="lb">¿A dónde?</span><div class="chs" id="t-d"><button type="button" class="ch" data-d="Bariloche" aria-pressed="true">Bariloche</button><button type="button" class="ch" data-d="Mendoza" aria-pressed="false">Mendoza</button><button type="button" class="ch" data-d="Norte argentino" aria-pressed="false">Norte argentino</button><button type="button" class="ch" data-d="Playas de Brasil" aria-pressed="false">Playas de Brasil</button></div>
+    <span class="lb">¿Cuándo?</span><div class="chs" id="t-m"><button type="button" class="ch" data-m="Diciembre" aria-pressed="false">Diciembre</button><button type="button" class="ch" data-m="Enero" aria-pressed="true">Enero</button><button type="button" class="ch" data-m="Febrero" aria-pressed="false">Febrero</button><button type="button" class="ch" data-m="Marzo" aria-pressed="false">Marzo</button><button type="button" class="ch" data-m="Semana Santa" aria-pressed="false">Semana Santa</button><button type="button" class="ch" data-m="Vacaciones de invierno" aria-pressed="false">Vacaciones de invierno</button></div>
+    <span class="lb">¿Cuántos viajan?</span><div class="pp"><button type="button" id="t-menos" aria-label="Uno menos">−</button><b id="t-n">2 personas</b><button type="button" id="t-mas" aria-label="Uno más">+</button></div>
+    <button class="go" type="button" id="t-go"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Pedir cotización</button>
+  </div></div></section>
+  <section style="padding-top: 0;"><div class="w why">
+    <div><h3>Todo en uno</h3><p>Pasajes, hotel, traslados y excursiones en un solo lugar.</p></div>
+    <div><h3>Te acompañamos</h3><p>Antes, durante y después del viaje, por WhatsApp.</p></div>
+    <div><h3>Formas de pago</h3><p>Opciones en cuotas según el destino. Consultá las vigentes.</p></div>
+  </div><div class="w"><p class="fict">Agencia, destinos y precios de ejemplo.</p></div></section>
+</main>
+<footer class="made" style="color: #556B72;"><div class="in"><div class="made-box"><div><b>Esta página es una demo de MARCEM.</b><br>La agencia, los paquetes y los precios son ficticios. Así puede quedar la tuya: con tu nombre, tu estilo y tu WhatsApp.</div><a href="https://wa.me/5493364626434?text=Hola%20Marcelo%2C%20vi%20la%20demo%20de%20landing%20para%20agencias%20de%20viajes%20y%20quiero%20una%20para%20mi%20trabajo." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Quiero una así</a></div><span>Demo hecha por <a href="./">MARCEM · Soluciones digitales</a></span></div></footer>
+<a class="float" href="https://wa.me/?text=Hola%2C%20quiero%20consultar%20por%20un%20viaje." target="_blank" rel="noopener" aria-label="Consultar por WhatsApp"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></a>
+<div class="mdl" id="mdl" role="dialog" aria-modal="true" aria-labelledby="mdl-h"><div class="sh"><h3 id="mdl-h">Así llega por WhatsApp</h3><div class="bub" id="mdl-m"></div><p>En la web real este botón abre WhatsApp con el mensaje listo. En la demo solo te lo mostramos.</p><button type="button" onclick="document.getElementById('mdl').classList.remove('on')">Entendido</button></div></div>
+<script>
+function showWA(m){document.getElementById('mdl-m').textContent=m;document.getElementById('mdl').classList.add('on');}
+(function () {
+  var d = 'Bariloche', m = 'Enero', n = 2;
+  function sel(id, attr, cb) { var g = document.getElementById(id); g.addEventListener('click', function (e) { var b = e.target.closest('[' + attr + ']'); if (!b) return; g.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); cb(b.getAttribute(attr)); }); }
+  sel('t-d', 'data-d', function (v) { d = v; }); sel('t-m', 'data-m', function (v) { m = v; });
+  function pn() { document.getElementById('t-n').textContent = n + (n === 1 ? ' persona' : ' personas'); }
+  document.getElementById('t-menos').onclick = function () { if (n > 1) n--; pn(); };
+  document.getElementById('t-mas').onclick = function () { if (n < 20) n++; pn(); };
+  document.getElementById('t-go').onclick = function () { showWA('Hola, quiero cotizar un viaje a ' + d + ' para ' + m + ', somos ' + n + (n === 1 ? ' persona' : ' personas') + '. ¿Qué opciones tienen?'); };
+})();
+</script>
+</body>
+</html>
