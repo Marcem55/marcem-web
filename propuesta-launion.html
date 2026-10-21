@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>La Unión Materiales · Propuesta (maqueta) · MARCEM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap">
+<style>
+  :root { --red: #D7262E; --red2: #A9161D; --ink: #141414; --mut: #55575C; --bg: #F5F4F2; --card: #FFFFFF; --line: #E4E1DC; --soft: #FBE9EA; --wa: #1FAF5A; --sun: #FFF3D6; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Archivo", system-ui, -apple-system, sans-serif; font-size: 17px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  svg { flex: none; }
+  .w { max-width: 1080px; margin: 0 auto; padding: 0 18px; }
+  .prop { background: #0B3D53; color: #D5E6ED; font-size: 13.5px; font-weight: 700; }
+  .prop .w { display: flex; gap: 10px; align-items: center; min-height: 40px; }
+  .prop i { width: 8px; height: 8px; border-radius: 9px; background: #25D366; flex: none; }
+  header.top { background: #FFFFFF; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 30; }
+  header.top .w { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 66px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .brand img { width: 48px; height: 48px; border-radius: 99px; border: 1px solid var(--line); }
+  .brand b { display: block; font-weight: 900; font-size: 17px; letter-spacing: -0.01em; }
+  .brand small { display: block; font-size: 12.5px; color: var(--mut); font-weight: 600; }
+  .cart-btn { position: relative; display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 8px 14px; border-radius: 12px; background: var(--ink); color: #FFFFFF; font-weight: 800; font-size: 15px; border: none; cursor: pointer; font-family: inherit; }
+  .cart-btn span { background: var(--red); border-radius: 99px; min-width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; padding: 0 6px; }
+
+  .hero { background: var(--ink); color: #FFFFFF; padding: 30px 0 34px; position: relative; overflow: hidden; }
+  .hero::after { content: ""; position: absolute; right: -60px; top: -40px; width: 300px; height: 300px; border: 30px solid var(--red); border-radius: 34px; transform: rotate(45deg); display: none; }
+  .hero { border-top: 6px solid var(--red); }
+  .hero .w { position: relative; z-index: 1; }
+  .tag { display: inline-flex; gap: 8px; align-items: center; font-size: 13px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: #FFB4B7; }
+  .hero h1 { font-size: 36px; line-height: 1.05; font-weight: 900; letter-spacing: -0.02em; margin: 12px 0 0; max-width: 13em; }
+  .hero h1 em { font-style: normal; color: #FF5A61; }
+  .hero p { margin: 12px 0 0; color: #CFCFD2; max-width: 32em; }
+  .ctas { display: flex; flex-direction: column; gap: 10px; margin-top: 22px; max-width: 520px; }
+  .b { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 12px 22px; border-radius: 14px; font-weight: 800; font-size: 16.5px; text-decoration: none; border: none; cursor: pointer; font-family: inherit; }
+  .b-red { background: var(--red); color: #FFFFFF; } .b-red:hover { background: var(--red2); }
+  .b-w { background: #FFFFFF; color: var(--ink); }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .facts span { padding: 7px 12px; border-radius: 99px; background: rgba(255,255,255,0.1); font-size: 14px; font-weight: 700; }
+
+  section { padding: 30px 0; }
+  h2 { font-size: 27px; font-weight: 900; letter-spacing: -0.02em; margin: 0; line-height: 1.1; }
+  .sub { margin: 6px 0 18px; color: var(--mut); }
+  .card { background: var(--card); border: 1.5px solid var(--line); border-radius: 22px; padding: 18px; }
+
+  .seg { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 6px; background: #EFEDEA; padding: 5px; border-radius: 14px; }
+  .seg button { min-height: 46px; border: none; border-radius: 10px; background: transparent; font: 800 14.5px/1.15 "Archivo", sans-serif; color: var(--mut); cursor: pointer; padding: 4px; }
+  .seg button[aria-pressed="true"] { background: #FFFFFF; color: var(--red2); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .fld { display: flex; flex-direction: column; gap: 6px; }
+  .fld label, .fld .l { font-weight: 800; font-size: 15px; }
+  .fld input, .fld select { min-height: 52px; padding: 10px 12px; border-radius: 12px; border: 1.5px solid var(--line); font: 600 17px/1.3 "Archivo", sans-serif; color: var(--ink); background: #FFFFFF; width: 100%; }
+  .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opt { min-height: 44px; padding: 8px 14px; border-radius: 99px; border: 1.5px solid var(--line); background: #FFFFFF; font: 700 15px/1.2 "Archivo", sans-serif; cursor: pointer; color: var(--ink); }
+  .opt[aria-pressed="true"] { border-color: var(--red); background: var(--soft); color: var(--red2); }
+  .res { margin-top: 16px; border-radius: 16px; background: var(--ink); color: #FFFFFF; padding: 16px; }
+  .res h3 { margin: 0; font-size: 15px; font-weight: 800; color: #FFB4B7; text-transform: uppercase; letter-spacing: 0.8px; }
+  .res ul { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 6px; }
+  .res li { display: flex; justify-content: space-between; gap: 10px; font-size: 17px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.12); }
+  .res li b { font-size: 18px; white-space: nowrap; }
+  .res .note { font-size: 13px; color: #A9A9AE; margin: 10px 0 0; }
+  .res .b { width: 100%; margin-top: 12px; }
+
+  .cats { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+  .cats button { flex: none; min-height: 44px; padding: 8px 16px; border-radius: 99px; border: 1.5px solid var(--line); background: #FFFFFF; font: 800 15px/1 "Archivo", sans-serif; cursor: pointer; color: var(--ink); }
+  .cats button[aria-pressed="true"] { background: var(--ink); color: #FFFFFF; border-color: var(--ink); }
+  .grid { display: grid; gap: 10px; margin-top: 14px; }
+  .it { display: grid; grid-template-columns: 56px 1fr auto; gap: 12px; align-items: center; background: #FFFFFF; border: 1.5px solid var(--line); border-radius: 16px; padding: 10px 12px; }
+  .it .ph { width: 56px; height: 56px; border-radius: 12px; background: #EFEDEA; display: flex; align-items: center; justify-content: center; color: var(--red); }
+  .it b { display: block; font-size: 16px; line-height: 1.2; }
+  .it small { display: block; color: var(--mut); font-size: 13.5px; }
+  .it .pr { font-weight: 800; font-size: 15px; margin-top: 2px; }
+  .qty { display: flex; align-items: center; gap: 6px; }
+  .qty button { width: 40px; height: 40px; border-radius: 10px; border: 1.5px solid var(--line); background: #FFFFFF; font: 800 20px/1 "Archivo", sans-serif; cursor: pointer; color: var(--ink); }
+  .qty button.add { background: var(--red); border-color: var(--red); color: #FFFFFF; }
+  .qty span { min-width: 22px; text-align: center; font-weight: 800; }
+  .fict { font-size: 13px; color: var(--mut); margin-top: 10px; }
+
+  .serv { display: grid; gap: 10px; }
+  .sv { display: flex; gap: 14px; align-items: flex-start; }
+  .sv .ic { flex: none; width: 50px; height: 50px; border-radius: 14px; background: var(--soft); color: var(--red); display: flex; align-items: center; justify-content: center; }
+  .sv h3 { margin: 0; font-size: 18px; font-weight: 800; } .sv p { margin: 2px 0 0; color: var(--mut); font-size: 15.5px; }
+
+  .panel { background: #1C1C1E; color: #FFFFFF; border-radius: 22px; padding: 18px; }
+  .panel .tl { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .panel .tl span { font-size: 12.5px; font-weight: 800; padding: 5px 10px; border-radius: 99px; background: rgba(255,255,255,0.12); }
+  .kp { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; margin-top: 14px; }
+  .kp div { background: rgba(255,255,255,0.07); border-radius: 14px; padding: 10px; }
+  .kp b { display: block; font-size: 24px; } .kp small { color: #B9B9BE; font-size: 13px; }
+  .ord { margin-top: 12px; display: grid; gap: 8px; }
+  .od { background: rgba(255,255,255,0.06); border-radius: 14px; padding: 12px; display: grid; gap: 4px; }
+  .od .t { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+  .od b { font-size: 16px; } .od small { color: #B9B9BE; font-size: 14px; }
+  .st { border: none; font: 800 13px/1 "Archivo", sans-serif; padding: 8px 10px; border-radius: 99px; cursor: pointer; min-height: 34px; }
+  .s0 { background: #FFE2E3; color: #A9161D; } .s1 { background: #FFF0C7; color: #7A5600; } .s2 { background: #D7E8FF; color: #1D4F91; } .s3 { background: #D7F3E2; color: #116B37; }
+
+  .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: none; align-items: flex-end; justify-content: center; z-index: 60; padding: 10px; }
+  .modal.on { display: flex; }
+  .sheet { background: #FFFFFF; border-radius: 22px; padding: 18px; width: 100%; max-width: 500px; max-height: 92vh; overflow-y: auto; }
+  .sheet h3 { margin: 0; font-size: 20px; font-weight: 900; }
+  .lines { list-style: none; margin: 12px 0 0; padding: 0; }
+  .lines li { display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 15.5px; }
+  .tot { display: flex; justify-content: space-between; font-weight: 900; font-size: 19px; margin-top: 10px; }
+  .bub { background: #DCF8C6; border-radius: 16px 16px 4px 16px; padding: 12px 14px; font-size: 15.5px; white-space: pre-line; margin-top: 10px; }
+  .sheet .x { margin-top: 12px; width: 100%; min-height: 50px; border: none; border-radius: 12px; background: var(--ink); color: #FFFFFF; font: 800 16px/1 "Archivo", sans-serif; cursor: pointer; }
+  .mute { font-size: 13.5px; color: var(--mut); margin: 10px 0 0; }
+  footer { padding: 26px 0 60px; color: var(--mut); font-size: 15px; }
+  .mk { margin-top: 10px; padding: 14px; border-radius: 14px; background: #0B3D53; color: #D5E6ED; font-size: 14px; }
+  .mk b { color: #FFFFFF; }
+  @media (min-width: 820px) {
+    .hero h1 { font-size: 54px; } .hero { padding: 56px 0 60px; } .hero::after { display: block; } .ctas { flex-direction: row; }
+    h2 { font-size: 34px; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; }
+    .grid { grid-template-columns: 1fr 1fr; } .serv { grid-template-columns: 1fr 1fr; }
+    .modal { align-items: center; }
+  }
+</style>
+</head>
+<body>
+<div class="prop"><div class="w"><i></i>Propuesta de MARCEM para La Unión Materiales · maqueta con precios de ejemplo</div></div>
+<header class="top"><div class="w">
+  <a class="brand" href="#"><img src="data:image/webp;base64,UklGRsAOAABXRUJQVlA4WAoAAAAQAAAA4wAA4wAAQUxQSNMBAAABDzD/ERGCbm07lWxLDAxMQiAUQoPQCIUQMDEYpfsBaas+9973rIj+TwC9ZGVOBszMETZ/YwdqvM2guWMHqXxMkHFiyBJ4QGVhAnRJAUwJO90lCqrK4qTqsqKaMnaaSxE0rIyKpsmKoWHFVDnZUnkZq6Oo6pKo6bJo6Fg0AU6yAF5yAYKEgVHQEFnQEUUwECyYEHdaEH+6IOHE0HiomHSPhsmHjimHgeHDBLndAvlbXKCwY3DcVFS6Q0PlTUeVzUDxHSbM3WDB/G8XLNyA4dGu4pJdw2W7jit2A8d208CZLQP/rMsgmLFhfFS1SO/VLPKjukX5qGHBHzVN3J/WMvH/g5km7k9rmNA3dYvyUc0iP6papPcii/isyyCYLQP/rGngzIYBmXVcsWu4bFdxyY5w8QYXLNxgwfxvE+ZuMGB0g44qm4bKm4pKdyBU3F2gsFsgf4sJcrsBon3HlEPD5EPFpHsQJp4uSDgtiD9NiDsNCJ07oggaIgsIESUXIEgWwEsmwEkGgKRNl0VVl0Ski7Kl8rKpcrKhInnTZAVpouZSBM1UOE2XFdJWWVLRJQq6KXK6Limkr5IEoCXwiCEgZD0lCM2Dw7RdJvDcOBT9FglemRO9JQBWUDggxgwAADBMAJ0BKuQA5AA+MRiKQ6IhoRLqXXggAwSzt3BggDOVEgJc+S3cPOGsD9L+9X7pf575Xd7UTLqw/F/lp/bO2N+af877g/6S/3D+Y/r321fMJ/Lf7B/vv8V7UXrd/xPqEf1H/K9bT6C/7Qemn7N37iftV7Lmqr9IvxN/QD+J+Gzwx8uvnz2I/djofPT/cX75+Y/5Z/d3tR3kn8r/vv5Kf1j9s+cUAH+hf2rix04s1zzq/XP/g9Wn/bk/StLgTf6jOBp6AAQ3xqijq71C/4dWrBMeTEO7B1DPZ74/+l2uKU/8P/JKxFmoSR/9mrO+6ijwWfXAHNmlKF/SbYFw85Rpun6CzXxFJUzAlMsY6daY9i1yKPS8v/mqHcFjyZ2F8TC22IGVC4Z3uMNrLS8csSCQsfGb5BrLp3/rRTPuZPINNUr+xcTB6Srxmdm0Q7NffeODumTBnp+KtdZ2yS8mXfp308T4x0rgrHCfi09bZE1+M9xcj1n9uUGDRkcX+ufJVUY8AO8GdGJOuPyaij6X/XwT69oz2EHAMTt9IDG0PzFCB8Vhjng3BTWC/VvFw+nOnaXFqxMNqZn6t0NBlgJ2w4GvyUuwRQB+uhERkl21aSQNTPt1lh03jImLNF5CoVJqcTJV9JRAlz4JLnlnSE+VynaB+SG6UQbqMQrZ/0ktO8KLn7BMkUGkbeYdyZQFfc6xwJ0H4TPRHs1NIhy0KR0vVt1O139EulJQTEmf+hqFheBOyNFTJ25m0YswB5eCZyGbtBXc2lJ+eTro03zai/sehv7UBVrB8SlotFLarBzX1cOSai/nnZXJzJjtirBoAAD+8gOwP9Tpof3M4Tf+qggD//qdNf1TQA0P9ToDaGzN4/yAw2weV/+p1AfFUsMoH9eX5jTXB8X7nDBsMha18xnPf0ve8kjj3PEsJnsJqBsGp9DeBWjsqhVS5VQ6+9uEihGgJ7lvHnETSI2MjYCzWPQi+79+/0g24jNWSv613rfZYG43tglm9XrFx64oleb140pGwnLREqIZ+ViQ16ik1WoFSuqPWeFOXuwvtD2tO/+W2v1ATNeHkWtpfaiT+yOj2nKnY4tSVOEOSBuMCrgE1r7vH888Vc/b1PRPlzp8H2bm3LPp91Syr9dYt6bD679vlAX7b9ggZkr50tfKUmhoM+lRewnmL1wqQf1edu1JRuZMz5xn/7tRfounncUMnja3WkFKY1aeIlBv16Eat/JYGbiQcU4aJhldhTvMYNwth2Qf23c1qWQJye/eeL5GdDoUZ5lpQacyYyiSkmiMbxfHCG1cIcdLW3qCXc92n0KNL1wS5pDtZMIpJZ7iVurRboSTo1s7BDTymqla6iV8z+15Emrum/4Z3VZ7jo7T35XtufAKAWs9JiCjmrskI3OR4nD8kwJIU44a0ep2xjP/kWvkiZvGLmiWwyw6iIv6EPJgFlJNHg7CAeYYfmpbHYDQNdJdx6nmCcgN04mhk+i/SBUtL8dhYf8JY4Qi26Ac/hbxDCh6Y00yi5zXKmoVNRVlfZwJSv5dAGOrIvQ//35Gx5kjkVIyaNFCDx5eLGTco//s03N5Y7pmYBzwLhS2/Zu1/fv7pu02XhteC4pdHCowG/BUzcNTJh7YWBoxF9rBZlaqV4YpfN2ghM/CEaIPZXvFMfggaCuXLOa3uGxNM0ebjyS99abFfg19NpPvotvqOkvL4D23Fp6//wrkrh9hVlB8NJSN6QK1KzMKOJa5+xlSPdT5mh33M7CeQEWaiDJR+cyJrGpEQ5wFqtrn6dAtTskNVHlY05Uow+jHC6ing/O0u+XQoHc52H/WVt5qB+7TyL+QChEOn52VQWr2YyhNX0VERLcECQuJQoCRJFXf1tpXiMGrynefR///abtkdWdonpv3AgNoEW9TqBHH96Fcodw8hOb4BFiEp4AwAem1g9mCsmhYx+pcSutB+RMF2egf1//L7U2VhN5BeYjPMBN3cAnzCGvE5yadd3/i3bxKCcSVRfCrb6CuusPmjtZZnwEn/cpHPF3m/VaAOLVkXpvjKu5gqrVafMm0AWe2+zu7+1DrV5Mj52bBNMKlHtsVzcsvE+h+RsgUpiDJzKEnkjEZzqPHuULzFit5NFuGwe1fwu9We/IK4RTb83pa1dkCgXtS1wrRBw84binhDuAymww4r69IQ8tOui35wI57lz9KFDTYZdxGaqsXgBxLiBKT1MyXLg3hTNlCByvPsBhIa1XyTUWb9Cwv5ZmaBtCdRk1TpRevS9BmdNLTqsCRrar7ZyYGbPvTsHNbWlrI5cnxuNpMVSZVQyYuu3Bt6P2IIYHsp21/yoPGpg91T+9EpalJpTMAHT04wB+nFqLY++fi1puy31HyRV37Rpj3iyRdIKNWHfYRkKnhg71QGRpEqMZoDMzcA3ks07ypAMgA3HbTKRypvtO8FP+/75GiR0ThiR3JT4IXS16hkGooDBIP3YBc2lIGyqALlZP48GLK4Ha6SZXCNJYb5Y7dOicQ0YO0u8F6EsQHX4mqxvf4kF4gAmU5rOueSZBqYVHvnROTEhbT3XdfZiG6vbwKZ6l196Nmk2b2/Zs2/UFWCXeh4BG4RdxhOWzqDcOwdZYJdZ/2ZgC7eJzvyRhRf5X7NuEnaaIbXChcCCe7xAwAA+KYY7qkgWVF//9DbjpOhwer2zA2yLiVZ9yNTBkefpW5cluEoHC7ok30lFPB9aXr9SLBSfOhYCLK2bbZKAsokOs+ZNB9zE1O+DPDnrhr1/oDRfstNOlN3tz87Cnc83OxbQy4rO6bk14uXbjOucOwgdpnHqiDDjEQUiCROLfIt1CwR73McBJ7dckln91NmIhIRFDHXooPu9bniQwcfp5K4RuHF8T3QMajuyDiiDJzVP/K3XFATeXb/6qDc/3iW6dU6PklfayJsxFoiCMEVR1VBrJhjhfpVIH+e/6OFkaB+1jmuk6HJ/04ff6z/ngK98ibVg35wGK2eJO/TKfGuOH6QJv2hAlQ86Q+NwlFpDJsfKX6iwEbd8h8wSho6iFI6sRDD9QTgPj5CycBNegFl3V/SbSrwScvKg+Gcfhoa31b2lTTFnOVE3AFMkouepgIX/7BWun2WPAmmI84xB9J82n1LKrgF9nnoDuc8PlUNATU7WRWP11SLH5aiMvtOqZyemVZGSCsgc1llQc7V5HSwrCbEFdK6OVwo/HVAIUYgubFuayYS26UxRdYqANJJURZevWbRg0uxkYL9nQk1v+/PsZJ8zwe+wMtGfQkrdbxiguu3ctNLbExz3CJc0HadZuwV6Kw8+xfO6nLVbkvdGBv+nI2zEChaFwJESf9HfvlwTJRzVme2+ge/k9ekbDxk3SqjXwpZbY+Fsxuh+YeqPmYNrJt/gPNztBz1EOkc8c5pbpQccLZ1hVVcXUpbJ+DYMjPabx5IWc9086k8smV7Rwebq9trE7lXGQwxdCRxz9szL2azB5rcSBjbU9101rfuiE0+VcKJLdDNeoXQ1uZvqEj7e4iSqwEBiveDPZ5v6HtqoXPzEXMQkmVG+tPMUEV1LKNKMlRWj9i+DwvoEi/Pohu3flHQH6pQdMrWgH0yFPCR+nySc9Fxg3LONvrc+FWTeBMY9V8b+hWwb6I1vtCBewfRI3lHJ4SL6qySG0CnVER8VcBvV+9p9y8nOs5H8vQoioS6013gY6lnUX+/lu86qeakgYzPD9JuM7IGji42tX90uKSINL2F3vK9C80bvPGf90esUjPEeEJb2bMl4A7b2yVx4DEgJMSIn0Pp3U/Y20ECK2QdyAPlqnyD90Hi9KbpmvZ1j/4r/EP/JWlmBbHH3L0POf6O/uv/If+46R3BavWx8/7P+Yn49inLROF/3/8/EvVaOe+sDV+caD/6UqZHgD0iLJE0OhT0go0YXO13wlBCzp/4R7D4wUWZACZjcqHN2gwPkfEuK2nmAojgkjXVgVahOMVuP5TBPHTf35ItLbYXG1gmd6hE83kDCWfxwIjW2XqTqi/g8gyPKP3iFhgFHGYqCmcWz4GAtjDyGveFNyOUNrm/9xUGIBd7UFj/nELj4BCweqbU3kDyhFK5jUFRN8AOvs5EiJ379JWWR2owZukaTUbm9zIuM6X5FVv5vEkL7PjGC675f0nKDNHGWvihVnpBM7uLW7TY/Dzer5dDf4BN5TnKM7GDzqNYMKqV575OGr/VQQEiNSr7sba5bmhhWb4ZaPogyAL/qzEv6+0jZ7NKJSte7QeFQU9DtwPre2DKTRBnvlSR0GRXxllgJhU6FobMYVL/aTly4bAFOp3avBGuKYQH9ZrnvBgPEYnGZkXXdiS8sMZDzyBCA170j/l0Gv+XRA4CSSjv0fgADH/1UNj/VQQAVX+qhV/yLiEL/qoIAAAAA==" alt="La Unión Materiales"><span><b>La Unión</b><small>Materiales para la construcción</small></span></a>
+  <button class="cart-btn" type="button" id="open-cart"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6"/><circle cx="10" cy="20" r="1.2"/><circle cx="17" cy="20" r="1.2"/></svg>Pedido <span id="cart-n">0</span></button>
+</div></header>
+
+<section class="hero"><div class="w">
+  <span class="tag">San Nicolás · más de 25 años</span>
+  <h1>Calculá, pedí y <em>te lo llevamos a la obra.</em></h1>
+  <p>Materiales para la construcción con atención personalizada. Armá tu pedido acá y te llega completo por WhatsApp.</p>
+  <div class="ctas"><a class="b b-red" href="#calcular">Calcular cuánto necesito</a><a class="b b-w" href="#productos">Ver productos</a></div>
+  <div class="facts"><span>Envío con camión con hidrogrúa</span><span>Columnas armadas</span><span>Promos bancarias</span></div>
+</div></section>
+
+<main>
+  <section id="calcular"><div class="w two">
+    <div>
+      <h2>¿Cuánto necesito?</h2>
+      <p class="sub">Poné las medidas y te decimos cuánto material llevar. Con un toque lo sumás al pedido.</p>
+    </div>
+    <div class="card">
+      <div class="seg" role="group" aria-label="Tipo de trabajo">
+        <button type="button" data-c="pared" aria-pressed="true">Pared</button>
+        <button type="button" data-c="contrapiso" aria-pressed="false">Contrapiso</button>
+        <button type="button" data-c="carpeta" aria-pressed="false">Carpeta</button>
+      </div>
+      <div class="row">
+        <div class="fld"><label for="c-largo">Largo (m)</label><input id="c-largo" type="number" inputmode="decimal" min="0" step="0.1" value="4"></div>
+        <div class="fld"><label for="c-alto" id="c-alto-l">Alto (m)</label><input id="c-alto" type="number" inputmode="decimal" min="0" step="0.1" value="2.6"></div>
+      </div>
+      <div class="fld" style="margin-top: 14px;" id="c-tipo-w"><span class="l" id="c-tipo-l">Tipo de ladrillo</span><div class="opts" id="c-tipo"></div></div>
+      <div class="res" aria-live="polite">
+        <h3 id="c-sum">Pared de 10,4 m²</h3>
+        <ul id="c-list"></ul>
+        <p class="note">Cálculo estimativo con 10% de desperdicio, para la maqueta. En la web real los coeficientes los define La Unión.</p>
+        <button class="b b-red" type="button" id="c-add">Sumar todo al pedido</button>
+      </div>
+    </div>
+  </div></section>
+
+  <section id="productos" style="padding-top: 6px;"><div class="w">
+    <h2>Productos</h2>
+    <p class="sub">Elegí las cantidades y armá tu pedido. Precios de ejemplo.</p>
+    <div class="cats" role="group" aria-label="Categorías" id="cats"></div>
+    <div class="grid" id="grid"></div>
+    <p class="fict">Los precios de esta maqueta son ficticios. En la web real los carga y actualiza La Unión.</p>
+  </div></section>
+
+  <section style="padding-top: 6px;"><div class="w">
+    <div class="card">
+      <h2 style="font-size: 24px;">Servicios</h2>
+      <div class="serv" style="margin-top: 14px;">
+        <div class="sv"><span class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></svg></span><div><h3>Envío a obra</h3><p>Camión con hidrogrúa para bajar bolsones y pallets donde los necesitás.</p></div></div>
+        <div class="sv"><span class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 3v18M17 3v18M7 7h10M7 12h10M7 17h10"/></svg></span><div><h3>Columnas y vigas armadas</h3><p>Hierros listos para usar: menos tiempo en obra y mayor precisión.</p></div></div>
+        <div class="sv"><span class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg></span><div><h3>Promos bancarias</h3><p>Descuentos con bancos según el día. Consultá las vigentes.</p></div></div>
+        <div class="sv"><span class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></span><div><h3>Atención personalizada</h3><p>Más de 25 años asesorando a particulares y constructores.</p></div></div>
+      </div>
+    </div>
+  </div></section>
+
+  <section style="padding-top: 6px;"><div class="w two">
+    <div>
+      <h2>Y del lado de La Unión</h2>
+      <p class="sub">Cada pedido que llega por la web queda en un panel: qué hay que preparar, qué sale hoy en el camión y qué ya se entregó. Tocá un estado para avanzarlo.</p>
+    </div>
+    <div class="panel">
+      <div class="tl"><b>Pedidos de hoy</b><span>Vista interna · datos de ejemplo</span></div>
+      <div class="kp"><div><b id="k0">0</b><small>Nuevos</small></div><div><b id="k1">0</b><small>Preparando</small></div><div><b id="k2">0</b><small>En reparto</small></div></div>
+      <div class="ord" id="ord"></div>
+    </div>
+  </div></section>
+</main>
+
+<footer><div class="w">
+  <span>La Unión Materiales · San Nicolás · Instagram @launionmateriales</span>
+  <div class="mk"><b>Maqueta hecha por MARCEM para La Unión Materiales.</b> Los productos, precios, coeficientes de cálculo y pedidos son de ejemplo. El botón de WhatsApp muestra el mensaje que se enviaría, pero no lo envía.</div>
+</div></footer>
+
+<div class="modal" id="mdl" role="dialog" aria-modal="true" aria-labelledby="mdl-h"><div class="sheet">
+  <h3 id="mdl-h">Tu pedido</h3>
+  <ul class="lines" id="m-lines"></ul>
+  <div class="tot"><span>Total estimado</span><span id="m-tot">$0</span></div>
+  <div class="fld" style="margin-top: 14px;"><span class="l">Entrega</span><div class="opts" id="m-ent"><button class="opt" type="button" data-e="0" aria-pressed="true">Envío a obra</button><button class="opt" type="button" data-e="1" aria-pressed="false">Retiro</button></div></div>
+  <div class="fld" style="margin-top: 12px;" id="m-dir-w"><label for="m-dir">Dirección de la obra</label><input id="m-dir" placeholder="Calle, número y barrio"></div>
+  <div class="fld" style="margin-top: 12px;"><label for="m-nom">Nombre</label><input id="m-nom" placeholder="Nombre y apellido"></div>
+  <button class="b b-red" type="button" id="m-send" style="width: 100%; margin-top: 14px; background: var(--wa);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Enviar pedido por WhatsApp</button>
+  <div id="m-prev"></div>
+  <button class="x" type="button" id="m-x">Cerrar</button>
+</div></div>
+
+<script>
+(function () {
+  var P = [
+    { id: 'cem', c: 'Cementos y cales', n: 'Cemento x 50 kg', u: 'bolsa', p: 13500 },
+    { id: 'cal', c: 'Cementos y cales', n: 'Cal hidratada x 25 kg', u: 'bolsa', p: 6200 },
+    { id: 'plast', c: 'Cementos y cales', n: 'Cemento de albañilería x 40 kg', u: 'bolsa', p: 9800 },
+    { id: 'lcom', c: 'Ladrillos', n: 'Ladrillo común', u: 'unidad', p: 190 },
+    { id: 'h12', c: 'Ladrillos', n: 'Ladrillo hueco 12 × 18 × 33', u: 'unidad', p: 780 },
+    { id: 'h18', c: 'Ladrillos', n: 'Ladrillo hueco 18 × 18 × 33', u: 'unidad', p: 1050 },
+    { id: 'arena', c: 'Áridos', n: 'Arena', u: 'm³', p: 42000 },
+    { id: 'piedra', c: 'Áridos', n: 'Piedra partida 6-20', u: 'm³', p: 68000 },
+    { id: 'casc', c: 'Áridos', n: 'Cascote', u: 'm³', p: 25000 },
+    { id: 'h8', c: 'Hierros', n: 'Hierro aletado 8 mm × 12 m', u: 'barra', p: 9400 },
+    { id: 'h10', c: 'Hierros', n: 'Hierro aletado 10 mm × 12 m', u: 'barra', p: 14600 },
+    { id: 'malla', c: 'Hierros', n: 'Malla sima 15 × 15 (2 × 6 m)', u: 'unidad', p: 38500 },
+    { id: 'col', c: 'Hierros', n: 'Columna armada 15 × 15', u: 'unidad', p: 32000 }
+  ];
+  var CATS = ['Todos', 'Cementos y cales', 'Ladrillos', 'Áridos', 'Hierros'];
+  var cart = {};
+  var $ = function (id) { return document.getElementById(id); };
+  var fmt = function (n) { return '$' + Math.round(n).toLocaleString('es-AR'); };
+  var byId = {}; P.forEach(function (p) { byId[p.id] = p; });
+  var ICO = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18v10H3z"/><path d="M3 14h18M9 9v5M15 14v5"/></svg>';
+
+  // ----- catálogo -----
+  var cat = 'Todos';
+  $('cats').innerHTML = CATS.map(function (c) { return '<button type="button" data-k="' + c + '" aria-pressed="' + (c === cat) + '">' + c + '</button>'; }).join('');
+  $('cats').addEventListener('click', function (e) { var b = e.target.closest('[data-k]'); if (!b) return; cat = b.dataset.k; $('cats').querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); grid(); });
+  function grid() {
+    $('grid').innerHTML = P.filter(function (p) { return cat === 'Todos' || p.c === cat; }).map(function (p) {
+      var q = cart[p.id] || 0;
+      return '<div class="it"><span class="ph">' + ICO + '</span><div><b>' + p.n + '</b><small>por ' + p.u + '</small><div class="pr">' + fmt(p.p) + '</div></div>' +
+        '<div class="qty">' + (q ? '<button type="button" data-m="' + p.id + '" aria-label="Quitar uno">−</button><span>' + q + '</span>' : '') + '<button type="button" class="add" data-a="' + p.id + '" aria-label="Agregar ' + p.n + '">+</button></div></div>';
+    }).join('');
+  }
+  $('grid').addEventListener('click', function (e) {
+    var a = e.target.closest('[data-a]'), m = e.target.closest('[data-m]');
+    if (a) cart[a.dataset.a] = (cart[a.dataset.a] || 0) + 1;
+    if (m) { cart[m.dataset.m]--; if (cart[m.dataset.m] <= 0) delete cart[m.dataset.m]; }
+    if (a || m) { grid(); count(); }
+  });
+  function count() { var n = 0; for (var k in cart) n += cart[k]; $('cart-n').textContent = n; }
+
+  // ----- calculadora (coeficientes de ejemplo) -----
+  var mode = 'pared', tipo = 'h12';
+  var LAD = { lcom: { n: 'Común (pared de 15)', u: 60, mort: 0.04 }, h12: { n: 'Hueco 12 × 18 × 33', u: 15, mort: 0.012 }, h18: { n: 'Hueco 18 × 18 × 33', u: 15, mort: 0.017 } };
+  var ESP = { contrapiso: [{ k: 8, n: '8 cm' }, { k: 10, n: '10 cm' }, { k: 12, n: '12 cm' }], carpeta: [{ k: 2, n: '2 cm' }, { k: 3, n: '3 cm' }] };
+  var esp = 10, items = [];
+  function opts() {
+    if (mode === 'pared') {
+      $('c-tipo-l').textContent = 'Tipo de ladrillo';
+      $('c-tipo').innerHTML = Object.keys(LAD).map(function (k) { return '<button class="opt" type="button" data-t="' + k + '" aria-pressed="' + (k === tipo) + '">' + LAD[k].n + '</button>'; }).join('');
+    } else {
+      $('c-tipo-l').textContent = 'Espesor';
+      if (!ESP[mode].some(function (x) { return x.k === esp; })) esp = ESP[mode][mode === 'carpeta' ? 1 : 1].k;
+      $('c-tipo').innerHTML = ESP[mode].map(function (x) { return '<button class="opt" type="button" data-t="' + x.k + '" aria-pressed="' + (x.k === esp) + '">' + x.n + '</button>'; }).join('');
+    }
+  }
+  $('c-tipo').addEventListener('click', function (e) { var b = e.target.closest('[data-t]'); if (!b) return; if (mode === 'pared') tipo = b.dataset.t; else esp = +b.dataset.t; opts(); calc(); });
+  document.querySelectorAll('[data-c]').forEach(function (b) { b.onclick = function () { mode = b.dataset.c; document.querySelectorAll('[data-c]').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); $('c-alto-l').textContent = mode === 'pared' ? 'Alto (m)' : 'Ancho (m)'; $('c-alto').value = mode === 'pared' ? 2.6 : 4; esp = mode === 'carpeta' ? 3 : 10; opts(); calc(); }; });
+  ['c-largo', 'c-alto'].forEach(function (id) { $(id).addEventListener('input', calc); });
+  function up(x) { return Math.ceil(x * 1.1); }
+  function up1(x) { return Math.ceil(x * 1.1 * 10) / 10; }
+  function calc() {
+    var a = Math.max(0, parseFloat($('c-largo').value) || 0) * Math.max(0, parseFloat($('c-alto').value) || 0);
+    items = [];
+    if (mode === 'pared') {
+      var L = LAD[tipo], mort = a * L.mort;
+      items = [[tipo, up(a * L.u)], ['cem', up(mort * 5)], ['cal', up(mort * 8)], ['arena', up1(mort * 1.1)]];
+      $('c-sum').textContent = 'Pared de ' + a.toLocaleString('es-AR', { maximumFractionDigits: 1 }) + ' m² · ' + L.n;
+    } else if (mode === 'contrapiso') {
+      var v = a * esp / 100;
+      items = [['cem', up(v * 2)], ['cal', up(v * 4)], ['arena', up1(v * 0.5)], ['casc', up1(v * 0.9)]];
+      $('c-sum').textContent = 'Contrapiso de ' + a.toLocaleString('es-AR', { maximumFractionDigits: 1 }) + ' m² · ' + esp + ' cm';
+    } else {
+      var v2 = a * esp / 100;
+      items = [['cem', up(v2 * 8)], ['arena', up1(v2 * 1.1)]];
+      $('c-sum').textContent = 'Carpeta de ' + a.toLocaleString('es-AR', { maximumFractionDigits: 1 }) + ' m² · ' + esp + ' cm';
+    }
+    items = items.filter(function (x) { return x[1] > 0; });
+    $('c-list').innerHTML = items.length ? items.map(function (x) { var p = byId[x[0]]; return '<li><span>' + p.n + '</span><b>' + x[1].toLocaleString('es-AR') + ' ' + (p.u === 'unidad' ? 'u.' : p.u + (p.u !== 'm³' && x[1] > 1 ? 's' : '')) + '</b></li>'; }).join('') : '<li><span>Cargá las medidas</span></li>';
+  }
+  $('c-add').onclick = function () {
+    items.forEach(function (x) { var q = byId[x[0]].u === 'm³' ? Math.ceil(x[1]) : x[1]; cart[x[0]] = (cart[x[0]] || 0) + q; });
+    grid(); count(); openCart();
+  };
+
+  // ----- pedido -----
+  var ent = 0;
+  function openCart() {
+    var keys = Object.keys(cart), tot = 0;
+    $('m-lines').innerHTML = keys.length ? keys.map(function (k) { var p = byId[k], s = p.p * cart[k]; tot += s; return '<li><span>' + cart[k] + ' × ' + p.n + '</span><b>' + fmt(s) + '</b></li>'; }).join('') : '<li><span>Todavía no agregaste productos</span></li>';
+    $('m-tot').textContent = fmt(tot); $('m-prev').innerHTML = '';
+    $('mdl').classList.add('on');
+  }
+  $('open-cart').onclick = openCart;
+  $('m-x').onclick = function () { $('mdl').classList.remove('on'); };
+  $('mdl').addEventListener('click', function (e) { if (e.target === $('mdl')) $('mdl').classList.remove('on'); });
+  $('m-ent').addEventListener('click', function (e) { var b = e.target.closest('[data-e]'); if (!b) return; ent = +b.dataset.e; $('m-ent').querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); $('m-dir-w').style.display = ent ? 'none' : ''; });
+  $('m-send').onclick = function () {
+    var keys = Object.keys(cart); if (!keys.length) return;
+    var tot = 0, lines = keys.map(function (k) { var p = byId[k]; tot += p.p * cart[k]; return '• ' + cart[k] + ' × ' + p.n; }).join('\n');
+    var msg = 'Hola, soy ' + ($('m-nom').value.trim() || '[nombre]') + '. Quiero hacer este pedido:\n' + lines + '\nTotal estimado: ' + fmt(tot) + '\n' + (ent ? 'Lo retiro en el corralón.' : 'Envío a obra: ' + ($('m-dir').value.trim() || '[dirección]') + '.') + '\n¿Me confirman disponibilidad y costo de envío?';
+    $('m-prev').innerHTML = '<p class="mute">Así le llega a La Unión (en la maqueta solo se muestra, no se envía):</p><div class="bub"></div>';
+    $('m-prev').querySelector('.bub').textContent = msg;
+  };
+
+  // ----- panel interno (ejemplo) -----
+  var ST = ['Nuevo', 'Preparando', 'En reparto', 'Entregado'];
+  var O = [
+    { n: 'Pedido #1042 · Cliente Ejemplo', d: '120 huecos 12, 8 cemento, 1 m³ arena', z: 'Envío · Barrio Ejemplo', s: 0 },
+    { n: 'Pedido #1041 · Constructor Ejemplo', d: '10 columnas armadas, 30 barras del 8', z: 'Envío con hidrogrúa · Obra Ejemplo', s: 1 },
+    { n: 'Pedido #1040 · Cliente Ejemplo', d: '15 cemento, 20 cal, 2 m³ arena', z: 'Envío · Zona centro', s: 2 },
+    { n: 'Pedido #1039 · Cliente Ejemplo', d: '4 mallas sima, 6 cemento', z: 'Retira en el corralón', s: 3 }
+  ];
+  function panel() {
+    $('ord').innerHTML = O.map(function (o, i) { return '<div class="od"><div class="t"><b>' + o.n + '</b><button type="button" class="st s' + o.s + '" data-o="' + i + '">' + ST[o.s] + '</button></div><small>' + o.d + '</small><small>' + o.z + '</small></div>'; }).join('');
+    [0, 1, 2].forEach(function (k) { $('k' + k).textContent = O.filter(function (o) { return o.s === k; }).length; });
+  }
+  $('ord').addEventListener('click', function (e) { var b = e.target.closest('[data-o]'); if (!b) return; var o = O[+b.dataset.o]; o.s = (o.s + 1) % 4; panel(); });
+
+  grid(); opts(); calc(); panel();
+})();
+</script>
+</body>
+</html>
