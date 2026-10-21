@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo: página para panadería (ejemplo ficticio) · MARCEM</title>
+<meta name="description" content="Probá una página para panaderías hecha por MARCEM: horneadas del día, encargos y tortas a medida por WhatsApp. Ejemplo ficticio.">
+<link rel="canonical" href="https://marcem-digital.vercel.app/demo-panaderia.html">
+<meta name="theme-color" content="#082A3A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="MARCEM">
+<meta property="og:title" content="Demo: página para panadería (ejemplo ficticio) · MARCEM">
+<meta property="og:description" content="Probá una página para panaderías hecha por MARCEM: horneadas del día, encargos y tortas a medida por WhatsApp. Ejemplo ficticio.">
+<meta property="og:url" content="https://marcem-digital.vercel.app/demo-panaderia.html">
+<meta property="og:image" content="https://marcem-digital.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  img, svg { display: block; }
+  .demo-bar { background: #0B3D53; color: #D5E6ED; font: 700 13px/1.3 system-ui, -apple-system, sans-serif; }
+  .demo-bar .in { max-width: 1100px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+  .demo-bar span { display: inline-flex; gap: 8px; align-items: center; }
+  .demo-bar i { width: 8px; height: 8px; border-radius: 9px; background: #25D366; }
+  .demo-bar a { color: #FFFFFF; text-decoration: none; white-space: nowrap; }
+  .made { padding: 28px 20px 110px; font: 14px/1.5 system-ui, -apple-system, sans-serif; }
+  .made .in { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .made-box { display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 18px; background: #0B3D53; color: #D5E6ED; }
+  .made-box b { color: #FFFFFF; font-size: 16px; }
+  .made-box a { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 12px 22px; border-radius: 999px; background: #25D366; color: #FFFFFF; font-weight: 700; text-decoration: none; flex-shrink: 0; }
+  .float { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 40; width: 58px; height: 58px; border-radius: 999px; background: #25D366; color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 30px rgba(37,211,102,0.38); }
+  @media (min-width: 760px) { .made-box { flex-direction: row; align-items: center; justify-content: space-between; } }
+
+  .mdl { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: flex-end; justify-content: center; z-index: 60; padding: 10px; }
+  .mdl.on { display: flex; }
+  .sh { background: #FFFFFF; color: #16181D; border-radius: 22px; padding: 18px; width: 100%; max-width: 480px; font-family: system-ui, -apple-system, sans-serif; }
+  .sh h3 { margin: 0; font-size: 19px; }
+  .sh .bub { margin-top: 12px; background: #DCF8C6; border-radius: 16px 16px 4px 16px; padding: 12px 14px; font-size: 15.5px; white-space: pre-line; }
+  .sh p { margin: 10px 0 0; font-size: 13.5px; color: #5A5F6A; }
+  .sh button { margin-top: 12px; width: 100%; min-height: 50px; border: none; border-radius: 12px; background: #16181D; color: #FFFFFF; font: 700 16px/1 system-ui, sans-serif; cursor: pointer; }
+  @media (min-width: 760px) { .mdl { align-items: center; } }
+
+  :root { --bg: #FBF3E6; --ink: #3A2416; --mut: #7A6252; --ac: #C2702E; --ac2: #9A5520; --cream: #FFFAF2; --line: #EBDCC7; --dk: #3A2416; }
+  body { background: var(--bg); color: var(--ink); font-family: "Nunito", system-ui, sans-serif; font-size: 16.5px; line-height: 1.55; }
+  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; margin: 0; font-weight: 700; }
+  .w { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+  .nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 16px 0; }
+  .nav b { font-family: "Fraunces", serif; font-size: 21px; line-height: 1.1; }
+  .st { display: inline-flex; align-items: center; gap: 7px; font-size: 13.5px; font-weight: 800; color: var(--ac2); background: #F6E1C6; padding: 7px 12px; border-radius: 99px; white-space: nowrap; }
+  .st i { width: 8px; height: 8px; border-radius: 99px; background: #3E9B57; } .st.off i { background: #B5352B; }
+  .hero { display: grid; gap: 6px; padding: 6px 0 10px; }
+  .hero h1 { font-size: clamp(38px, 10.5vw, 66px); line-height: 1.0; letter-spacing: -0.01em; }
+  .hero h1 span { color: var(--ac); font-style: italic; }
+  .hero p { margin: 12px 0 0; color: var(--mut); max-width: 30em; font-size: 17px; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+  .b1, .b2 { display: inline-flex; align-items: center; min-height: 52px; padding: 12px 20px; border-radius: 16px; font-weight: 800; text-decoration: none; font-size: 16px; }
+  .b1 { background: var(--ac); color: #FFFFFF; } .b2 { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
+  .hero svg { width: 100%; max-width: 460px; height: auto; display: block; margin: 0 auto; }
+  .steam path { animation: up 3s ease-in-out infinite; } .steam path:nth-child(2) { animation-delay: .8s; } .steam path:nth-child(3) { animation-delay: 1.6s; }
+  @keyframes up { 0%, 100% { opacity: 0; transform: translateY(6px); } 50% { opacity: 1; transform: translateY(-4px); } }
+  @media (prefers-reduced-motion: reduce) { .steam path { animation: none; } }
+  .horno { background: var(--dk); color: #FFFFFF; border-radius: 26px; padding: 20px; margin-top: 14px; }
+  .horno .hd { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .horno h2 { font-size: 24px; } .horno .nx { color: #F4C98E; font-weight: 800; font-size: 15px; }
+  .hz { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; margin-top: 14px; }
+  .hz div { border: 1.5px solid #5A4130; border-radius: 16px; padding: 12px 8px; text-align: center; }
+  .hz b { display: block; font-family: "Fraunces", serif; font-size: 23px; } .hz small { color: #D9C3AE; font-size: 13.5px; line-height: 1.3; display: block; }
+  .hz div.now { background: var(--ac); border-color: var(--ac); } .hz div.now small { color: #FFF1E2; }
+  .hz div.done { opacity: .45; }
+  section { padding: 34px 0; }
+  h2 { font-size: clamp(30px, 7.5vw, 44px); line-height: 1.06; }
+  .sub { margin: 6px 0 16px; color: var(--mut); }
+  .tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 14px; }
+  .tabs button { flex: none; min-height: 44px; padding: 8px 16px; border-radius: 99px; border: 1.5px solid var(--line); background: var(--cream); font: 800 15px/1 "Nunito", sans-serif; color: var(--ink); cursor: pointer; }
+  .tabs button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #FFFFFF; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+  .pc { background: var(--cream); border: 1.5px solid var(--line); border-radius: 22px; padding: 10px 10px 12px; display: flex; flex-direction: column; }
+  .pc.off { display: none; }
+  .art { background: #F6E6CF; border-radius: 16px; aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center; }
+  .art svg { width: 86%; height: auto; }
+  .pi { padding: 10px 4px 0; flex: 1; } .pi h3 { font-family: "Nunito", sans-serif; font-weight: 800; font-size: 16px; line-height: 1.25; }
+  .pi small { display: block; color: var(--mut); font-size: 13.5px; } .pi b { display: block; margin-top: 4px; font-size: 17px; color: var(--ac2); }
+  .q { display: flex; align-items: center; justify-content: space-between; gap: 6px; margin-top: 10px; }
+  .q button { width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid var(--line); background: #FFFFFF; font: 800 20px/1 "Nunito", sans-serif; color: var(--ink); cursor: pointer; }
+  .q button[data-a] { background: var(--ac); border-color: var(--ac); color: #FFFFFF; }
+  .q span { font-weight: 800; font-size: 17px; }
+  .bar { position: fixed; left: 10px; right: 10px; bottom: 10px; z-index: 40; display: none; }
+  .bar.on { display: block; }
+  .bar button { width: 100%; max-width: 560px; margin: 0 auto; min-height: 60px; border: none; border-radius: 18px; background: var(--ink); color: #FFFFFF; display: flex; justify-content: space-between; align-items: center; padding: 0 18px; font: 800 16px/1 "Nunito", sans-serif; cursor: pointer; box-shadow: 0 10px 30px rgba(58,36,22,.3); }
+  .bar em { font-style: normal; background: var(--ac); padding: 8px 12px; border-radius: 12px; }
+  body.cart .float { display: none; }
+  body.cart { padding-bottom: 84px; }
+  .sheet { position: fixed; inset: 0; background: rgba(30,18,10,.5); z-index: 50; display: none; align-items: flex-end; justify-content: center; padding: 10px; }
+  .sheet.on { display: flex; }
+  .sh2 { background: var(--cream); border-radius: 24px; padding: 20px; width: 100%; max-width: 520px; max-height: 88vh; overflow: auto; }
+  .sh2 h3 { font-size: 24px; } .li { display: flex; justify-content: space-between; gap: 10px; padding: 9px 0; border-bottom: 1px dashed var(--line); }
+  .lbl { display: block; font-weight: 800; margin: 16px 0 8px; }
+  .chs { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chs button { min-height: 44px; padding: 8px 14px; border-radius: 99px; border: 1.5px solid var(--line); background: #FFFFFF; font: 700 15px/1 "Nunito", sans-serif; color: var(--ink); cursor: pointer; }
+  .chs button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #FFFFFF; }
+  .inp { width: 100%; min-height: 50px; padding: 10px 14px; border-radius: 14px; border: 1.5px solid var(--line); background: #FFFFFF; font: 600 16.5px/1.2 "Nunito", sans-serif; color: var(--ink); }
+  .tot { display: flex; justify-content: space-between; margin-top: 16px; font-weight: 800; font-size: 19px; }
+  .go { margin-top: 14px; width: 100%; min-height: 56px; border: none; border-radius: 16px; background: #25D366; color: #FFFFFF; font: 800 17px/1 "Nunito", sans-serif; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; }
+  .x { margin-top: 8px; width: 100%; min-height: 46px; border: none; background: transparent; font: 700 15px/1 "Nunito", sans-serif; color: var(--mut); cursor: pointer; }
+  .tc { background: #FFFFFF; border: 1.5px solid var(--line); border-radius: 26px; padding: 20px; }
+  .cake { width: 200px; height: 170px; margin: 0 auto 6px; display: block; }
+  .cake .f { transition: fill .3s; } .cake .cv { transition: fill .3s; }
+  .tp { display: flex; justify-content: space-between; align-items: baseline; margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--line); }
+  .tp b { font-family: "Fraunces", serif; font-size: 28px; color: var(--ac2); } .tp small { color: var(--mut); font-size: 13.5px; }
+  .info { display: grid; gap: 10px; }
+  .ib { background: var(--cream); border: 1.5px solid var(--line); border-radius: 22px; padding: 18px; }
+  .ib h3 { font-size: 21px; margin-bottom: 8px; }
+  .ib table { width: 100%; border-collapse: collapse; font-size: 15.5px; } .ib td { padding: 5px 0; } .ib td + td { text-align: right; font-weight: 700; }
+  .ib tr.td td { color: var(--ac2); font-weight: 800; }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; } .pills span { background: #F6E1C6; color: var(--ac2); font-weight: 800; font-size: 14px; padding: 6px 12px; border-radius: 99px; }
+  .fict { font-size: 13px; color: var(--mut); margin-top: 12px; }
+  @media (min-width: 760px) {
+    .hero { grid-template-columns: 1.05fr 1fr; align-items: center; gap: 30px; padding-top: 20px; }
+    .grid { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .two { display: grid; grid-template-columns: 1fr 1.1fr; gap: 30px; align-items: start; }
+    .info { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .sheet { align-items: center; }
+  }
+</style>
+<div class="demo-bar"><div class="in"><span><i></i>Demo — ejemplo ficticio hecho por MARCEM</span><a href="./">Volver a MARCEM →</a></div></div>
+<div class="w">
+  <nav class="nav"><b>Panadería Ejemplo</b><span class="st" id="st"><i></i><span id="st-t">Lun a sáb 7 a 21</span></span></nav>
+  <header class="hero">
+    <div>
+      <h1>Pan de verdad, <span>recién salido del horno.</span></h1>
+      <p>Masa madre, manteca y tiempo. Encargá desde acá, pasá a retirar y te lo damos listo, sin hacer fila.</p>
+      <div class="ctas"><a class="b1" href="#encargo">Hacer un encargo</a><a class="b2" href="#tortas">Pedir una torta</a></div>
+    </div>
+    <svg viewBox="0 0 360 230" aria-hidden="true"><defs><linearGradient id="gd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EDB66B"/><stop offset="1" stop-color="#B8682A"/></linearGradient><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3CF95"/><stop offset="1" stop-color="#D49A55"/></linearGradient></defs><ellipse cx="180" cy="206" rx="160" ry="14" fill="#3A2416" opacity=".10"/><rect x="24" y="120" width="312" height="78" rx="22" fill="#C99561"/><rect x="24" y="120" width="312" height="10" rx="5" fill="#D9AA77"/><g stroke="#B07E4D" stroke-width="2" opacity=".5"><path d="M40 150h120M190 168h130M60 182h90"/></g><g transform="translate(36 70) scale(1.25)"><ellipse cx="60" cy="70" rx="50" ry="6" fill="#000" opacity=".08"/><path d="M12 56c0-18 22-26 48-26s48 8 48 26c0 8-20 12-48 12S12 64 12 56Z" fill="url(#gd)" stroke="#8E4E1E" stroke-width="1.5"/><g stroke="#F4D29C" stroke-width="5" stroke-linecap="round"><path d="M32 46l12-8"/><path d="M54 46l12-8"/><path d="M76 46l12-8"/></g></g><g transform="translate(176 56) scale(1.3)"><g stroke="#8E4E1E" stroke-width="1.5"><ellipse cx="22" cy="62" rx="11" ry="8" transform="rotate(-35 22 62)" fill="url(#gd)"/><ellipse cx="98" cy="62" rx="11" ry="8" transform="rotate(35 98 62)" fill="url(#gd)"/><ellipse cx="38" cy="54" rx="17" ry="14" transform="rotate(-20 38 54)" fill="url(#gd)"/><ellipse cx="82" cy="54" rx="17" ry="14" transform="rotate(20 82 54)" fill="url(#gd)"/><ellipse cx="60" cy="48" rx="22" ry="19" fill="url(#gd)"/></g><path d="M50 38q10-6 20 0" stroke="#F6D9A8" stroke-width="3" fill="none" stroke-linecap="round"/></g><g transform="translate(120 120) scale(.85)"><g stroke="#8E4E1E" stroke-width="1.5"><circle cx="40" cy="52" r="24" fill="url(#gd)"/><circle cx="80" cy="50" r="24" fill="url(#gl)"/></g><circle cx="40" cy="52" r="9" fill="#B5352B"/><circle cx="80" cy="50" r="10" fill="#7A3E1A"/><path d="M73 46q7-4 14 0" stroke="#C88A55" stroke-width="2" fill="none"/><g fill="#FFFFFF"><circle cx="30" cy="40" r="1.5"/><circle cx="52" cy="44" r="1.5"/><circle cx="34" cy="66" r="1.5"/><circle cx="50" cy="62" r="1.5"/></g></g><g class="steam" stroke="#C2702E" stroke-width="3" fill="none" stroke-linecap="round" opacity=".45"><path d="M110 60c-8-10 8-16 0-28"/><path d="M134 54c-8-10 8-16 0-28"/><path d="M252 50c-8-10 8-16 0-28"/></g></svg>
+  </header>
+  <div class="horno" aria-live="polite">
+    <div class="hd"><h2>Sale del horno</h2><span class="nx" id="nx"></span></div>
+    <div class="hz" id="hz"><div data-h="7"><b>7:00</b><small>Pan y medialunas</small></div><div data-h="11.5"><b>11:30</b><small>Pan y criollitos</small></div><div data-h="17"><b>17:00</b><small>Facturas y pan</small></div></div>
+  </div>
+</div>
+<main>
+  <section id="encargo"><div class="w">
+    <h2>Encargá para retirar</h2><p class="sub">Sumá lo que quieras, elegí cuándo pasás y te lo dejamos embolsado.</p>
+    <div class="tabs" role="group" aria-label="Categorías" id="tabs"><button type="button" data-f="todo" aria-pressed="true">Todo</button><button type="button" data-f="panes" aria-pressed="false">Panes</button><button type="button" data-f="facturas" aria-pressed="false">Facturas</button><button type="button" data-f="dulces" aria-pressed="false">Dulces</button><button type="button" data-f="salados" aria-pressed="false">Salados</button></div>
+    <div class="grid" id="grid"><article class="pc" data-c="panes"><div class="art"><svg viewBox="0 0 120 90" aria-hidden="true"><defs><linearGradient id="gd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EDB66B"/><stop offset="1" stop-color="#B8682A"/></linearGradient><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3CF95"/><stop offset="1" stop-color="#D49A55"/></linearGradient></defs><ellipse cx="60" cy="70" rx="50" ry="6" fill="#000" opacity=".08"/><path d="M12 56c0-18 22-26 48-26s48 8 48 26c0 8-20 12-48 12S12 64 12 56Z" fill="url(#gd)" stroke="#8E4E1E" stroke-width="1.5"/><g stroke="#F4D29C" stroke-width="5" stroke-linecap="round"><path d="M32 46l12-8"/><path d="M54 46l12-8"/><path d="M76 46l12-8"/></g></svg></div><div class="pi"><h3>Pan francés</h3><small>el kilo</small><b>$2.800</b></div><div class="q"><button type="button" data-r="pan" aria-label="Quitar Pan francés">−</button><span id="q-pan">0</span><button type="button" data-a="pan" aria-label="Agregar Pan francés">+</button></div></article><article class="pc" data-c="panes"><div class="art"><svg viewBox="0 0 120 90" aria-hidden="true"><defs><linearGradient id="gd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EDB66B"/><stop offset="1" stop-color="#B8682A"/></linearGradient><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3CF95"/><stop offset="1" stop-color="#D49A55"/></linearGradient></defs><g stroke="#8E4E1E" stroke-width="1.5"><rect x="18" y="40" width="40" height="34" rx="9" fill="url(#gd)"/><rect x="62" y="40" width="40" height="34" rx="9" fill="url(#gd)"/><rect x="40" y="18" width="40" height="34" rx="9" fill="url(#gl)"/></g><g stroke="#8E4E1E" stroke-width="1.2" opacity=".6"><path d="M48 30h24M48 38h24M60 22v26"/><path d="M26 52h24M26 60h24M70 52h24M70 60h24"/></g></svg></div><div class="pi"><h3>Criollitos</h3><small>el kilo</small><b>$5.400</b></div><div class="q"><button type="button" data-r="cri" aria-label="Quitar Criollitos">−</button><span id="q-cri">0</span><button type="button" data-a="cri" aria-label="Agregar Criollitos">+</button></div></article><article class="pc" data-c="panes"><div class="art"><svg viewBox="0 0 120 90" aria-hidden="true"><defs><linearGradient id="gd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EDB66B"/><stop offset="1" stop-color="#B8682A"/></linearGradient><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3CF95"/><stop offset="1" stop-color="#D49A55"/></linearGradient></defs><ellipse cx="60" cy="76" rx="40" ry="6" fill="#000" opacity=".08"/><path d="M20 62c0-24 18-40 40-40s40 16 40 40c0 8-18 12-40 12S20 70 20 62Z" fill="url(#gd)" stroke="#8E4E1E" stroke-width="1.5"/><g stroke="#F4D29C" stroke-width="4" stroke-linecap="round"><path d="M42 40l36 20"/><path d="M78 40L42 60"/></g><g fill="#FFF7EA" opacity=".8"><circle cx="50" cy="32" r="1.6"/><circle cx="66" cy="30" r="1.6"/><circle cx="74" cy="44" r="1.6"/><circle cx="44" cy="50" r="1.6"/></g></svg></div><div class="pi"><h3>Pan de campo</h3><small>la unidad</small><b>$3.900</b></div><div class="q"><button type="button" data-r="cam" aria-label="Quitar Pan de campo">−</button><span id="q-cam">0</span><button type="button" data-a="cam" aria-label="Agregar Pan de campo">+</button></div></article><article class="pc" data-c="facturas"><div class="art"><svg viewBox="0 0 120 90" aria-hidden="true"><defs><linearGradient id="gd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EDB66B"/><stop offset="1" stop-color="#B8682A"/></linearGradient><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3CF95"/><stop offset="1" stop-color="#D49A55"/></linearGradient></defs><g stroke="#8E4E1E" stroke-width="1.5"><ellipse cx="22" cy="62" rx="11" ry="8" transform="rotate(-35 22 62)" fill="url(#gd)"/><ellipse cx="98" cy="62" rx="11" ry="8" transform="rotate(35 98 62)" fill="url(#gd)"/><ellipse cx="38" cy="54" rx="17" ry="14" transform="rotate(-20 38 54)" fill="url(#gd)"/><ellipse cx="82" cy="54" rx="17" ry="14" transform="rotate(20 82 54)" fill="url(#gd)"/><ellipse cx="60" cy="48" rx="22" ry="19" fill="url(#gd)"/></g><path d="M50 38q10-6 20 0" stroke="#F6D9A8" stroke-width="3" fill="none" stroke-linecap="round"/></svg></div><div class="pi"><h3>Medialunas de manteca</h3><small>la docena</small><b>$6.500</b></div><div class="q"><button type="button" data-r="med" aria-label="Quitar Medialunas de manteca">−</button><span id="q-med">0</span><button type="button" data-a="med" aria-label="Agregar Medialunas de manteca">+</button></div></article><article class="pc" data-c="facturas"><div class="art"><svg viewBox="0 0 120 90" aria-hidden="true"><defs><linearGradient id="gd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EDB66B"/><stop offset="1" stop-color="#B8682A"/></linearGradient><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3CF95"/><stop offset="1" stop-color="#D49A55"/></linearGradient></defs><g stroke="#8E4E1E" stroke-width="1.5"><circle cx="40" cy="52" r="24" fill="url(#gd)"/><circle cx="80" cy="50" r="24" fill="url(#gl)"/></g><circle cx="40" cy="52" r="9" fill="#B5352B"/><circle cx="80" cy="50" r="10" fill="#7A3E1A"/><path d="M73 46q7-4 14 0" stroke="#C88A55" stroke-width="2" fill="none"/><g fill="#FFFFFF"><circle cx="30" cy="40" r="1.5"/><circle cx="52" cy="44" r="1.5"/><circle cx="34" cy="66" r="1.5"/><circle cx="50" cy="62" r="1.5"/></g></svg></div><div class="pi"><h3>Facturas surtidas</h3><small>la docena</small><b>$7.200</b></div><div class="q"><button type="button" data-r="fac" aria-label="Quitar Facturas surtidas">−</button><span id="q-fac">0</span><button type="button" data-a="fac" aria-label="Agregar Facturas surtidas">+</button></div></article><article class="pc" data-c="dulces"><div class="art"><svg viewBox="0 0 120 90" aria-hidden="true"><defs><linearGradient id="gd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EDB66B"/><stop offset="1" stop-color="#B8682A"/></linearGradient><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3CF95"/><stop offset="1" stop-color="#D49A55"/></linearGradient></defs><ellipse cx="60" cy="78" rx="48" ry="5" fill="#000" opacity=".08"/><path d="M18 40h84l-8 36H26Z" fill="url(#gd)" stroke="#8E4E1E" stroke-width="1.5"/><path d="M16 40c0-12 20-18 44-18s44 6 44 18c-6 0-6 8-12 8s-6-6-12-6-6 10-12 10-6-8-12-8-6 6-12 6-6-10-12-10-6 8-12 8-6-8-12-8Z" fill="#FFFDF7" stroke="#E6D9C2" stroke-width="1.2"/><g fill="#E8C534"><circle cx="44" cy="30" r="2.5"/><circle cx="70" cy="28" r="2.5"/><circle cx="58" cy="34" r="2.5"/></g></svg></div><div class="pi"><h3>Budín de limón</h3><small>la unidad</small><b>$6.800</b></div><div class="q"><button type="button" data-r="bud" aria-label="Quitar Budín de limón">−</button><span id="q-bud">0</span><button type="button" data-a="bud" aria-label="Agregar Budín de limón">+</button></div></article><article class="pc" data-c="dulces"><div class="art"><svg viewBox="0 0 120 90" aria-hidden="true"><defs><linearGradient id="gd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EDB66B"/><stop offset="1" stop-color="#B8682A"/></linearGradient><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3CF95"/><stop offset="1" stop-color="#D49A55"/></linearGradient></defs><ellipse cx="60" cy="76" rx="50" ry="6" fill="#000" opacity=".08"/><ellipse cx="60" cy="52" rx="50" ry="22" fill="url(#gd)" stroke="#8E4E1E" stroke-width="1.5"/><ellipse cx="60" cy="50" rx="42" ry="17" fill="#A8382B"/><clipPath id="cp"><ellipse cx="60" cy="50" rx="42" ry="17"/></clipPath><g clip-path="url(#cp)" stroke="#E9B06A" stroke-width="5"><path d="M20 30l30 40M40 30l30 40M60 30l30 40M80 30l30 40"/><path d="M100 30L70 70M80 30L50 70M60 30L30 70M40 30L10 70"/></g></svg></div><div class="pi"><h3>Pastafrola</h3><small>la unidad</small><b>$9.500</b></div><div class="q"><button type="button" data-r="pfr" aria-label="Quitar Pastafrola">−</button><span id="q-pfr">0</span><button type="button" data-a="pfr" aria-label="Agregar Pastafrola">+</button></div></article><article class="pc" data-c="dulces"><div class="art"><svg viewBox="0 0 120 90" aria-hidden="true"><defs><linearGradient id="gd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EDB66B"/><stop offset="1" stop-color="#B8682A"/></linearGradient><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3CF95"/><stop offset="1" stop-color="#D49A55"/></linearGradient></defs><ellipse cx="60" cy="80" rx="46" ry="5" fill="#000" opacity=".08"/><g transform="translate(40 46)"><ellipse cx="0" cy="22" rx="30" ry="9" fill="#EBD3A6" stroke="#C9AE80" stroke-width="1.2"/><rect x="-30" y="10" width="60" height="12" fill="#9A5A28"/><ellipse cx="0" cy="10" rx="30" ry="9" fill="#F7E6C4" stroke="#C9AE80" stroke-width="1.2"/><g fill="#FFFFFF" stroke="#E2D2B4" stroke-width=".6"><circle cx="-26" cy="16" r="2.4"/><circle cx="-14" cy="19" r="2.4"/><circle cx="0" cy="20" r="2.4"/><circle cx="14" cy="19" r="2.4"/><circle cx="26" cy="16" r="2.4"/></g></g><g transform="translate(80 46)"><ellipse cx="0" cy="22" rx="30" ry="9" fill="#EBD3A6" stroke="#C9AE80" stroke-width="1.2"/><rect x="-30" y="10" width="60" height="12" fill="#9A5A28"/><ellipse cx="0" cy="10" rx="30" ry="9" fill="#F7E6C4" stroke="#C9AE80" stroke-width="1.2"/><g fill="#FFFFFF" stroke="#E2D2B4" stroke-width=".6"><circle cx="-26" cy="16" r="2.4"/><circle cx="-14" cy="19" r="2.4"/><circle cx="0" cy="20" r="2.4"/><circle cx="14" cy="19" r="2.4"/><circle cx="26" cy="16" r="2.4"/></g></g><g transform="translate(60 22)"><ellipse cx="0" cy="22" rx="30" ry="9" fill="#EBD3A6" stroke="#C9AE80" stroke-width="1.2"/><rect x="-30" y="10" width="60" height="12" fill="#9A5A28"/><ellipse cx="0" cy="10" rx="30" ry="9" fill="#F7E6C4" stroke="#C9AE80" stroke-width="1.2"/><g fill="#FFFFFF" stroke="#E2D2B4" stroke-width=".6"><circle cx="-26" cy="16" r="2.4"/><circle cx="-14" cy="19" r="2.4"/><circle cx="0" cy="20" r="2.4"/><circle cx="14" cy="19" r="2.4"/><circle cx="26" cy="16" r="2.4"/></g></g></svg></div><div class="pi"><h3>Alfajores de maicena</h3><small>la docena</small><b>$7.800</b></div><div class="q"><button type="button" data-r="alf" aria-label="Quitar Alfajores de maicena">−</button><span id="q-alf">0</span><button type="button" data-a="alf" aria-label="Agregar Alfajores de maicena">+</button></div></article><article class="pc" data-c="salados"><div class="art"><svg viewBox="0 0 120 90" aria-hidden="true"><defs><linearGradient id="gd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EDB66B"/><stop offset="1" stop-color="#B8682A"/></linearGradient><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3CF95"/><stop offset="1" stop-color="#D49A55"/></linearGradient></defs><g stroke="#9C6A2A" stroke-width="1.4"><circle cx="34" cy="56" r="15" fill="url(#gl)"/><circle cx="62" cy="58" r="15" fill="url(#gl)"/><circle cx="90" cy="56" r="15" fill="url(#gl)"/><circle cx="48" cy="34" r="15" fill="url(#gl)"/><circle cx="76" cy="34" r="15" fill="url(#gl)"/></g><g fill="#B57A2E" opacity=".55"><circle cx="30" cy="52" r="1.6"/><circle cx="66" cy="54" r="1.6"/><circle cx="88" cy="60" r="1.6"/><circle cx="52" cy="30" r="1.6"/><circle cx="72" cy="38" r="1.6"/></g></svg></div><div class="pi"><h3>Chipá</h3><small>el cuarto kilo</small><b>$4.200</b></div><div class="q"><button type="button" data-r="chi" aria-label="Quitar Chipá">−</button><span id="q-chi">0</span><button type="button" data-a="chi" aria-label="Agregar Chipá">+</button></div></article><article class="pc" data-c="salados"><div class="art"><svg viewBox="0 0 120 90" aria-hidden="true"><defs><linearGradient id="gd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EDB66B"/><stop offset="1" stop-color="#B8682A"/></linearGradient><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3CF95"/><stop offset="1" stop-color="#D49A55"/></linearGradient></defs><g stroke="#D9CBB1" stroke-width="1.4"><path d="M14 70L52 20l38 50Z" fill="#FFFDF7"/><path d="M50 72L88 22l18 50Z" fill="#FFFDF7"/></g><path d="M22 64h60" stroke="#E0B4A8" stroke-width="4"/><path d="M28 58h48" stroke="#8DB36A" stroke-width="3"/><path d="M58 66h44" stroke="#F0D26B" stroke-width="4"/></svg></div><div class="pi"><h3>Sándwiches de miga</h3><small>la docena</small><b>$9.800</b></div><div class="q"><button type="button" data-r="mig" aria-label="Quitar Sándwiches de miga">−</button><span id="q-mig">0</span><button type="button" data-a="mig" aria-label="Agregar Sándwiches de miga">+</button></div></article><article class="pc" data-c="salados"><div class="art"><svg viewBox="0 0 120 90" aria-hidden="true"><defs><linearGradient id="gd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EDB66B"/><stop offset="1" stop-color="#B8682A"/></linearGradient><linearGradient id="gl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3CF95"/><stop offset="1" stop-color="#D49A55"/></linearGradient></defs><ellipse cx="60" cy="74" rx="50" ry="6" fill="#000" opacity=".08"/><ellipse cx="60" cy="52" rx="50" ry="22" fill="url(#gl)" stroke="#9C6A2A" stroke-width="1.5"/><ellipse cx="60" cy="50" rx="42" ry="17" fill="#C9432F"/><g fill="#E7B95B" opacity=".55"><circle cx="44" cy="46" r="3"/><circle cx="72" cy="54" r="3"/><circle cx="62" cy="42" r="3"/></g></svg></div><div class="pi"><h3>Prepizzas</h3><small>la unidad</small><b>$2.500</b></div><div class="q"><button type="button" data-r="pre" aria-label="Quitar Prepizzas">−</button><span id="q-pre">0</span><button type="button" data-a="pre" aria-label="Agregar Prepizzas">+</button></div></article></div>
+  </div></section>
+  <section id="tortas" style="padding-top: 0;"><div class="w two">
+    <div><h2>Tu torta, a medida</h2><p class="sub">Elegí tamaño, relleno y cobertura. Te pasamos el precio estimado y la confirmamos por WhatsApp. Pedila con 48 hs de anticipación.</p></div>
+    <div class="tc">
+      <svg class="cake" viewBox="0 0 200 170" aria-hidden="true"><ellipse cx="100" cy="156" rx="86" ry="9" fill="#3A2416" opacity=".1"/><rect x="18" y="148" width="164" height="8" rx="4" fill="#E6D3BA"/>
+        <rect class="cv" x="30" y="58" width="140" height="90" rx="10" fill="#FFF6EA"/><rect x="38" y="66" width="124" height="22" rx="4" fill="#E8C18E"/><rect class="f" x="38" y="88" width="124" height="10" fill="#A0602E"/><rect x="38" y="98" width="124" height="22" rx="0" fill="#E8C18E"/><rect class="f" x="38" y="120" width="124" height="10" fill="#A0602E"/><rect x="38" y="130" width="124" height="12" rx="3" fill="#E8C18E"/>
+        <path class="cv" d="M30 64c0-8 10-12 18-12h104c8 0 18 4 18 12 0 6-6 6-9 12-3-6-9-6-12 0-3-6-9-6-12 0-3-6-9-6-12 0-3-6-9-6-12 0-3-6-9-6-12 0-3-6-9-6-12 0-3-6-9-6-12 0-3-6-9-6-12 0-3-6-9-6-12 0-3-6-9-6-12 0-3-6-6-6-9-12Z" fill="#FFF6EA"/>
+        <g id="tp"><circle cx="70" cy="46" r="7" fill="#D9343A"/><circle cx="100" cy="42" r="7" fill="#D9343A"/><circle cx="130" cy="46" r="7" fill="#D9343A"/></g><rect x="97" y="12" width="6" height="26" rx="2" fill="#7FA6C9"/><path d="M100 2c4 4 4 8 0 10-4-2-4-6 0-10Z" fill="#F2B544"/></svg>
+      <span class="lbl">Tamaño</span><div class="chs" id="t-s"><button type="button" data-v="0" aria-pressed="true">1 kg · 10-12 porciones</button><button type="button" data-v="1" aria-pressed="false">2 kg · 20-24</button><button type="button" data-v="2" aria-pressed="false">3 kg · 30-36</button></div>
+      <span class="lbl">Relleno</span><div class="chs" id="t-r"><button type="button" data-v="0" aria-pressed="true">Dulce de leche</button><button type="button" data-v="1" aria-pressed="false">Crema y frutillas</button><button type="button" data-v="2" aria-pressed="false">Chocolate</button><button type="button" data-v="3" aria-pressed="false">Mousse de limón</button></div>
+      <span class="lbl">Cobertura</span><div class="chs" id="t-c"><button type="button" data-v="0" aria-pressed="true">Merengue</button><button type="button" data-v="1" aria-pressed="false">Chantilly</button><button type="button" data-v="2" aria-pressed="false">Ganache</button></div>
+      <label class="lbl" for="t-d">¿Para qué día?</label><input class="inp" id="t-d" type="date">
+      <label class="lbl" for="t-x">Texto en la torta (opcional)</label><input class="inp" id="t-x" placeholder="Ej.: Feliz cumple, Juli">
+      <div class="tp"><div><small>Precio estimado</small><br><b id="t-p"></b></div><small>Precio de ejemplo</small></div>
+      <button class="go" type="button" id="t-go"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Consultar esta torta</button>
+    </div>
+  </div></section>
+  <section style="padding-top: 0;"><div class="w">
+    <h2>Dónde y cuándo</h2>
+    <div class="info" style="margin-top: 16px;">
+      <div class="ib"><h3>Horarios</h3><table id="hr"><tr data-d="1 2 3 4 5"><td>Lunes a viernes</td><td>7 a 21</td></tr><tr data-d="6"><td>Sábados</td><td>7 a 21</td></tr><tr data-d="0"><td>Domingos</td><td>8 a 13</td></tr></table></div>
+      <div class="ib"><h3>Dirección</h3><p style="margin: 0;">Calle Ejemplo 123, San Nicolás.<br>Encargos grandes (eventos, oficinas) con 24 hs de anticipación.</p></div>
+      <div class="ib"><h3>Medios de pago</h3><div class="pills"><span>Efectivo</span><span>Transferencia</span><span>Débito</span><span>Crédito</span></div></div>
+    </div>
+    <p class="fict">Panadería, productos, ilustraciones, horarios y precios de ejemplo.</p>
+  </div></section>
+</main>
+<footer class="made" style="color: #7A6252;"><div class="in"><div class="made-box"><div><b>Esta página es una demo de MARCEM.</b><br>La panadería, los productos y los precios son ficticios. Así puede quedar la tuya: con tu nombre, tu estilo y tu WhatsApp.</div><a href="https://wa.me/5493364626434?text=Hola%20Marcelo%2C%20vi%20la%20demo%20de%20landing%20para%20panader%C3%ADas%20y%20quiero%20una%20para%20mi%20trabajo." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Quiero una así</a></div><span>Demo hecha por <a href="./">MARCEM · Soluciones digitales</a></span></div></footer>
+<a class="float" href="https://wa.me/?text=Hola%2C%20quiero%20hacer%20un%20encargo." target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></a>
+<div class="bar" id="bar"><button type="button" id="bar-b"><span id="bar-n"></span><em>Ver encargo</em></button></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-h"><div class="sh2">
+  <h3 id="sh-h">Tu encargo</h3><div id="sh-l"></div>
+  <div class="tot"><span>Total estimado</span><span id="sh-t"></span></div>
+  <span class="lbl">¿Cuándo pasás?</span><div class="chs" id="sh-d"><button type="button" data-v="Hoy" aria-pressed="true">Hoy</button><button type="button" data-v="Mañana" aria-pressed="false">Mañana</button></div>
+  <label class="lbl" for="sh-h2">Horario</label><select class="inp" id="sh-h2"></select>
+  <label class="lbl" for="sh-n">Tu nombre</label><input class="inp" id="sh-n" placeholder="Nombre">
+  <button class="go" type="button" id="sh-go"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Encargar por WhatsApp</button>
+  <button class="x" type="button" id="sh-x">Seguir eligiendo</button>
+</div></div>
+<div class="mdl" id="mdl" role="dialog" aria-modal="true" aria-labelledby="mdl-h"><div class="sh"><h3 id="mdl-h">Así llega por WhatsApp</h3><div class="bub" id="mdl-m"></div><p>En la web real este botón abre WhatsApp con el mensaje listo. En la demo solo te lo mostramos.</p><button type="button" onclick="document.getElementById('mdl').classList.remove('on')">Entendido</button></div></div>
+<script>
+function showWA(m){document.getElementById('mdl-m').textContent=m;document.getElementById('mdl').classList.add('on');}
+(function () {
+  var $ = function (i) { return document.getElementById(i); };
+  var fmt = function (n) { return '$' + n.toLocaleString('es-AR'); };
+  var now = new Date(), hr = now.getHours() + now.getMinutes() / 60, dw = now.getDay();
+  // abierto / cerrado
+  var open = dw === 0 ? (hr >= 8 && hr < 13) : (hr >= 7 && hr < 21);
+  $('st').classList.toggle('off', !open); $('st-t').textContent = open ? 'Abierto ahora' : 'Cerrado ahora';
+  document.querySelectorAll('#hr tr').forEach(function (r) { if (r.dataset.d.split(' ').indexOf(String(dw)) > -1) r.className = 'td'; });
+  // horneadas
+  var hz = Array.prototype.slice.call(document.querySelectorAll('#hz div')), nxt = null;
+  hz.forEach(function (d) { var h = parseFloat(d.dataset.h); if (h + 0.5 < hr) d.classList.add('done'); else if (!nxt) nxt = d; });
+  if (dw === 0) { $('nx').textContent = 'Domingos: una sola horneada a las 8'; }
+  else if (nxt) { nxt.classList.add('now'); var m = Math.round((parseFloat(nxt.dataset.h) - hr) * 60); $('nx').textContent = m > 0 ? 'Próxima en ' + (m >= 60 ? Math.floor(m / 60) + ' h ' : '') + (m % 60) + ' min' : '¡Saliendo ahora!'; }
+  else { $('nx').textContent = 'Mañana arrancamos a las 7'; }
+  // catálogo
+  var P = {"pan": ["Pan francés", 2800], "cri": ["Criollitos", 5400], "cam": ["Pan de campo", 3900], "med": ["Medialunas de manteca", 6500], "fac": ["Facturas surtidas", 7200], "bud": ["Budín de limón", 6800], "pfr": ["Pastafrola", 9500], "alf": ["Alfajores de maicena", 7800], "chi": ["Chipá", 4200], "mig": ["Sándwiches de miga", 9800], "pre": ["Prepizzas", 2500]}, c = {};
+  $('tabs').addEventListener('click', function (e) { var b = e.target.closest('[data-f]'); if (!b) return; $('tabs').querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); document.querySelectorAll('.pc').forEach(function (p) { p.classList.toggle('off', b.dataset.f !== 'todo' && p.dataset.c !== b.dataset.f); }); });
+  function tot() { var t = 0, n = 0; for (var k in c) { t += c[k] * P[k][1]; n += c[k]; } return [t, n]; }
+  function upd() { for (var k in P) $('q-' + k).textContent = c[k] || 0; var r = tot(); $('bar-n').textContent = r[1] + (r[1] === 1 ? ' producto · ' : ' productos · ') + fmt(r[0]); $('bar').classList.toggle('on', r[1] > 0); document.body.classList.toggle('cart', r[1] > 0); }
+  $('grid').addEventListener('click', function (e) { var a = e.target.closest('[data-a]'), r = e.target.closest('[data-r]'); if (a) c[a.dataset.a] = (c[a.dataset.a] || 0) + 1; if (r && c[r.dataset.r]) { c[r.dataset.r]--; if (!c[r.dataset.r]) delete c[r.dataset.r]; } if (a || r) upd(); });
+  var dia = 'Hoy';
+  function horas() { var s = $('sh-h2'), o = [], from = dia === 'Hoy' ? Math.ceil(hr + 0.5) : 7, to = (dia === 'Hoy' ? dw : (dw + 1) % 7) === 0 ? 13 : 21; if (dia === 'Mañana' && to === 13) from = 8; for (var h = Math.max(from, dia === 'Hoy' && dw === 0 ? 8 : 7); h < to; h++) o.push('<option>' + h + ':00</option>'); s.innerHTML = o.length ? o.join('') : '<option>Hoy ya cerramos: elegí mañana</option>'; }
+  function sheet() { var l = '', r = tot(); for (var k in c) l += '<div class="li"><span>' + c[k] + ' × ' + P[k][0] + '</span><b>' + fmt(c[k] * P[k][1]) + '</b></div>'; $('sh-l').innerHTML = l; $('sh-t').textContent = fmt(r[0]); horas(); $('sheet').classList.add('on'); }
+  $('bar-b').onclick = sheet; $('sh-x').onclick = function () { $('sheet').classList.remove('on'); };
+  $('sh-d').addEventListener('click', function (e) { var b = e.target.closest('[data-v]'); if (!b) return; dia = b.dataset.v; $('sh-d').querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); horas(); });
+  $('sh-go').onclick = function () { var l = []; for (var k in c) l.push('• ' + c[k] + ' × ' + P[k][0]); $('sheet').classList.remove('on'); showWA('Hola, soy ' + ($('sh-n').value.trim() || '[nombre]') + '. Quiero encargar:\n' + l.join('\n') + '\nTotal estimado: ' + fmt(tot()[0]) + '\nPaso a retirar: ' + dia.toLowerCase() + ', ' + $('sh-h2').value + '.'); };
+  // torta
+  var S = [['1 kg', 28000], ['2 kg', 52000], ['3 kg', 75000]], R = [['dulce de leche', '#A0602E', 0], ['crema y frutillas', '#F0B7BF', 3000], ['chocolate', '#5A321E', 2000], ['mousse de limón', '#F2DC7A', 2500]], C = [['merengue', '#FFF6EA'], ['chantilly', '#FFFFFF'], ['ganache', '#5A321E']], t = { s: 0, r: 0, c: 0 };
+  function cake() { document.querySelectorAll('.cake .f').forEach(function (x) { x.setAttribute('fill', R[t.r][1]); }); document.querySelectorAll('.cake .cv').forEach(function (x) { x.setAttribute('fill', C[t.c][1]); }); $('tp').style.display = t.r === 1 ? '' : 'none'; $('t-p').textContent = fmt(S[t.s][1] + R[t.r][2] * (t.s + 1)); }
+  [['t-s', 's'], ['t-r', 'r'], ['t-c', 'c']].forEach(function (g) { $(g[0]).addEventListener('click', function (e) { var b = e.target.closest('[data-v]'); if (!b) return; t[g[1]] = +b.dataset.v; $(g[0]).querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); cake(); }); });
+  var md = new Date(Date.now() + 2 * 864e5); $('t-d').min = md.toISOString().slice(0, 10);
+  $('t-go').onclick = function () { var d = $('t-d').value, x = $('t-x').value.trim(); showWA('Hola, quiero encargar una torta de ' + S[t.s][0] + ', rellena de ' + R[t.r][0] + ' con cobertura de ' + C[t.c][0] + ', para el ' + (d ? d.split('-').reverse().join('/') : '[fecha]') + '.' + (x ? '\nTexto: "' + x + '".' : '') + '\nPrecio estimado: ' + $('t-p').textContent + '. ¿Me confirman?'); };
+  cake(); upd();
+})();
+</script>
+</body>
+</html>
