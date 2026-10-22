@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contame de tu negocio · MARCEM</title>
+<meta name="description" content="Una ficha corta para contarme cómo trabajás hoy y qué te gustaría resolver. Te respondo por WhatsApp con una idea concreta.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Contame de tu negocio · MARCEM">
+<meta property="og:description" content="5 minutos para contarme cómo trabajás y qué te gustaría resolver.">
+<meta property="og:image" content="https://marcem-digital.vercel.app/og-image.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap">
+<style>
+  :root { --nv: #082A3A; --pe: #0B3D53; --ac: #25D366; --bg: #F5F7F8; --card: #FFFFFF; --ink: #10232C; --mut: #5A6B73; --line: #DCE6EA; --soft: #E4EEF1; --hi: #8EC5DA; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Manrope", system-ui, sans-serif; font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  .top { background: var(--nv); color: #FFFFFF; position: relative; overflow: hidden; }
+  .top::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 32px 32px; -webkit-mask-image: radial-gradient(circle at 80% 20%, #000, transparent 70%); mask-image: radial-gradient(circle at 80% 20%, #000, transparent 70%); }
+  .top .in { position: relative; max-width: 640px; margin: 0 auto; padding: 22px max(16px, env(safe-area-inset-left, 0px)) 26px; }
+  .brand { font-weight: 800; letter-spacing: .04em; font-size: 15px; } .brand span { color: var(--ac); }
+  h1 { font-size: clamp(28px, 7.5vw, 40px); line-height: 1.1; margin: 18px 0 0; font-weight: 800; letter-spacing: -.01em; }
+  h1 em { font-style: normal; color: var(--hi); }
+  .top p { color: #B9D0DA; margin: 10px 0 0; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; font-size: 13.5px; font-weight: 600; color: #D6E6EC; }
+  .meta span { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); padding: 5px 11px; border-radius: 99px; }
+  main { max-width: 640px; margin: 0 auto; padding: 18px max(16px, env(safe-area-inset-right, 0px)) 40px max(16px, env(safe-area-inset-left, 0px)); }
+  .prog { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 10px 0; }
+  .prog .bar { height: 6px; background: var(--soft); border-radius: 99px; overflow: hidden; } .prog .bar i { display: block; height: 100%; width: 0; background: var(--ac); border-radius: 99px; transition: width .25s; }
+  .prog small { display: block; margin-top: 6px; color: var(--mut); font-size: 12.5px; font-weight: 600; }
+  fieldset { border: 1px solid var(--line); background: var(--card); border-radius: 18px; padding: 18px; margin: 12px 0 0; }
+  legend { float: left; width: 100%; padding: 0; font-weight: 800; font-size: 18px; color: var(--pe); margin-bottom: 4px; }
+  legend + * { clear: both; }
+  .hint { color: var(--mut); font-size: 14px; margin: 0 0 12px; }
+  label.f { display: block; font-weight: 700; font-size: 14.5px; margin: 14px 0 6px; }
+  label.f:first-of-type { margin-top: 4px; }
+  input[type=text], input[type=tel], textarea, select { width: 100%; min-height: 50px; padding: 11px 14px; border-radius: 12px; border: 1.5px solid var(--line); background: #FFFFFF; font: 500 16px/1.4 "Manrope", sans-serif; color: var(--ink); }
+  textarea { min-height: 96px; resize: vertical; }
+  input:focus, textarea:focus, select:focus { outline: 3px solid rgba(37,211,102,.35); border-color: var(--ac); }
+  .chs { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chs label { position: relative; }
+  .chs input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .chs span { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 14px; border-radius: 99px; border: 1.5px solid var(--line); background: #FFFFFF; font-weight: 600; font-size: 14.5px; cursor: pointer; }
+  .chs input:checked + span { background: var(--pe); border-color: var(--pe); color: #FFFFFF; }
+  .chs input:focus-visible + span { outline: 3px solid rgba(37,211,102,.45); }
+  .two { display: grid; gap: 0 12px; } @media (min-width: 560px) { .two { grid-template-columns: 1fr 1fr; } }
+  .send { margin-top: 18px; background: var(--card); border: 1.5px solid var(--ac); border-radius: 18px; padding: 18px; }
+  .send h2 { margin: 0; font-size: 19px; color: var(--pe); }
+  .send p { margin: 6px 0 0; color: var(--mut); font-size: 14.5px; }
+  .go { margin-top: 14px; width: 100%; min-height: 56px; border: none; border-radius: 99px; background: var(--ac); color: #FFFFFF; font: 800 16.5px/1 "Manrope", sans-serif; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; box-shadow: 0 8px 24px rgba(37,211,102,.35); text-decoration: none; }
+  .err { display: none; color: #B42318; font-weight: 700; font-size: 14px; margin-top: 10px; } .err.on { display: block; }
+  .prev { display: none; margin-top: 14px; background: #DCF8C6; border-radius: 16px 16px 4px 16px; padding: 12px 14px; font-size: 14px; white-space: pre-line; max-height: 260px; overflow: auto; } .prev.on { display: block; }
+  .foot { text-align: center; color: var(--mut); font-size: 13px; margin-top: 22px; }
+</style>
+</head>
+<body>
+<header class="top"><div class="in">
+  <div class="brand">MARCEM<span>.</span> · Soluciones digitales</div>
+  <h1>Contame de tu negocio y <em>te armo una idea concreta.</em></h1>
+  <p>Son 5 minutos. Con esto entiendo cómo trabajás hoy y qué te conviene ordenar primero, sin vueltas ni compromiso.</p>
+  <div class="meta"><span>⏱ 5 minutos</span><span>Respuesta por WhatsApp</span><span>Sin costo</span></div>
+</div></header>
+<main>
+  <div class="prog"><div class="bar"><i id="pb"></i></div><small id="pt">Completá lo que puedas: nada es obligatorio salvo tu nombre.</small></div>
+  <form id="f" novalidate>
+    <fieldset><legend>1. Tu negocio</legend>
+      <label class="f" for="nom">Tu nombre</label><input type="text" id="nom" autocomplete="name" placeholder="Ej.: Laura">
+      <div class="two"><div><label class="f" for="neg">Nombre del negocio</label><input type="text" id="neg" placeholder="Ej.: La Esquina"></div>
+      <div><label class="f" for="rub">Rubro</label><input type="text" id="rub" placeholder="Ej.: corralón, perfumes, gimnasio"></div></div>
+      <div class="two"><div><label class="f" for="loc">Ciudad</label><input type="text" id="loc" placeholder="Ej.: San Nicolás"></div>
+      <div><label class="f" for="ig">Instagram o web (si tenés)</label><input type="text" id="ig" placeholder="@tunegocio"></div></div>
+      <label class="f">¿Cuántas personas trabajan?</label>
+      <div class="chs" data-n="equipo"><label><input type="radio" name="equipo" value="Solo yo"><span>Solo yo</span></label><label><input type="radio" name="equipo" value="2 a 5"><span>2 a 5</span></label><label><input type="radio" name="equipo" value="Más de 5"><span>Más de 5</span></label></div>
+    </fieldset>
+    <fieldset><legend>2. Cómo trabajás hoy</legend>
+      <p class="hint">Marcá todo lo que uses.</p>
+      <label class="f">Te llegan consultas y pedidos por</label>
+      <div class="chs" data-n="canales"><label><input type="checkbox" name="canales" value="WhatsApp"><span>WhatsApp</span></label><label><input type="checkbox" name="canales" value="Instagram"><span>Instagram</span></label><label><input type="checkbox" name="canales" value="En el local"><span>En el local</span></label><label><input type="checkbox" name="canales" value="Teléfono"><span>Teléfono</span></label><label><input type="checkbox" name="canales" value="Página web"><span>Página web</span></label></div>
+      <label class="f">Para organizarte usás</label>
+      <div class="chs" data-n="herr"><label><input type="checkbox" name="herr" value="Cuaderno o papel"><span>Cuaderno o papel</span></label><label><input type="checkbox" name="herr" value="Excel"><span>Excel</span></label><label><input type="checkbox" name="herr" value="Notas del celular"><span>Notas del celular</span></label><label><input type="checkbox" name="herr" value="Un sistema o programa"><span>Un sistema o programa</span></label><label><input type="checkbox" name="herr" value="De memoria"><span>De memoria</span></label></div>
+      <label class="f" for="prog">Si usás un sistema o programa, ¿cuál?</label><input type="text" id="prog" placeholder="Ej.: el de facturación">
+    </fieldset>
+    <fieldset><legend>3. Qué te gustaría resolver</legend>
+      <label class="f">¿Qué te complica o te quita más tiempo?</label>
+      <div class="chs" data-n="dolor"><label><input type="checkbox" name="dolor" value="Responder siempre lo mismo"><span>Responder siempre lo mismo</span></label><label><input type="checkbox" name="dolor" value="Pasar precios o presupuestos"><span>Pasar precios o presupuestos</span></label><label><input type="checkbox" name="dolor" value="Tomar pedidos o turnos"><span>Tomar pedidos o turnos</span></label><label><input type="checkbox" name="dolor" value="Controlar stock"><span>Controlar stock</span></label><label><input type="checkbox" name="dolor" value="Organizar entregas"><span>Organizar entregas</span></label><label><input type="checkbox" name="dolor" value="Cobros y cuentas"><span>Cobros y cuentas</span></label><label><input type="checkbox" name="dolor" value="Que no me encuentren en internet"><span>Que no me encuentren en internet</span></label><label><input type="checkbox" name="dolor" value="Verme más profesional"><span>Verme más profesional</span></label></div>
+      <label class="f" for="cuento">Contámelo con tus palabras</label><textarea id="cuento" placeholder="Ej.: anoto los pedidos en un cuaderno y a veces se me pasan entregas"></textarea>
+      <label class="f" for="ideal">Si esto estuviera resuelto, ¿qué cambiaría en tu día?</label><textarea id="ideal" placeholder="Ej.: no tendría que estar todo el día con el celular"></textarea>
+    </fieldset>
+    <fieldset><legend>4. Lo que ya tenés</legend>
+      <label class="f">Tengo</label>
+      <div class="chs" data-n="mat"><label><input type="checkbox" name="mat" value="Logo"><span>Logo</span></label><label><input type="checkbox" name="mat" value="Fotos de productos o del local"><span>Fotos</span></label><label><input type="checkbox" name="mat" value="Lista de precios"><span>Lista de precios</span></label><label><input type="checkbox" name="mat" value="Dominio propio (.com.ar)"><span>Dominio propio</span></label></div>
+      <label class="f" for="cant">¿Cuántos productos o servicios ofrecés más o menos?</label>
+      <select id="cant"><option value="">Elegí una opción</option><option>Menos de 10</option><option>10 a 50</option><option>50 a 200</option><option>Más de 200</option></select>
+    </fieldset>
+    <fieldset><legend>5. Para ir cerrando</legend>
+      <label class="f">¿Cuándo te gustaría tenerlo?</label>
+      <div class="chs" data-n="cuando"><label><input type="radio" name="cuando" value="Lo antes posible"><span>Lo antes posible</span></label><label><input type="radio" name="cuando" value="Este mes"><span>Este mes</span></label><label><input type="radio" name="cuando" value="En los próximos meses"><span>En los próximos meses</span></label><label><input type="radio" name="cuando" value="Solo estoy averiguando"><span>Solo estoy averiguando</span></label></div>
+      <label class="f">¿Cuánto pensás invertir más o menos?</label>
+      <div class="chs" data-n="pres"><label><input type="radio" name="pres" value="Hasta $150.000"><span>Hasta $150.000</span></label><label><input type="radio" name="pres" value="$150.000 a $300.000"><span>$150.000 a $300.000</span></label><label><input type="radio" name="pres" value="Más de $300.000"><span>Más de $300.000</span></label><label><input type="radio" name="pres" value="No sé, quiero que me orientes"><span>No sé, orientame</span></label></div>
+      <label class="f">¿Cómo preferís que sigamos?</label>
+      <div class="chs" data-n="sig"><label><input type="radio" name="sig" value="Por WhatsApp"><span>Por WhatsApp</span></label><label><input type="radio" name="sig" value="Videollamada"><span>Videollamada</span></label><label><input type="radio" name="sig" value="En persona"><span>En persona</span></label></div>
+    </fieldset>
+    <div class="send">
+      <h2>Listo, mandámelo</h2>
+      <p>Se abre WhatsApp con tus respuestas ya escritas. Después, si querés, mandame ahí mismo tu logo y algunas fotos.</p>
+      <a class="go" id="go" href="#" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Enviar por WhatsApp</a>
+      <p class="err" id="err" role="alert">Poné tu nombre así sé quién sos.</p>
+      <div class="prev" id="prev" aria-live="polite"></div>
+    </div>
+  </form>
+  <p class="foot">MARCEM · Soluciones digitales · Marcelo Malacalza · San Nicolás</p>
+</main>
+<script>
+(function () {
+  var NUM = '5493364626434', f = document.getElementById('f');
+  function val(id) { return document.getElementById(id).value.trim(); }
+  function group(n) { return Array.prototype.slice.call(f.querySelectorAll('input[name="' + n + '"]:checked')).map(function (i) { return i.value; }).join(', '); }
+  function build() {
+    var L = ['Hola Marcelo, completé la ficha de MARCEM:', ''];
+    function add(k, v) { if (v) L.push('*' + k + ':* ' + v); }
+    add('Nombre', val('nom')); add('Negocio', val('neg')); add('Rubro', val('rub')); add('Ciudad', val('loc')); add('Instagram/web', val('ig')); add('Equipo', group('equipo'));
+    add('Consultas por', group('canales')); add('Me organizo con', group('herr')); add('Programa', val('prog'));
+    add('Me complica', group('dolor')); add('En mis palabras', val('cuento')); add('Si estuviera resuelto', val('ideal'));
+    add('Tengo', group('mat')); add('Productos/servicios', val('cant'));
+    add('Lo quiero', group('cuando')); add('Inversión', group('pres')); add('Seguimos', group('sig'));
+    return L.join('\n');
+  }
+  function progress() {
+    var ids = ['nom', 'neg', 'rub', 'cuento'], gs = ['canales', 'herr', 'dolor', 'cuando', 'pres'], done = 0;
+    ids.forEach(function (i) { if (val(i)) done++; }); gs.forEach(function (g) { if (group(g)) done++; });
+    var p = Math.round(done / (ids.length + gs.length) * 100);
+    document.getElementById('pb').style.width = p + '%';
+    document.getElementById('pt').textContent = p >= 100 ? '¡Completo! Ya podés enviarlo.' : p ? 'Vas ' + p + '%. Completá lo que puedas.' : 'Completá lo que puedas: nada es obligatorio salvo tu nombre.';
+  }
+  f.addEventListener('input', progress); f.addEventListener('change', progress); f.addEventListener('submit', function (e) { e.preventDefault(); });
+  document.getElementById('go').addEventListener('click', function (e) {
+    var err = document.getElementById('err');
+    if (!val('nom')) { e.preventDefault(); err.classList.add('on'); document.getElementById('nom').focus(); return; }
+    err.classList.remove('on');
+    var msg = build();
+    this.href = 'https://wa.me/' + NUM + '?text=' + encodeURIComponent(msg);
+    var pv = document.getElementById('prev'); pv.textContent = msg; pv.classList.add('on');
+  });
+  progress();
+})();
+</script>
+</body>
+</html>
