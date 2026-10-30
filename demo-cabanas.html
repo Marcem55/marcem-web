@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo: cabañas con disponibilidad y reservas (ejemplo ficticio) · MARCEM</title>
+<meta name="description" content="Probá una página para cabañas y alojamientos hecha por MARCEM: disponibilidad real por fechas, precio final al instante y grilla de ocupación. Ejemplo ficticio.">
+<link rel="canonical" href="https://marcem-digital.vercel.app/demo-cabanas.html">
+<meta name="theme-color" content="#082A3A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="MARCEM">
+<meta property="og:title" content="Demo: cabañas con disponibilidad y reservas (ejemplo ficticio) · MARCEM">
+<meta property="og:description" content="Probá una página para cabañas y alojamientos hecha por MARCEM: disponibilidad real por fechas, precio final al instante y grilla de ocupación. Ejemplo ficticio.">
+<meta property="og:url" content="https://marcem-digital.vercel.app/demo-cabanas.html">
+<meta property="og:image" content="https://marcem-digital.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700&family=Karla:wght@400;500;600;700&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  img, svg { display: block; }
+  .demo-bar { background: #0B3D53; color: #D5E6ED; font: 700 13px/1.3 system-ui, -apple-system, sans-serif; }
+  .demo-bar .in { max-width: 1100px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+  .demo-bar span { display: inline-flex; gap: 8px; align-items: center; }
+  .demo-bar i { width: 8px; height: 8px; border-radius: 9px; background: #25D366; }
+  .demo-bar a { color: #FFFFFF; text-decoration: none; white-space: nowrap; }
+  .made { padding: 28px 20px 110px; font: 14px/1.5 system-ui, -apple-system, sans-serif; }
+  .made .in { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .made-box { display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 18px; background: #0B3D53; color: #D5E6ED; }
+  .made-box b { color: #FFFFFF; font-size: 16px; }
+  .made-box a { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 12px 22px; border-radius: 999px; background: #25D366; color: #FFFFFF; font-weight: 700; text-decoration: none; flex-shrink: 0; }
+  .float { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 40; width: 58px; height: 58px; border-radius: 999px; background: #25D366; color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 30px rgba(37,211,102,0.38); }
+  @media (min-width: 760px) { .made-box { flex-direction: row; align-items: center; justify-content: space-between; } }
+
+  .mdl { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: flex-end; justify-content: center; z-index: 60; padding: 10px; }
+  .mdl.on { display: flex; }
+  .sh { background: #FFFFFF; color: #16181D; border-radius: 22px; padding: 18px; width: 100%; max-width: 480px; font-family: system-ui, -apple-system, sans-serif; }
+  .sh h3 { margin: 0; font-size: 19px; }
+  .sh .bub { margin-top: 12px; background: #DCF8C6; border-radius: 16px 16px 4px 16px; padding: 12px 14px; font-size: 15.5px; white-space: pre-line; }
+  .sh p { margin: 10px 0 0; font-size: 13.5px; color: #5A5F6A; }
+  .sh button { margin-top: 12px; width: 100%; min-height: 50px; border: none; border-radius: 12px; background: #16181D; color: #FFFFFF; font: 700 16px/1 system-ui, sans-serif; cursor: pointer; }
+  @media (min-width: 760px) { .mdl { align-items: center; } }
+
+  .vsw { position: sticky; top: 0; z-index: 45; background: var(--vs-bg); padding: 8px 12px; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+  .vsw .in { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: rgba(127,127,127,.14); border-radius: 999px; padding: 4px; }
+  .vsw button { min-height: 42px; border: none; border-radius: 999px; background: transparent; color: var(--vs-fg); font: 700 14px/1.1 system-ui, -apple-system, sans-serif; cursor: pointer; padding: 6px 8px; }
+  .vsw button[aria-pressed="true"] { background: var(--vs-on); color: var(--vs-onfg); box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+  body[data-v="pan"] .v-cli, body[data-v="cli"] .v-pan { display: none !important; }
+  .pan-note { display: flex; gap: 10px; align-items: flex-start; font: 600 14px/1.45 system-ui, -apple-system, sans-serif; padding: 12px 14px; border-radius: 14px; background: rgba(127,127,127,.12); margin: 18px 0 6px; }
+  .pan-note b { white-space: nowrap; }
+
+  .cal { user-select: none; }
+  .cal-h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .cal-h b { font-size: 17px; text-transform: capitalize; }
+  .cal-h button { width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid var(--line); background: transparent; color: inherit; font: 700 20px/1 system-ui, sans-serif; cursor: pointer; }
+  .cal-h button:disabled { opacity: .3; cursor: default; }
+  .cal-g { display: grid; grid-template-columns: repeat(7, minmax(0,1fr)); gap: 4px; }
+  .cal-g .dw { text-align: center; font: 700 11.5px/1 system-ui, sans-serif; opacity: .6; padding: 4px 0; text-transform: uppercase; }
+  .cal-g .d { aspect-ratio: 1 / 1; min-height: 40px; border-radius: 10px; border: 1.5px solid transparent; background: transparent; color: inherit; font: 700 14.5px/1 system-ui, sans-serif; cursor: pointer; position: relative; padding: 0; }
+  .cal-g .d.ok { background: var(--c-ok); }
+  .cal-g .d.low { background: var(--c-low); }
+  .cal-g .d.full { background: var(--c-full); color: var(--c-fullfg); text-decoration: line-through; cursor: not-allowed; }
+  .cal-g .d.off, .cal-g .d.past { opacity: .3; cursor: not-allowed; }
+  .cal-g .d.rng { background: var(--c-rng); }
+  .cal-g .d.sel { background: var(--c-sel) !important; color: var(--c-selfg) !important; text-decoration: none; }
+  .cal-g .d.today::after { content: ""; position: absolute; left: 50%; bottom: 5px; width: 4px; height: 4px; margin-left: -2px; border-radius: 9px; background: currentColor; }
+  .cal-k { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 10px; font: 600 13px/1.2 system-ui, sans-serif; opacity: .85; }
+  .cal-k i { display: inline-block; width: 12px; height: 12px; border-radius: 4px; vertical-align: -2px; margin-right: 5px; }
+
+  :root { --bg: #F3F1EA; --card: #FFFFFF; --ink: #22302A; --mut: #66706A; --gr: #2F5D46; --tc: #B8643C; --wd: #A47551; --line: #E0DCCF; --soft: #E9E5D8;
+          --vs-bg: #F3F1EA; --vs-fg: #22302A; --vs-on: #2F5D46; --vs-onfg: #FFFFFF;
+          --c-ok: #FFFFFF; --c-low: #FBE6CF; --c-full: transparent; --c-fullfg: #B3B5AE; --c-sel: #2F5D46; --c-selfg: #FFFFFF; --c-rng: #D3E2D8; }
+  body { background: var(--bg); color: var(--ink); font-family: "Karla", system-ui, sans-serif; font-size: 16.5px; line-height: 1.55; }
+  h1, h2, h3 { font-family: "Bitter", Georgia, serif; font-weight: 600; margin: 0; line-height: 1.08; }
+  .w { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+  .nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 16px 0; }
+  .logo { font-family: "Bitter", serif; font-weight: 700; font-size: 22px; color: var(--gr); } .logo small { display: block; font-family: "Karla", sans-serif; font-weight: 600; font-size: 12px; color: var(--tc); letter-spacing: .1em; text-transform: uppercase; }
+  .nav a { text-decoration: none; font-weight: 700; font-size: 14px; background: var(--gr); color: #FFFFFF; padding: 10px 14px; border-radius: 99px; white-space: nowrap; }
+  .hero { display: grid; gap: 14px; padding: 6px 0 14px; }
+  .hero h1 { font-size: clamp(36px, 10vw, 64px); } .hero h1 em { font-style: italic; color: var(--tc); }
+  .hero p { margin: 12px 0 0; color: var(--mut); max-width: 32em; }
+  .hero svg { width: 100%; height: auto; }
+  .am { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; } .am span { background: var(--card); border: 1px solid var(--line); padding: 6px 11px; border-radius: 99px; font-size: 14px; font-weight: 600; }
+  section { padding: 30px 0; }
+  h2 { font-size: clamp(30px, 8vw, 46px); }
+  .sub { margin: 6px 0 16px; color: var(--mut); max-width: 36em; }
+  .bk { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 18px; }
+  .lbl { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; font-weight: 700; margin: 18px 0 8px; } .lbl:first-child { margin-top: 0; } .lbl small { font-weight: 500; color: var(--mut); font-size: 13.5px; }
+  .rsum { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+  .rsum div { background: var(--bg); border-radius: 12px; padding: 10px 12px; font-size: 13px; color: var(--mut); } .rsum b { display: block; color: var(--ink); font-size: 16px; }
+  .pax { display: grid; gap: 8px; }
+  .pax div { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .pax small { display: block; color: var(--mut); font-size: 13px; }
+  .q { display: flex; align-items: center; gap: 10px; } .q button { width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid var(--line); background: #FFFFFF; font: 700 19px/1 sans-serif; color: var(--ink); cursor: pointer; } .q b { min-width: 18px; text-align: center; font-size: 17px; }
+  .units { display: grid; gap: 10px; margin-top: 4px; }
+  .un { border: 1.5px solid var(--line); border-radius: 18px; overflow: hidden; background: #FFFFFF; }
+  .un .art { height: 92px; display: flex; align-items: flex-end; justify-content: center; } .un .art svg { height: 86px; width: auto; }
+  .un .in { padding: 12px 14px 14px; }
+  .un h3 { font-size: 20px; } .un p { margin: 2px 0 8px; color: var(--mut); font-size: 14.5px; }
+  .un .pr { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; } .un .pr b { font-family: "Bitter", serif; font-size: 24px; } .un .pr small { color: var(--mut); font-size: 13.5px; }
+  .un.off { opacity: .55; } .un .why { font-weight: 700; color: var(--tc); font-size: 14px; margin-top: 4px; }
+  .un button { margin-top: 10px; width: 100%; min-height: 50px; border: none; border-radius: 12px; background: #25D366; color: #FFFFFF; font: 700 15.5px/1 "Karla", sans-serif; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; }
+  .hintx { background: var(--bg); border-radius: 14px; padding: 14px; color: var(--mut); font-size: 15px; }
+  .info { display: grid; gap: 10px; } .info div { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; } .info h3 { font-size: 19px; } .info p { margin: 4px 0 0; color: var(--mut); font-size: 15px; }
+  .fict { font-size: 13px; color: var(--mut); margin-top: 14px; }
+  /* panel */
+  .kp { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; margin-top: 12px; }
+  .kp div { min-width: 0; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px; } .kp b { display: block; font-family: "Bitter", serif; font-size: clamp(22px, 6.5vw, 30px); line-height: 1.05; } .kp small { color: var(--mut); font-size: 13.5px; }
+  .box { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; margin-top: 12px; }
+  .box h3 { font-size: 21px; margin-bottom: 4px; }
+  .muted { color: var(--mut); font-size: 14.5px; margin: 0 0 8px; }
+  .gw { overflow-x: auto; margin: 0 -4px; padding: 0 4px 6px; }
+  .gt { border-collapse: separate; border-spacing: 3px; min-width: 640px; }
+  .gt th { font: 600 11.5px/1.15 "Karla", sans-serif; color: var(--mut); text-align: center; padding: 2px; }
+  .gt th.u { text-align: left; font-size: 13.5px; color: var(--ink); font-weight: 700; white-space: nowrap; padding-right: 6px; position: sticky; left: 0; background: var(--card); z-index: 1; }
+  .gt th.we { color: var(--tc); }
+  .gt td { width: 40px; height: 40px; padding: 0; }
+  .gt td button { width: 100%; height: 100%; min-width: 38px; border: none; border-radius: 6px; background: var(--soft); cursor: pointer; font: 700 11px/1 "Karla", sans-serif; color: #FFFFFF; padding: 0; }
+  .gt td button.r { background: var(--gr); } .gt td button.p { background: var(--tc); } .gt td button.s { outline: 3px solid var(--ink); outline-offset: -3px; }
+  .key { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--mut); font-weight: 600; margin-top: 6px; } .key i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 4px; }
+  .det { background: var(--bg); border-radius: 14px; padding: 14px; margin-top: 10px; } .det h4 { margin: 0 0 4px; font-family: "Bitter", serif; font-size: 18px; } .det p { margin: 0 0 8px; color: var(--mut); font-size: 14.5px; }
+  .acts { display: flex; flex-wrap: wrap; gap: 6px; }
+  .acts button { min-height: 40px; padding: 6px 12px; border-radius: 10px; border: 1.5px solid var(--line); background: #FFFFFF; color: var(--ink); font: 700 13.5px/1 "Karla", sans-serif; cursor: pointer; }
+  .acts button.pri { background: var(--gr); color: #FFFFFF; border-color: var(--gr); } .acts button.wa { background: #1F6F43; color: #FFFFFF; border-color: #1F6F43; }
+  .li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 15px; } .li small { display: block; color: var(--mut); font-size: 13px; }
+  .tag { font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 99px; background: var(--soft); white-space: nowrap; } .tag.p { background: #FBE6CF; color: #8A4524; } .tag.ok { background: #DDEBE2; color: var(--gr); }
+  @media (min-width: 760px) {
+    .hero { grid-template-columns: 1.05fr 1fr; align-items: center; gap: 30px; }
+    .two { display: grid; grid-template-columns: 1fr 1.15fr; gap: 24px; align-items: start; }
+    .units { grid-template-columns: 1fr; }
+    .info { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .kp { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .pgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+  }
+</style>
+<div class="demo-bar"><div class="in"><span><i></i>Demo — ejemplo ficticio hecho por MARCEM</span><a href="./">Volver a MARCEM →</a></div></div>
+<nav class="vsw" aria-label="Cambiar vista"><div class="in"><button type="button" data-view="cli" aria-pressed="true">Lo que ve tu cliente</button><button type="button" data-view="pan" aria-pressed="false">Panel del negocio</button></div></nav>
+<div class="v-cli">
+<div class="w">
+  <nav class="nav"><span class="logo">Cabañas Ejemplo<small>Descanso entre árboles</small></span><a href="#reservar">Ver disponibilidad</a></nav>
+  <header class="hero">
+    <div><h1>Elegí tus fechas y <em>mirá qué cabaña está libre.</em></h1>
+      <p>Disponibilidad real y precio final al instante, para las fechas y la cantidad de personas que viajan. Reservás con una seña por WhatsApp.</p>
+      <div class="am"><span>🌲 Parque de 2 hectáreas</span><span>🏊 Pileta</span><span>🔥 Parrilla propia</span><span>📶 Wifi</span><span>🐕 Mascotas</span></div></div>
+    <svg viewBox="0 0 400 220" aria-hidden="true">
+<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6D9B5"/><stop offset="1" stop-color="#F3F1EA"/></linearGradient></defs>
+<rect width="400" height="220" rx="24" fill="url(#sky)"/><circle cx="300" cy="70" r="28" fill="#F2B36B" opacity=".8"/>
+<path d="M0 150 Q80 110 170 140 T400 120 V220 H0Z" fill="#9DB48F"/>
+<g fill="#2F5D46"><path d="M40 160 L62 100 L84 160Z"/><path d="M70 170 L96 92 L122 170Z"/><path d="M330 160 L352 104 L374 160Z"/><path d="M300 168 L322 112 L344 168Z" opacity=".85"/></g>
+<path d="M150 120 L210 74 L270 120Z" fill="#7A4E32"/><rect x="160" y="118" width="100" height="58" fill="#A47551"/>
+<g stroke="#8A5F3F" stroke-width="2" opacity=".6"><path d="M160 132h100M160 146h100M160 160h100"/></g>
+<rect x="198" y="138" width="24" height="38" fill="#5B3A26"/><rect x="170" y="130" width="20" height="16" fill="#FFE2A6"/><rect x="232" y="130" width="20" height="16" fill="#FFE2A6"/>
+<rect x="244" y="88" width="10" height="20" fill="#5B3A26"/><path d="M249 84q-8-10 0-20q8-10 0-18" stroke="#FFFFFF" stroke-width="3" fill="none" opacity=".6" stroke-linecap="round"/>
+<path d="M0 190 Q120 176 230 190 T400 186 V220 H0Z" fill="#86A07A"/></svg>
+  </header>
+</div>
+<main>
+  <section id="reservar"><div class="w two">
+    <div class="bk">
+      <div class="lbl"><span>1. Llegada y salida</span><small id="r-hint">Tocá el día que llegás</small></div>
+      <div class="cal" id="cal"></div>
+      <div class="cal-k"><span><i style="background:#FFFFFF;border:1px solid var(--line)"></i>Hay lugar</span><span><i style="background: var(--c-low)"></i>Última cabaña</span><span><i style="border:1px solid #B3B5AE"></i>Completo</span></div>
+      <div class="rsum"><div>Llegada<b id="r-in">—</b></div><div>Salida<b id="r-out">—</b></div></div>
+      <div class="lbl"><span>2. ¿Cuántos viajan?</span></div>
+      <div class="pax"><div><span>Adultos</span><span class="q"><button type="button" data-p="a" data-d="-1" aria-label="Menos adultos">−</button><b id="p-a">2</b><button type="button" data-p="a" data-d="1" aria-label="Más adultos">+</button></span></div><div><span>Menores<small>hasta 12 años</small></span><span class="q"><button type="button" data-p="m" data-d="-1" aria-label="Menos menores">−</button><b id="p-m">0</b><button type="button" data-p="m" data-d="1" aria-label="Más menores">+</button></span></div></div>
+    </div>
+    <div><h2>Cabañas disponibles</h2><p class="sub" id="u-sub">Elegí las fechas para ver el precio final de tu estadía.</p><div class="units" id="units"></div></div>
+  </div></section>
+  <section style="padding-top: 0;"><div class="w">
+    <div class="info"><div><h3>Ingreso y salida</h3><p>Check-in desde las 14. Check-out hasta las 10. Ropa de cama y toallas incluidas.</p></div><div><h3>Seña y pago</h3><p>Reservás con el 30% por transferencia. El resto, al llegar.</p></div><div><h3>Temporada alta</h3><p>Del 20 de diciembre al 1 de marzo: mínimo 3 noches.</p></div></div>
+    <p class="fict">Complejo, cabañas, ilustraciones, disponibilidad y tarifas de ejemplo.</p>
+  </div></section>
+</main>
+</div>
+<div class="v-pan"><div class="w">
+  <p class="pan-note"><b>🔒 Panel</b><span>Esto lo ve solo el dueño, entrando con usuario y clave desde el celular o la compu. En la demo los cambios se borran al recargar.</span></p>
+  <h2>Ocupación</h2>
+  <div class="kp"><div><b id="k-o"></b><small>ocupación próximos 30 días</small></div><div><b id="k-i"></b><small>llegan hoy y mañana</small></div><div><b id="k-s"></b><small>señas por confirmar</small></div><div><b id="k-c"></b><small>cobrado en señas</small></div></div>
+  <div class="box"><h3>Próximos 21 días</h3><p class="muted">Cada fila es una cabaña. Tocá una reserva para ver el detalle. Lo que está reservado acá no se puede reservar en la web: no hay superposiciones.</p>
+    <div class="gw"><table class="gt" id="grid"></table></div>
+    <div class="key"><span><i style="background: var(--gr)"></i>Señada</span><span><i style="background: var(--tc)"></i>Seña pendiente</span><span><i style="background: var(--soft)"></i>Libre</span></div>
+    <div class="det" id="det"><p style="margin:0">Tocá una reserva en la grilla.</p></div>
+  </div>
+  <div class="pgrid">
+    <div class="box"><h3>Llegadas</h3><div id="arr"></div></div>
+    <div class="box"><h3>Limpieza</h3><p class="muted">Cabañas que se liberan: hay que dejarlas listas antes de las 14.</p><div id="cln"></div></div>
+  </div>
+</div></div>
+<footer class="made" style="color: #66706A;"><div class="in"><div class="made-box"><div><b>Esta página es una demo de MARCEM.</b><br>El complejo, las cabañas, la disponibilidad y las tarifas son ficticios. Así puede quedar la tuya: con tu nombre, tu estilo y tu WhatsApp.</div><a href="https://wa.me/5493364626434?text=Hola%20Marcelo%2C%20vi%20la%20demo%20de%20landing%20para%20caba%C3%B1as%20y%20alojamientos%20y%20quiero%20una%20para%20mi%20trabajo." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Quiero una así</a></div><span>Demo hecha por <a href="./">MARCEM · Soluciones digitales</a></span></div></footer>
+<a class="float" href="https://wa.me/?text=Hola%2C%20quiero%20consultar%20disponibilidad%20en%20las%20caba%C3%B1as." target="_blank" rel="noopener" aria-label="Consultar por WhatsApp"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></a>
+
+<div class="mdl" id="mdl" role="dialog" aria-modal="true" aria-labelledby="mdl-h"><div class="sh"><h3 id="mdl-h">Así llega por WhatsApp</h3><div class="bub" id="mdl-m"></div><p>En la web real este botón abre WhatsApp con el mensaje listo. En la demo solo te lo mostramos.</p><button type="button" onclick="document.getElementById('mdl').classList.remove('on')">Entendido</button></div></div>
+<script>
+function showWA(m){document.getElementById('mdl-m').textContent=m;document.getElementById('mdl').classList.add('on');}
+
+var $ = function (i) { return document.getElementById(i); };
+var fmt = function (n) { return '$' + Math.round(n).toLocaleString('es-AR'); };
+var DIAS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'], DIASL = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+var TODAY = new Date(); TODAY.setHours(0, 0, 0, 0);
+function addD(d, n) { var x = new Date(d); x.setDate(x.getDate() + n); return x; }
+function dkey(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+function kdate(k) { var p = k.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+function dl(d) { return DIAS[d.getDay()] + ' ' + d.getDate() + '/' + (d.getMonth() + 1); }
+function dlong(d) { return DIASL[d.getDay()] + ' ' + d.getDate() + ' de ' + MESES[d.getMonth()]; }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function pills(id, cb) { var g = $(id); g.addEventListener('click', function (e) { var b = e.target.closest('[data-v]'); if (!b || !g.contains(b)) return; g.querySelectorAll('[data-v]').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); cb(b.dataset.v, b); }); }
+function setView(v) { document.body.dataset.v = v; document.querySelectorAll('.vsw [data-view]').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.view === v); }); window.scrollTo(0, 0); if (window.onView) window.onView(v); }
+document.body.dataset.v = 'cli';
+document.querySelectorAll('.vsw [data-view]').forEach(function (b) { b.onclick = function () { setView(b.dataset.view); }; });
+// Calendario: opts = { el, month (Date), min (Date), max (Date), state(date)->clase, click(date), label(date)->texto aria }
+function Cal(o) {
+  var m = new Date(o.month || TODAY); m.setDate(1);
+  function draw() {
+    var y = m.getFullYear(), mo = m.getMonth(), first = new Date(y, mo, 1), off = (first.getDay() + 6) % 7, days = new Date(y, mo + 1, 0).getDate();
+    var h = '<div class="cal-h"><button type="button" data-n="-1" aria-label="Mes anterior">‹</button><b>' + MESES[mo] + ' ' + y + '</b><button type="button" data-n="1" aria-label="Mes siguiente">›</button></div><div class="cal-g">';
+    ['L', 'M', 'M', 'J', 'V', 'S', 'D'].forEach(function (x) { h += '<span class="dw">' + x + '</span>'; });
+    for (var i = 0; i < off; i++) h += '<span></span>';
+    for (var d = 1; d <= days; d++) { var dt = new Date(y, mo, d), c = dt < (o.min || TODAY) ? 'past' : (o.state ? o.state(dt) : 'ok'); if (+dt === +TODAY) c += ' today'; h += '<button type="button" class="d ' + c + '" data-k="' + dkey(dt) + '" aria-label="' + dlong(dt) + (o.label ? ', ' + o.label(dt) : '') + '">' + d + '</button>'; }
+    o.el.innerHTML = h + '</div>';
+    var pv = o.el.querySelector('[data-n="-1"]'); if (new Date(y, mo, 1) <= new Date((o.min || TODAY).getFullYear(), (o.min || TODAY).getMonth(), 1)) pv.disabled = true;
+    if (o.max && new Date(y, mo + 1, 1) > o.max) o.el.querySelector('[data-n="1"]').disabled = true;
+  }
+  o.el.addEventListener('click', function (e) {
+    var n = e.target.closest('[data-n]'); if (n) { m.setMonth(m.getMonth() + +n.dataset.n); draw(); return; }
+    var b = e.target.closest('[data-k]'); if (!b || /past|full|off/.test(b.className)) return; o.click && o.click(kdate(b.dataset.k));
+  });
+  draw(); return { draw: draw, go: function (d) { m = new Date(d); m.setDate(1); draw(); } };
+}
+
+(function () {
+
+var U = [["Ciprés", "Para 2 · cama matrimonial, kitchenette y deck", 2, 58000, "", "#EFE6D6"], ["Roble", "Hasta 4 · 2 dormitorios, cocina completa y parrilla", 4, 82000, "", "#E4EDE3"], ["Lapacho", "Hasta 6 · 3 dormitorios, galería y parrilla techada", 6, 110000, "", "#F2E2D6"], ["Ceibo", "Hasta 4 · monoambiente amplio con vista al parque", 4, 76000, "", "#E9E5D8"]], ART = ["<svg viewBox=\"0 0 200 92\" aria-hidden=\"true\"><rect x=\"0\" y=\"80\" width=\"200\" height=\"12\" fill=\"#9DB48F\"/><path d=\"M57.0 50 L100 14 L143.0 50Z\" fill=\"#7A4E32\"/><rect x=\"65.0\" y=\"50\" width=\"70\" height=\"30\" fill=\"#A47551\"/><rect x=\"92\" y=\"58\" width=\"16\" height=\"22\" fill=\"#5B3A26\"/><rect x=\"73.0\" y=\"58\" width=\"14\" height=\"12\" fill=\"#FFE2A6\"/><rect x=\"113.0\" y=\"58\" width=\"14\" height=\"12\" fill=\"#FFE2A6\"/><path d=\"M30 80 L40 52 L50 80Z\" fill=\"#2F5D46\"/><path d=\"M152 80 L164 46 L176 80Z\" fill=\"#2F5D46\"/></svg>", "<svg viewBox=\"0 0 200 92\" aria-hidden=\"true\"><rect x=\"0\" y=\"80\" width=\"200\" height=\"12\" fill=\"#9DB48F\"/><path d=\"M44.0 46 L100 10 L156.0 46Z\" fill=\"#5B3A26\"/><rect x=\"52.0\" y=\"46\" width=\"96\" height=\"34\" fill=\"#B8875E\"/><rect x=\"92\" y=\"56\" width=\"16\" height=\"24\" fill=\"#5B3A26\"/><rect x=\"60.0\" y=\"56\" width=\"14\" height=\"12\" fill=\"#FFE2A6\"/><rect x=\"126.0\" y=\"56\" width=\"14\" height=\"12\" fill=\"#FFE2A6\"/><path d=\"M30 80 L40 52 L50 80Z\" fill=\"#2F5D46\"/><path d=\"M152 80 L164 46 L176 80Z\" fill=\"#2F5D46\"/></svg>", "<svg viewBox=\"0 0 200 92\" aria-hidden=\"true\"><rect x=\"0\" y=\"80\" width=\"200\" height=\"12\" fill=\"#9DB48F\"/><path d=\"M32.0 42 L100 6 L168.0 42Z\" fill=\"#6E3B2A\"/><rect x=\"40.0\" y=\"42\" width=\"120\" height=\"38\" fill=\"#C29470\"/><rect x=\"92\" y=\"54\" width=\"16\" height=\"26\" fill=\"#5B3A26\"/><rect x=\"48.0\" y=\"54\" width=\"14\" height=\"12\" fill=\"#FFE2A6\"/><rect x=\"138.0\" y=\"54\" width=\"14\" height=\"12\" fill=\"#FFE2A6\"/><path d=\"M30 80 L40 52 L50 80Z\" fill=\"#2F5D46\"/><path d=\"M152 80 L164 46 L176 80Z\" fill=\"#2F5D46\"/></svg>", "<svg viewBox=\"0 0 200 92\" aria-hidden=\"true\"><rect x=\"0\" y=\"80\" width=\"200\" height=\"12\" fill=\"#9DB48F\"/><path d=\"M44.0 46 L100 10 L156.0 46Z\" fill=\"#8A4F2E\"/><rect x=\"52.0\" y=\"46\" width=\"96\" height=\"34\" fill=\"#B98D66\"/><rect x=\"92\" y=\"56\" width=\"16\" height=\"24\" fill=\"#5B3A26\"/><rect x=\"60.0\" y=\"56\" width=\"14\" height=\"12\" fill=\"#FFE2A6\"/><rect x=\"126.0\" y=\"56\" width=\"14\" height=\"12\" fill=\"#FFE2A6\"/><path d=\"M30 80 L40 52 L50 80Z\" fill=\"#2F5D46\"/><path d=\"M152 80 L164 46 L176 80Z\" fill=\"#2F5D46\"/></svg>"];
+var GUESTS = ['Familia Ruiz', 'Lucía y Tomás', 'Martín G.', 'Familia Pérez', 'Sofía L.', 'Grupo de amigos', 'Carla y Diego', 'Familia Sosa', 'Ana M.', 'Javier R.'];
+var R = [], g = 0;
+var fri = addD(TODAY, (5 - TODAY.getDay() + 7) % 7);
+for (var w = -1; w < 10; w++) for (var u = 0; u < 4; u++) {
+  var f = addD(fri, w * 7);
+  if ((w + u) % 4 !== 3) R.push({ u: u, a: f, b: addD(f, (w + u) % 3 === 0 ? 3 : 2), n: GUESTS[g++ % 10], px: Math.min(U[u][2], 2 + (g % 3)), sen: (w + u) % 3 !== 1 });
+  if ((w * 3 + u) % 5 === 0) R.push({ u: u, a: addD(f, 3 + (u === 0 ? 0 : 0)), b: addD(f, 6), n: GUESTS[g++ % 10], px: Math.min(U[u][2], 2 + (g % 3)), sen: true });
+}
+R = R.filter(function (r) { return r.b > TODAY; });
+function high(d) { var m = d.getMonth(), dd = d.getDate(); return (m === 11 && dd >= 20) || m === 0 || m === 1; }
+function busy(u, a, b) { return R.some(function (r) { return r.u === u && r.a < b && a < r.b; }); }
+function freeOn(d) { var n = 0; for (var u = 0; u < U.length; u++) if (!busy(u, d, addD(d, 1))) n++; return n; }
+function price(u, a, b) { var t = 0; for (var d = new Date(a); d < b; d = addD(d, 1)) t += U[u][3] * (high(d) ? 1.3 : 1) * (d.getDay() === 5 || d.getDay() === 6 ? 1.1 : 1); return Math.round(t / 1000) * 1000; }
+// ---- cliente ----
+var ci = null, co = null, pa = 2, pm = 0;
+var cal = Cal({ el: $('cal'), min: TODAY, max: addD(TODAY, 365), state: function (d) { var f = freeOn(d); var c = f === 0 ? 'full' : f === 1 ? 'low' : 'ok'; if (ci && co && d > ci && d < co) c += ' rng'; if ((ci && +d === +ci) || (co && +d === +co)) c += ' sel'; return c; },
+  label: function (d) { var f = freeOn(d); return f === 0 ? 'completo' : f + (f === 1 ? ' cabaña libre' : ' cabañas libres'); },
+  click: function (d) { if (!ci || co || d <= ci) { ci = d; co = null; } else co = d; cal.draw(); upd(); } });
+// permitir elegir como salida un día completo (la noche anterior puede estar libre)
+$('cal').addEventListener('click', function (e) { var b = e.target.closest('.d.full'); if (b && ci && !co) { var d = kdate(b.dataset.k); if (d > ci) { co = d; cal.draw(); upd(); } } });
+$('cal').parentNode.addEventListener('click', function (e) { var b = e.target.closest('[data-p]'); if (!b) return; if (b.dataset.p === 'a') pa = Math.max(1, Math.min(8, pa + +b.dataset.d)); else pm = Math.max(0, Math.min(6, pm + +b.dataset.d)); $('p-a').textContent = pa; $('p-m').textContent = pm; upd(); });
+function upd() {
+  $('r-in').textContent = ci ? dl(ci) : '—'; $('r-out').textContent = co ? dl(co) : '—';
+  $('r-hint').textContent = !ci ? 'Tocá el día que llegás' : !co ? 'Ahora tocá el día que te vas' : 'Tocá otra fecha para cambiar';
+  var px = pa + pm, n = ci && co ? Math.round((co - ci) / 864e5) : 0, min = ci && high(ci) ? 3 : 2;
+  if (!n) { $('u-sub').textContent = 'Elegí las fechas para ver el precio final de tu estadía.'; }
+  else $('u-sub').textContent = n + (n === 1 ? ' noche' : ' noches') + ' · ' + px + (px === 1 ? ' persona' : ' personas') + (n < min ? ' · mínimo ' + min + ' noches en estas fechas' : '');
+  var anyOk = false;
+  $('units').innerHTML = U.map(function (x, u) {
+    var why = '', ok = true;
+    if (px > x[2]) { ok = false; why = 'Es para hasta ' + x[2] + ' personas'; } else if (n && busy(u, ci, co)) { ok = false; why = 'Ocupada en esas fechas'; } else if (n && n < min) { ok = false; why = 'Mínimo ' + min + ' noches'; }
+    var t = n && ok ? price(u, ci, co) : 0; if (t) anyOk = true;
+    return '<div class="un' + (ok ? '' : ' off') + '"><div class="art" style="background:' + x[5] + '">' + ART[u] + '</div><div class="in"><h3>Cabaña ' + x[0] + '</h3><p>' + x[1] + '</p><div class="pr">' + (t ? '<b>' + fmt(t) + '</b><small>total ' + n + (n === 1 ? ' noche' : ' noches') + ' · seña ' + fmt(t * 0.3) + '</small>' : '<b>' + fmt(x[3]) + '</b><small>por noche, desde</small>') + '</div>' + (why ? '<div class="why">' + why + '</div>' : '') + (t ? '<button type="button" data-u="' + u + '">' + "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z\"/></svg>" + 'Reservar Cabaña ' + x[0] + '</button>' : '') + '</div></div>';
+  }).join('');
+  if (n && !anyOk && px <= 6) $('u-sub').textContent += ' · Para esas fechas no hay cabañas libres: probá corriéndote un día o escribinos y te avisamos si se libera una.';
+}
+$('units').addEventListener('click', function (e) { var b = e.target.closest('[data-u]'); if (!b) return; var u = +b.dataset.u, t = price(u, ci, co), n = Math.round((co - ci) / 864e5);
+  R.push({ u: u, a: ci, b: co, n: 'Reserva web', px: pa + pm, sen: false, isNew: true }); var a = ci, c = co; ci = co = null; cal.draw(); upd(); panel();
+  showWA('Hola, quiero reservar la Cabaña ' + U[u][0] + ' del ' + dlong(a) + ' al ' + dlong(c) + ' (' + n + ' noches) para ' + pa + (pa === 1 ? ' adulto' : ' adultos') + (pm ? ' y ' + pm + (pm === 1 ? ' menor' : ' menores') : '') + '.\nTotal: ' + fmt(t) + ' · seña del 30%: ' + fmt(t * 0.3) + '.\n¿Me pasan los datos para transferir?'); });
+// ---- panel ----
+var selR = null, SEN0 = 1860000;
+function rAt(u, d) { return R.filter(function (r) { return r.u === u && r.a <= d && d < r.b; })[0]; }
+function panel() {
+  var h = '<tr><th class="u"></th>'; for (var i = 0; i < 21; i++) { var d = addD(TODAY, i); h += '<th class="' + (d.getDay() === 0 || d.getDay() === 6 ? 'we' : '') + '">' + DIAS[d.getDay()].slice(0, 2) + '<br>' + d.getDate() + '</th>'; } h += '</tr>';
+  U.forEach(function (x, u) { h += '<tr><th class="u">' + x[0] + '</th>'; for (var i = 0; i < 21; i++) { var d = addD(TODAY, i), r = rAt(u, d), k = r ? R.indexOf(r) : -1; h += '<td><button type="button" class="' + (r ? (r.sen ? 'r' : 'p') : '') + (r && r === selR ? ' s' : '') + '"' + (r ? ' data-r="' + k + '" aria-label="' + esc(r.n) + ', cabaña ' + x[0] + '"' : ' aria-label="Libre, cabaña ' + x[0] + ', ' + dl(d) + '"') + '>' + (r && +r.a === +d ? r.n.split(' ').map(function (w) { return w[0]; }).join('').slice(0, 2) : '') + '</button></td>'; } h += '</tr>'; });
+  $('grid').innerHTML = h;
+  var nights = 0; for (var i2 = 0; i2 < 30; i2++) for (var u = 0; u < U.length; u++) if (rAt(u, addD(TODAY, i2))) nights++;
+  $('k-o').textContent = Math.round(nights / (30 * U.length) * 100) + '%';
+  var arr = R.filter(function (r) { return r.a >= TODAY && r.a < addD(TODAY, 2); });
+  $('k-i').textContent = arr.length; $('k-s').textContent = R.filter(function (r) { return !r.sen && r.b > TODAY; }).length; $('k-c').textContent = fmt(SEN0);
+  var A = R.filter(function (r) { return r.a >= TODAY && r.a < addD(TODAY, 4); }).sort(function (a, b) { return a.a - b.a; });
+  $('arr').innerHTML = A.map(function (r) { return '<div class="li"><span><b>' + esc(r.n) + '</b><small>Cabaña ' + U[r.u][0] + ' · llega ' + (+r.a === +TODAY ? 'hoy' : dl(r.a)) + ' · ' + r.px + ' personas</small></span><span class="tag ' + (r.sen ? 'ok' : 'p') + '">' + (r.sen ? 'Señada' : 'Sin seña') + '</span></div>'; }).join('') || '<p class="muted">No hay llegadas en los próximos días.</p>';
+  var C = R.filter(function (r) { return r.b >= TODAY && r.b < addD(TODAY, 3); }).sort(function (a, b) { return a.b - b.b; });
+  $('cln').innerHTML = C.map(function (r) { var nx = R.filter(function (o) { return o.u === r.u && +o.a === +r.b; })[0]; return '<div class="li"><span><b>Cabaña ' + U[r.u][0] + '</b><small>Se va ' + esc(r.n) + ' ' + (+r.b === +TODAY ? 'hoy' : 'el ' + dl(r.b)) + (nx ? ' · entra ' + esc(nx.n) + ' el mismo día' : '') + '</small></span>' + (nx ? '<span class="tag p">Urgente</span>' : '<span class="tag">Normal</span>') + '</div>'; }).join('') || '<p class="muted">No hay salidas en los próximos días.</p>';
+  det();
+}
+function det() {
+  if (!selR) { $('det').innerHTML = '<p style="margin:0">Tocá una reserva en la grilla.</p>'; return; }
+  var r = selR, n = Math.round((r.b - r.a) / 864e5), t = price(r.u, r.a, r.b);
+  $('det').innerHTML = '<h4>' + esc(r.n) + ' · Cabaña ' + U[r.u][0] + '</h4><p>' + dl(r.a) + ' al ' + dl(r.b) + ' · ' + n + (n === 1 ? ' noche' : ' noches') + ' · ' + r.px + ' personas<br>Total ' + fmt(t) + ' · seña ' + fmt(t * .3) + (r.sen ? ' (recibida) · saldo al llegar ' + fmt(t * .7) : ' (pendiente)') + '</p><div class="acts">' + (r.sen ? '' : '<button type="button" class="pri" data-x="sen">Recibí la seña</button><button type="button" class="wa" data-x="pay">Pedir seña</button>') + '<button type="button" class="wa" data-x="arr">Mandar cómo llegar</button><button type="button" data-x="del">Cancelar reserva</button></div>';
+}
+$('grid').addEventListener('click', function (e) { var b = e.target.closest('[data-r]'); if (!b) return; selR = R[+b.dataset.r]; panel(); });
+$('det').addEventListener('click', function (e) { var b = e.target.closest('[data-x]'); if (!b || !selR) return; var r = selR, x = b.dataset.x, t = price(r.u, r.a, r.b);
+  if (x === 'sen') { r.sen = true; SEN0 += t * .3; }
+  if (x === 'del') { R.splice(R.indexOf(r), 1); selR = null; cal.draw(); upd(); }
+  if (x === 'pay') { showWA('Hola, ¿cómo están? Les escribimos de Cabañas Ejemplo por la reserva de la Cabaña ' + U[r.u][0] + ' del ' + dl(r.a) + ' al ' + dl(r.b) + '. Para confirmarla, la seña es de ' + fmt(t * .3) + ' al alias CABANAS.EJEMPLO. ¡Gracias!'); return; }
+  if (x === 'arr') { showWA('¡Hola! Los esperamos el ' + dlong(r.a) + ' desde las 14 en la Cabaña ' + U[r.u][0] + '. Cómo llegar: [ubicación]. Wifi: CabanasEjemplo · clave en la heladera. Cualquier cosa, escribinos por acá. 🌲'); return; }
+  panel(); });
+upd(); panel();
+
+})();
+</script>
+</body>
+</html>

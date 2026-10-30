@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo: gimnasio con gestión de socios (ejemplo ficticio) · MARCEM</title>
+<meta name="description" content="Probá un sistema para gimnasios hecho por MARCEM: control de ingreso por DNI, cuotas y vencimientos, recordatorios por WhatsApp, caja y reserva de clases. Ejemplo ficticio.">
+<link rel="canonical" href="https://marcem-digital.vercel.app/demo-gimnasio.html">
+<meta name="theme-color" content="#082A3A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="MARCEM">
+<meta property="og:title" content="Demo: gimnasio con gestión de socios (ejemplo ficticio) · MARCEM">
+<meta property="og:description" content="Probá un sistema para gimnasios hecho por MARCEM: control de ingreso por DNI, cuotas y vencimientos, recordatorios por WhatsApp, caja y reserva de clases. Ejemplo ficticio.">
+<meta property="og:url" content="https://marcem-digital.vercel.app/demo-gimnasio.html">
+<meta property="og:image" content="https://marcem-digital.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700;800&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  img, svg { display: block; }
+  .demo-bar { background: #0B3D53; color: #D5E6ED; font: 700 13px/1.3 system-ui, -apple-system, sans-serif; }
+  .demo-bar .in { max-width: 1100px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+  .demo-bar span { display: inline-flex; gap: 8px; align-items: center; }
+  .demo-bar i { width: 8px; height: 8px; border-radius: 9px; background: #25D366; }
+  .demo-bar a { color: #FFFFFF; text-decoration: none; white-space: nowrap; }
+  .made { padding: 28px 20px 110px; font: 14px/1.5 system-ui, -apple-system, sans-serif; }
+  .made .in { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .made-box { display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 18px; background: #0B3D53; color: #D5E6ED; }
+  .made-box b { color: #FFFFFF; font-size: 16px; }
+  .made-box a { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 12px 22px; border-radius: 999px; background: #25D366; color: #FFFFFF; font-weight: 700; text-decoration: none; flex-shrink: 0; }
+  .float { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 40; width: 58px; height: 58px; border-radius: 999px; background: #25D366; color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 30px rgba(37,211,102,0.38); }
+  @media (min-width: 760px) { .made-box { flex-direction: row; align-items: center; justify-content: space-between; } }
+
+  .mdl { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: flex-end; justify-content: center; z-index: 60; padding: 10px; }
+  .mdl.on { display: flex; }
+  .sh { background: #FFFFFF; color: #16181D; border-radius: 22px; padding: 18px; width: 100%; max-width: 480px; font-family: system-ui, -apple-system, sans-serif; }
+  .sh h3 { margin: 0; font-size: 19px; }
+  .sh .bub { margin-top: 12px; background: #DCF8C6; border-radius: 16px 16px 4px 16px; padding: 12px 14px; font-size: 15.5px; white-space: pre-line; }
+  .sh p { margin: 10px 0 0; font-size: 13.5px; color: #5A5F6A; }
+  .sh button { margin-top: 12px; width: 100%; min-height: 50px; border: none; border-radius: 12px; background: #16181D; color: #FFFFFF; font: 700 16px/1 system-ui, sans-serif; cursor: pointer; }
+  @media (min-width: 760px) { .mdl { align-items: center; } }
+
+  .vsw { position: sticky; top: 0; z-index: 45; background: var(--vs-bg); padding: 8px 12px; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+  .vsw .in { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: rgba(127,127,127,.14); border-radius: 999px; padding: 4px; }
+  .vsw button { min-height: 42px; border: none; border-radius: 999px; background: transparent; color: var(--vs-fg); font: 700 14px/1.1 system-ui, -apple-system, sans-serif; cursor: pointer; padding: 6px 8px; }
+  .vsw button[aria-pressed="true"] { background: var(--vs-on); color: var(--vs-onfg); box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+  body[data-v="pan"] .v-cli, body[data-v="cli"] .v-pan { display: none !important; }
+  .pan-note { display: flex; gap: 10px; align-items: flex-start; font: 600 14px/1.45 system-ui, -apple-system, sans-serif; padding: 12px 14px; border-radius: 14px; background: rgba(127,127,127,.12); margin: 18px 0 6px; }
+  .pan-note b { white-space: nowrap; }
+
+  :root { --bg: #0D0D0D; --card: #171717; --card2: #202020; --ink: #F5F5F5; --mut: #A3A3A3; --or: #FF5A1F; --ok: #3DDC84; --bad: #FF4D4D; --warn: #FFC23D; --line: #2C2C2C;
+          --vs-bg: #0D0D0D; --vs-fg: #F5F5F5; --vs-on: #FF5A1F; --vs-onfg: #0D0D0D; }
+  body { background: var(--bg); color: var(--ink); font-family: "Archivo", system-ui, sans-serif; font-size: 16.5px; line-height: 1.55; }
+  h1, h2, h3 { font-family: "Archivo Black", "Archivo", system-ui, sans-serif; font-weight: 400; margin: 0; line-height: 1.02; text-transform: uppercase; letter-spacing: -.01em; }
+  .w { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+  .nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 16px 0; }
+  .logo { font-family: "Archivo Black", sans-serif; font-size: 21px; text-transform: uppercase; } .logo span { color: var(--or); }
+  .nav a { text-decoration: none; font-weight: 800; font-size: 14px; background: var(--or); color: var(--bg); padding: 10px 14px; border-radius: 10px; white-space: nowrap; }
+  .hero { padding: 16px 0 10px; position: relative; overflow: hidden; }
+  .hero h1 { font-size: clamp(42px, 12.5vw, 96px); }
+  .hero h1 span { color: var(--or); display: block; }
+  .hero p { margin: 16px 0 0; color: var(--mut); max-width: 30em; font-size: 17px; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .b1, .b2 { display: inline-flex; align-items: center; min-height: 54px; padding: 12px 20px; border-radius: 12px; font-weight: 800; text-decoration: none; text-transform: uppercase; font-size: 14.5px; letter-spacing: .03em; }
+  .b1 { background: var(--or); color: var(--bg); } .b2 { border: 2px solid var(--ink); color: var(--ink); }
+  .stripe { margin-top: 26px; display: flex; gap: 0; overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .stripe div { flex: 1; padding: 14px 6px; text-align: center; font-size: 13px; color: var(--mut); } .stripe b { display: block; font-family: "Archivo Black", sans-serif; font-weight: 400; color: var(--ink); font-size: 20px; }
+  .stripe div + div { border-left: 1px solid var(--line); }
+  section { padding: 38px 0; }
+  .eb { font-size: 12.5px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--or); }
+  h2 { font-size: clamp(32px, 9vw, 56px); margin-top: 8px; }
+  .sub { margin: 8px 0 18px; color: var(--mut); max-width: 34em; }
+  .plans { display: grid; gap: 10px; }
+  .pl { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 18px; position: relative; }
+  .pl.hot { border-color: var(--or); } .pl .bdg { position: absolute; top: 14px; right: 14px; background: var(--or); color: var(--bg); font-size: 11.5px; font-weight: 800; padding: 4px 9px; border-radius: 99px; text-transform: uppercase; }
+  .pl h3 { font-size: 20px; } .pl p { margin: 4px 0 10px; color: var(--mut); font-size: 15px; } .pl b { font-family: "Archivo Black", sans-serif; font-weight: 400; font-size: 30px; } .pl b small { font-family: "Archivo", sans-serif; font-size: 14px; color: var(--mut); font-weight: 500; }
+  .dt { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 10px; }
+  .dt button { flex: none; min-width: 58px; min-height: 54px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--ink); font: 800 14px/1.2 "Archivo", sans-serif; cursor: pointer; }
+  .dt button small { display: block; font-weight: 500; color: var(--mut); font-size: 12px; }
+  .dt button[aria-pressed="true"] { background: var(--ink); color: var(--bg); } .dt button[aria-pressed="true"] small { color: #555; }
+  .cls { display: grid; gap: 8px; }
+  .cl { display: grid; grid-template-columns: 64px 1fr auto; gap: 12px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; }
+  .cl > b { font-family: "Archivo Black", sans-serif; font-weight: 400; font-size: 19px; }
+  .cl h3 { font-family: "Archivo", sans-serif; font-weight: 800; font-size: 16.5px; text-transform: none; letter-spacing: 0; } .cl p { margin: 1px 0 0; font-size: 13.5px; color: var(--mut); }
+  .cl .cap { height: 5px; border-radius: 9px; background: #2A2A2A; margin-top: 6px; overflow: hidden; } .cl .cap i { display: block; height: 100%; background: var(--or); }
+  .cl button { min-height: 44px; padding: 8px 14px; border-radius: 10px; border: none; background: var(--or); color: var(--bg); font: 800 13.5px/1 "Archivo", sans-serif; cursor: pointer; text-transform: uppercase; }
+  .cl button:disabled { background: #333; color: #777; cursor: not-allowed; }
+  .dni { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 18px; }
+  .row2 { display: flex; gap: 8px; } .row2 .inp { flex: 1; min-width: 0; }
+  .inp { width: 100%; min-height: 54px; padding: 10px 14px; border-radius: 12px; border: 1px solid #3A3A3A; background: #0F0F0F; color: var(--ink); font: 700 18px/1.2 "Archivo", sans-serif; letter-spacing: .04em; }
+  .btn { min-height: 54px; padding: 0 18px; border-radius: 12px; border: none; background: var(--or); color: var(--bg); font: 800 15px/1 "Archivo", sans-serif; cursor: pointer; text-transform: uppercase; }
+  .hint { margin: 8px 0 0; color: var(--mut); font-size: 13.5px; }
+  .res { margin-top: 14px; border-radius: 16px; padding: 16px; display: none; }
+  .res.on { display: block; } .res.ok { background: rgba(61,220,132,.12); border: 1px solid rgba(61,220,132,.5); } .res.bad { background: rgba(255,77,77,.12); border: 1px solid rgba(255,77,77,.5); } .res.warn { background: rgba(255,194,61,.12); border: 1px solid rgba(255,194,61,.5); } .res.none { background: var(--card2); border: 1px solid var(--line); }
+  .res h4 { margin: 0; font-size: 22px; font-family: "Archivo Black", sans-serif; font-weight: 400; text-transform: uppercase; } .res p { margin: 4px 0 0; color: #D4D4D4; }
+  .res .acts { margin-top: 12px; }
+  .acts { display: flex; flex-wrap: wrap; gap: 6px; }
+  .acts button { min-height: 42px; padding: 6px 14px; border-radius: 10px; border: 1px solid #3A3A3A; background: transparent; color: var(--ink); font: 700 14px/1 "Archivo", sans-serif; cursor: pointer; }
+  .acts button.pri { background: var(--or); color: var(--bg); border-color: var(--or); } .acts button.wa { background: #1F6F43; border-color: #1F6F43; color: #FFFFFF; }
+  .fict { font-size: 13px; color: var(--mut); margin-top: 14px; }
+  /* panel */
+  .ptabs { display: flex; gap: 6px; overflow-x: auto; margin: 12px 0 4px; padding-bottom: 4px; }
+  .ptabs button { flex: none; min-height: 46px; padding: 8px 16px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); color: var(--ink); font: 800 14.5px/1 "Archivo", sans-serif; cursor: pointer; }
+  .ptabs button[aria-pressed="true"] { background: var(--or); color: var(--bg); border-color: var(--or); }
+  .pt { display: none; } .pt.on { display: block; }
+  .box { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; margin-top: 12px; }
+  .box h3 { font-size: 20px; margin-bottom: 6px; }
+  .muted { color: var(--mut); font-size: 14.5px; margin: 0 0 10px; }
+  .kp { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; margin-top: 12px; }
+  .kp div { min-width: 0; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; } .kp b { display: block; font-family: "Archivo Black", sans-serif; font-weight: 400; font-size: clamp(22px, 6.5vw, 32px); line-height: 1.05; } .kp small { color: var(--mut); font-size: 13.5px; }
+  .kp .ok b { color: var(--ok); } .kp .bad b { color: var(--bad); } .kp .warn b { color: var(--warn); }
+  .fl { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; margin: 10px 0 6px; }
+  .fl button { flex: none; min-height: 40px; padding: 6px 12px; border-radius: 99px; border: 1px solid var(--line); background: transparent; color: var(--ink); font: 700 13.5px/1 "Archivo", sans-serif; cursor: pointer; }
+  .fl button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  .sc { padding: 12px 0; border-top: 1px solid var(--line); }
+  .sc .top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; } .sc b { font-size: 16px; } .sc p { margin: 2px 0 8px; color: var(--mut); font-size: 14px; }
+  .bdg { display: inline-block; font-size: 12px; font-weight: 800; padding: 4px 9px; border-radius: 99px; white-space: nowrap; }
+  .bdg.ok { background: rgba(61,220,132,.15); color: var(--ok); } .bdg.bad { background: rgba(255,77,77,.15); color: var(--bad); } .bdg.warn { background: rgba(255,194,61,.15); color: var(--warn); }
+  .frm { display: grid; gap: 10px; } .frm label { font-size: 13.5px; font-weight: 700; color: var(--mut); display: grid; gap: 6px; }
+  .frm .inp { font-size: 16.5px; letter-spacing: 0; min-height: 50px; }
+  .chs { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chs button { min-height: 44px; padding: 8px 14px; border-radius: 10px; border: 1px solid #3A3A3A; background: transparent; color: var(--ink); font: 700 14.5px/1.1 "Archivo", sans-serif; cursor: pointer; }
+  .chs button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .barh { display: grid; gap: 8px; margin-top: 6px; } .barh .lb { display: flex; justify-content: space-between; font-size: 14.5px; font-weight: 700; } .barh .tr { height: 10px; border-radius: 9px; background: #2A2A2A; overflow: hidden; margin-top: 4px; } .barh .tr i { display: block; height: 100%; background: var(--or); }
+  .toast { position: fixed; left: 50%; bottom: 90px; transform: translateX(-50%); background: var(--ok); color: #0D0D0D; font-weight: 800; padding: 12px 18px; border-radius: 12px; z-index: 70; display: none; max-width: 90vw; text-align: center; }
+  .toast.on { display: block; }
+  @media (min-width: 760px) {
+    .plans { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+    .kp { grid-template-columns: repeat(4, minmax(0,1fr)); }
+  }
+</style>
+<div class="demo-bar"><div class="in"><span><i></i>Demo — ejemplo ficticio hecho por MARCEM</span><a href="./">Volver a MARCEM →</a></div></div>
+<nav class="vsw" aria-label="Cambiar vista"><div class="in"><button type="button" data-view="cli" aria-pressed="true">Lo que ve el socio</button><button type="button" data-view="pan" aria-pressed="false">Panel del gimnasio</button></div></nav>
+<div class="v-cli">
+<div class="w">
+  <nav class="nav"><span class="logo">Gimnasio <span>Ejemplo</span></span><a href="#prueba">Clase gratis</a></nav>
+  <header class="hero">
+    <h1>Entrená. <span>Sin excusas.</span></h1>
+    <p>Musculación, funcional, spinning y cross. Reservás tu lugar en la clase desde el celular y consultás tu cuota con tu DNI.</p>
+    <div class="ctas"><a class="b1" href="#clases">Reservar una clase</a><a class="b2" href="#cuota">Consultar mi cuota</a></div>
+    <div class="stripe"><div><b>6 a 23</b>lunes a viernes</div><div><b>9 a 14</b>sábados</div><div><b>15</b>por clase</div></div>
+  </header>
+</div>
+<main>
+  <section><div class="w">
+    <span class="eb">Planes</span><h2>Elegí tu plan</h2><p class="sub">Sin matrícula. Pagás por mes en efectivo, transferencia o débito. Precios de ejemplo.</p>
+    <div class="plans"><div class="pl"><h3>3 veces por semana</h3><p>Musculación lunes a sábado, hasta 3 días.</p><b>$26.000<small> /mes</small></b></div><div class="pl hot"><span class=bdg>Más elegido</span><h3>Pase libre</h3><p>Musculación todos los días, todo el horario.</p><b>$32.000<small> /mes</small></b></div><div class="pl"><h3>Libre + clases</h3><p>Pase libre y todas las clases con reserva.</p><b>$40.000<small> /mes</small></b></div></div>
+  </div></section>
+  <section id="clases" style="padding-top: 0;"><div class="w">
+    <span class="eb">Clases</span><h2>Reservá tu lugar</h2><p class="sub">Elegí el día y la clase. Si sos socio, entrás con tu DNI y listo. Si no, te invitamos a una clase de prueba.</p>
+    <div class="dt" id="dt"></div>
+    <div class="cls" id="cls"></div>
+  </div></section>
+  <section id="cuota" style="padding-top: 0;"><div class="w two">
+    <div><span class="eb">Socios</span><h2>¿Cuándo vence mi cuota?</h2><p class="sub">Poné tu DNI y te decimos hasta cuándo tenés pago y cómo renovar.</p></div>
+    <div class="dni"><div class="row2"><input class="inp" id="c-dni" inputmode="numeric" placeholder="Tu DNI" aria-label="Tu DNI"><button class="btn" type="button" id="c-go">Ver</button></div>
+      <p class="hint">Para probar: 30111222 (al día), 27555666 (vence pronto), 28444555 (vencida).</p>
+      <div class="res" id="c-res" aria-live="polite"></div></div>
+  </div></section>
+  <section id="prueba" style="padding-top: 0;"><div class="w">
+    <div class="box" style="border-color: var(--or);"><h3>Primera clase gratis</h3><p class="muted">Vení a conocernos: elegís la actividad y te esperamos.</p><div class="acts"><button type="button" class="pri" id="tri">Quiero mi clase gratis</button></div></div>
+    <p class="fict">Gimnasio, planes, horarios, socios y precios de ejemplo.</p>
+  </div></section>
+</main>
+</div>
+<div class="v-pan"><div class="w">
+  <p class="pan-note"><b>🔒 Panel</b><span>Esto lo usa el gimnasio desde la recepción (compu, tablet o celular), con usuario y clave. En la demo los cambios se borran al recargar.</span></p>
+  <div class="ptabs" id="pt" role="group" aria-label="Secciones del panel"><button type="button" data-v="in" aria-pressed="true">Ingreso</button><button type="button" data-v="so" aria-pressed="false">Socios</button><button type="button" data-v="al" aria-pressed="false">Nuevo socio</button><button type="button" data-v="ca" aria-pressed="false">Caja del mes</button></div>
+  <div class="pt on" id="pt-in">
+    <div class="box"><h3>Control de ingreso</h3><p class="muted">En la recepción, el socio dice su DNI (o lo escribe en una tablet) y ves al instante si está al día.</p>
+      <div class="row2"><input class="inp" id="i-dni" inputmode="numeric" placeholder="DNI del socio" aria-label="DNI del socio"><button class="btn" type="button" id="i-go">Entrar</button></div>
+      <p class="hint">Probá con 30111222, 27555666 o 28444555.</p>
+      <div class="res" id="i-res" aria-live="polite"></div></div>
+    <div class="kp"><div><b id="k-hoy"></b><small>ingresos hoy</small></div><div class="ok"><b id="k-ok"></b><small>socios al día</small></div><div class="warn"><b id="k-wr"></b><small>vencen en 7 días</small></div><div class="bad"><b id="k-bd"></b><small>con cuota vencida</small></div></div>
+  </div>
+  <div class="pt" id="pt-so">
+    <div class="box"><h3>Socios</h3>
+      <input class="inp" id="s-q" placeholder="Buscar por nombre o DNI" aria-label="Buscar socio" style="font-size: 16px; letter-spacing: 0; min-height: 48px;">
+      <div class="fl" id="s-f"><button type="button" data-v="all" aria-pressed="true">Todos</button><button type="button" data-v="bad" aria-pressed="false">Vencidos</button><button type="button" data-v="warn" aria-pressed="false">Vencen pronto</button><button type="button" data-v="ok" aria-pressed="false">Al día</button></div>
+      <div class="acts" id="s-bulk" style="margin: 4px 0 6px;"></div>
+      <div id="s-list"></div></div>
+  </div>
+  <div class="pt" id="pt-al">
+    <div class="box"><h3>Alta de socio</h3><p class="muted">Lo cargás en 30 segundos y queda con la cuota del primer mes paga.</p>
+      <div class="frm"><label>Nombre y apellido<input class="inp" id="a-n"></label><label>DNI<input class="inp" id="a-d" inputmode="numeric"></label><label>WhatsApp<input class="inp" id="a-w" inputmode="tel" placeholder="336 4..."></label>
+        <span style="font-size: 13.5px; font-weight: 700; color: var(--mut);">Plan</span><div class="chs" id="a-p"></div>
+        <span style="font-size: 13.5px; font-weight: 700; color: var(--mut);">Pagó con</span><div class="chs" id="a-m"><button type="button" data-v="Efectivo" aria-pressed="true">Efectivo</button><button type="button" data-v="Transferencia" aria-pressed="false">Transferencia</button><button type="button" data-v="Débito" aria-pressed="false">Débito</button></div>
+        <button class="btn" type="button" id="a-go" style="margin-top: 6px;">Dar de alta</button></div></div>
+  </div>
+  <div class="pt" id="pt-ca">
+    <div class="kp"><div><b id="c-tot"></b><small>cobrado este mes</small></div><div><b id="c-n"></b><small>cobros</small></div><div><b id="c-nu"></b><small>socios nuevos</small></div><div class="bad"><b id="c-dv"></b><small>por cobrar (vencidos)</small></div></div>
+    <div class="box"><h3>Por medio de pago</h3><div class="barh" id="c-mp"></div></div>
+    <div class="box"><h3>Por plan</h3><div class="barh" id="c-pl"></div></div>
+    <div class="box"><h3>Últimos cobros</h3><div id="c-ul"></div></div>
+  </div>
+</div></div>
+<div class="toast" id="toast" role="status"></div>
+<footer class="made" style="color: #A3A3A3;"><div class="in"><div class="made-box"><div><b>Esta página es una demo de MARCEM.</b><br>El gimnasio, los socios, los planes y los precios son ficticios. Así puede quedar la tuya: con tu nombre, tu estilo y tu WhatsApp.</div><a href="https://wa.me/5493364626434?text=Hola%20Marcelo%2C%20vi%20la%20demo%20de%20landing%20para%20gimnasios%20y%20quiero%20una%20para%20mi%20trabajo." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Quiero una así</a></div><span>Demo hecha por <a href="./">MARCEM · Soluciones digitales</a></span></div></footer>
+<a class="float" href="https://wa.me/?text=Hola%2C%20quiero%20consultar%20por%20los%20planes%20del%20gimnasio." target="_blank" rel="noopener" aria-label="Consultar por WhatsApp"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></a>
+
+<div class="mdl" id="mdl" role="dialog" aria-modal="true" aria-labelledby="mdl-h"><div class="sh"><h3 id="mdl-h">Así llega por WhatsApp</h3><div class="bub" id="mdl-m"></div><p>En la web real este botón abre WhatsApp con el mensaje listo. En la demo solo te lo mostramos.</p><button type="button" onclick="document.getElementById('mdl').classList.remove('on')">Entendido</button></div></div>
+<script>
+function showWA(m){document.getElementById('mdl-m').textContent=m;document.getElementById('mdl').classList.add('on');}
+
+var $ = function (i) { return document.getElementById(i); };
+var fmt = function (n) { return '$' + Math.round(n).toLocaleString('es-AR'); };
+var DIAS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'], DIASL = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+var TODAY = new Date(); TODAY.setHours(0, 0, 0, 0);
+function addD(d, n) { var x = new Date(d); x.setDate(x.getDate() + n); return x; }
+function dkey(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+function kdate(k) { var p = k.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+function dl(d) { return DIAS[d.getDay()] + ' ' + d.getDate() + '/' + (d.getMonth() + 1); }
+function dlong(d) { return DIASL[d.getDay()] + ' ' + d.getDate() + ' de ' + MESES[d.getMonth()]; }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function pills(id, cb) { var g = $(id); g.addEventListener('click', function (e) { var b = e.target.closest('[data-v]'); if (!b || !g.contains(b)) return; g.querySelectorAll('[data-v]').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); cb(b.dataset.v, b); }); }
+function setView(v) { document.body.dataset.v = v; document.querySelectorAll('.vsw [data-view]').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.view === v); }); window.scrollTo(0, 0); if (window.onView) window.onView(v); }
+document.body.dataset.v = 'cli';
+document.querySelectorAll('.vsw [data-view]').forEach(function (b) { b.onclick = function () { setView(b.dataset.view); }; });
+// Calendario: opts = { el, month (Date), min (Date), max (Date), state(date)->clase, click(date), label(date)->texto aria }
+function Cal(o) {
+  var m = new Date(o.month || TODAY); m.setDate(1);
+  function draw() {
+    var y = m.getFullYear(), mo = m.getMonth(), first = new Date(y, mo, 1), off = (first.getDay() + 6) % 7, days = new Date(y, mo + 1, 0).getDate();
+    var h = '<div class="cal-h"><button type="button" data-n="-1" aria-label="Mes anterior">‹</button><b>' + MESES[mo] + ' ' + y + '</b><button type="button" data-n="1" aria-label="Mes siguiente">›</button></div><div class="cal-g">';
+    ['L', 'M', 'M', 'J', 'V', 'S', 'D'].forEach(function (x) { h += '<span class="dw">' + x + '</span>'; });
+    for (var i = 0; i < off; i++) h += '<span></span>';
+    for (var d = 1; d <= days; d++) { var dt = new Date(y, mo, d), c = dt < (o.min || TODAY) ? 'past' : (o.state ? o.state(dt) : 'ok'); if (+dt === +TODAY) c += ' today'; h += '<button type="button" class="d ' + c + '" data-k="' + dkey(dt) + '" aria-label="' + dlong(dt) + (o.label ? ', ' + o.label(dt) : '') + '">' + d + '</button>'; }
+    o.el.innerHTML = h + '</div>';
+    var pv = o.el.querySelector('[data-n="-1"]'); if (new Date(y, mo, 1) <= new Date((o.min || TODAY).getFullYear(), (o.min || TODAY).getMonth(), 1)) pv.disabled = true;
+    if (o.max && new Date(y, mo + 1, 1) > o.max) o.el.querySelector('[data-n="1"]').disabled = true;
+  }
+  o.el.addEventListener('click', function (e) {
+    var n = e.target.closest('[data-n]'); if (n) { m.setMonth(m.getMonth() + +n.dataset.n); draw(); return; }
+    var b = e.target.closest('[data-k]'); if (!b || /past|full|off/.test(b.className)) return; o.click && o.click(kdate(b.dataset.k));
+  });
+  draw(); return { draw: draw, go: function (d) { m = new Date(d); m.setDate(1); draw(); } };
+}
+
+(function () {
+
+var PL = [["3 veces por semana", 26000], ["Pase libre", 32000], ["Libre + clases", 40000]], MP = ['Efectivo', 'Transferencia', 'Débito'];
+var NAMES = ['Juan Pérez', 'Carla Gómez', 'Martín Ruiz', 'Lucía Fernández', 'Diego Sosa', 'Sofía Romero', 'Pablo Díaz', 'Agustina López', 'Matías Herrera', 'Valentina Castro', 'Nicolás Benítez', 'Florencia Acosta', 'Tomás Medina', 'Camila Rojas', 'Federico Molina', 'Julieta Ortiz', 'Gonzalo Silva', 'Micaela Torres', 'Leandro Núñez', 'Rocío Vega', 'Ezequiel Ríos', 'Antonella Luna', 'Santiago Cabrera', 'Brenda Ponce', 'Franco Aguirre', 'Daiana Godoy', 'Hernán Paz', 'Milagros Ibáñez'];
+var OFF = [24, 12, -5, 3, 18, -12, 6, 27, 1, -2, 15, 9, -20, 21, 4, 11, -8, 2, 29, 7, 16, -1, 22, 5, 13, -15, 26, 19];
+var S = NAMES.map(function (n, i) { return { n: n, dni: String(25000000 + i * 734581).slice(0, 8), tel: '336 4' + (510000 + i * 1337), p: i % 3 === 1 ? 1 : i % 5 === 0 ? 2 : i % 3 === 0 ? 0 : 1, v: addD(TODAY, OFF[i]), last: addD(TODAY, -(i % 4)), mp: MP[i % 3] }; });
+S[0].dni = '30111222'; S[0].v = addD(TODAY, 24); S[2].dni = '28444555'; S[2].v = addD(TODAY, -5); S[3].dni = '27555666'; S[3].v = addD(TODAY, 3);
+var PAYS = S.filter(function (s, i) { return OFF[i] > 0 && i % 2 === 0; }).map(function (s, i) { return { n: s.n, p: s.p, m: s.mp, f: addD(TODAY, -i - 1) }; });
+var BASE_CAJA = { tot: 4186000, n: 128, nu: 9 }, NUEVOS = 0, INGRESOS = 41;
+function st(s) { var d = Math.round((s.v - TODAY) / 864e5); return d < 0 ? ['bad', 'Vencida hace ' + (-d) + (d === -1 ? ' día' : ' días'), d] : d <= 7 ? ['warn', d === 0 ? 'Vence hoy' : 'Vence en ' + d + (d === 1 ? ' día' : ' días'), d] : ['ok', 'Al día hasta el ' + dl(s.v), d]; }
+function find(dni) { dni = dni.replace(/\D/g, ''); return S.filter(function (s) { return s.dni === dni; })[0]; }
+function toast(t) { var e = $('toast'); e.textContent = t; e.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(function () { e.classList.remove('on'); }, 2200); }
+function pay(s, m) { var from = s.v > TODAY ? s.v : TODAY, nv = new Date(from); nv.setMonth(nv.getMonth() + 1); s.v = nv; s.mp = m || s.mp; PAYS.unshift({ n: s.n, p: s.p, m: s.mp, f: new Date(), isNew: true }); BASE_CAJA.tot += PL[s.p][1]; BASE_CAJA.n++; }
+function remind(s) { var x = st(s); return 'Hola ' + s.n.split(' ')[0] + ', ¿cómo estás? Te escribimos de Gimnasio Ejemplo: tu cuota ' + (x[2] < 0 ? 'venció el ' + dl(s.v) : 'vence el ' + dl(s.v)) + '. Podés pagar en recepción o por transferencia al alias GIMNASIO.EJEMPLO (' + fmt(PL[s.p][1]) + '). ¡Te esperamos!'; }
+// ---- cliente: clases ----
+var CL = [['08:00', 'Funcional', 'Prof. Laura'], ['09:00', 'Pilates mat', 'Prof. Sole'], ['18:00', 'Funcional', 'Prof. Laura'], ['19:00', 'Spinning', 'Prof. Nico'], ['20:00', 'Cross', 'Prof. Fede']], CAP = 15, RES = {}, cday = 0;
+function occ(d, i) { var k = dkey(addD(TODAY, d)) + i; if (RES[k] === undefined) RES[k] = Math.min(CAP, 6 + ((d * 7 + i * 5) % 10)); return RES[k]; }
+function drawDays() { var h = ''; for (var d = 0; d < 6; d++) { var x = addD(TODAY, d); if (x.getDay() === 0) continue; h += '<button type="button" data-v="' + d + '" aria-pressed="' + (d === cday) + '">' + (d === 0 ? 'Hoy' : DIAS[x.getDay()]) + '<small>' + x.getDate() + '/' + (x.getMonth() + 1) + '</small></button>'; } $('dt').innerHTML = h; }
+function drawCls() { var x = addD(TODAY, cday), sat = x.getDay() === 6;
+  $('cls').innerHTML = CL.filter(function (c, i) { return !sat || i < 2; }).map(function (c, i) { var o = occ(cday, i), l = CAP - o, gone = cday === 0 && parseInt(c[0], 10) <= new Date().getHours(); if (gone) return '<div class="cl" style="opacity:.45"><b>' + c[0] + '</b><div><h3>' + c[1] + '</h3><p>' + c[2] + ' · ya empezó</p></div><button type="button" disabled>Pasada</button></div>'; return '<div class="cl"><b>' + c[0] + '</b><div><h3>' + c[1] + '</h3><p>' + c[2] + ' · ' + (l > 0 ? (l <= 3 ? '¡Quedan ' + l + '!' : l + ' lugares') : 'Completa') + '</p><div class="cap"><i style="width:' + Math.round(o / CAP * 100) + '%"></i></div></div><button type="button" data-c="' + i + '"' + (l <= 0 ? ' disabled' : '') + '>' + (l > 0 ? 'Reservar' : 'Llena') + '</button></div>'; }).join(''); }
+pills('dt', function (v) { cday = +v; drawCls(); });
+$('cls').addEventListener('click', function (e) { var b = e.target.closest('[data-c]'); if (!b) return; var i = +b.dataset.c, c = CL[i], x = addD(TODAY, cday);
+  $('c-dni').focus(); $('c-res').className = 'res on none'; $('c-res').innerHTML = '<h4>Reservar ' + c[1] + '</h4><p>' + dlong(x) + ' a las ' + c[0] + '. Poné tu DNI arriba y tocá "Ver" para confirmar.</p>'; pend = { d: cday, i: i };
+  document.getElementById('cuota').scrollIntoView({ behavior: 'smooth' }); });
+var pend = null;
+$('c-go').onclick = function () {
+  var s = find($('c-dni').value), r = $('c-res');
+  if (!s) { r.className = 'res on none'; r.innerHTML = '<h4>No te encontramos</h4><p>Si todavía no sos socio, tu primera clase es gratis.</p><div class="acts"><button type="button" class="wa" id="c-tr">Pedir clase gratis</button></div>'; $('c-tr').onclick = trial; return; }
+  var x = st(s);
+  if (pend && x[0] !== 'bad') { var c = CL[pend.i], k = dkey(addD(TODAY, pend.d)) + pend.i; RES[k] = occ(pend.d, pend.i) + 1; r.className = 'res on ok'; r.innerHTML = '<h4>¡Listo, ' + s.n.split(' ')[0] + '!</h4><p>Reservaste ' + c[1] + ' el ' + dlong(addD(TODAY, pend.d)) + ' a las ' + c[0] + '. ' + x[1] + '.</p>'; pend = null; drawCls(); return; }
+  r.className = 'res on ' + x[0];
+  r.innerHTML = '<h4>' + (x[0] === 'ok' ? 'Estás al día' : x[0] === 'warn' ? 'Tu cuota vence pronto' : 'Tu cuota está vencida') + '</h4><p>' + s.n + ' · ' + PL[s.p][0] + '<br>' + x[1] + '.' + (x[0] !== 'ok' ? '<br>Renovás por ' + fmt(PL[s.p][1]) + ': en recepción o por transferencia al alias GIMNASIO.EJEMPLO.' : '') + (pend && x[0] === 'bad' ? '<br><b>Para reservar la clase, primero renová la cuota.</b>' : '') + '</p>' + (x[0] !== 'ok' ? '<div class="acts"><button type="button" class="wa" id="c-sc">Enviar comprobante</button></div>' : '');
+  if (x[0] !== 'ok') $('c-sc').onclick = function () { showWA('Hola, soy ' + s.n + ' (DNI ' + s.dni + '). Les mando el comprobante de la cuota de ' + PL[s.p][0].toLowerCase() + '.'); };
+};
+function trial() { showWA('Hola, quiero hacer mi clase de prueba gratis. ¿Qué días y horarios tienen?'); }
+$('tri').onclick = trial;
+// ---- panel ----
+pills('pt', function (v) { document.querySelectorAll('.pt').forEach(function (p) { p.classList.toggle('on', p.id === 'pt-' + v); }); render(); });
+$('i-go').onclick = function () {
+  var s = find($('i-dni').value), r = $('i-res');
+  if (!s) { r.className = 'res on none'; r.innerHTML = '<h4>DNI no registrado</h4><p>No es socio. Podés darlo de alta en "Nuevo socio".</p>'; return; }
+  var x = st(s);
+  if (x[0] !== 'bad') { INGRESOS++; s.last = new Date(); }
+  r.className = 'res on ' + x[0];
+  r.innerHTML = '<h4>' + (x[0] === 'bad' ? '✗ No puede pasar' : '✓ Puede pasar') + '</h4><p><b>' + s.n + '</b> · ' + PL[s.p][0] + '<br>' + x[1] + '</p>' + (x[0] !== 'ok' ? '<div class="acts"><button type="button" class="pri" id="i-pay">Cobrar ' + fmt(PL[s.p][1]) + '</button>' + (x[0] === 'warn' ? '<button type="button" class="wa" id="i-wa">Recordarle</button>' : '') + '</div>' : '');
+  if (x[0] !== 'ok') { $('i-pay').onclick = function () { pay(s); if (x[0] === 'bad') INGRESOS++; toast('Pago registrado: ' + s.n.split(' ')[0] + ' al día hasta el ' + dl(s.v)); $('i-go').onclick(); render(); }; if ($('i-wa')) $('i-wa').onclick = function () { showWA(remind(s)); }; }
+  render();
+};
+var sf = 'all';
+pills('s-f', function (v) { sf = v; render(); }); $('s-q').oninput = render;
+$('s-list').addEventListener('click', function (e) { var b = e.target.closest('[data-a]'); if (!b) return; var s = S[+b.dataset.i]; if (b.dataset.a === 'pay') { pay(s); toast('Pago registrado: ' + s.n.split(' ')[0] + ' al día hasta el ' + dl(s.v)); } else showWA(remind(s)); render(); });
+$('s-bulk').addEventListener('click', function (e) { var b = e.target.closest('[data-bulk]'); if (!b) return; var L = S.filter(function (s) { return st(s)[0] === b.dataset.bulk; }); showWA(remind(L[0]) + '\n\n(Y así con los ' + L.length + ': se abre un chat por socio con su mensaje listo, uno atrás del otro.)'); });
+$('a-p').innerHTML = PL.map(function (p, i) { return '<button type="button" data-v="' + i + '" aria-pressed="' + (i === 1) + '">' + p[0] + '</button>'; }).join('');
+var ap = 1, am = 'Efectivo'; pills('a-p', function (v) { ap = +v; }); pills('a-m', function (v) { am = v; });
+$('a-go').onclick = function () { var n = $('a-n').value.trim(), d = $('a-d').value.replace(/\D/g, ''); if (!n || d.length < 7) { toast('Completá nombre y DNI'); $('toast').style.background = '#FFC23D'; return; } $('toast').style.background = '';
+  var s = { n: n, dni: d, tel: $('a-w').value, p: ap, v: TODAY, last: new Date(), mp: am, isNew: true }; S.unshift(s); pay(s, am); NUEVOS++; ['a-n', 'a-d', 'a-w'].forEach(function (i) { $(i).value = ''; }); toast('¡' + n.split(' ')[0] + ' ya es socio! Pagó hasta el ' + dl(s.v)); render(); };
+function render() {
+  var c = { ok: 0, warn: 0, bad: 0 }, dv = 0; S.forEach(function (s) { var x = st(s); c[x[0]]++; if (x[0] === 'bad') dv += PL[s.p][1]; });
+  $('k-hoy').textContent = INGRESOS; $('k-ok').textContent = c.ok; $('k-wr').textContent = c.warn; $('k-bd').textContent = c.bad;
+  var q = $('s-q').value.trim().toLowerCase();
+  var L = S.map(function (s, i) { s.i = i; return s; }).filter(function (s) { var x = st(s); return (sf === 'all' || x[0] === sf) && (!q || s.n.toLowerCase().indexOf(q) > -1 || s.dni.indexOf(q) > -1); }).sort(function (a, b) { return a.v - b.v; });
+  $('s-bulk').innerHTML = (c.bad ? '<button type="button" class="wa" data-bulk="bad">Avisar a los ' + c.bad + ' vencidos</button>' : '') + (c.warn ? '<button type="button" class="wa" data-bulk="warn">Avisar a los ' + c.warn + ' que vencen</button>' : '');
+  $('s-list').innerHTML = L.length ? L.map(function (s) { var x = st(s); return '<div class="sc"><div class="top"><b>' + esc(s.n) + '</b><span class="bdg ' + x[0] + '">' + x[1] + '</span></div><p>DNI ' + s.dni + ' · ' + PL[s.p][0] + ' · ' + fmt(PL[s.p][1]) + '</p>' + (x[0] !== 'ok' ? '<div class="acts"><button type="button" class="pri" data-a="pay" data-i="' + s.i + '">Registrar pago</button><button type="button" class="wa" data-a="wa" data-i="' + s.i + '">WhatsApp</button></div>' : '') + '</div>'; }).join('') : '<p class="muted">No hay socios con ese filtro.</p>';
+  $('c-tot').textContent = fmt(BASE_CAJA.tot); $('c-n').textContent = BASE_CAJA.n; $('c-nu').textContent = BASE_CAJA.nu + NUEVOS; $('c-dv').textContent = fmt(dv);
+  var mp = [0.46, 0.38, 0.16], pl = [0.24, 0.52, 0.24];
+  $('c-mp').innerHTML = MP.map(function (m, i) { return '<div><div class="lb"><span>' + m + '</span><span>' + fmt(BASE_CAJA.tot * mp[i]) + '</span></div><div class="tr"><i style="width:' + mp[i] * 100 + '%"></i></div></div>'; }).join('');
+  $('c-pl').innerHTML = PL.map(function (p, i) { return '<div><div class="lb"><span>' + p[0] + '</span><span>' + Math.round(pl[i] * 100) + '%</span></div><div class="tr"><i style="width:' + pl[i] * 100 + '%"></i></div></div>'; }).join('');
+  $('c-ul').innerHTML = PAYS.slice(0, 6).map(function (p) { return '<div class="sc"><div class="top"><b>' + esc(p.n) + '</b><span>' + fmt(PL[p.p][1]) + '</span></div><p>' + PL[p.p][0] + ' · ' + p.m + ' · ' + (p.isNew ? 'recién' : dl(p.f)) + '</p></div>'; }).join('');
+}
+drawDays(); drawCls(); render();
+
+})();
+</script>
+</body>
+</html>

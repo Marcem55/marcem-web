@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo: inmobiliaria con buscador y visitas (ejemplo ficticio) · MARCEM</title>
+<meta name="description" content="Probá una página para inmobiliarias hecha por MARCEM: buscador, cuánto necesitás para entrar, visitas agendadas y panel de propiedades. Ejemplo ficticio.">
+<link rel="canonical" href="https://marcem-digital.vercel.app/demo-inmobiliaria.html">
+<meta name="theme-color" content="#082A3A">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="MARCEM">
+<meta property="og:title" content="Demo: inmobiliaria con buscador y visitas (ejemplo ficticio) · MARCEM">
+<meta property="og:description" content="Probá una página para inmobiliarias hecha por MARCEM: buscador, cuánto necesitás para entrar, visitas agendadas y panel de propiedades. Ejemplo ficticio.">
+<meta property="og:url" content="https://marcem-digital.vercel.app/demo-inmobiliaria.html">
+<meta property="og:image" content="https://marcem-digital.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+</head>
+<body>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Inter+Tight:wght@400;500;600;700&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  img, svg { display: block; }
+  .demo-bar { background: #0B3D53; color: #D5E6ED; font: 700 13px/1.3 system-ui, -apple-system, sans-serif; }
+  .demo-bar .in { max-width: 1100px; margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+  .demo-bar span { display: inline-flex; gap: 8px; align-items: center; }
+  .demo-bar i { width: 8px; height: 8px; border-radius: 9px; background: #25D366; }
+  .demo-bar a { color: #FFFFFF; text-decoration: none; white-space: nowrap; }
+  .made { padding: 28px 20px 110px; font: 14px/1.5 system-ui, -apple-system, sans-serif; }
+  .made .in { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .made-box { display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 18px; background: #0B3D53; color: #D5E6ED; }
+  .made-box b { color: #FFFFFF; font-size: 16px; }
+  .made-box a { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 12px 22px; border-radius: 999px; background: #25D366; color: #FFFFFF; font-weight: 700; text-decoration: none; flex-shrink: 0; }
+  .float { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 40; width: 58px; height: 58px; border-radius: 999px; background: #25D366; color: #FFFFFF; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 30px rgba(37,211,102,0.38); }
+  @media (min-width: 760px) { .made-box { flex-direction: row; align-items: center; justify-content: space-between; } }
+
+  .mdl { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: flex-end; justify-content: center; z-index: 60; padding: 10px; }
+  .mdl.on { display: flex; }
+  .sh { background: #FFFFFF; color: #16181D; border-radius: 22px; padding: 18px; width: 100%; max-width: 480px; font-family: system-ui, -apple-system, sans-serif; }
+  .sh h3 { margin: 0; font-size: 19px; }
+  .sh .bub { margin-top: 12px; background: #DCF8C6; border-radius: 16px 16px 4px 16px; padding: 12px 14px; font-size: 15.5px; white-space: pre-line; }
+  .sh p { margin: 10px 0 0; font-size: 13.5px; color: #5A5F6A; }
+  .sh button { margin-top: 12px; width: 100%; min-height: 50px; border: none; border-radius: 12px; background: #16181D; color: #FFFFFF; font: 700 16px/1 system-ui, sans-serif; cursor: pointer; }
+  @media (min-width: 760px) { .mdl { align-items: center; } }
+
+  .vsw { position: sticky; top: 0; z-index: 45; background: var(--vs-bg); padding: 8px 12px; box-shadow: 0 6px 18px rgba(0,0,0,.08); }
+  .vsw .in { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; background: rgba(127,127,127,.14); border-radius: 999px; padding: 4px; }
+  .vsw button { min-height: 42px; border: none; border-radius: 999px; background: transparent; color: var(--vs-fg); font: 700 14px/1.1 system-ui, -apple-system, sans-serif; cursor: pointer; padding: 6px 8px; }
+  .vsw button[aria-pressed="true"] { background: var(--vs-on); color: var(--vs-onfg); box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+  body[data-v="pan"] .v-cli, body[data-v="cli"] .v-pan { display: none !important; }
+  .pan-note { display: flex; gap: 10px; align-items: flex-start; font: 600 14px/1.45 system-ui, -apple-system, sans-serif; padding: 12px 14px; border-radius: 14px; background: rgba(127,127,127,.12); margin: 18px 0 6px; }
+  .pan-note b { white-space: nowrap; }
+
+  :root { --bg: #F4EFE6; --card: #FFFFFF; --ink: #1D2B27; --mut: #64706B; --gr: #1F3D35; --ac: #C8643B; --line: #E2DACB; --soft: #EAE3D6;
+          --vs-bg: #F4EFE6; --vs-fg: #1D2B27; --vs-on: #1F3D35; --vs-onfg: #FFFFFF; }
+  body { background: var(--bg); color: var(--ink); font-family: "Inter Tight", system-ui, sans-serif; font-size: 16.5px; line-height: 1.55; }
+  h1, h2, h3 { font-family: "Newsreader", Georgia, serif; font-weight: 500; margin: 0; line-height: 1.06; letter-spacing: -.01em; }
+  .w { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+  .nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 16px 0; }
+  .logo { font-family: "Newsreader", serif; font-size: 23px; font-weight: 600; color: var(--gr); } .logo small { display: block; font-family: "Inter Tight", sans-serif; font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--ac); font-weight: 600; }
+  .nav a { text-decoration: none; font-weight: 600; font-size: 14px; color: var(--gr); border: 1.5px solid var(--gr); padding: 9px 14px; border-radius: 99px; white-space: nowrap; }
+  .hero { background: var(--gr); color: #FFFFFF; border-radius: 26px; padding: 26px 20px 20px; margin-top: 4px; }
+  .hero h1 { font-size: clamp(36px, 10vw, 64px); } .hero h1 em { color: #F2B38F; }
+  .hero p { margin: 10px 0 18px; color: #C9D6D1; max-width: 32em; }
+  .srch { background: var(--card); border-radius: 18px; padding: 14px; color: var(--ink); display: grid; gap: 10px; }
+  .op { display: grid; grid-template-columns: 1fr 1fr; background: var(--soft); border-radius: 12px; padding: 4px; }
+  .op button { min-height: 44px; border: none; border-radius: 9px; background: transparent; font: 700 15px/1 "Inter Tight", sans-serif; color: var(--ink); cursor: pointer; }
+  .op button[aria-pressed="true"] { background: var(--card); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+  .sr { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .sr label { display: grid; gap: 4px; font-size: 12.5px; font-weight: 700; color: var(--mut); text-transform: uppercase; letter-spacing: .04em; }
+  .sel { width: 100%; min-height: 48px; padding: 8px 10px; border-radius: 10px; border: 1.5px solid var(--line); background: #FFFFFF; font: 600 15.5px/1.2 "Inter Tight", sans-serif; color: var(--ink); }
+  .cnt { font-size: 14.5px; color: var(--mut); }
+  section { padding: 30px 0; }
+  h2 { font-size: clamp(30px, 8vw, 46px); }
+  .sub { margin: 6px 0 16px; color: var(--mut); max-width: 36em; }
+  .grid { display: grid; gap: 14px; }
+  .pc { background: var(--card); border-radius: 20px; overflow: hidden; border: 1px solid var(--line); display: flex; flex-direction: column; }
+  .pc button.open { all: unset; cursor: pointer; display: block; }
+  .pc button.open:focus-visible { outline: 3px solid var(--ac); }
+  .ph { position: relative; aspect-ratio: 16 / 10; } .ph svg { width: 100%; height: 100%; display: block; }
+  .ph .tg { position: absolute; top: 10px; left: 10px; display: flex; gap: 6px; }
+  .ph .tg span { background: rgba(255,255,255,.92); color: var(--ink); font-size: 12px; font-weight: 700; padding: 4px 9px; border-radius: 99px; }
+  .ph .tg span.cr { background: var(--gr); color: #FFFFFF; }
+  .pb { padding: 14px 16px 16px; }
+  .pr { font-family: "Newsreader", serif; font-size: 27px; font-weight: 600; } .pr small { font-family: "Inter Tight", sans-serif; font-size: 13.5px; color: var(--mut); font-weight: 500; }
+  .pb h3 { font-family: "Inter Tight", sans-serif; font-size: 16.5px; font-weight: 600; margin-top: 2px; letter-spacing: 0; } .pb p { margin: 2px 0 10px; color: var(--mut); font-size: 14.5px; }
+  .ft { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 14px; font-weight: 600; color: var(--ink); }
+  .empty { display: none; padding: 20px; background: var(--card); border-radius: 16px; color: var(--mut); }
+  .sheet { position: fixed; inset: 0; background: rgba(20,30,27,.55); z-index: 55; display: none; align-items: flex-end; justify-content: center; padding: 8px; }
+  .sheet.on { display: flex; }
+  .sh2 { background: var(--bg); border-radius: 24px; width: 100%; max-width: 640px; max-height: 92vh; overflow: auto; }
+  .sh2 .ph { aspect-ratio: 16 / 9; } .sh2 .in { padding: 16px 18px 20px; }
+  .sh2 .x { position: absolute; top: 10px; right: 10px; width: 44px; height: 44px; border-radius: 99px; border: none; background: rgba(255,255,255,.95); font: 700 20px/1 sans-serif; cursor: pointer; color: var(--ink); }
+  .feat { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 6px; margin: 12px 0; }
+  .feat div { background: var(--card); border-radius: 12px; padding: 10px; text-align: center; font-size: 12.5px; color: var(--mut); } .feat b { display: block; font-size: 17px; color: var(--ink); }
+  .blk { background: var(--card); border-radius: 16px; padding: 14px; margin-top: 10px; }
+  .blk h4 { margin: 0 0 8px; font-family: "Newsreader", serif; font-size: 21px; font-weight: 500; }
+  .l { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; font-size: 15px; color: var(--mut); } .l.t { color: var(--ink); font-weight: 700; font-size: 17px; border-top: 1px solid var(--line); margin-top: 6px; padding-top: 8px; }
+  .note { font-size: 13px; color: var(--mut); margin: 6px 0 0; }
+  .chs { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chs button { min-height: 44px; padding: 6px 12px; border-radius: 10px; border: 1.5px solid var(--line); background: #FFFFFF; font: 600 14px/1.15 "Inter Tight", sans-serif; color: var(--ink); cursor: pointer; }
+  .chs button small { display: block; font-weight: 500; font-size: 12px; color: var(--mut); }
+  .chs button[aria-pressed="true"] { background: var(--gr); color: #FFFFFF; border-color: var(--gr); } .chs button[aria-pressed="true"] small { color: #C9D6D1; }
+  .chs button:disabled { opacity: .4; cursor: not-allowed; text-decoration: line-through; }
+  .inp { width: 100%; min-height: 50px; padding: 10px 14px; border-radius: 12px; border: 1.5px solid var(--line); font: 500 16px/1.2 "Inter Tight", sans-serif; color: var(--ink); background: #FFFFFF; margin-top: 8px; }
+  .go { margin-top: 12px; width: 100%; min-height: 54px; border: none; border-radius: 12px; background: #25D366; color: #FFFFFF; font: 700 16px/1 "Inter Tight", sans-serif; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; }
+  .tas { background: var(--card); border-radius: 22px; padding: 20px; border: 1px solid var(--line); }
+  .fict { font-size: 13px; color: var(--mut); margin-top: 14px; }
+  /* panel */
+  .kp { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; margin-top: 12px; }
+  .kp div { min-width: 0; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px; } .kp b { display: block; font-family: "Newsreader", serif; font-size: clamp(24px, 7vw, 32px); font-weight: 600; line-height: 1.05; } .kp small { color: var(--mut); font-size: 13.5px; }
+  .box { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; margin-top: 12px; }
+  .box h3 { font-size: 23px; margin-bottom: 4px; }
+  .muted { color: var(--mut); font-size: 14.5px; margin: 0 0 8px; }
+  .pr2 { display: grid; grid-template-columns: 64px 1fr; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); align-items: start; }
+  .pr2 .th { width: 64px; height: 48px; border-radius: 8px; overflow: hidden; } .pr2 .th svg { width: 100%; height: 100%; }
+  .pr2 b { font-size: 15px; } .pr2 p { margin: 0 0 6px; color: var(--mut); font-size: 13.5px; }
+  .seg { display: inline-flex; background: var(--soft); border-radius: 10px; padding: 3px; flex-wrap: wrap; }
+  .seg button { min-height: 34px; padding: 4px 10px; border: none; border-radius: 8px; background: transparent; font: 600 12.5px/1 "Inter Tight", sans-serif; color: var(--ink); cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--card); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+  .seg button[aria-pressed="true"][data-e="1"] { background: #FCE9C8; } .seg button[aria-pressed="true"][data-e="2"] { background: #E2E6E4; }
+  .vi { padding: 10px 0; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+  .vi small { display: block; color: var(--mut); font-size: 13px; }
+  .mini { min-height: 38px; padding: 4px 12px; border-radius: 8px; border: none; background: #1F6F43; color: #FFFFFF; font: 700 13px/1 "Inter Tight", sans-serif; cursor: pointer; white-space: nowrap; }
+  .dh { margin: 12px 0 2px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--ac); }
+  .new { display: inline-block; background: var(--ac); color: #FFFFFF; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 99px; margin-left: 6px; vertical-align: 1px; }
+  @media (min-width: 760px) {
+    .hero { padding: 40px; } .srch { max-width: 760px; } .op { max-width: 320px; } .sr { grid-template-columns: repeat(3, minmax(0,1fr)); } .sr label[style] { grid-column: auto !important; }
+    .grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .sheet { align-items: center; }
+    .two { display: grid; grid-template-columns: 1fr 1.1fr; gap: 30px; align-items: start; }
+    .kp { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .pgrid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; align-items: start; }
+  }
+</style>
+<div class="demo-bar"><div class="in"><span><i></i>Demo — ejemplo ficticio hecho por MARCEM</span><a href="./">Volver a MARCEM →</a></div></div>
+<nav class="vsw" aria-label="Cambiar vista"><div class="in"><button type="button" data-view="cli" aria-pressed="true">Lo que ve tu cliente</button><button type="button" data-view="pan" aria-pressed="false">Panel del negocio</button></div></nav>
+<div class="v-cli">
+<div class="w">
+  <nav class="nav"><span class="logo">Inmobiliaria Ejemplo<small>Alquileres · Ventas · Tasaciones</small></span><a href="#tasar">Tasar mi propiedad</a></nav>
+  <header class="hero">
+    <h1>Encontrá tu lugar <em>sin vueltas.</em></h1>
+    <p>Solo publicamos lo que está disponible. Mirá cuánto necesitás para entrar y agendá la visita en el horario que te queda bien.</p>
+    <div class="srch">
+      <div class="op" id="op"><button type="button" data-v="alq" aria-pressed="true">Alquilar</button><button type="button" data-v="ven" aria-pressed="false">Comprar</button></div>
+      <div class="sr">
+        <label>Tipo<select class="sel" id="f-t"><option value="">Todos</option><option>Departamento</option><option>Casa</option><option>Local</option><option>Terreno</option></select></label>
+        <label>Ambientes<select class="sel" id="f-a"><option value="0">Cualquiera</option><option value="1">1 o más</option><option value="2">2 o más</option><option value="3">3 o más</option></select></label>
+        <label style="grid-column: 1 / -1;">Hasta<select class="sel" id="f-p"></select></label>
+      </div>
+      <span class="cnt" id="cnt" aria-live="polite"></span>
+    </div>
+  </header>
+</div>
+<main>
+  <section><div class="w">
+    <div class="grid" id="grid"></div><p class="empty" id="empty">No hay propiedades con esos filtros. Probá ampliando el precio o los ambientes.</p>
+  </div></section>
+  <section id="tasar" style="padding-top: 0;"><div class="w two">
+    <div><h2>¿Querés vender o alquilar tu propiedad?</h2><p class="sub">Te hacemos una tasación sin cargo. Contanos lo básico y coordinamos la visita.</p></div>
+    <div class="tas">
+      <div class="op" id="t-o" style="margin-bottom: 10px;"><button type="button" data-v="vender" aria-pressed="true">Vender</button><button type="button" data-v="alquilar" aria-pressed="false">Poner en alquiler</button></div>
+      <select class="sel" id="t-t" aria-label="Tipo de propiedad"><option>Departamento</option><option>Casa</option><option>Local</option><option>Terreno</option></select>
+      <input class="inp" id="t-d" placeholder="Dirección o barrio">
+      <input class="inp" id="t-m" placeholder="Metros cuadrados aprox." inputmode="numeric">
+      <input class="inp" id="t-n" placeholder="Tu nombre">
+      <button class="go" type="button" id="t-go"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Pedir tasación</button>
+    </div>
+  </div></section>
+  <section style="padding-top: 0;"><div class="w"><p class="fict">Inmobiliaria, propiedades, ilustraciones, costos y precios de ejemplo. Los costos de entrada se configuran según cada inmobiliaria.</p></div></section>
+</main>
+</div>
+<div class="v-pan"><div class="w">
+  <p class="pan-note"><b>🔒 Panel</b><span>Esto lo ve solo el dueño, entrando con usuario y clave desde el celular o la compu. En la demo los cambios se borran al recargar.</span></p>
+  <h2>Tu cartera</h2>
+  <div class="kp"><div><b id="k-d"></b><small>publicadas</small></div><div><b id="k-r"></b><small>reservadas</small></div><div><b id="k-v"></b><small>visitas esta semana</small></div><div><b id="k-c"></b><small>consultas nuevas</small></div></div>
+  <div class="pgrid">
+    <div class="box"><h3>Propiedades</h3><p class="muted">Cuando una se reserva o se alquila, la marcás acá y deja de aparecer en la web. Se terminan los "¿sigue disponible?".</p><div id="p-l"></div></div>
+    <div class="box"><h3>Visitas agendadas</h3><p class="muted">Las que piden desde la web aparecen solas, con la propiedad y el horario.</p><div id="p-v"></div></div>
+  </div>
+</div></div>
+<div class="sheet" id="sh" role="dialog" aria-modal="true" aria-labelledby="sh-h"><div class="sh2" id="sh2"></div></div>
+<footer class="made" style="color: #64706B;"><div class="in"><div class="made-box"><div><b>Esta página es una demo de MARCEM.</b><br>La inmobiliaria, las propiedades y los precios son ficticios. Así puede quedar la tuya: con tu nombre, tu estilo y tu WhatsApp.</div><a href="https://wa.me/5493364626434?text=Hola%20Marcelo%2C%20vi%20la%20demo%20de%20landing%20para%20inmobiliarias%20y%20quiero%20una%20para%20mi%20trabajo." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Quiero una así</a></div><span>Demo hecha por <a href="./">MARCEM · Soluciones digitales</a></span></div></footer>
+<a class="float" href="https://wa.me/?text=Hola%2C%20quiero%20consultar%20por%20una%20propiedad." target="_blank" rel="noopener" aria-label="Consultar por WhatsApp"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></a>
+
+<div class="mdl" id="mdl" role="dialog" aria-modal="true" aria-labelledby="mdl-h"><div class="sh"><h3 id="mdl-h">Así llega por WhatsApp</h3><div class="bub" id="mdl-m"></div><p>En la web real este botón abre WhatsApp con el mensaje listo. En la demo solo te lo mostramos.</p><button type="button" onclick="document.getElementById('mdl').classList.remove('on')">Entendido</button></div></div>
+<script>
+function showWA(m){document.getElementById('mdl-m').textContent=m;document.getElementById('mdl').classList.add('on');}
+
+var $ = function (i) { return document.getElementById(i); };
+var fmt = function (n) { return '$' + Math.round(n).toLocaleString('es-AR'); };
+var DIAS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'], DIASL = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+var TODAY = new Date(); TODAY.setHours(0, 0, 0, 0);
+function addD(d, n) { var x = new Date(d); x.setDate(x.getDate() + n); return x; }
+function dkey(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+function kdate(k) { var p = k.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+function dl(d) { return DIAS[d.getDay()] + ' ' + d.getDate() + '/' + (d.getMonth() + 1); }
+function dlong(d) { return DIASL[d.getDay()] + ' ' + d.getDate() + ' de ' + MESES[d.getMonth()]; }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function pills(id, cb) { var g = $(id); g.addEventListener('click', function (e) { var b = e.target.closest('[data-v]'); if (!b || !g.contains(b)) return; g.querySelectorAll('[data-v]').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); cb(b.dataset.v, b); }); }
+function setView(v) { document.body.dataset.v = v; document.querySelectorAll('.vsw [data-view]').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.view === v); }); window.scrollTo(0, 0); if (window.onView) window.onView(v); }
+document.body.dataset.v = 'cli';
+document.querySelectorAll('.vsw [data-view]').forEach(function (b) { b.onclick = function () { setView(b.dataset.view); }; });
+// Calendario: opts = { el, month (Date), min (Date), max (Date), state(date)->clase, click(date), label(date)->texto aria }
+function Cal(o) {
+  var m = new Date(o.month || TODAY); m.setDate(1);
+  function draw() {
+    var y = m.getFullYear(), mo = m.getMonth(), first = new Date(y, mo, 1), off = (first.getDay() + 6) % 7, days = new Date(y, mo + 1, 0).getDate();
+    var h = '<div class="cal-h"><button type="button" data-n="-1" aria-label="Mes anterior">‹</button><b>' + MESES[mo] + ' ' + y + '</b><button type="button" data-n="1" aria-label="Mes siguiente">›</button></div><div class="cal-g">';
+    ['L', 'M', 'M', 'J', 'V', 'S', 'D'].forEach(function (x) { h += '<span class="dw">' + x + '</span>'; });
+    for (var i = 0; i < off; i++) h += '<span></span>';
+    for (var d = 1; d <= days; d++) { var dt = new Date(y, mo, d), c = dt < (o.min || TODAY) ? 'past' : (o.state ? o.state(dt) : 'ok'); if (+dt === +TODAY) c += ' today'; h += '<button type="button" class="d ' + c + '" data-k="' + dkey(dt) + '" aria-label="' + dlong(dt) + (o.label ? ', ' + o.label(dt) : '') + '">' + d + '</button>'; }
+    o.el.innerHTML = h + '</div>';
+    var pv = o.el.querySelector('[data-n="-1"]'); if (new Date(y, mo, 1) <= new Date((o.min || TODAY).getFullYear(), (o.min || TODAY).getMonth(), 1)) pv.disabled = true;
+    if (o.max && new Date(y, mo + 1, 1) > o.max) o.el.querySelector('[data-n="1"]').disabled = true;
+  }
+  o.el.addEventListener('click', function (e) {
+    var n = e.target.closest('[data-n]'); if (n) { m.setMonth(m.getMonth() + +n.dataset.n); draw(); return; }
+    var b = e.target.closest('[data-k]'); if (!b || /past|full|off/.test(b.className)) return; o.click && o.click(kdate(b.dataset.k));
+  });
+  draw(); return { draw: draw, go: function (d) { m = new Date(d); m.setDate(1); draw(); } };
+}
+
+(function () {
+
+var PRO = [
+  ['A-104', 'alq', 'Departamento', 'zona Centro', 'Calle Ejemplo 450, 3° B', 2, 48, 420000, 65000, ['Balcón', 'Luminoso', 'Apto mascotas'], 0, 0],
+  ['A-112', 'alq', 'Departamento', 'Barrio Norte', 'Av. Ejemplo 1200, PB', 1, 32, 310000, 40000, ['Patio', 'Cerca de la costanera'], 0, 1],
+  ['A-118', 'alq', 'Casa', 'zona Parque', 'Pasaje Ejemplo 85', 3, 95, 650000, 0, ['Cochera', 'Patio con parrilla', 'Lavadero'], 1, 2],
+  ['A-121', 'alq', 'Local', 'zona Centro', 'Calle Comercio 230', 1, 60, 780000, 0, ['Vidriera a la calle', 'Baño'], 0, 3],
+  ['A-125', 'alq', 'Departamento', 'zona Centro', 'Calle Ejemplo 980, 6° A', 3, 72, 560000, 85000, ['Cochera', 'Vista al río', 'Amenities'], 1, 4],
+  ['V-201', 'ven', 'Casa', 'Barrio Norte', 'Calle Ejemplo 1540', 3, 140, 128000, 0, ['Cochera doble', 'Pileta', 'Apto crédito'], 1, 5],
+  ['V-205', 'ven', 'Departamento', 'zona Centro', 'Av. Ejemplo 300, 8° C', 2, 55, 72000, 70000, ['Apto crédito', 'Balcón', 'Luminoso'], 0, 6],
+  ['V-209', 'ven', 'Terreno', 'zona Oeste', 'Lote 14, Barrio Ejemplo', 0, 300, 38000, 0, ['Servicios', 'Escritura inmediata'], 0, 7],
+  ['V-212', 'ven', 'Casa', 'zona Parque', 'Calle Ejemplo 77', 4, 180, 165000, 0, ['Quincho', 'Cochera', 'Parque'], 1, 8],
+  ['V-216', 'ven', 'Departamento', 'Barrio Norte', 'Calle Ejemplo 640, 2° A', 1, 38, 49000, 45000, ['Apto crédito', 'A estrenar'], 0, 9]
+].map(function (p) { return { c: p[0], op: p[1], t: p[2], b: p[3], dir: p[4], amb: p[5], m2: p[6], pr: p[7], ex: p[8], fe: p[9], co: p[10], v: p[11], e: 0 }; });
+PRO[4].e = 1;
+var PAL = [['#E9D9C4', '#C8643B'], ['#D9E4DF', '#1F3D35'], ['#EFE1D1', '#8A5A3C'], ['#E3E6EE', '#3D4F7A'], ['#F1E4D6', '#B84E3A'], ['#DCE7D7', '#4E7A4A'], ['#EDE3EF', '#6B4E7A'], ['#E6EFD8', '#7A8F3E'], ['#F3E3D3', '#A0653A'], ['#E1E9EC', '#2F6475']];
+function art(p) {
+  var pl = PAL[p.v % PAL.length], bg = pl[0], ac = pl[1], h = '<svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="320" height="200" fill="' + bg + '"/><circle cx="270" cy="40" r="22" fill="#FFFFFF" opacity=".6"/><rect y="170" width="320" height="30" fill="' + ac + '" opacity=".18"/>';
+  if (p.t === 'Departamento') { var f = 4 + p.v % 3, w = 120, x = 100; h += '<rect x="' + x + '" y="' + (170 - f * 28 - 10) + '" width="' + w + '" height="' + (f * 28 + 10) + '" fill="' + ac + '"/>'; for (var i = 0; i < f; i++) for (var j = 0; j < 3; j++) h += '<rect x="' + (x + 14 + j * 36) + '" y="' + (170 - (i + 1) * 28 + 2) + '" width="22" height="16" rx="2" fill="#FFF7E6" opacity="' + (((i + j + p.v) % 3) ? .9 : .45) + '"/>'; h += '<rect x="40" y="110" width="46" height="60" fill="' + ac + '" opacity=".35"/><rect x="232" y="96" width="54" height="74" fill="' + ac + '" opacity=".25"/>'; }
+  else if (p.t === 'Casa') { h += '<path d="M80 100 L160 46 L240 100 Z" fill="' + ac + '"/><rect x="92" y="100" width="136" height="70" fill="#FFF7E6"/><rect x="146" y="124" width="28" height="46" fill="' + ac + '" opacity=".8"/><rect x="106" y="114" width="28" height="22" fill="' + ac + '" opacity=".35"/><rect x="186" y="114" width="28" height="22" fill="' + ac + '" opacity=".35"/>' + (p.co ? '<rect x="236" y="128" width="52" height="42" fill="' + ac + '" opacity=".4"/>' : '') + '<circle cx="54" cy="140" r="22" fill="#6E9A5C"/><rect x="51" y="150" width="6" height="20" fill="#7A5A3C"/>'; }
+  else if (p.t === 'Local') { h += '<rect x="70" y="60" width="180" height="110" fill="#FFF7E6"/><rect x="70" y="60" width="180" height="22" fill="' + ac + '"/><g fill="' + ac + '" opacity=".25"><rect x="84" y="94" width="96" height="60"/></g><rect x="194" y="94" width="42" height="76" fill="' + ac + '" opacity=".75"/><path d="M70 82 h180 l-10 14 h-160z" fill="' + ac + '" opacity=".6"/>'; }
+  else { h += '<rect y="120" width="320" height="80" fill="#9DBB7E"/><path d="M0 120 Q80 100 160 118 T320 112 V200 H0Z" fill="#86A86A"/><rect x="190" y="70" width="6" height="64" fill="#7A5A3C"/><rect x="160" y="62" width="66" height="34" rx="3" fill="#FFF7E6" stroke="' + ac + '" stroke-width="3"/><text x="193" y="85" text-anchor="middle" font-family="Inter Tight, sans-serif" font-size="13" font-weight="700" fill="' + ac + '">VENDE</text>'; }
+  return h + '</svg>';
+}
+function money(p) { return p.op === 'alq' ? fmt(p.pr) : 'USD ' + p.pr.toLocaleString('es-AR'); }
+var op = 'alq', ft = '', fa = 0, fp = 0;
+var RANGES = { alq: [[0, 'Sin límite'], [350000, '$350.000'], [500000, '$500.000'], [700000, '$700.000']], ven: [[0, 'Sin límite'], [50000, 'USD 50.000'], [80000, 'USD 80.000'], [130000, 'USD 130.000']] };
+function ranges() { $('f-p').innerHTML = RANGES[op].map(function (r) { return '<option value="' + r[0] + '">' + r[1] + '</option>'; }).join(''); fp = 0; }
+pills('op', function (v) { op = v; ranges(); grid(); });
+$('f-t').onchange = function () { ft = this.value; grid(); }; $('f-a').onchange = function () { fa = +this.value; grid(); }; $('f-p').onchange = function () { fp = +this.value; grid(); };
+function grid() {
+  var L = PRO.filter(function (p) { return p.e === 0 && p.op === op && (!ft || p.t === ft) && (!fa || p.amb >= fa) && (!fp || p.pr <= fp); });
+  $('cnt').textContent = L.length + (L.length === 1 ? ' propiedad disponible' : ' propiedades disponibles');
+  $('grid').innerHTML = L.map(function (p) { return '<article class="pc"><button type="button" class="open" data-c="' + p.c + '" aria-label="Ver ' + p.t + ' en ' + p.b + '"><div class="ph">' + art(p) + '<div class="tg"><span>' + p.t + '</span>' + (p.fe.indexOf('Apto crédito') > -1 ? '<span class="cr">Apto crédito</span>' : '') + '</div></div><div class="pb"><div class="pr">' + money(p) + (p.op === 'alq' ? ' <small>/mes' + (p.ex ? ' + ' + fmt(p.ex) + ' exp.' : '') + '</small>' : '') + '</div><h3>' + p.t + ' en ' + p.b + '</h3><p>' + p.dir.replace(/\d+[°º].*$/, '').replace(/, $/, '') + ' · Cód. ' + p.c + '</p><div class="ft"><span>' + p.m2 + ' m²</span>' + (p.amb ? '<span>' + p.amb + ' amb.</span>' : '') + (p.co ? '<span>Cochera</span>' : '') + '</div></div></button></article>'; }).join('');
+  $('empty').style.display = L.length ? 'none' : 'block';
+}
+$('grid').addEventListener('click', function (e) { var b = e.target.closest('[data-c]'); if (b) openP(b.dataset.c); });
+var cur = null, vd = null, vh = null;
+var HRS = ['10:00', '11:30', '16:00', '17:30'];
+function taken(p, d, h) { return ((p.v * 3 + d.getDate() + HRS.indexOf(h)) % 5) === 0; }
+function openP(c) {
+  var p = PRO.filter(function (x) { return x.c === c; })[0]; cur = p; vd = null; vh = null;
+  var h = '<div class="ph">' + art(p) + '<button type="button" class="x" id="sh-x" aria-label="Cerrar">×</button></div><div class="in"><div class="pr">' + money(p) + (p.op === 'alq' ? ' <small>/mes</small>' : '') + '</div><h3 id="sh-h" style="font-size:26px">' + p.t + ' en ' + p.b + '</h3><p class="note" style="font-size:14.5px">' + p.dir + ' · Código ' + p.c + '</p>';
+  h += '<div class="feat"><div><b>' + p.m2 + '</b>m²</div><div><b>' + (p.amb || '—') + '</b>ambientes</div><div><b>' + (p.co ? 'Sí' : 'No') + '</b>cochera</div></div><div class="chs" style="margin-bottom:6px">' + p.fe.map(function (f) { return '<span style="background:#FFFFFF;border-radius:99px;padding:6px 10px;font-size:13.5px;font-weight:600">' + f + '</span>'; }).join('') + '</div>';
+  if (p.op === 'alq') { var dep = p.pr, hon = p.pr, sel = Math.round(p.pr * 24 * 0.005), tot = p.pr + p.ex + dep + hon + sel;
+    h += '<div class="blk"><h4>¿Cuánto necesito para entrar?</h4><div class="l"><span>Primer mes</span><span>' + fmt(p.pr) + '</span></div>' + (p.ex ? '<div class="l"><span>Expensas del mes</span><span>' + fmt(p.ex) + '</span></div>' : '') + '<div class="l"><span>Depósito (1 mes)</span><span>' + fmt(dep) + '</span></div><div class="l"><span>Honorarios (1 mes)</span><span>' + fmt(hon) + '</span></div><div class="l"><span>Sellado del contrato</span><span>' + fmt(sel) + '</span></div><div class="l t"><span>Total para entrar</span><span>' + fmt(tot) + '</span></div><p class="note">Valores de ejemplo. Se pide garantía propietaria o seguro de caución.</p></div>'; }
+  else { var gas = Math.round(p.pr * 0.07); h += '<div class="blk"><h4>¿Cuánto necesito para comprar?</h4><div class="l"><span>Precio</span><span>USD ' + p.pr.toLocaleString('es-AR') + '</span></div><div class="l"><span>Escritura, sellos y honorarios (aprox. 7%)</span><span>USD ' + gas.toLocaleString('es-AR') + '</span></div><div class="l t"><span>Total aproximado</span><span>USD ' + (p.pr + gas).toLocaleString('es-AR') + '</span></div><p class="note">Estimación de ejemplo. ' + (p.fe.indexOf('Apto crédito') > -1 ? 'Apto crédito hipotecario.' : '') + '</p></div>'; }
+  h += '<div class="blk"><h4>Agendá la visita</h4><div class="chs" id="v-d">';
+  var n = 0; for (var i = 1; n < 5; i++) { var d = addD(TODAY, i); if (d.getDay() === 0) continue; h += '<button type="button" data-v="' + dkey(d) + '" aria-pressed="false">' + DIAS[d.getDay()] + ' ' + d.getDate() + '<small>' + MESES[d.getMonth()].slice(0, 3) + '</small></button>'; n++; }
+  h += '</div><div class="chs" id="v-h" style="margin-top:8px"></div><input class="inp" id="v-n" placeholder="Tu nombre"><button class="go" type="button" id="v-go">' + "<svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z\"/></svg>" + 'Pedir visita</button></div></div>';
+  $('sh2').innerHTML = h; $('sh').classList.add('on'); $('sh2').scrollTop = 0; $('sh-x').focus();
+  $('sh-x').onclick = close; drawH();
+  pills('v-d', function (v) { vd = kdate(v); vh = null; drawH(); });
+  $('v-go').onclick = function () {
+    var nm = $('v-n').value.trim() || '[nombre]';
+    if (vd && vh) VIS.push({ d: vd, h: vh, c: p.c, n: nm === '[nombre]' ? 'Consulta web' : nm, isNew: true });
+    close(); panel();
+    showWA('Hola, soy ' + nm + '. Quiero visitar ' + (p.t === 'Casa' ? 'la casa' : p.t === 'Terreno' ? 'el terreno' : p.t === 'Local' ? 'el local' : 'el departamento') + ' en ' + p.b + ' (código ' + p.c + ', ' + money(p) + ')' + (vd && vh ? ' el ' + dlong(vd) + ' a las ' + vh : '') + '. ¿Me confirman?');
+  };
+}
+function drawH() { var e = $('v-h'); if (!vd) { e.innerHTML = '<p class="note" style="margin:0">Elegí un día para ver los horarios libres.</p>'; return; }
+  e.innerHTML = HRS.map(function (h) { var t = taken(cur, vd, h) || VIS.some(function (v) { return v.c === cur.c && +v.d === +vd && v.h === h; }); return '<button type="button" data-v="' + h + '" aria-pressed="' + (h === vh) + '"' + (t ? ' disabled' : '') + '>' + h + (t ? '<small>ocupado</small>' : '') + '</button>'; }).join('');
+  pills('v-h', function (v) { vh = v; }); }
+function close() { $('sh').classList.remove('on'); }
+$('sh').addEventListener('click', function (e) { if (e.target === $('sh')) close(); });
+var to = 'vender'; pills('t-o', function (v) { to = v; });
+$('t-go').onclick = function () { showWA('Hola, soy ' + ($('t-n').value.trim() || '[nombre]') + '. Quiero ' + to + ' mi ' + $('t-t').value.toLowerCase() + ' en ' + ($('t-d').value.trim() || '[dirección]') + ($('t-m').value.trim() ? ' (' + $('t-m').value.trim() + ' m² aprox.)' : '') + '. ¿Podemos coordinar la tasación?'); CON++; panel(); };
+// ---- panel ----
+var VIS = [], CON = 7, NOMS = ['Ana R.', 'Martín G.', 'Familia López', 'Carla P.', 'Diego S.', 'Sofía M.'];
+for (var i = 0; i < 6; i++) { var d = addD(TODAY, 1 + (i % 4)); if (d.getDay() === 0) d = addD(d, 1); VIS.push({ d: d, h: HRS[i % 4], c: PRO[[0, 5, 2, 6, 1, 8][i]].c, n: NOMS[i] }); }
+var EST = ['Publicada', 'Reservada', 'Alquilada / vendida'];
+$('p-l').addEventListener('click', function (e) { var b = e.target.closest('[data-e]'); if (!b) return; PRO[+b.dataset.i].e = +b.dataset.e; panel(); grid(); });
+$('p-v').addEventListener('click', function (e) { var b = e.target.closest('[data-w]'); if (!b) return; var v = VIS[+b.dataset.w], p = PRO.filter(function (x) { return x.c === v.c; })[0];
+  showWA('Hola ' + v.n.split(' ')[0] + ', te confirmamos la visita al ' + p.t.toLowerCase() + ' en ' + p.b + ' (' + p.dir + ') el ' + dlong(v.d) + ' a las ' + v.h + '. Te espera Laura, de Inmobiliaria Ejemplo. ¡Gracias!'); });
+function panel() {
+  $('k-d').textContent = PRO.filter(function (p) { return p.e === 0; }).length; $('k-r').textContent = PRO.filter(function (p) { return p.e === 1; }).length;
+  $('k-v').textContent = VIS.length; $('k-c').textContent = CON + VIS.filter(function (v) { return v.isNew; }).length;
+  $('p-l').innerHTML = PRO.map(function (p, i) { return '<div class="pr2"><div class="th">' + art(p) + '</div><div><b>' + p.t + ' en ' + p.b + '</b><p>Cód. ' + p.c + ' · ' + money(p) + ' · ' + (function (n) { return n + (n === 1 ? ' visita' : ' visitas'); })(VIS.filter(function (v) { return v.c === p.c; }).length) + '</p><div class="seg" role="group" aria-label="Estado de ' + p.c + '">' + EST.map(function (s, k) { return '<button type="button" data-e="' + k + '" data-i="' + i + '" aria-pressed="' + (p.e === k) + '">' + s + '</button>'; }).join('') + '</div></div></div>'; }).join('');
+  var L = VIS.slice().sort(function (a, b) { return a.d - b.d || HRS.indexOf(a.h) - HRS.indexOf(b.h); }), last = '', h = '';
+  L.forEach(function (v) { var k = dkey(v.d), p = PRO.filter(function (x) { return x.c === v.c; })[0]; if (k !== last) { h += '<div class="dh">' + dlong(v.d) + '</div>'; last = k; } h += '<div class="vi"><span><b>' + v.h + '</b> · ' + esc(v.n) + (v.isNew ? '<span class="new">Nueva</span>' : '') + '<small>' + p.t + ' en ' + p.b + ' · ' + p.c + '</small></span><button type="button" class="mini" data-w="' + VIS.indexOf(v) + '">Confirmar</button></div>'; });
+  $('p-v').innerHTML = h;
+}
+ranges(); grid(); panel();
+
+})();
+</script>
+</body>
+</html>
