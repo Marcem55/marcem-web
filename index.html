@@ -137,6 +137,8 @@
   .pack .price { color: #FFFFFF; }
   .pack .price small { color: #8EC5DA; }
   .pack p { margin: 0; font-size: 14px; line-height: 21px; color: #B9D0DA; }
+  .quote { margin: 6px 0 2px; padding: 4px 0 4px 14px; border-left: 3px solid #25D366; font-size: 14px; line-height: 22px; color: #12181C; }
+  .quote cite { display: block; margin-top: 6px; font-style: normal; font-size: 13px; font-weight: 700; color: #1E6A89; }
   .price-foot { margin: 22px auto 0; max-width: 720px; text-align: center; font-size: 14px; line-height: 22px; color: #4B5760; }
 
   /* Casos */
@@ -394,7 +396,7 @@
         <div class="card svc">
           <h3 style="margin: 0; font-size: 20px; font-weight: 800; color: #0B3D53;">Página</h3>
           <span class="price"><small>Desde</small>$140.000</span>
-          <span class="svc-meta">Lista en 7 a 10 días</span>
+          <span class="svc-meta">Lista en 3 a 5 días</span>
           <p style="margin: 0; font-size: 15px; line-height: 23px; color: #4B5760;">Una página que trae consultas, no solo para "estar".</p>
           <ul class="svc-list">
             <li>Landing para tu servicio o catálogo de productos</li>
@@ -428,12 +430,12 @@
       <div class="packs reveal">
         <div class="card pack">
           <h3 style="margin: 0; font-size: 19px; font-weight: 800;">Pack Presencia</h3>
-          <span class="price">$199.000<small>en vez de $230.000 + dominio</small></span>
+          <span class="price">$199.000<small>Por separado: $230.000 + dominio</small></span>
           <p>Página + tu dominio .com el primer año + 3 meses de mantenimiento.</p>
         </div>
         <div class="card pack">
           <h3 style="margin: 0; font-size: 19px; font-weight: 800;">Pack Tienda</h3>
-          <span class="price">$299.000<small>en vez de $330.000 + dominio</small></span>
+          <span class="price">$299.000<small>Por separado: $330.000 + dominio</small></span>
           <p>Página + panel + tu dominio .com el primer año + 3 meses de mantenimiento.</p>
         </div>
       </div>
@@ -485,6 +487,7 @@
             <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">FM Servicios</h3>
             <span style="font-size: 13px; font-weight: 700; color: #1E6A89;">Mantenimiento, limpieza y espacios verdes · San Nicolás</span>
             <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Página para pedir presupuesto por WhatsApp y un sistema interno para manejar presupuestos, trabajos, cobros y clientes desde el celular.</p>
+            <blockquote class="quote">"Antes usábamos solo WhatsApp y armaba los presupuestos a mano usando Canva y toda la gestión era manual con Excel. Ahora es mucho más rápido todo […] Lo súper recomendamos, ayuda en el día a día del trabajo y hace todo más fácil."<cite>Delfi y Fede, FM Servicios</cite></blockquote>
             <span style="font-size: 12px; color: #6B7780;">Captura del sistema con datos de ejemplo.</span>
             <a href="https://fmservicios.pages.dev/" target="_blank" rel="noopener" class="link-arrow">Ver la página
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
@@ -512,6 +515,15 @@
         </div>
       </div>
 
+      <div class="card case case-wide reveal">
+        <div class="case-body">
+          <span class="tag">Caso real</span>
+          <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">FPARTS</h3>
+          <span style="font-size: 13px; font-weight: 700; color: #1E6A89;">Repuestos de motos y vinilos</span>
+          <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Sistema a medida para el celular: ventas en segundos, stock al día y ganancias del mes, con acceso para el empleado.</p>
+        </div>
+      </div>
+
       <!-- EN CURSO -->
       <style>
         .wip { margin-top: 40px; display: flex; flex-direction: column; gap: 18px; }
@@ -534,15 +546,15 @@
           </div>
           <div class="card" style="display: flex; flex-direction: column; gap: 8px; background: #F5F7F8;">
             <span class="wip-tag"><i></i>En desarrollo</span>
-            <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">FPARTS</h3>
-            <span style="font-size: 13px; font-weight: 700; color: #1E6A89;">Repuestos de motos y vinilos</span>
-            <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Sistema a medida para el celular: ventas en segundos, stock al día y ganancias del mes, con acceso para el empleado.</p>
-          </div>
-          <div class="card" style="display: flex; flex-direction: column; gap: 8px; background: #F5F7F8;">
-            <span class="wip-tag"><i></i>En desarrollo</span>
             <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">Lelé Costura Creativa</h3>
             <span style="font-size: 13px; font-weight: 700; color: #1E6A89;">Costura y productos hechos a mano</span>
             <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Tienda online con pedido por WhatsApp y un panel para cargar productos y precios desde el celular.</p>
+          </div>
+          <div class="card" style="display: flex; flex-direction: column; gap: 8px; background: #F5F7F8;">
+            <span class="wip-tag"><i></i>En desarrollo</span>
+            <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">Magni Store</h3>
+            <span style="font-size: 13px; font-weight: 700; color: #1E6A89;">Perfumería</span>
+            <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Catálogo de perfumes con pedido por WhatsApp y un panel para manejar precios y stock desde el celular.</p>
           </div>
         </div>
       </div>
@@ -613,7 +625,7 @@
       <div class="faq reveal">
         <details class="faq-item">
           <summary>¿Cuánto tarda?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B3D53" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-          <p class="faq-a">Una página o una página con panel, de 7 a 10 días. Un sistema, de 2 a 3 semanas, con entregas por partes para que lo vayas probando. El plazo corre desde que aceptás la propuesta y me pasás textos, fotos y datos.</p>
+          <p class="faq-a">Una página, de 3 a 5 días. Una página con panel, de 7 a 10 días. Un sistema, de 2 a 3 semanas, con entregas por partes para que lo vayas probando. El plazo corre desde que aceptás la propuesta y me pasás textos, fotos y datos.</p>
         </details>
         <details class="faq-item">
           <summary>¿Cómo empiezo?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B3D53" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
