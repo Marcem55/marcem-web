@@ -65,7 +65,7 @@
   .hero-note { font-size: 13px; color: #8FAFBD; }
 
   /* Celular */
-  .phone-wrap { position: relative; width: 300px; max-width: 100%; display: flex; justify-content: center; margin-bottom: 26px; }
+  .phone-wrap { position: relative; width: 300px; max-width: 100%; display: flex; justify-content: center; margin-bottom: 70px; }
   .phone { width: 258px; border-radius: 38px; padding: 10px; background: linear-gradient(160deg, #1D5169, #0A2533); box-shadow: 0 30px 70px rgba(0,0,0,0.40), inset 0 0 0 1px rgba(255,255,255,0.14); }
   .screen { border-radius: 30px; background: #F5F7F8; padding: 20px 14px 16px; display: flex; flex-direction: column; gap: 10px; color: #12181C; }
   .m-label { font-size: 9px; font-weight: 800; letter-spacing: 1.2px; color: #4B5760; text-transform: uppercase; }
@@ -76,7 +76,7 @@
   .m-chip { flex: 1; text-align: center; padding: 8px 4px; border-radius: 10px; border: 1.5px solid #DDE3E6; background: #FFFFFF; font-size: 10.5px; font-weight: 600; }
   .m-total { display: flex; flex-direction: column; gap: 2px; padding-top: 8px; border-top: 1px solid #DDE3E6; }
   .m-cta { text-align: center; padding: 10px; border-radius: 999px; background: #25D366; color: #FFFFFF; font-size: 11.5px; font-weight: 700; }
-  .bubble { position: absolute; left: -6px; bottom: -26px; width: 196px; padding: 11px 13px; border-radius: 16px 16px 16px 4px; background: #FFFFFF; color: #12181C; font-size: 11.5px; line-height: 16px; box-shadow: 0 16px 36px rgba(0,0,0,0.30); display: flex; flex-direction: column; gap: 5px; }
+  .bubble { position: absolute; left: -6px; bottom: -70px; width: 196px; padding: 11px 13px; border-radius: 16px 16px 16px 4px; background: #FFFFFF; color: #12181C; font-size: 11.5px; line-height: 16px; box-shadow: 0 16px 36px rgba(0,0,0,0.30); display: flex; flex-direction: column; gap: 5px; }
   .bubble-head { display: flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; color: #1DA851; }
 
   /* Tipografía de secciones */
@@ -96,6 +96,50 @@
   .svc { display: flex; flex-direction: column; gap: 14px; }
   .svc-top { display: flex; align-items: center; justify-content: space-between; }
   .svc-num { font-size: 13px; font-weight: 800; color: #A9C6D2; letter-spacing: 1px; }
+
+
+  /* Elegí tu rubro */
+  .rubros-grid { display: flex; flex-direction: column; gap: 36px; }
+  .rubros-head { display: flex; flex-direction: column; gap: 12px; max-width: 560px; }
+  .rubros-head .sec-title { color: #FFFFFF; }
+  .rubros-head .sec-sub { color: #B9D0DA; }
+  .chips { display: flex; align-items: center; gap: 8px; overflow-x: auto; margin: 0 -20px; padding: 2px 20px 8px; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex: none; display: inline-flex; align-items: center; box-sizing: border-box; min-height: 40px; padding: 8px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.18); background: rgba(255,255,255,0.05); color: #D5E6ED; font: 600 14px/1.2 "Manrope", system-ui, sans-serif; cursor: pointer; transition: border-color 0.2s, background 0.2s, color 0.2s; }
+  .chip:hover { border-color: rgba(255,255,255,0.45); color: #FFFFFF; }
+  .chip[aria-pressed="true"] { background: #FFFFFF; border-color: #FFFFFF; color: #0B3D53; font-weight: 800; }
+  .chip:focus-visible, .rubro-actions a:focus-visible { outline: 2px solid #8EC5DA; outline-offset: 3px; }
+  .chip-otro { border-style: dashed; }
+  .rubro-stage { display: flex; flex-direction: column; gap: 28px; align-items: center; }
+  .rubro-phone { width: 236px; border-radius: 36px; padding: 9px; background: linear-gradient(160deg, #1D5169, #0A2533); box-shadow: 0 30px 70px rgba(0,0,0,0.40), inset 0 0 0 1px rgba(255,255,255,0.14); flex: none; }
+  .rubro-screen { position: relative; aspect-ratio: 390 / 800; border-radius: 28px; overflow: hidden; background: #F5F7F8; }
+  .rubro-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: opacity 0.25s; }
+  .rubro-screen img.is-swapping { opacity: 0; }
+  .rubro-info { display: flex; flex-direction: column; gap: 14px; width: 100%; max-width: 460px; }
+  .rubro-kicker { font-size: 13px; font-weight: 700; color: #8EC5DA; }
+  .rubro-name { margin: 0; font-size: 24px; line-height: 31px; font-weight: 800; color: #FFFFFF; }
+  .rubro-text { margin: 0; font-size: 16px; line-height: 25px; color: #B9D0DA; }
+  .rubro-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 6px; }
+  .rubro-actions a { white-space: nowrap; }
+  .rubro-note { font-size: 12.5px; color: #8FAFBD; }
+  @media (prefers-reduced-motion: reduce) { .rubro-screen img { transition: none; } }
+
+  /* Precios */
+  .price { font-size: 30px; line-height: 34px; font-weight: 800; color: #0B3D53; letter-spacing: -0.01em; }
+  .price small { display: block; font-size: 13px; line-height: 18px; font-weight: 700; color: #6B7780; letter-spacing: 0; }
+  .svc-meta { font-size: 13px; font-weight: 700; color: #1E6A89; }
+  .svc-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 21px; color: #4B5760; }
+  .svc-list li { padding-left: 18px; position: relative; }
+  .svc-list li::before { content: ""; position: absolute; left: 2px; top: 8px; width: 6px; height: 6px; border-radius: 2px; background: #8EC5DA; }
+  .packs { margin-top: 20px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .pack { background: #0B3D53; border-color: #0B3D53; color: #FFFFFF; display: flex; flex-direction: column; gap: 10px; }
+  .pack:hover { border-color: #1E6A89; }
+  .pack .price { color: #FFFFFF; }
+  .pack .price small { color: #8EC5DA; }
+  .pack p { margin: 0; font-size: 14px; line-height: 21px; color: #B9D0DA; }
+  .quote { margin: 6px 0 2px; padding: 4px 0 4px 14px; border-left: 3px solid #25D366; font-size: 14px; line-height: 22px; color: #12181C; }
+  .quote cite { display: block; margin-top: 6px; font-style: normal; font-size: 13px; font-weight: 700; color: #1E6A89; }
+  .price-foot { margin: 22px auto 0; max-width: 720px; text-align: center; font-size: 14px; line-height: 22px; color: #4B5760; }
 
   /* Casos */
   .case { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
@@ -173,11 +217,12 @@
     .sec { padding: 104px 48px; }
     .hero { padding: 88px 48px 112px; }
     .hero-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: 48px; align-items: center; }
-    .hero-title { font-size: 54px; line-height: 62px; }
+    .hero-title { font-size: 46px; line-height: 54px; }
     .hero-text { font-size: 19px; line-height: 30px; }
     .btn-row { flex-direction: row; width: auto; }
     .phone-wrap { width: 340px; }
-    .bubble { left: -56px; bottom: -22px; }
+    .phone-wrap { margin-bottom: 64px; }
+    .bubble { left: -64px; bottom: -66px; }
     .sec-title { font-size: 38px; line-height: 46px; }
     .sec-head { margin-bottom: 56px; }
     .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
@@ -195,6 +240,16 @@
     .footer { flex-direction: row; justify-content: space-between; text-align: left; padding: 32px 120px 32px 48px; }
     .footer-meta { flex-direction: row; gap: 24px; }
     .fab { right: 28px; bottom: 28px; }
+    .chips { flex-wrap: wrap; overflow: visible; margin: 0; padding: 0; }
+    .rubro-stage { flex-direction: row; align-items: center; gap: 48px; }
+    .rubro-phone { width: 270px; }
+    .rubro-actions { flex-direction: row; }
+    .grid-3 .svc { height: 100%; }
+    .packs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 22px; }
+  }
+  @media (min-width: 1000px) {
+    .rubro-actions { flex-direction: column; align-items: flex-start; }
+    .rubros-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 56px; align-items: center; }
   }
 </style>
 
@@ -211,12 +266,13 @@
       <span class="logo-word">MARCEM</span>
     </a>
     <div class="nav-links">
-      <a href="#servicios" class="nav-link">Servicios</a>
+      <a href="#rubros" class="nav-link">Demos</a>
+      <a href="#servicios" class="nav-link">Precios</a>
       <a href="#casos" class="nav-link">Casos</a>
       <a href="#proceso" class="nav-link">Proceso</a>
       <a href="#preguntas" class="nav-link">Preguntas</a>
     </div>
-    <a href="https://wa.me/5493364626434?text=Hola%2C%20Marcelo.%20Vi%20la%20web%20de%20MARCEM%20y%20quiero%20consultar%20por%20una%20soluci%C3%B3n%20digital%20para%20mi%20negocio." class="btn-wa btn-sm">Escribinos</a>
+    <a href="https://wa.me/5493364626434?text=Hola%2C%20Marcelo.%20Vi%20la%20web%20de%20MARCEM%20y%20quiero%20consultar%20por%20una%20soluci%C3%B3n%20digital%20para%20mi%20negocio." class="btn-wa btn-sm">Escribime</a>
   </div>
 
   <!-- HERO -->
@@ -227,15 +283,15 @@
     <div class="wrap layer hero-grid">
       <div class="hero-copy">
         <span class="pill rise d1"><span class="pill-dot"></span>Por Marcelo Malacalza · San Nicolás</span>
-        <h1 class="hero-title rise d2">Soluciones digitales que hacen <em>más simple</em> tu negocio.</h1>
-        <p class="hero-text rise d3">Creamos páginas, catálogos, cotizadores y sistemas simples para ayudarte a vender más, ahorrar tiempo y ordenar tus procesos.</p>
+        <h1 class="hero-title rise d2">Tus clientes eligen, calculan o reservan solos. <em>A vos te llega el pedido completo por WhatsApp.</em></h1>
+        <p class="hero-text rise d3">Hago páginas, catálogos, cotizadores y sistemas simples para comercios y profesionales. Menos preguntas repetidas, menos cuentas a mano y más consultas que llegan listas para cerrar.</p>
         <div class="btn-row rise d4">
           <a href="https://wa.me/5493364626434?text=Hola%2C%20Marcelo.%20Vi%20la%20web%20de%20MARCEM%20y%20quiero%20consultar%20por%20una%20soluci%C3%B3n%20digital%20para%20mi%20negocio." class="btn-wa">Contame qué necesitás</a>
-          <a href="demo-cotizador.html" class="btn-ghost">Probar un demo
+          <a href="#rubros" class="btn-ghost">Ver la demo de tu rubro
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
           </a>
         </div>
-        <span class="hero-note rise d5">Respondemos directo por WhatsApp — sin formularios largos.</span>
+        <span class="hero-note rise d5">Te respondo yo, directo por WhatsApp. Sin formularios largos.</span>
       </div>
 
       <div class="phone-wrap rise d4">
@@ -300,49 +356,90 @@
     </div>
   </div>
 
+  <!-- ELEGÍ TU RUBRO -->
+  <div id="rubros" class="sec sec-dark">
+    <div class="grid-bg"></div>
+    <div class="glow glow-b"></div>
+    <div class="wrap layer rubros-grid">
+      <div class="rubros-head reveal">
+        <span class="eyebrow eyebrow-light">Demos por rubro</span>
+        <h2 class="sec-title">Elegí tu rubro y mirá cómo sería lo tuyo</h2>
+        <p class="sec-sub">Cada demo está pensada para un tipo de negocio, con su propio estilo. Son ejemplos ficticios que podés tocar como si fueras tu cliente.</p>
+        <div class="chips" role="group" aria-label="Rubros" id="rubro-chips"></div>
+      </div>
+      <div class="rubro-stage reveal">
+        <div class="rubro-phone"><div class="rubro-screen"><img id="rubro-img" src="rubro-dermatologa.jpg" alt="" width="390" height="800"></div></div>
+        <div class="rubro-info" aria-live="polite">
+          <span class="rubro-kicker" id="rubro-kicker"></span>
+          <h3 class="rubro-name" id="rubro-name"></h3>
+          <p class="rubro-text" id="rubro-text"></p>
+          <div class="rubro-actions">
+            <a id="rubro-wa" href="#" class="btn-wa" target="_blank" rel="noopener">Quiero una así</a>
+            <a id="rubro-demo" href="#" class="btn-ghost">Abrir la demo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+          <span class="rubro-note">Demo, ejemplo ficticio: negocio, datos y precios inventados.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- SERVICIOS -->
   <div id="servicios" class="sec" style="background: #F5F7F8;">
     <div class="dots-bg"></div>
     <div class="wrap layer">
       <div class="sec-head reveal">
-        <span class="eyebrow">Servicios</span>
-        <h2 class="sec-title">Cuatro soluciones, alcance claro desde el primer día</h2>
-        <p class="sec-sub">Nada de proyectos eternos ni abiertos: sabés desde el principio qué te llevás y cuándo.</p>
+        <span class="eyebrow">Servicios y precios</span>
+        <h2 class="sec-title">Qué te llevás, cuánto sale y cuándo está</h2>
+        <p class="sec-sub">Alcance cerrado desde el primer día. Nada de proyectos eternos ni presupuestos que crecen a mitad de camino.</p>
       </div>
-      <div class="grid-2 reveal">
+      <div class="grid-3 reveal">
         <div class="card svc">
-          <div class="svc-top">
-            <div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0B3D53" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/><path d="M7 14h6"/></svg></div>
-            <span class="svc-num">01</span>
-          </div>
-          <h3 style="margin: 0; font-size: 20px; font-weight: 800; color: #0B3D53;">Landing page</h3>
-          <p style="margin: 0; font-size: 15px; line-height: 23px; color: #4B5760;">Una página pensada para generar consultas, no solo para "estar". Presenta tu negocio y lleva directo a una conversación por WhatsApp.</p>
+          <h3 style="margin: 0; font-size: 20px; font-weight: 800; color: #0B3D53;">Página</h3>
+          <span class="price"><small>Desde</small>$140.000</span>
+          <span class="svc-meta">Lista en 3 a 5 días</span>
+          <p style="margin: 0; font-size: 15px; line-height: 23px; color: #4B5760;">Una página que trae consultas, no solo para "estar".</p>
+          <ul class="svc-list">
+            <li>Landing para tu servicio o catálogo de productos</li>
+            <li>Tu cliente arma el pedido y te llega completo por WhatsApp</li>
+            <li>Calculadora o cotizador simple si tu negocio lo necesita</li>
+          </ul>
         </div>
         <div class="card svc">
-          <div class="svc-top">
-            <div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0B3D53" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
-            <span class="svc-num">02</span>
-          </div>
-          <h3 style="margin: 0; font-size: 20px; font-weight: 800; color: #0B3D53;">Catálogo digital</h3>
-          <p style="margin: 0; font-size: 15px; line-height: 23px; color: #4B5760;">Tus productos o servicios organizados y prolijos. Tu cliente arma el pedido y te llega completo por WhatsApp. Se terminó mandar fotos sueltas.</p>
+          <h3 style="margin: 0; font-size: 20px; font-weight: 800; color: #0B3D53;">Página + panel</h3>
+          <span class="price"><small>Desde</small>$240.000</span>
+          <span class="svc-meta">Lista en 7 a 10 días</span>
+          <p style="margin: 0; font-size: 15px; line-height: 23px; color: #4B5760;">La página, más un panel para manejarla vos sin depender de nadie.</p>
+          <ul class="svc-list">
+            <li>Cargás y editás productos, precios o stock desde el celular</li>
+            <li>O manejás tus turnos y reservas en un solo lugar</li>
+            <li>Los cambios se ven en la página al instante</li>
+          </ul>
         </div>
         <div class="card svc">
-          <div class="svc-top">
-            <div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0B3D53" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6"/><path d="M9 11h1"/><path d="M14 11h1"/><path d="M9 15h1"/><path d="M14 15h1"/></svg></div>
-            <span class="svc-num">03</span>
-          </div>
-          <h3 style="margin: 0; font-size: 20px; font-weight: 800; color: #0B3D53;">Cotizador o calculadora</h3>
-          <p style="margin: 0; font-size: 15px; line-height: 23px; color: #4B5760;">Tu cliente completa unos datos y recibe una estimación al instante. Vos recibís consultas ya calificadas, no cualquier mensaje.</p>
-        </div>
-        <div class="card svc">
-          <div class="svc-top">
-            <div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0B3D53" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10"/><path d="M4 12h16"/><path d="M4 17h7"/><circle cx="18" cy="7" r="2"/><circle cx="15" cy="17" r="2"/></svg></div>
-            <span class="svc-num">04</span>
-          </div>
           <h3 style="margin: 0; font-size: 20px; font-weight: 800; color: #0B3D53;">Sistema simple</h3>
-          <p style="margin: 0; font-size: 15px; line-height: 23px; color: #4B5760;">Resolvemos un proceso puntual de tu negocio — turnos, pedidos, seguimiento — sin venderte un sistema gigante que no vas a usar entero.</p>
+          <span class="price"><small>Desde</small>$350.000</span>
+          <span class="svc-meta">2 a 3 semanas, con entregas por partes</span>
+          <p style="margin: 0; font-size: 15px; line-height: 23px; color: #4B5760;">Para ordenar un proceso puntual de tu negocio, sin un sistema gigante que no vas a usar entero.</p>
+          <ul class="svc-list">
+            <li>Reparto, presupuestos, socios, órdenes de trabajo o ventas</li>
+            <li>Pensado para usarlo desde el celular</li>
+            <li>Precio final después de una charla sin cargo</li>
+          </ul>
         </div>
       </div>
+      <div class="packs reveal">
+        <div class="card pack">
+          <h3 style="margin: 0; font-size: 19px; font-weight: 800;">Pack Presencia</h3>
+          <span class="price">$199.000<small>Por separado: $230.000 + dominio</small></span>
+          <p>Página + tu dominio .com el primer año + 3 meses de mantenimiento.</p>
+        </div>
+        <div class="card pack">
+          <h3 style="margin: 0; font-size: 19px; font-weight: 800;">Pack Tienda</h3>
+          <span class="price">$299.000<small>Por separado: $330.000 + dominio</small></span>
+          <p>Página + panel + tu dominio .com el primer año + 3 meses de mantenimiento.</p>
+        </div>
+      </div>
+      <p class="price-foot reveal">Precios en pesos. Todo incluye una ronda de ajustes, publicación, explicación de uso y soporte el primer mes. Después, si querés, mantenimiento mensual desde $30.000.</p>
     </div>
   </div>
 
@@ -390,6 +487,7 @@
             <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">FM Servicios</h3>
             <span style="font-size: 13px; font-weight: 700; color: #1E6A89;">Mantenimiento, limpieza y espacios verdes · San Nicolás</span>
             <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Página para pedir presupuesto por WhatsApp y un sistema interno para manejar presupuestos, trabajos, cobros y clientes desde el celular.</p>
+            <blockquote class="quote">"Antes usábamos solo WhatsApp y armaba los presupuestos a mano usando Canva y toda la gestión era manual con Excel. Ahora es mucho más rápido todo […] Lo súper recomendamos, ayuda en el día a día del trabajo y hace todo más fácil."<cite>Delfi y Fede, FM Servicios</cite></blockquote>
             <span style="font-size: 12px; color: #6B7780;">Captura del sistema con datos de ejemplo.</span>
             <a href="https://fmservicios.pages.dev/" target="_blank" rel="noopener" class="link-arrow">Ver la página
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
@@ -416,33 +514,15 @@
           </div>
         </div>
       </div>
-        <div class="card case case-wide reveal">
-          <div class="shot shot-demo">
-            <div style="width: 236px; border-radius: 16px 16px 0 0; background: #F5F7F8; padding: 14px 12px 0; display: flex; flex-direction: column; gap: 7px; box-shadow: 0 -6px 24px rgba(0,0,0,0.25);">
-              <span class="m-label">Demo · ejemplo ficticio</span>
-              <span style="font-size: 13px; font-weight: 800; color: #0B3D53;">Cerrajería Ejemplo 24hs</span>
-              <div class="m-opt m-opt-on"><span>Cambio de cerradura</span><span>$18.000</span></div>
-              <div class="m-chips"><span class="m-chip">Diurno</span><span class="m-chip" style="border-color: #0B3D53; background: #E4EEF1;">Nocturno</span></div>
-              <span style="font-size: 20px; font-weight: 800; color: #0B3D53;">$25.200</span>
-            </div>
-          </div>
-          <div class="case-body">
-            <span class="tag tag-demo">Demos — ejemplos ficticios</span>
-            <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">Probá cómo funciona</h3>
-            <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Un ejemplo funcionando para cada servicio, con negocios y precios inventados. La landing es esta misma web.</p>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 4px;">
-              <a href="demo-cotizador.html" class="link-arrow">Cotizador · Cerrajería
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
-            </a>
-              <a href="demo-catalogo.html" class="link-arrow">Catálogo · Menú de rotisería
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
-            </a>
-              <a href="demo-turnos.html" class="link-arrow">Sistema simple · Turnos
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
-            </a>
-            </div>
-          </div>
+
+      <div class="card case case-wide reveal">
+        <div class="case-body">
+          <span class="tag">Caso real</span>
+          <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">FPARTS</h3>
+          <span style="font-size: 13px; font-weight: 700; color: #1E6A89;">Repuestos de motos y vinilos</span>
+          <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Sistema a medida para el celular: ventas en segundos, stock al día y ganancias del mes, con acceso para el empleado.</p>
         </div>
+      </div>
 
       <!-- EN CURSO -->
       <style>
@@ -450,7 +530,7 @@
         .wip-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 16px; }
         .wip-tag { align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; background: #FFFFFF; color: #0B3D53; border: 1px solid #C7DCE4; }
         .wip-tag i { width: 7px; height: 7px; border-radius: 9px; background: #25D366; }
-        @media (min-width: 900px) { .wip-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; } }
+        @media (min-width: 900px) { .wip-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; } }
       </style>
       <div class="wip reveal">
         <div style="display: flex; flex-direction: column; gap: 6px;">
@@ -460,15 +540,21 @@
         <div class="wip-grid">
           <div class="card" style="display: flex; flex-direction: column; gap: 8px; background: #F5F7F8;">
             <span class="wip-tag"><i></i>En curso</span>
-            <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">Viviendas Country House</h3>
+            <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">Viviendas Country House y Viviendas Entre Ríos</h3>
             <span style="font-size: 13px; font-weight: 700; color: #1E6A89;">Construcción de viviendas</span>
             <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Placas mensuales para Instagram y anuncios en Meta.</p>
           </div>
           <div class="card" style="display: flex; flex-direction: column; gap: 8px; background: #F5F7F8;">
             <span class="wip-tag"><i></i>En desarrollo</span>
-            <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">FPARTS</h3>
-            <span style="font-size: 13px; font-weight: 700; color: #1E6A89;">Repuestos de motos y vinilos</span>
-            <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Sistema a medida para el celular: ventas en segundos, stock al día y ganancias del mes, con acceso para el empleado.</p>
+            <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">Lelé Costura Creativa</h3>
+            <span style="font-size: 13px; font-weight: 700; color: #1E6A89;">Costura y productos hechos a mano</span>
+            <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Tienda online con pedido por WhatsApp y un panel para cargar productos y precios desde el celular.</p>
+          </div>
+          <div class="card" style="display: flex; flex-direction: column; gap: 8px; background: #F5F7F8;">
+            <span class="wip-tag"><i></i>En desarrollo</span>
+            <h3 style="margin: 0; font-size: 19px; font-weight: 800; color: #12181C;">Magni Store</h3>
+            <span style="font-size: 13px; font-weight: 700; color: #1E6A89;">Perfumería</span>
+            <p style="margin: 0; font-size: 14px; line-height: 21px; color: #4B5760;">Catálogo de perfumes con pedido por WhatsApp y un panel para manejar precios y stock desde el celular.</p>
           </div>
         </div>
       </div>
@@ -518,7 +604,7 @@
   </div>
 
   <!-- SOBRE MÍ -->
-  <div id="nosotros" class="sec">
+  <div id="sobre-mi" class="sec">
     <div class="wrap about reveal" style="max-width: 920px;">
       <div class="avatar-ring"><img class="avatar" loading="lazy" src="marcelo.jpg" alt="Marcelo Malacalza, creador de MARCEM" style="object-fit: cover; display: block; background: #E4EEF1;"></div>
       <div style="display: flex; flex-direction: column; gap: 16px;">
@@ -538,20 +624,28 @@
       </div>
       <div class="faq reveal">
         <details class="faq-item">
-          <summary>¿Cuánto tarda un proyecto?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B3D53" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-          <p class="faq-a">Entre 5 y 15 días hábiles según el servicio, una vez confirmado el alcance y recibidos los materiales.</p>
+          <summary>¿Cuánto tarda?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B3D53" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <p class="faq-a">Una página, de 3 a 5 días. Una página con panel, de 7 a 10 días. Un sistema, de 2 a 3 semanas, con entregas por partes para que lo vayas probando. El plazo corre desde que aceptás la propuesta y me pasás textos, fotos y datos.</p>
         </details>
         <details class="faq-item">
           <summary>¿Cómo empiezo?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B3D53" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
           <p class="faq-a">Me escribís por WhatsApp, charlamos qué necesitás y te mando una propuesta con alcance, plazo y precio antes de arrancar nada.</p>
         </details>
         <details class="faq-item">
-          <summary>¿Qué pasa si necesito algo distinto a estos cuatro servicios?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B3D53" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-          <p class="faq-a">Contámelo igual — si entra dentro de lo que puedo resolver bien, te lo digo con honestidad; si no, te lo digo también.</p>
+          <summary>¿Cómo se paga?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B3D53" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <p class="faq-a">Páginas: la mitad al aceptar la propuesta y la otra mitad a la entrega. Sistemas: 40% al aceptar, 30% a mitad de camino y 30% a la entrega.</p>
         </details>
         <details class="faq-item">
-          <summary>¿Incluye mantenimiento después de la entrega?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B3D53" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-          <p class="faq-a">La entrega incluye una ronda de ajustes. Si después necesitás acompañamiento continuo, lo vemos juntos una vez que veas el resultado funcionando.</p>
+          <summary>¿El dominio es mío?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B3D53" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <p class="faq-a">Sí. El dominio (por ejemplo, tunegocio.com) va a tu nombre. Yo lo administro para que no tengas que ocuparte, y si algún día querés manejarlo vos, te lo paso sin costo.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Qué pasa después de la entrega?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B3D53" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <p class="faq-a">La entrega incluye una ronda de ajustes y soporte el primer mes. Después podés sumar el mantenimiento mensual, desde $30.000: hosting y dominio al día, cambios chicos de textos, fotos o precios, respaldo de tus datos y ayuda por WhatsApp. Pagando 12 meses juntos, pagás 10.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Y si necesito algo que no está acá?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B3D53" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <p class="faq-a">Contámelo igual. Si entra dentro de lo que puedo resolver bien, te lo digo con honestidad; si no, te lo digo también.</p>
         </details>
       </div>
     </div>
@@ -595,5 +689,79 @@
 
 </div>
 
+
+<script>
+(function () {
+  var WA = 'https://wa.me/5493364626434?text=';
+  var rubros = [
+    { id: 'dermatologa', chip: 'Consultorio', name: 'Dra. Ana Ejemplo, Dermatología', text: 'Tus pacientes ven los próximos turnos libres y te piden uno con el horario ya elegido.', demo: 'demo-dermatologa.html', label: 'consultorio' },
+    { id: 'profesional', chip: 'Nutrición', name: 'Lic. Laura Ejemplo, Nutrición', text: 'Una página propia que explica cómo trabajás y lleva directo a pedir turno por WhatsApp.', demo: 'demo-profesional.html', label: 'nutrición' },
+    { id: 'kinesiologo', chip: 'Kinesiología', name: 'Lic. Pablo Ejemplo, Kinesiología', text: 'Tu paciente toca dónde le duele y te escribe con la consulta ya explicada.', demo: 'demo-kinesiologo.html', label: 'kinesiología' },
+    { id: 'abogado', chip: 'Abogados', name: 'Dr. Martín Ejemplo, Abogado laboral', text: 'La persona elige qué le pasó, entiende sus opciones y te escribe con su caso contado.', demo: 'demo-abogado.html', label: 'abogado' },
+    { id: 'peluqueria', chip: 'Peluquería y estética', name: 'Estudio Ejemplo, Peluquería', text: 'Lista de precios clara, fotos de trabajos y turnos online. Menos "¿cuánto sale?" por chat.', demo: 'demo-peluqueria.html', label: 'peluquería' },
+    { id: 'catalogo', chip: 'Comida', name: 'Rotisería Ejemplo', text: 'Tu cliente arma el pedido con cantidades y te llega en un solo mensaje, con el total.', demo: 'demo-catalogo.html', label: 'rotisería' },
+    { id: 'panaderia', chip: 'Panadería', name: 'Panadería Ejemplo', text: 'Catálogo por categoría, encargos con horario de retiro y tortas a medida con precio estimado.', demo: 'demo-panaderia.html', label: 'panadería' },
+    { id: 'tienda', chip: 'Ropa y accesorios', name: 'Tienda Ejemplo', text: 'Eligen color, talle y cantidad, y te llega el pedido completo para confirmar stock.', demo: 'demo-tienda.html', label: 'tienda de ropa' },
+    { id: 'perfumes', chip: 'Perfumes y cosmética', name: 'Aura Ejemplo, perfumes y decants', text: 'Un test recomienda aromas y cada ficha muestra notas, presentaciones y precio.', demo: 'demo-perfumes.html', label: 'perfumería' },
+    { id: 'fotografia', chip: 'Fotografía y eventos', name: 'Lucía Ejemplo, Fotografía', text: 'Galería por tipo de evento y consulta de disponibilidad con fecha, lugar y tipo de evento.', demo: 'demo-fotografia.html', label: 'fotografía' },
+    { id: 'turismo', chip: 'Turismo', name: 'Viajes Ejemplo', text: 'Destinos con precios y un "armá tu viaje" que te manda el pedido de cotización completo.', demo: 'demo-turismo.html', label: 'turismo' },
+    { id: 'educacion', chip: 'Educación', name: 'Instituto Ejemplo', text: 'Cursos con cuota y horarios, lugares disponibles y un test de nivel antes de inscribirse.', demo: 'demo-educacion.html', label: 'educación' },
+    { id: 'cotizador', chip: 'Servicios con presupuesto', name: 'Cerrajería Ejemplo 24hs', text: 'Tu cliente elige el servicio y el horario, ve el precio al instante y te confirma por WhatsApp.', demo: 'demo-cotizador.html', label: 'cotizador' },
+    { id: 'vendedor', chip: 'Vendedores y viajantes', name: 'Lucas Ejemplo, asesor comercial', text: 'Tarjeta digital para tus clientes y un panel con tu ruta, a quién llamar hoy y cuánto te falta para la meta.', demo: 'demo-vendedor.html', label: 'vendedor' },
+    { id: 'turnos', chip: 'Turnos y agenda', name: 'Consultorio Ejemplo, sistema de turnos', text: 'Agenda semanal, fichas de pacientes, recordatorios por WhatsApp y reserva online.', demo: 'demo-turnos.html', label: 'sistema de turnos' }
+  ];
+  var chips = document.getElementById('rubro-chips');
+  if (!chips) return;
+  var img = document.getElementById('rubro-img');
+  var kicker = document.getElementById('rubro-kicker');
+  var nameEl = document.getElementById('rubro-name');
+  var textEl = document.getElementById('rubro-text');
+  var waEl = document.getElementById('rubro-wa');
+  var demoEl = document.getElementById('rubro-demo');
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var buttons = [];
+
+  function msg(text) { return WA + encodeURIComponent(text); }
+
+  function select(i) {
+    var r = rubros[i];
+    buttons.forEach(function (b, k) { b.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+    kicker.textContent = 'Demo para ' + r.chip.toLowerCase();
+    nameEl.textContent = r.name;
+    textEl.textContent = r.text;
+    demoEl.href = r.demo;
+    waEl.href = msg('Hola, Marcelo. Vi la demo de ' + r.label + ' en la web de MARCEM y quiero una para mi negocio.');
+    var src = 'rubro-' + r.id + '.jpg';
+    var alt = 'Captura de la demo ficticia: ' + r.name;
+    if (reduce) { img.src = src; img.alt = alt; return; }
+    img.classList.add('is-swapping');
+    setTimeout(function () {
+      img.onload = function () { img.classList.remove('is-swapping'); };
+      img.src = src; img.alt = alt;
+      if (img.complete) img.classList.remove('is-swapping');
+    }, 180);
+  }
+
+  rubros.forEach(function (r, i) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip';
+    b.textContent = r.chip;
+    b.addEventListener('click', function () { select(i); });
+    chips.appendChild(b);
+    buttons.push(b);
+  });
+  var otro = document.createElement('a');
+  otro.className = 'chip chip-otro';
+  otro.textContent = 'Mi rubro no está';
+  otro.href = msg('Hola, Marcelo. Vi las demos en la web de MARCEM y mi rubro no está en la lista. Te cuento qué hago:');
+  otro.target = '_blank'; otro.rel = 'noopener';
+  chips.appendChild(otro);
+
+  img.src = 'rubro-' + rubros[0].id + '.jpg';
+  buttons[0].setAttribute('aria-pressed', 'true');
+  select(0);
+})();
+</script>
 </body>
 </html>
