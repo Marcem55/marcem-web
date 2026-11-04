@@ -1,0 +1,7 @@
+# Archivos internos que no tienen que verse en la web
+/.git/* / 302
+/.git / 302
+/vercel.json / 302
+/_headers / 302
+/_redirects / 302
+/README.md / 302
