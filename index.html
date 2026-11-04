@@ -64,6 +64,103 @@
   .hero-text { margin: 0; font-size: 17px; line-height: 27px; color: #B9D0DA; max-width: 540px; }
   .hero-note { font-size: 13px; color: #8FAFBD; }
 
+
+  /* Escenario del hero: el caos de WhatsApp que termina en un pedido completo */
+  .hero-grid { gap: 28px; }
+  .hero { padding-top: 28px; }
+  .stage-wrap { position: relative; width: 310px; max-width: 100%; display: flex; flex-direction: column; align-items: center; gap: 10px; order: -1; }
+  .phone.stage-phone { width: 100%; box-sizing: border-box; }
+  .screen.stage { position: relative; height: 360px; padding: 0; gap: 0; overflow: hidden; background: #EFEAE2; }
+  .st-head { display: flex; align-items: center; gap: 9px; padding: 14px 14px 11px; background: #0B3D53; color: #FFFFFF; }
+  .st-av { width: 28px; height: 28px; border-radius: 99px; background: #25D366; display: flex; align-items: center; justify-content: center; flex: none; }
+  .st-head-t { display: flex; flex-direction: column; line-height: 1.2; flex: 1; min-width: 0; }
+  .st-head-t b { font-size: 12.5px; font-weight: 800; }
+  .st-head-t span { font-size: 10px; color: #B9D0DA; }
+  .st-count { font-size: 10.5px; font-weight: 800; padding: 3px 8px; border-radius: 99px; background: #25D366; color: #FFFFFF; white-space: nowrap; transition: background .3s; }
+  .st-chaos { position: absolute; left: 0; right: 0; top: 54px; bottom: 0; padding: 10px 12px; display: flex; flex-direction: column; justify-content: flex-end; gap: 7px; }
+  .st-b { align-self: flex-start; max-width: 82%; padding: 7px 10px 6px; border-radius: 4px 12px 12px 12px; background: #FFFFFF; font-size: 11.5px; line-height: 15px; color: #12181C; box-shadow: 0 1px 1px rgba(0,0,0,.08); display: none; }
+  .st-b small { display: block; font-size: 9.5px; font-weight: 700; color: #1E6A89; margin-bottom: 1px; }
+  .st-b:nth-child(even) { align-self: flex-end; border-radius: 12px 4px 12px 12px; }
+  .st-b:nth-child(3n) small { color: #B4572C; }
+  .st-order { position: absolute; left: 12px; right: 12px; top: 68px; display: flex; flex-direction: column; gap: 10px; }
+  .st-card { background: #FFFFFF; border-radius: 14px; padding: 13px 14px; box-shadow: 0 10px 26px rgba(8,42,58,.16); display: flex; flex-direction: column; gap: 7px; }
+  .st-card-h { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; color: #0B3D53; }
+  .st-ok { width: 22px; height: 22px; border-radius: 99px; background: #25D366; display: flex; align-items: center; justify-content: center; flex: none; }
+  .st-tag { margin-left: auto; font-size: 8.5px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; color: #4B5760; }
+  .st-row { display: flex; justify-content: space-between; gap: 10px; font-size: 11.5px; line-height: 15px; color: #4B5760; }
+  .st-row b { color: #12181C; font-weight: 700; text-align: right; }
+  .st-total { padding-top: 7px; border-top: 1px dashed #DDE3E6; }
+  .st-total b { font-size: 14px; color: #0B3D53; font-weight: 800; }
+  .st-note { font-size: 10.5px; line-height: 14px; color: #4B5760; text-align: center; }
+  .st-cta { display: flex; flex-direction: column; gap: 8px; align-items: stretch; }
+  .st-cta .btn-wa { min-height: 44px; padding: 10px 12px; font-size: 13.5px; white-space: nowrap; }
+  .st-cta-link { font-size: 12px; font-weight: 700; color: #0B3D53; text-align: center; text-decoration: underline; text-underline-offset: 3px; }
+  .st-ctrl { font: 700 12px/1 "Manrope", system-ui, sans-serif; color: #8FAFBD; background: none; border: 0; padding: 8px 10px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  .st-ctrl:hover { color: #FFFFFF; }
+  /* estados: done (por defecto, sin JS o con menos movimiento) y play */
+  .stage .st-chaos { visibility: hidden; }
+  .stage[data-state="play"] .st-chaos { visibility: visible; }
+  .stage[data-state="play"] .st-order { visibility: hidden; }
+  .st-b.on { display: block; animation: stIn .28s cubic-bezier(.2,.8,.2,1) both; }
+  .st-b.out { animation: stOut .5s cubic-bezier(.6,0,.4,1) both; }
+  .stage.shake .st-chaos { animation: stShake .35s linear; }
+  .stage[data-state="reveal"] .st-chaos { visibility: hidden; }
+  .stage[data-state="reveal"] .st-card { animation: stCard .6s cubic-bezier(.2,.8,.2,1) both; }
+  .stage[data-state="reveal"] .st-note { animation: rise .5s ease .35s both; }
+  .stage[data-state="reveal"] .st-cta { animation: rise .5s ease .55s both; }
+  .stage[data-state="reveal"] .st-cta .btn-wa { animation: stPulse 1.6s ease-out 1.1s 2; }
+  @keyframes stIn { from { opacity: 0; transform: translateY(12px) scale(.9); } to { opacity: 1; transform: none; } }
+  @keyframes stOut { to { opacity: 0; transform: translate(var(--dx, 0), var(--dy, -40px)) scale(.15) rotate(var(--rot, 0deg)); } }
+  @keyframes stShake { 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
+  @keyframes stCard { from { opacity: 0; transform: scale(.6) translateY(30px); } 60% { opacity: 1; transform: scale(1.04); } to { opacity: 1; transform: none; } }
+  @keyframes stPulse { 0% { box-shadow: 0 0 0 0 rgba(37,211,102,.6); } 100% { box-shadow: 0 0 0 16px rgba(37,211,102,0); } }
+
+  /* Franja de prueba */
+  .proof { background: #FFFFFF; border-bottom: 1px solid #DDE3E6; padding: 28px 20px; }
+  .proof-grid { display: flex; flex-direction: column; gap: 18px; }
+  .proof-quote { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+  .proof-quote blockquote { margin: 0; font-size: 17px; line-height: 26px; font-weight: 700; color: #12181C; text-wrap: balance; }
+  .proof-quote figcaption { font-size: 13px; color: #4B5760; }
+  .proof-quote figcaption b { color: #0B3D53; }
+  .proof-cases { display: flex; flex-direction: column; gap: 10px; }
+  .proof-cases > span { font-size: 12px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: #1E6A89; }
+  .proof-links { display: flex; flex-wrap: wrap; gap: 8px; }
+  .proof-link { display: inline-flex; align-items: center; gap: 6px; min-height: 38px; padding: 7px 14px; border-radius: 999px; border: 1px solid #C7DCE4; background: #F4F8FA; font-size: 13.5px; font-weight: 700; color: #0B3D53; transition: border-color .2s, background .2s; }
+  .proof-link:hover { border-color: #0B3D53; background: #E4EEF1; }
+  .proof-link i { width: 7px; height: 7px; border-radius: 9px; background: #25D366; }
+
+  /* Cotizador de MARCEM */
+  .cot { display: flex; flex-direction: column; gap: 20px; }
+  .cot-q { display: flex; flex-direction: column; gap: 22px; }
+  .cot-f { border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .cot-f legend { padding: 0; margin-bottom: 10px; font-size: 15px; font-weight: 800; color: #12181C; }
+  .cot-f legend span { color: #1E6A89; margin-right: 4px; }
+  .cot-sel { width: 100%; min-height: 48px; padding: 10px 14px; border-radius: 12px; border: 1.5px solid #C7DCE4; background: #FFFFFF; font: 600 15px "Manrope", system-ui, sans-serif; color: #12181C; }
+  .cot-opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cot-opt { position: relative; }
+  .cot-opt input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .cot-opt span { display: inline-flex; align-items: center; min-height: 42px; padding: 9px 15px; border-radius: 999px; border: 1.5px solid #C7DCE4; background: #FFFFFF; font-size: 14px; font-weight: 600; color: #12181C; transition: border-color .2s, background .2s, color .2s; box-sizing: border-box; }
+  .cot-opt input:checked + span { background: #0B3D53; border-color: #0B3D53; color: #FFFFFF; font-weight: 700; }
+  .cot-opt input:focus-visible + span { outline: 3px solid #8EC5DA; outline-offset: 2px; }
+  .cot-opt input:disabled + span { opacity: .45; }
+  .cot-hint { font-size: 13px; line-height: 19px; color: #4B5760; margin: 0; }
+  .cot-res { position: relative; overflow: hidden; border-radius: 22px; background: #082A3A; color: #FFFFFF; padding: 26px 22px; display: flex; flex-direction: column; gap: 14px; }
+  .cot-res .layer { display: flex; flex-direction: column; gap: 14px; }
+  .cot-kick { font-size: 12px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: #8EC5DA; }
+  .cot-name { margin: 0; font-size: 26px; line-height: 32px; font-weight: 800; }
+  .cot-price { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .cot-price b { font-size: 34px; line-height: 38px; font-weight: 800; letter-spacing: -0.02em; }
+  .cot-price span { font-size: 14px; color: #B9D0DA; }
+  .cot-time { display: inline-flex; align-self: flex-start; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 99px; background: rgba(37,211,102,.14); color: #7FE3A6; font-size: 13px; font-weight: 700; }
+  .cot-what { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 15px; line-height: 22px; color: #D5E6ED; }
+  .cot-pack { padding: 12px 14px; border-radius: 14px; border: 1px dashed rgba(142,197,218,.45); font-size: 14px; line-height: 21px; color: #D5E6ED; }
+  .cot-pack b { color: #FFFFFF; }
+  .cot-demo { font-size: 14px; font-weight: 700; color: #8EC5DA; text-decoration: underline; text-underline-offset: 3px; align-self: flex-start; }
+  .cot-fine { font-size: 12px; line-height: 18px; color: #8FAFBD; margin: 0; }
+  .cot-res.bump .cot-price b { animation: pop .35s ease both; }
+
+  .cta-text { margin: 0; max-width: 560px; font-size: 17px; line-height: 27px; color: #B9D0DA; }
+
   /* Celular */
   .phone-wrap { position: relative; width: 300px; max-width: 100%; display: flex; justify-content: center; margin-bottom: 70px; }
   .phone { width: 258px; border-radius: 38px; padding: 10px; background: linear-gradient(160deg, #1D5169, #0A2533); box-shadow: 0 30px 70px rgba(0,0,0,0.40), inset 0 0 0 1px rgba(255,255,255,0.14); }
@@ -122,7 +219,7 @@
   .rubro-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 6px; }
   .rubro-actions a { white-space: nowrap; }
   .rubro-note { font-size: 12.5px; color: #8FAFBD; }
-  @media (prefers-reduced-motion: reduce) { .rubro-screen img { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .rubro-screen img { transition: none; } .stage *, .cot-res * { animation: none !important; } }
 
   /* Precios */
   .price { font-size: 30px; line-height: 34px; font-weight: 800; color: #0B3D53; letter-spacing: -0.01em; }
@@ -220,6 +317,19 @@
     .hero-title { font-size: 46px; line-height: 54px; }
     .hero-text { font-size: 19px; line-height: 30px; }
     .btn-row { flex-direction: row; width: auto; }
+
+    .stage-wrap { width: 330px; order: 0; }
+    .screen.stage { height: 384px; }
+    .hero-grid { gap: 48px; }
+    .hero { padding-top: 88px; }
+    .proof { padding: 34px 48px; }
+    .proof-grid { flex-direction: row; align-items: center; justify-content: space-between; gap: 48px; }
+    .proof-quote { max-width: 620px; }
+    .proof-cases { flex: none; }
+    .cot { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr); gap: 40px; align-items: start; }
+    .cot-res { padding: 34px 32px; position: sticky; top: 96px; }
+    .cot-name { font-size: 30px; line-height: 36px; }
+    .cot-price b { font-size: 42px; line-height: 46px; }
     .phone-wrap { width: 340px; }
     .phone-wrap { margin-bottom: 64px; }
     .bubble { left: -64px; bottom: -66px; }
@@ -324,6 +434,7 @@
       <span class="logo-word">MARCEM</span>
     </a>
     <div class="nav-links">
+      <a href="#cotizar" class="nav-link">Cotizá</a>
       <a href="#rubros" class="nav-link">Demos</a>
       <a href="#servicios" class="nav-link">Precios</a>
       <a href="#casos" class="nav-link">Casos</a>
@@ -345,44 +456,170 @@
         <p class="hero-text rise d3">Hago páginas, catálogos, cotizadores y sistemas simples para comercios y profesionales. Menos preguntas repetidas, menos cuentas a mano y más consultas que llegan listas para cerrar.</p>
         <div class="btn-row rise d4">
           <a href="https://wa.me/5493364626434?text=Hola%2C%20Marcelo.%20Vi%20la%20web%20de%20MARCEM%20y%20quiero%20consultar%20por%20una%20soluci%C3%B3n%20digital%20para%20mi%20negocio." class="btn-wa">Contame qué necesitás</a>
-          <a href="#rubros" class="btn-ghost">Ver la demo de tu rubro
+          <a href="#cotizar" class="btn-ghost">Cotizá en 30 segundos
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
           </a>
         </div>
-        <span class="hero-note rise d5">Te respondo yo, directo por WhatsApp. Sin formularios largos.</span>
+        <span class="hero-note rise d5">Te respondo yo, por WhatsApp. Y antes de que decidas, te armo una muestra con tu negocio.</span>
       </div>
 
-      <div class="phone-wrap rise d4">
-        <div class="phone-float">
-          <div class="phone">
-            <div class="screen">
-              <span class="m-label">Demo · ejemplo ficticio</span>
-              <span class="m-title">Cerrajería Ejemplo 24hs</span>
-              <div style="display: flex; flex-direction: column; gap: 6px;">
-                <div class="m-opt"><span>Apertura de puerta</span><span style="color: #4B5760;">$8.000</span></div>
-                <div class="m-opt m-opt-on"><span>Cambio de cerradura</span><span style="color: #0B3D53;">$18.000</span></div>
-                <div class="m-opt"><span>Copia de llave</span><span style="color: #4B5760;">$4.000</span></div>
+      <div class="stage-wrap rise d2">
+        <div class="phone stage-phone">
+          <div class="screen stage" id="stage" data-state="done">
+            <div class="st-head">
+              <span class="st-av"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></span>
+              <span class="st-head-t"><b>Tu WhatsApp</b><span>Ejemplo ficticio</span></span>
+              <span class="st-count" id="st-count">1 pedido nuevo</span>
+            </div>
+            <div class="st-chaos" aria-hidden="true">
+            <div class="st-b"><small>Clienta</small>Hola! ¿precio?</div>
+            <div class="st-b"><small>Juan</small>¿Tenés turno el sábado?</div>
+            <div class="st-b"><small>Cliente</small>¿Hacen envío?</div>
+            <div class="st-b"><small>Caro</small>¿Cuánto sale para 20 personas?</div>
+            <div class="st-b"><small>Cliente</small>¿Sigue disponible?</div>
+            <div class="st-b"><small>Mati</small>¿Qué medios de pago tenés?</div>
+            <div class="st-b"><small>Clienta</small>Hola?? 🙃</div>
+            <div class="st-b"><small>Cliente</small>¿Me pasás fotos?</div>
+            <div class="st-b"><small>Lu</small>¿A qué hora abren?</div>
+            </div>
+            <div class="st-order">
+              <div class="st-card">
+                <div class="st-card-h"><span class="st-ok"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>Pedido completo<span class="st-tag">Ejemplo</span></div>
+                <div class="st-row"><span>Cliente</span><b>Sofía</b></div>
+                <div class="st-row"><span>Pedido</span><b>Torta para 20, chocolate y dulce de leche</b></div>
+                <div class="st-row"><span>Retira</span><b>Sábado, 10 hs</b></div>
+                <div class="st-row st-total"><span>Total estimado</span><b>$38.000</b></div>
               </div>
-              <div class="m-chips">
-                <span class="m-chip">Diurno</span>
-                <span class="m-chip m-opt-on" style="border-color: #0B3D53; background: #E4EEF1;">Nocturno</span>
+              <span class="st-note">Un solo mensaje, con todo. Sin ida y vuelta.</span>
+              <div class="st-cta">
+                <a href="https://wa.me/5493364626434?text=Hola%2C%20Marcelo.%20Vi%20la%20web%20de%20MARCEM%20y%20quiero%20que%20a%20m%C3%AD%20tambi%C3%A9n%20me%20lleguen%20los%20pedidos%20completos.%20Mi%20negocio%20es%3A%20" class="btn-wa" data-src="animacion">Quiero esto para mi negocio</a>
+                <a href="#cotizar" class="st-cta-link">o cotizá lo tuyo en 30 segundos</a>
               </div>
-              <div class="m-total">
-                <span style="font-size: 10px; color: #4B5760;">Estimado</span>
-                <span style="font-size: 22px; font-weight: 800; color: #0B3D53;">$25.200</span>
-              </div>
-              <span class="m-cta">Confirmar por WhatsApp</span>
             </div>
           </div>
         </div>
-        <div class="bubble">
-          <span class="bubble-head">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1DA851" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-            Mensaje listo
-          </span>
-          <span>Hola, quiero pedir: Cambio de cerradura en horario nocturno. Vi que el estimado es $25.200.</span>
+        <button type="button" class="st-ctrl" id="st-ctrl" hidden>Saltear</button>
+      </div>
+    </div>
+  </div>
+  <script>
+  (function () {
+    var st = document.getElementById('stage');
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!st || reduce || !('animate' in st)) return;
+    var ctrl = document.getElementById('st-ctrl');
+    var count = document.getElementById('st-count');
+    var bs = st.querySelectorAll('.st-b');
+    var timers = [];
+    function at(ms, fn) { timers.push(setTimeout(fn, ms)); }
+    function finish() {
+      timers.forEach(clearTimeout); timers = [];
+      for (var i = 0; i < bs.length; i++) bs[i].className = 'st-b';
+      st.classList.remove('shake');
+      count.textContent = '1 pedido nuevo'; count.style.background = '';
+      st.setAttribute('data-state', 'reveal');
+      ctrl.textContent = 'Ver de nuevo'; ctrl.hidden = false;
+    }
+    function play() {
+      timers.forEach(clearTimeout); timers = [];
+      st.setAttribute('data-state', 'play');
+      for (var i = 0; i < bs.length; i++) bs[i].className = 'st-b';
+      count.textContent = '0 sin leer'; count.style.background = '#E5484D';
+      ctrl.textContent = 'Saltear'; ctrl.hidden = false;
+      var n = 0, t = 350;
+      for (var k = 0; k < bs.length; k++) (function (b, k) {
+        at(t, function () {
+          b.classList.add('on'); n += k % 3 === 2 ? 3 : 2;
+          count.textContent = n + ' sin leer';
+          if (k > 3) { st.classList.remove('shake'); void st.offsetWidth; st.classList.add('shake'); }
+        });
+        t += Math.max(170, 360 - k * 26);
+      })(bs[k], k);
+      t += 450;
+      at(t, function () {
+        for (var i = 0; i < bs.length; i++) {
+          var b = bs[i];
+          b.style.setProperty('--dy', (-b.offsetTop + 60) + 'px');
+          b.style.setProperty('--dx', (b.classList.length && i % 2 ? -40 : 40) + 'px');
+          b.style.setProperty('--rot', (i % 2 ? -12 : 12) + 'deg');
+          b.style.animationDelay = (i * 35) + 'ms';
+          b.classList.add('out');
+        }
+      });
+      at(t + 520, finish);
+    }
+    ctrl.addEventListener('click', function () { if (st.getAttribute('data-state') === 'play') finish(); else play(); });
+    play();
+  })();
+  </script>
+
+  <!-- PRUEBA -->
+  <div class="proof">
+    <div class="wrap proof-grid">
+      <figure class="proof-quote">
+        <blockquote>“Antes usábamos solo WhatsApp y armaba los presupuestos a mano usando Canva y toda la gestión era manual con Excel. Ahora es mucho más rápido todo.”</blockquote>
+        <figcaption><b>Delfi y Fede</b> · FM Servicios, San Nicolás · <a href="#casos" style="text-decoration: underline; text-underline-offset: 3px;">ver el caso</a></figcaption>
+      </figure>
+      <div class="proof-cases">
+        <span>Ya funcionando en negocios reales</span>
+        <div class="proof-links">
+          <a class="proof-link" href="https://decolores.pages.dev/" target="_blank" rel="noopener"><i></i>DeColores</a>
+          <a class="proof-link" href="https://fmservicios.pages.dev/" target="_blank" rel="noopener"><i></i>FM Servicios</a>
+          <a class="proof-link" href="#casos"><i></i>FPARTS</a>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- COTIZADOR -->
+  <div id="cotizar" class="sec" style="background: #F4F8FA;">
+    <div class="dots-bg"></div>
+    <div class="wrap layer">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Cotizador</span>
+        <h2 class="sec-title">Cotizá lo tuyo en 30 segundos</h2>
+        <p class="sec-sub">Tocá las opciones y mirá qué te conviene, cuánto sale y cuánto tarda. Es el mismo tipo de herramienta que puedo hacer para tu negocio.</p>
+      </div>
+      <form class="cot" id="cot" onsubmit="return false">
+        <div class="cot-q">
+          <fieldset class="cot-f">
+            <legend><span>1.</span>¿De qué es tu negocio?</legend>
+            <select class="cot-sel" id="cot-rubro" aria-label="Rubro de tu negocio"></select>
+          </fieldset>
+          <fieldset class="cot-f">
+            <legend><span>2.</span>¿Qué querés que hagan tus clientes?</legend>
+            <div class="cot-opts">
+              <label class="cot-opt"><input type="radio" name="need" value="consultar" checked><span>Entender qué ofrezco y escribirme</span></label>
+              <label class="cot-opt"><input type="radio" name="need" value="pedido"><span>Armar un pedido</span></label>
+              <label class="cot-opt"><input type="radio" name="need" value="cotizar"><span>Calcular un precio o presupuesto</span></label>
+              <label class="cot-opt"><input type="radio" name="need" value="reservar"><span>Reservar un turno o una fecha</span></label>
+              <label class="cot-opt"><input type="radio" name="need" value="interno"><span>Nada de eso: quiero ordenar algo interno</span></label>
+            </div>
+          </fieldset>
+          <fieldset class="cot-f" id="cot-f-panel">
+            <legend><span>3.</span>¿Querés cambiar precios, productos o turnos vos, desde el celular?</legend>
+            <div class="cot-opts">
+              <label class="cot-opt"><input type="radio" name="panel" value="no" checked><span>No, te aviso y lo cambiás vos</span></label>
+              <label class="cot-opt"><input type="radio" name="panel" value="si"><span>Sí, quiero manejarlo yo</span></label>
+            </div>
+            <p class="cot-hint" id="cot-hint" hidden></p>
+          </fieldset>
+        </div>
+        <div class="cot-res" id="cot-res" aria-live="polite">
+          <div class="grid-bg"></div>
+          <div class="layer">
+            <span class="cot-kick">Te conviene</span>
+            <h3 class="cot-name" id="cot-name">Página</h3>
+            <div class="cot-price"><b id="cot-price">$140.000</b><span id="cot-price-note">desde, pago único</span></div>
+            <span class="cot-time" id="cot-time">Lista en 3 a 5 días</span>
+            <ul class="cot-what" id="cot-what"></ul>
+            <div class="cot-pack" id="cot-pack"></div>
+            <a class="cot-demo" id="cot-demo" href="demo-dermatologa">Mirá la demo de tu rubro →</a>
+            <a class="btn-wa" id="cot-wa" href="https://wa.me/5493364626434?text=Hola%2C%20Marcelo.%20Us%C3%A9%20el%20cotizador%20de%20la%20web%20de%20MARCEM." data-src="cotizador">Quiero una muestra con mi negocio</a>
+            <p class="cot-fine">Precios de referencia en pesos. El precio final va en la propuesta, antes de arrancar nada. La muestra es sin compromiso.</p>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -682,6 +919,10 @@
       </div>
       <div class="faq reveal">
         <details class="faq-item">
+          <summary>¿Puedo ver algo antes de decidir?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B3D53" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <p class="faq-a">Sí. Contame tu rubro y qué querés resolver, y te armo una muestra con el nombre de tu negocio y tus productos o servicios. La mirás en tu celular y recién ahí decidís si avanzamos. Sin compromiso.</p>
+        </details>
+        <details class="faq-item">
           <summary>¿Cuánto tarda?<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0B3D53" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
           <p class="faq-a">Una página, de 3 a 5 días. Una página con panel, de 7 a 10 días. Un sistema, de 2 a 3 semanas, con entregas por partes para que lo vayas probando. El plazo corre desde que aceptás la propuesta y me pasás textos, fotos y datos.</p>
         </details>
@@ -716,9 +957,11 @@
         <div class="grid-bg"></div>
         <div class="glow glow-a"></div>
         <div class="layer" style="display: flex; flex-direction: column; align-items: center; gap: 22px;">
-          <span class="eyebrow eyebrow-light">Hablemos</span>
-          <h2 class="cta-title">¿Charlamos sobre tu negocio?</h2>
-          <a href="https://wa.me/5493364626434?text=Hola%2C%20Marcelo.%20Vi%20la%20web%20de%20MARCEM%20y%20quiero%20consultar%20por%20una%20soluci%C3%B3n%20digital%20para%20mi%20negocio." class="btn-wa">Contame qué necesitás</a>
+          <span class="eyebrow eyebrow-light">Sin compromiso</span>
+          <h2 class="cta-title">Mirá tu negocio funcionando antes de decidir</h2>
+          <p class="cta-text">Contame tu rubro y qué querés resolver. Te armo una muestra con el nombre de tu negocio y tus productos o servicios, y recién ahí decidís si avanzamos.</p>
+          <a href="https://wa.me/5493364626434?text=Hola%2C%20Marcelo.%20Quiero%20que%20me%20armes%20una%20muestra%20con%20mi%20negocio.%20Mi%20rubro%20es%3A%20" class="btn-wa" data-src="cierre">Quiero mi muestra</a>
+          <span class="hero-note">Te respondo yo, el mismo día.</span>
         </div>
       </div>
     </div>
@@ -772,6 +1015,61 @@
     { id: 'vendedor', chip: 'Vendedores y viajantes', name: 'Lucas Ejemplo, asesor comercial', text: 'Tarjeta digital para tus clientes y un panel con tu ruta, a quién llamar hoy y cuánto te falta para la meta.', demo: 'demo-vendedor', label: 'vendedor' },
     { id: 'turnos', chip: 'Turnos y agenda', name: 'Consultorio Ejemplo, sistema de turnos', text: 'Agenda semanal, fichas de pacientes, recordatorios por WhatsApp y reserva online.', demo: 'demo-turnos', label: 'sistema de turnos' }
   ];
+
+  // Cotizador de MARCEM: precios de referencia aprobados (precios-y-paquetes v2)
+  (function () {
+    var form = document.getElementById('cot');
+    if (!form) return;
+    var sel = document.getElementById('cot-rubro');
+    var preset = { catalogo: 'pedido', panaderia: 'pedido', tienda: 'pedido', perfumes: 'pedido', heladeria: 'pedido', cotizador: 'cotizar', turismo: 'cotizar', dermatologa: 'reservar', kinesiologo: 'reservar', peluqueria: 'reservar', gimnasio: 'reservar', cabanas: 'reservar', turnos: 'reservar', fotografia: 'consultar', profesional: 'consultar', abogado: 'consultar', educacion: 'consultar', inmobiliaria: 'consultar', vendedor: 'interno' };
+    rubros.forEach(function (r, i) { var o = document.createElement('option'); o.value = i; o.textContent = r.chip; sel.appendChild(o); });
+    var otro = document.createElement('option'); otro.value = 'otro'; otro.textContent = 'Otro rubro'; sel.appendChild(otro);
+    var needTxt = { consultar: 'entiendan qué ofrezco y me escriban', pedido: 'armen un pedido', cotizar: 'calculen un precio o presupuesto', reservar: 'reserven un turno o una fecha', interno: 'ordenar algo interno de mi negocio' };
+    var plans = {
+      pagina: { name: 'Página', price: '$140.000', note: 'desde, pago único', time: 'Lista en 3 a 5 días',
+        what: ['Tu página con tu estilo, pensada para el celular', 'El pedido o la consulta te llega completa por WhatsApp', 'Una ronda de ajustes, publicación y soporte el primer mes'],
+        pack: '<b>Pack Presencia: $199.000.</b> Suma tu dominio .com el primer año y 3 meses de mantenimiento. Por separado: $230.000 + dominio.' },
+      panel: { name: 'Página + panel', price: '$240.000', note: 'desde, pago único', time: 'Lista en 7 a 10 días',
+        what: ['La página, más un panel para manejarla vos desde el celular', 'Cargás precios, productos, stock o turnos y se ve al instante', 'Una ronda de ajustes, publicación y soporte el primer mes'],
+        pack: '<b>Pack Tienda: $299.000.</b> Suma tu dominio .com el primer año y 3 meses de mantenimiento. Por separado: $330.000 + dominio.' },
+      sistema: { name: 'Sistema simple', price: '$350.000', note: 'desde · precio final después de charlar', time: '2 a 3 semanas, con entregas por partes',
+        what: ['Ordena un proceso puntual: reparto, stock, socios, órdenes de trabajo o ventas', 'Pensado para usarlo desde el celular, vos y tu equipo', 'Lo vas probando por partes mientras lo armo'],
+        pack: 'Antes de cotizarlo charlamos sin cargo para entender bien tu proceso.' }
+    };
+    var els = { res: document.getElementById('cot-res'), name: document.getElementById('cot-name'), price: document.getElementById('cot-price'), note: document.getElementById('cot-price-note'), time: document.getElementById('cot-time'), what: document.getElementById('cot-what'), pack: document.getElementById('cot-pack'), demo: document.getElementById('cot-demo'), wa: document.getElementById('cot-wa'), fPanel: document.getElementById('cot-f-panel'), hint: document.getElementById('cot-hint') };
+    var last = '';
+    function val(n) { var c = form.querySelector('input[name="' + n + '"]:checked'); return c ? c.value : ''; }
+    function render() {
+      var need = val('need'), panel = val('panel');
+      var siInput = form.querySelector('input[name="panel"][value="si"]'), noInput = form.querySelector('input[name="panel"][value="no"]');
+      els.fPanel.hidden = need === 'interno';
+      noInput.disabled = need === 'reservar';
+      if (need === 'reservar') { siInput.checked = true; panel = 'si'; els.hint.hidden = false; els.hint.textContent = 'Para reservas hace falta el panel: ahí ves y manejás la agenda, y la página muestra solo lo libre.'; }
+      else { els.hint.hidden = true; }
+      var key = need === 'interno' ? 'sistema' : (panel === 'si' ? 'panel' : 'pagina');
+      var p = plans[key];
+      els.name.textContent = p.name; els.price.textContent = p.price; els.note.textContent = p.note; els.time.textContent = p.time;
+      els.what.innerHTML = ''; p.what.forEach(function (t) { var li = document.createElement('li'); li.textContent = t; els.what.appendChild(li); });
+      els.pack.innerHTML = p.pack;
+      var r = sel.value === 'otro' ? null : rubros[+sel.value];
+      els.demo.hidden = !r;
+      if (r) { els.demo.href = r.demo; els.demo.textContent = 'Mirá la demo de ' + r.chip.toLowerCase() + ' →'; }
+      var rubroTxt = r ? r.chip.toLowerCase() : '(te cuento mi rubro)';
+      var quiero = need === 'interno' ? 'Quiero ' + needTxt[need] : 'Quiero que mis clientes ' + needTxt[need] + (key === 'panel' ? ', y manejarlo yo desde un panel' : '');
+      els.wa.href = WA + encodeURIComponent('Hola, Marcelo. Usé el cotizador de la web de MARCEM. Mi negocio: ' + rubroTxt + '. ' + quiero + '. Me sugirió ' + p.name + ' (desde ' + p.price + '). ¿Me armás una muestra con mi negocio?');
+      if (last && last !== key) { els.res.classList.remove('bump'); void els.res.offsetWidth; els.res.classList.add('bump'); }
+      last = key;
+    }
+    sel.addEventListener('change', function () {
+      var r = rubros[+sel.value];
+      if (r && preset[r.id]) { var inp = form.querySelector('input[name="need"][value="' + preset[r.id] + '"]'); if (inp) inp.checked = true; }
+      render();
+    });
+    form.addEventListener('change', function (e) { if (e.target !== sel) render(); });
+    sel.value = 'otro';
+    render();
+  })();
+
   var chips = document.getElementById('rubro-chips');
   if (!chips) return;
   var img = document.getElementById('rubro-img');
@@ -825,5 +1123,6 @@
   select(0);
 })();
 </script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
