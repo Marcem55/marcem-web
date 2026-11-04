@@ -1,7 +1,12 @@
 {
+  "cleanUrls": true,
   "redirects": [
-    { "source": "/:page([a-z0-9-]+).html", "destination": "https://marcem.com.ar/:page", "permanent": true },
-    { "source": "/:path*", "destination": "https://marcem.com.ar/:path*", "permanent": true }
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "marcem-digital.vercel.app" }],
+      "destination": "https://marcem.com.ar/:path*",
+      "permanent": true
+    }
   ],
   "headers": [
     {
@@ -9,8 +14,15 @@
       "headers": [
         { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains" },
         { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Robots-Tag", "value": "noindex" }
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=()" },
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests" }
       ]
+    },
+    {
+      "source": "/(propuesta-.*|ficha|demo-estudio-juridico)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
     }
   ]
 }
