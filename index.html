@@ -102,7 +102,6 @@
   .stage[data-state="play"] .st-chaos { visibility: visible; }
   .stage[data-state="play"] .st-order { visibility: hidden; }
   .st-b.on { display: block; animation: stIn .28s cubic-bezier(.2,.8,.2,1) both; }
-  .st-b.out { animation: stOut .5s cubic-bezier(.6,0,.4,1) both; }
   .stage.shake .st-chaos { animation: stShake .35s linear; }
   .stage[data-state="reveal"] .st-chaos { visibility: hidden; }
   .stage[data-state="reveal"] .st-card { animation: stCard .6s cubic-bezier(.2,.8,.2,1) both; }
@@ -110,7 +109,6 @@
   .stage[data-state="reveal"] .st-cta { animation: rise .5s ease .55s both; }
   .stage[data-state="reveal"] .st-cta .btn-wa { animation: stPulse 1.6s ease-out 1.1s 2; }
   @keyframes stIn { from { opacity: 0; transform: translateY(12px) scale(.9); } to { opacity: 1; transform: none; } }
-  @keyframes stOut { to { opacity: 0; transform: translate(var(--dx, 0), var(--dy, -40px)) scale(.15) rotate(var(--rot, 0deg)); } }
   @keyframes stShake { 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
   @keyframes stCard { from { opacity: 0; transform: scale(.6) translateY(30px); } 60% { opacity: 1; transform: scale(1.04); } to { opacity: 1; transform: none; } }
   @keyframes stPulse { 0% { box-shadow: 0 0 0 0 rgba(37,211,102,.6); } 100% { box-shadow: 0 0 0 16px rgba(37,211,102,0); } }
@@ -219,7 +217,12 @@
   .rubro-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 6px; }
   .rubro-actions a { white-space: nowrap; }
   .rubro-note { font-size: 12.5px; color: #8FAFBD; }
-  @media (prefers-reduced-motion: reduce) { .rubro-screen img { transition: none; } .stage *, .cot-res * { animation: none !important; } }
+  @media (prefers-reduced-motion: reduce) { .rubro-screen img { transition: none; } .cot-res * { animation: none !important; } }
+  .stage.calm .st-b.on { animation: stFade .3s ease both; }
+  .stage.calm[data-state="reveal"] .st-card { animation: stFade .5s ease both; }
+  .stage.calm[data-state="reveal"] .st-cta .btn-wa { animation: none; }
+  .stage.calm[data-state="reveal"] .st-note, .stage.calm[data-state="reveal"] .st-cta { animation: stFade .5s ease .3s both; }
+  @keyframes stFade { from { opacity: 0; } to { opacity: 1; } }
 
   /* Precios */
   .price { font-size: 30px; line-height: 34px; font-weight: 800; color: #0B3D53; letter-spacing: -0.01em; }
@@ -505,33 +508,39 @@
   <script>
   (function () {
     var st = document.getElementById('stage');
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!st || reduce || !('animate' in st)) return;
+    if (!st) return;
+    // Con "Reducir movimiento" (muy común en iPhone) igual se reproduce, pero solo con fundidos: sin sacudón ni mensajes volando.
+    var calm = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    if (calm) st.classList.add('calm');
     var ctrl = document.getElementById('st-ctrl');
     var count = document.getElementById('st-count');
     var bs = st.querySelectorAll('.st-b');
-    var timers = [];
+    var timers = [], anims = [], started = false;
     function at(ms, fn) { timers.push(setTimeout(fn, ms)); }
-    function finish() {
+    function clearAll() {
       timers.forEach(clearTimeout); timers = [];
-      for (var i = 0; i < bs.length; i++) bs[i].className = 'st-b';
+      anims.forEach(function (a) { try { a.cancel(); } catch (e) {} }); anims = [];
+    }
+    function finish() {
+      clearAll();
+      for (var i = 0; i < bs.length; i++) { bs[i].className = 'st-b'; bs[i].style.opacity = ''; }
       st.classList.remove('shake');
       count.textContent = '1 pedido nuevo'; count.style.background = '';
       st.setAttribute('data-state', 'reveal');
       ctrl.textContent = 'Ver de nuevo'; ctrl.hidden = false;
     }
     function play() {
-      timers.forEach(clearTimeout); timers = [];
+      clearAll();
       st.setAttribute('data-state', 'play');
-      for (var i = 0; i < bs.length; i++) bs[i].className = 'st-b';
+      for (var i = 0; i < bs.length; i++) { bs[i].className = 'st-b'; bs[i].style.opacity = ''; }
       count.textContent = '0 sin leer'; count.style.background = '#E5484D';
       ctrl.textContent = 'Saltear'; ctrl.hidden = false;
-      var n = 0, t = 350;
+      var n = 0, t = 300;
       for (var k = 0; k < bs.length; k++) (function (b, k) {
         at(t, function () {
           b.classList.add('on'); n += k % 3 === 2 ? 3 : 2;
           count.textContent = n + ' sin leer';
-          if (k > 3) { st.classList.remove('shake'); void st.offsetWidth; st.classList.add('shake'); }
+          if (k > 3 && !calm) { st.classList.remove('shake'); void st.offsetWidth; st.classList.add('shake'); }
         });
         t += Math.max(170, 360 - k * 26);
       })(bs[k], k);
@@ -539,17 +548,38 @@
       at(t, function () {
         for (var i = 0; i < bs.length; i++) {
           var b = bs[i];
-          b.style.setProperty('--dy', (-b.offsetTop + 60) + 'px');
-          b.style.setProperty('--dx', (b.classList.length && i % 2 ? -40 : 40) + 'px');
-          b.style.setProperty('--rot', (i % 2 ? -12 : 12) + 'deg');
-          b.style.animationDelay = (i * 35) + 'ms';
-          b.classList.add('out');
+          if (typeof b.animate !== 'function') { b.style.opacity = '0'; continue; }
+          var to = calm ? { opacity: 0 } : { opacity: 0, transform: 'translate(' + (i % 2 ? -40 : 40) + 'px,' + (60 - b.offsetTop) + 'px) scale(.15) rotate(' + (i % 2 ? -12 : 12) + 'deg)' };
+          var from = calm ? { opacity: 1 } : { opacity: 1, transform: 'none' };
+          anims.push(b.animate([from, to], { duration: calm ? 300 : 500, delay: calm ? 0 : i * 35, easing: 'cubic-bezier(.6,0,.4,1)', fill: 'forwards' }));
         }
       });
-      at(t + 520, finish);
+      at(t + 560, finish);
+    }
+    function start() {
+      if (started || document.visibilityState === 'hidden') return;
+      started = true; play();
     }
     ctrl.addEventListener('click', function () { if (st.getAttribute('data-state') === 'play') finish(); else play(); });
-    play();
+    // Arranca cuando la página está a la vista y el celular aparece en pantalla
+    // (Safari puede precargar la página en segundo plano y la animación terminaba antes de verse).
+    st.setAttribute('data-state', 'play');
+    count.textContent = '0 sin leer';
+    function whenSeen() {
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (es) {
+          if (es[0].isIntersecting) { io.disconnect(); setTimeout(start, 250); }
+        }, { threshold: 0.35 });
+        io.observe(st);
+      } else { setTimeout(start, 250); }
+    }
+    if (document.visibilityState === 'hidden') {
+      document.addEventListener('visibilitychange', function onVis() {
+        if (document.visibilityState !== 'hidden') { document.removeEventListener('visibilitychange', onVis); whenSeen(); }
+      });
+    } else { whenSeen(); }
+    // Si en 6 segundos no arrancó por algún motivo, mostrar el final (nunca dejar el celular vacío)
+    setTimeout(function () { if (!started) { started = true; finish(); } }, 6000);
   })();
   </script>
 
