@@ -214,7 +214,7 @@
   <div class="wrap">
     <div>
       <h1>Que cada pedido quede guardado y la caja salga sola.</h1>
-      <p class="lead">Marisol: hoy los pedidos terminan en una comanda escrita con lapicera. Así quedarían en <span class="pend">nombre de tu heladería</span>: el cliente pide, el local lo ve en pantalla y a la noche tenés la caja por medio de pago, desde la compu o el celular.</p>
+      <p class="lead">Marisol: hoy los pedidos terminan en una comanda escrita con lapicera. Así quedarían en <span class="pend">nombre de tu heladería</span>: el cliente pide, la comanda sale sola por la comandera del local y a la noche tenés la caja por medio de pago, desde la compu o el celular.</p>
     </div>
     <div class="compare" aria-hidden="true">
       <div>
@@ -299,7 +299,7 @@
   <!-- LOCAL -->
   <section class="view v-loc" aria-labelledby="t-loc">
     <div class="wrap">
-      <p class="note"><b>Equipo del local.</b><span>Cada vendedor entra con su usuario, desde la compu o un celular. Así queda registrado quién cargó y quién cobró cada pedido.</span></p>
+      <p class="note"><b>Equipo del local.</b><span>Cada vendedor entra con su usuario, desde la compu o un celular. Así queda registrado quién cargó y quién cobró cada pedido. Cuando entra un pedido nuevo, la comanda se imprime sola en la comandera.</span></p>
       <div class="bar">
         <h2 id="t-loc">Comandas de hoy</h2>
         <button type="button" class="btn" id="openLoad">+ Cargar pedido de WhatsApp o teléfono</button>
@@ -386,7 +386,7 @@
         <h3>Qué incluye</h3>
         <ul>
           <li>Página de pedidos con tamaños, gustos del día, promo, envío o retiro y medio de pago.</li>
-          <li>Comandas en pantalla para el local, con estados y aviso de pedido nuevo. Si tienen comandera, se imprimen.</li>
+          <li>La comanda se imprime sola en la comandera cuando entra un pedido, y además se ve en pantalla con estados y aviso. Hace falta una comandera térmica y la compu del local prendida con el sistema abierto.</li>
           <li>Carga rápida de los pedidos de WhatsApp, teléfono o PedidoShop.</li>
           <li>Cada pedido marca efectivo, Mercado Pago o transferencia, y si ya se cobró.</li>
           <li>Tu panel: caja por día con lo que entró por cada medio, historial, descarga a Excel, precios, gustos, promos y usuarios.</li>
@@ -550,7 +550,7 @@
     ORDERS.push(o); newest = o.n;
     var lines = o.items.map(function (it) { return '• ' + sizeOf(it.s).n + ': ' + it.f.join(', '); }).join('\n');
     $('mdlMsg').textContent = 'Pedido #' + o.n + ' de ' + o.c + '\n' + lines + '\n' + (o.del === 'env' ? 'Envío a: ' + o.addr : 'Retira en el local') + '\nPago: ' + PAYN[o.pay] + '\nTotal: ' + money(orderTotal(o)) + '\n¿Me confirman el pedido?';
-    $('mdlNote').textContent = 'En la demo no se envía nada. En el sistema real, además de este WhatsApp, el pedido #' + o.n + ' ya aparece en las comandas del local. Pasá a “El local” para verlo.';
+    $('mdlNote').textContent = 'En la demo no se envía nada. En el sistema real, además de este WhatsApp, el pedido #' + o.n + ' ya se imprimió en la comandera y aparece en las comandas del local. Pasá a “El local” para verlo.';
     $('mdl').classList.add('on'); $('mdlClose').focus();
     cs.cart = []; cs.f = []; $('cName').value = ''; $('cAddr').value = '';
     drawAll();
