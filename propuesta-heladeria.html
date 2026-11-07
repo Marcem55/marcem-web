@@ -368,7 +368,7 @@
       <div class="tickets" id="tickets"></div>
 
       <div class="card" style="margin-top:24px">
-        <p class="step-t">Gustos de hoy</p>
+        <p class="step-t">Gustos de hoy en este local</p>
         <div class="gl" id="gl"></div>
       </div>
     </div>
@@ -418,17 +418,17 @@
         <li>Página de pedidos con tus gustos y promos</li>
         <li>Comandas que se imprimen solas en cada local</li>
         <li>Pedidos de WhatsApp y teléfono en 3 toques</li>
-        <li>Caja por local y por medio de pago, con Excel</li>
+        <li>Cada local con sus gustos y su caja; vos ves todo junto</li>
         <li>Tu panel: precios, gustos, promos y usuarios</li>
         <li>Instalación en los locales y explicación al equipo</li>
       </ul>
       <div class="price">
         <p class="step-t">Inversión</p>
-        <div class="amt">$420.000</div>
-        <div class="row"><span>Para arrancar</span><b>$168.000</b></div>
-        <div class="row"><span>Al verlo funcionando</span><b>$126.000</b></div>
-        <div class="row"><span>A la entrega</span><b>$126.000</b></div>
-        <p class="sm">Listo en 2 a 3 semanas. Primer mes de soporte incluido; después, <b>$40.000 por mes</b>.</p>
+        <div class="amt">$450.000</div>
+        <div class="row"><span>Incluye</span><b>1 local</b></div>
+        <div class="row"><span>Cada local más</span><b>+$80.000</b></div>
+        <div class="row"><span>Los 4 locales</span><b>$690.000</b></div>
+        <p class="sm">En 3 pagos: 40% para arrancar, 30% al verlo funcionando y 30% a la entrega. Listo en 2 a 3 semanas. Primer mes de soporte incluido; después, <b>$40.000 por mes</b>.</p>
       </div>
     </div>
     <p class="later">Para más adelante: pago online y conexión con la impresora fiscal. El sistema no emite facturas.</p>
@@ -473,7 +473,8 @@
     { id: 'tr', n: 'Trufas x4', g: 0, p: 7000 }
   ];
   var FLAVORS = ['Dulce de leche granizado', 'Chocolate amargo', 'Frutilla al agua', 'Pistacho', 'Limón', 'Sambayón', 'Menta granizada', 'Crema americana', 'Banana split', 'Mascarpone con frutos rojos'];
-  var OUT = { 'Sambayón': true };
+  var OUTL = [{ 'Sambayón': true }, {}, { 'Menta granizada': true }, {}];
+  var outOf = function (l) { return OUTL[l]; };
   var ENVIO = 1500;
   var PAYS = [{ id: 'ef', n: 'Efectivo' }, { id: 'mp', n: 'Mercado Pago' }, { id: 'tr', n: 'Transferencia' }];
   var PAYN = { ef: 'Efectivo', mp: 'Mercado Pago', tr: 'Transferencia' };
@@ -513,7 +514,7 @@
       return '<button type="button" class="opt" data-s="' + s.id + '" aria-pressed="' + (s.id === cur) + '"><b>' + s.n + '</b><span>' + money(s.p) + (s.g ? ' · ' + s.g + ' gustos' : '') + '</span></button>';
     }).join('');
   }
-  function flavorChips(el, picked, max) {
+  function flavorChips(el, picked, max, OUT) {
     el.innerHTML = max ? FLAVORS.map(function (f) {
       var on = picked.indexOf(f) > -1, out = !!OUT[f], full = !on && picked.length >= max;
       return '<button type="button" class="chip" data-f="' + esc(f) + '" aria-pressed="' + on + '"' + (out || full ? ' disabled' : '') + '>' + esc(f) + '</button>';
@@ -532,9 +533,10 @@
   function drawCli() {
     sizeButtons($('sizes'), cs.s);
     var max = sizeOf(cs.s).g;
-    cs.f = cs.f.filter(function (f) { return !OUT[f]; }).slice(0, max);
+    var cOut = outOf(cs.del === 'ret' ? cs.loc : 0);
+    cs.f = cs.f.filter(function (f) { return !cOut[f]; }).slice(0, max);
     $('flvCard').hidden = !max;
-    flavorChips($('flv'), cs.f, max);
+    flavorChips($('flv'), cs.f, max, cOut);
     $('flvHint').textContent = cs.f.length + ' de ' + max + ' elegidos';
     $('addPote').disabled = max > 0 && cs.f.length === 0;
     $('cart').innerHTML = cs.cart.length ? cs.cart.map(function (it, i) {
@@ -590,8 +592,9 @@
   function drawLoad() {
     sizeButtons($('lSizes'), ls.s);
     var max = sizeOf(ls.s).g;
-    ls.f = ls.f.filter(function (f) { return !OUT[f]; }).slice(0, max);
-    flavorChips($('lFlv'), ls.f, max);
+    var lOut = outOf(locView);
+    ls.f = ls.f.filter(function (f) { return !lOut[f]; }).slice(0, max);
+    flavorChips($('lFlv'), ls.f, max, lOut);
     payButtons($('lPay'), ls.pay);
     $('lTotal').textContent = money(sizeOf(ls.s).p + ($('lDel').value === 'env' ? ENVIO : 0));
     $('saveLoad').disabled = max > 0 && ls.f.length === 0;
@@ -629,6 +632,7 @@
         '<div class="acts"><button type="button" data-adv="' + o.n + '"' + (nextSt ? '' : ' disabled') + '>' + (nextSt ? nextSt : 'Entregado') + '</button>' +
         '<button type="button" data-paid="' + o.n + '" class="' + (o.paid ? 'on' : '') + '" aria-pressed="' + o.paid + '">' + (o.paid ? 'Cobrado' : 'Cobrar') + '</button></div></article>';
     }).join('') : '<p class="hint">Sin pedidos en este local todavía.</p>';
+    var OUT = outOf(locView);
     $('gl').innerHTML = FLAVORS.map(function (f) {
       return '<label class="sw' + (OUT[f] ? ' off' : '') + '"><span>' + esc(f) + '</span><input type="checkbox" data-g="' + esc(f) + '"' + (OUT[f] ? '' : ' checked') + ' aria-label="' + esc(f) + ' disponible"></label>';
     }).join('');
@@ -642,8 +646,8 @@
   });
   $('gl').addEventListener('change', function (e) {
     var f = e.target.dataset.g; if (!f) return;
-    OUT[f] = !e.target.checked; drawAll();
-    toast(OUT[f] ? f + ': agotado.' : f + ': disponible.');
+    var OUT = outOf(locView); OUT[f] = !e.target.checked; drawAll();
+    toast(f + (OUT[f] ? ': agotado en ' : ': disponible en ') + LOCS[locView] + '.');
   });
 
   // caja
