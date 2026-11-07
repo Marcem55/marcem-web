@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Pedidos y caja para tu heladería · Maqueta de propuesta MARCEM</title>
+<meta name="description" content="Maqueta de propuesta para la heladería de Marisol: pedidos guardados, comandas sin papel y cierre de caja por medio de pago. Hecha por MARCEM.">
+<meta name="theme-color" content="#2A1A12">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="MARCEM">
+<meta property="og:title" content="Pedidos y caja para tu heladería · Maqueta de propuesta">
+<meta property="og:description" content="Cada pedido guardado y la caja del día por medio de pago, desde la compu o el celular.">
+<meta property="og:image" content="https://marcem.com.ar/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;800&family=Chivo+Mono:wght@400;600&display=swap">
+<style>
+  :root {
+    --bg: #EEF4E6;       /* pistacho muy claro */
+    --paper: #FFFDF6;    /* papel de comandera */
+    --ink: #2A1A12;      /* chocolate amargo */
+    --muted: #5E5048;
+    --pist: #4F6F1C;     /* pistacho oscuro (texto) */
+    --pist-l: #C9DFA4;
+    --fru: #C42F48;      /* frutilla */
+    --fru-l: #F9DCE1;
+    --mp: #0F6FA8;       /* celeste */
+    --mp-l: #D7ECF8;
+    --ddl: #9A5A14;      /* dulce de leche */
+    --ddl-l: #F6E3C6;
+    --line: #D9CFC2;
+    --sans: "Chivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "Chivo Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.5 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  button, input, select { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--mp); outline-offset: 2px; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+  .pend { border: 2px dashed var(--fru); border-radius: 6px; padding: 0 6px; background: #fff; color: var(--fru); white-space: nowrap; }
+  h1, h2, h3 { line-height: 1.12; margin: 0; letter-spacing: -0.01em; }
+  h2 { font-size: clamp(24px, 6vw, 34px); font-weight: 800; }
+  h3 { font-size: 19px; font-weight: 800; }
+  p { margin: 0; }
+
+  .pbar { background: var(--ink); color: #F3E9DF; font: 600 13px/1.4 var(--sans); }
+  .pbar .wrap { padding-top: 9px; padding-bottom: 9px; }
+
+  /* intro */
+  .intro { padding: 30px 0 26px; }
+  .intro .wrap { display: grid; gap: 26px; }
+  .intro h1 { font-size: clamp(30px, 8.4vw, 52px); font-weight: 800; max-width: 15ch; }
+  .intro .lead { margin-top: 14px; font-size: 18px; color: var(--muted); max-width: 46ch; }
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: start; }
+  .paper { background: #FBF8EE; border: 1px solid #E2DACB; padding: 14px 12px 16px; transform: rotate(-2deg); box-shadow: 0 6px 16px rgba(42,26,18,.10); font: italic 15px/1.55 "Segoe Print", "Bradley Hand", "Comic Sans MS", cursive; color: #2C3E8C; background-image: repeating-linear-gradient(transparent 0 22px, #C9D6EA 22px 23px); }
+  .paper s { color: #8A93B8; }
+  .paper small { display: block; margin-top: 8px; font: 600 12px/1.3 var(--sans); color: var(--muted); font-style: normal; }
+  .ticket { background: var(--paper); font: 400 13.5px/1.5 var(--mono); padding: 14px 14px 22px; box-shadow: 0 6px 16px rgba(42,26,18,.12); position: relative;
+    -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 14px 100%;
+            mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 14px 100%; }
+  .ticket b { font-weight: 600; }
+  .ticket .row { display: flex; justify-content: space-between; gap: 8px; }
+  .ticket .row span:first-child { overflow: hidden; }
+  .ticket hr { border: 0; border-top: 1px dashed #B9AC9E; margin: 8px 0; }
+  .cap { font: 600 12px/1.3 var(--sans); color: var(--muted); margin-top: 8px; }
+  @media (min-width: 820px) {
+    .intro .wrap { grid-template-columns: 1.15fr .85fr; align-items: center; }
+  }
+
+  /* selector */
+  .vsw { position: sticky; top: 0; z-index: 30; background: var(--bg); padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .vsw .in { max-width: 620px; margin: 0 auto; padding: 0 12px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .vsw button { min-height: 48px; border: 2px solid var(--ink); border-radius: 10px; background: var(--paper); font: 800 14px/1.1 var(--sans); padding: 6px 4px; }
+  .vsw button small { display: block; font: 400 11.5px/1.2 var(--sans); color: var(--muted); margin-top: 2px; }
+  .vsw button[aria-pressed="true"] { background: var(--ink); color: #FFF6EC; }
+  .vsw button[aria-pressed="true"] small { color: #E3D5C8; }
+  body[data-v="cli"] .v-loc, body[data-v="cli"] .v-caja,
+  body[data-v="loc"] .v-cli, body[data-v="loc"] .v-caja,
+  body[data-v="caja"] .v-cli, body[data-v="caja"] .v-loc { display: none !important; }
+
+  .view { padding: 26px 0 40px; }
+  .note { display: flex; gap: 10px; padding: 12px 14px; border-radius: 10px; background: var(--paper); border: 1px solid var(--line); font-size: 14.5px; margin-bottom: 18px; }
+  .note b { white-space: nowrap; }
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
+  .stack { display: grid; gap: 16px; }
+
+  /* cliente */
+  .shop-h { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; align-items: baseline; margin-bottom: 14px; }
+  .shop-h .nm { font-size: 24px; font-weight: 800; }
+  .promo { background: var(--fru); color: #fff; border-radius: 10px; padding: 10px 14px; font-weight: 600; margin-bottom: 16px; }
+  .step-t { font-weight: 800; margin-bottom: 10px; }
+  .sizes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  @media (min-width: 620px) { .sizes { grid-template-columns: repeat(4, 1fr); } }
+  .opt { border: 2px solid var(--line); background: #fff; border-radius: 12px; padding: 10px; text-align: left; min-height: 64px; }
+  .opt b { display: block; font-size: 16px; }
+  .opt span { font: 400 13px/1.3 var(--mono); color: var(--muted); }
+  .opt[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: #FFF6EC; }
+  .opt[aria-pressed="true"] span { color: #E3D5C8; }
+  .flv { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { border: 2px solid var(--line); background: #fff; border-radius: 999px; padding: 8px 14px; min-height: 42px; font-size: 15px; }
+  .chip[aria-pressed="true"] { background: var(--pist-l); border-color: var(--pist); color: var(--ink); font-weight: 600; }
+  .chip:disabled { cursor: not-allowed; color: #9A8F86; background: #F2EEE8; text-decoration: line-through; }
+  .chip:disabled::after { content: " · agotado"; text-decoration: none; display: inline-block; margin-left: 4px; font-size: 12px; }
+  .hint { font-size: 13.5px; color: var(--muted); margin-top: 8px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .three .opt { min-height: 52px; padding: 8px; }
+  .three .opt b { font-size: 14.5px; }
+  label.f { display: grid; gap: 4px; font-size: 14px; font-weight: 600; }
+  input[type=text], input[type=number], select { border: 2px solid var(--line); border-radius: 10px; padding: 10px 12px; min-height: 46px; background: #fff; width: 100%; font-weight: 400; }
+  .btn { border: 0; border-radius: 12px; min-height: 52px; padding: 12px 18px; font-weight: 800; font-size: 16px; background: var(--ink); color: #FFF6EC; }
+  .btn.alt { background: #fff; color: var(--ink); border: 2px solid var(--ink); }
+  .btn.wa { background: #1E9E4C; color: #fff; }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+  .cart { margin-top: 4px; }
+  .cart .it { display: flex; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px dashed var(--line); font-size: 15px; }
+  .cart .it button { border: 0; background: none; color: var(--fru); font-weight: 600; padding: 0 4px; min-height: 32px; }
+  .total { display: flex; justify-content: space-between; font: 600 18px/1.3 var(--mono); padding-top: 10px; }
+  @media (min-width: 900px) { .cli-grid { display: grid; grid-template-columns: 1.3fr .9fr; gap: 18px; align-items: start; } .cli-grid > aside { position: sticky; top: 84px; } }
+
+  /* local */
+  .bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .counts { display: flex; flex-wrap: wrap; gap: 6px; font-size: 13.5px; }
+  .counts span { background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; }
+  .tickets { display: grid; gap: 16px; }
+  @media (min-width: 680px) { .tickets { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1000px) { .tickets { grid-template-columns: repeat(3, 1fr); } }
+  .tk { display: grid; gap: 4px; }
+  .tk.new { animation: drop .5s ease-out; }
+  @keyframes drop { from { transform: translateY(-14px); opacity: 0; } to { transform: none; opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .tk.new { animation: none; } }
+  .tk .hd { display: flex; justify-content: space-between; gap: 6px; font-weight: 600; }
+  .tag { display: inline-block; font: 600 12px/1 var(--sans); border-radius: 999px; padding: 5px 9px; }
+  .t-ef { background: var(--pist-l); color: #2F4410; }
+  .t-mp { background: var(--mp-l); color: #0A4C73; }
+  .t-tr { background: var(--ddl-l); color: #6A3C08; }
+  .t-pend { background: var(--fru-l); color: #8C1C30; }
+  .t-ok { background: #DDEBD0; color: #2F4410; }
+  .tk .acts { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px; font-family: var(--sans); }
+  .tk .acts button { min-height: 42px; border-radius: 9px; border: 2px solid var(--ink); background: #fff; font-weight: 600; font-size: 13.5px; padding: 4px 6px; }
+  .tk .acts button.on { background: var(--ink); color: #FFF6EC; }
+  .tk .acts button:disabled { opacity: .5; cursor: default; }
+  .tk.done { opacity: .72; }
+  .loadf { margin-bottom: 18px; }
+  .loadf[hidden] { display: none; }
+  .gl { display: grid; grid-template-columns: 1fr; gap: 6px; }
+  @media (min-width: 620px) { .gl { grid-template-columns: repeat(2, 1fr); } }
+  .sw { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; min-height: 50px; }
+  .sw input { width: 44px; height: 26px; accent-color: var(--pist); }
+  .sw.off span { color: #9A8F86; text-decoration: line-through; }
+
+  /* caja */
+  .caja-grid { display: grid; gap: 18px; }
+  .caja-grid > *, .stack > *, .cli-grid > * { min-width: 0; }
+  @media (min-width: 900px) { .caja-grid { grid-template-columns: .9fr 1.1fr; align-items: start; } }
+  .z { font-size: 14.5px; max-width: 440px; }
+  .z .big { font-size: 26px; font-weight: 600; text-align: center; margin: 6px 0; }
+  .z .ctr { text-align: center; }
+  .bars { display: grid; gap: 6px; margin: 8px 0; }
+  .bars .b { height: 12px; border-radius: 3px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); }
+  td.n, th.n { text-align: right; font-family: var(--mono); white-space: nowrap; }
+  .tscroll { overflow-x: auto; }
+  .prices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .toast { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); background: var(--ink); color: #FFF6EC; padding: 12px 16px; border-radius: 12px; font-size: 14.5px; max-width: calc(100% - 32px); z-index: 70; display: none; }
+  .toast.on { display: block; }
+
+  /* propuesta */
+  .prop { background: var(--ink); color: #F6ECE2; padding: 44px 0 50px; }
+  .prop h2 { color: #fff; }
+  .prop .sub { margin-top: 10px; color: #E3D5C8; max-width: 52ch; font-size: 17px; }
+  .pgrid { display: grid; gap: 16px; margin-top: 26px; }
+  @media (min-width: 860px) { .pgrid { grid-template-columns: 1fr 1fr; } }
+  .pbox { border: 1px solid #5A463A; border-radius: 14px; padding: 18px; }
+  .pbox h3 { color: #fff; margin-bottom: 10px; }
+  .pbox ul, .pbox ol { margin: 0; padding-left: 20px; display: grid; gap: 7px; }
+  .pbox li::marker { color: var(--pist-l); }
+  .price { background: var(--paper); color: var(--ink); }
+  .price h3 { color: var(--ink); }
+  .price .amt { font: 600 clamp(34px, 9vw, 46px)/1 var(--mono); margin: 4px 0 12px; }
+  .price .row { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-bottom: 1px dashed var(--line); font-size: 15px; }
+  .price .row b { font-family: var(--mono); font-weight: 600; white-space: nowrap; }
+  .price p { margin-top: 10px; font-size: 14.5px; color: var(--muted); }
+  .limits { margin-top: 16px; font-size: 14.5px; color: #E3D5C8; }
+  .cta { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .cta a { display: inline-flex; align-items: center; min-height: 54px; padding: 12px 22px; border-radius: 12px; background: #1E9E4C; color: #fff; font-weight: 800; text-decoration: none; }
+  .cta span { color: #E3D5C8; font-size: 14.5px; }
+  footer { padding: 22px 0 30px; font-size: 13.5px; color: var(--muted); }
+  footer a { color: var(--ink); }
+
+  /* modal */
+  .mdl { position: fixed; inset: 0; background: rgba(42,26,18,.55); display: none; align-items: flex-end; justify-content: center; z-index: 60; padding: 10px; }
+  .mdl.on { display: flex; }
+  .sh { background: #fff; border-radius: 18px; padding: 18px; width: 100%; max-width: 480px; max-height: 92vh; overflow: auto; }
+  .bub { margin-top: 12px; background: #DCF8C6; border-radius: 14px 14px 4px 14px; padding: 12px 14px; font-size: 15px; white-space: pre-line; }
+  .sh p { margin-top: 10px; font-size: 14px; color: var(--muted); }
+  .sh .btn { width: 100%; margin-top: 12px; }
+  @media (min-width: 760px) { .mdl { align-items: center; } }
+</style>
+</head>
+<body data-v="cli">
+
+<div class="pbar"><div class="wrap">Maqueta de propuesta para la heladería de Marisol, hecha por MARCEM. Gustos, precios y pedidos de ejemplo.</div></div>
+
+<header class="intro">
+  <div class="wrap">
+    <div>
+      <h1>Que cada pedido quede guardado y la caja salga sola.</h1>
+      <p class="lead">Marisol: hoy los pedidos terminan en una comanda escrita con lapicera. Así quedarían en <span class="pend">nombre de tu heladería</span>: el cliente pide, el local lo ve en pantalla y a la noche tenés la caja por medio de pago, desde la compu o el celular.</p>
+    </div>
+    <div class="compare" aria-hidden="true">
+      <div>
+        <div class="paper">1/2 kg<br>ddl gran. - choco<br><s>sambayón</s> frutilla<br>Belgrano 4.. ¿o 7?<br>efect.? MP?</div>
+        <p class="cap">Hoy: comanda en papel</p>
+      </div>
+      <div>
+        <div class="ticket">
+          <div class="row"><b>#0128</b><span>21:42</span></div>
+          <div>WhatsApp · Envío</div>
+          <hr>
+          <div>1/2 kg</div>
+          <div>DDL granizado</div>
+          <div>Chocolate amargo</div>
+          <div>Frutilla al agua</div>
+          <hr>
+          <div class="row"><span>Mercado Pago</span><b>Cobrado</b></div>
+        </div>
+        <p class="cap">Con el sistema: queda guardado</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="vsw" aria-label="Cambiar vista">
+  <div class="in">
+    <button type="button" data-view="cli" aria-pressed="true">Tu cliente<small>pide</small></button>
+    <button type="button" data-view="loc" aria-pressed="false">El local<small>comandas</small></button>
+    <button type="button" data-view="caja" aria-pressed="false">Vos<small>caja y precios</small></button>
+  </div>
+</nav>
+
+<main>
+  <!-- CLIENTE -->
+  <section class="view v-cli" aria-labelledby="t-cli">
+    <div class="wrap">
+      <div class="shop-h">
+        <h2 id="t-cli" class="nm">Hacé tu pedido</h2>
+        <span class="hint">Probalo: lo que pidas aparece en “El local”.</span>
+      </div>
+      <div class="promo" id="promoBanner" hidden></div>
+      <div class="cli-grid">
+        <div class="stack">
+          <div class="card">
+            <p class="step-t">1. Elegí el tamaño</p>
+            <div class="sizes" id="sizes"></div>
+          </div>
+          <div class="card">
+            <p class="step-t">2. Elegí los gustos de hoy</p>
+            <div class="flv" id="flv"></div>
+            <p class="hint" id="flvHint"></p>
+            <button type="button" class="btn alt" id="addPote" style="margin-top:12px;width:100%" disabled>Agregar al pedido</button>
+          </div>
+        </div>
+        <aside class="card stack" aria-label="Tu pedido">
+          <div>
+            <p class="step-t">Tu pedido</p>
+            <div class="cart" id="cart"><p class="hint">Todavía no agregaste nada.</p></div>
+          </div>
+          <div>
+            <p class="step-t">3. ¿Envío o retiro?</p>
+            <div class="two" id="deliv">
+              <button type="button" class="opt" data-d="env" aria-pressed="true"><b>Envío</b><span id="envCost"></span></button>
+              <button type="button" class="opt" data-d="ret" aria-pressed="false"><b>Retiro</b><span>en el local</span></button>
+            </div>
+          </div>
+          <div>
+            <p class="step-t">4. ¿Cómo pagás?</p>
+            <div class="three" id="pay"></div>
+            <p class="hint" id="payHint"></p>
+          </div>
+          <label class="f">Tu nombre <input type="text" id="cName" maxlength="40" autocomplete="given-name" placeholder="Ej.: Lucía"></label>
+          <label class="f" id="addrWrap">Dirección <input type="text" id="cAddr" maxlength="60" autocomplete="street-address" placeholder="Calle y número"></label>
+          <div class="total"><span>Total</span><span id="cTotal">$0</span></div>
+          <button type="button" class="btn wa" id="send" disabled>Enviar pedido</button>
+          <p class="hint">Tus datos se usan solo para este pedido.</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOCAL -->
+  <section class="view v-loc" aria-labelledby="t-loc">
+    <div class="wrap">
+      <p class="note"><b>Equipo del local.</b><span>Cada vendedor entra con su usuario, desde la compu o un celular. Así queda registrado quién cargó y quién cobró cada pedido.</span></p>
+      <div class="bar">
+        <h2 id="t-loc">Comandas de hoy</h2>
+        <button type="button" class="btn" id="openLoad">+ Cargar pedido de WhatsApp o teléfono</button>
+      </div>
+      <div class="counts" id="counts"></div>
+
+      <form class="card loadf stack" id="loadf" hidden style="margin-top:14px">
+        <h3>Pedido que entró por otro lado</h3>
+        <div class="two">
+          <label class="f">Entró por
+            <select id="lCh"><option>WhatsApp</option><option>Teléfono</option><option>PedidoShop</option><option>Mostrador</option></select>
+          </label>
+          <label class="f">Cliente <input type="text" id="lName" maxlength="40" placeholder="Nombre"></label>
+        </div>
+        <div><p class="step-t">Tamaño</p><div class="sizes" id="lSizes"></div></div>
+        <div><p class="step-t">Gustos</p><div class="flv" id="lFlv"></div></div>
+        <div class="two">
+          <label class="f">Entrega <select id="lDel"><option value="env">Envío</option><option value="ret">Retiro</option></select></label>
+          <label class="f">Dirección <input type="text" id="lAddr" maxlength="60" placeholder="Si es envío"></label>
+        </div>
+        <div><p class="step-t">Medio de pago</p><div class="three" id="lPay"></div></div>
+        <div class="total"><span>Total</span><span id="lTotal">$0</span></div>
+        <div class="two">
+          <button type="button" class="btn alt" id="cancelLoad">Cancelar</button>
+          <button type="submit" class="btn" id="saveLoad" disabled>Guardar comanda</button>
+        </div>
+      </form>
+
+      <div class="tickets" id="tickets" style="margin-top:16px"></div>
+
+      <div class="card" style="margin-top:26px">
+        <h3>Gustos de hoy</h3>
+        <p class="hint" style="margin:4px 0 12px">¿Se terminó uno? Lo apagás y deja de aparecer en la página al instante.</p>
+        <div class="gl" id="gl"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAJA -->
+  <section class="view v-caja" aria-labelledby="t-caja">
+    <div class="wrap">
+      <p class="note"><b>Solo vos.</b><span>Esto lo ve Marisol con su usuario. Los vendedores no ven los totales ni cambian precios.</span></p>
+      <h2 id="t-caja" style="margin-bottom:16px">Tu caja de hoy</h2>
+      <div class="caja-grid">
+        <div>
+          <div class="ticket z" id="z"></div>
+          <div class="two" style="margin-top:14px;max-width:440px">
+            <button type="button" class="btn" id="closeDay">Cerrar caja</button>
+            <button type="button" class="btn alt" id="csv">Descargar Excel</button>
+          </div>
+          <p class="hint" style="max-width:440px">Un pedido cerrado no se borra: se anula con un motivo y queda registrado quién lo hizo.</p>
+        </div>
+        <div class="stack">
+          <div class="card">
+            <h3>Días anteriores</h3>
+            <div class="tscroll"><table>
+              <thead><tr><th>Día</th><th class="n">Pedidos</th><th class="n">Efectivo</th><th class="n">MP</th><th class="n">Transf.</th><th class="n">Total</th></tr></thead>
+              <tbody id="hist"></tbody>
+            </table></div>
+            <p class="hint">Números de ejemplo. También vas a poder ver la semana y el mes.</p>
+          </div>
+          <div class="card">
+            <h3>Precios y promo</h3>
+            <p class="hint" style="margin:4px 0 12px">Cambiá un precio y mirá “Tu cliente”: se actualiza solo.</p>
+            <div class="prices" id="prices"></div>
+            <label class="f" style="margin-top:12px">Promo que se muestra arriba
+              <input type="text" id="promoTxt" maxlength="70" value="Martes: 1/4 de regalo llevando 1 kg (ejemplo)">
+            </label>
+            <label class="sw" style="margin-top:8px"><span>Mostrar la promo en la página</span><input type="checkbox" id="promoOn"></label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- PROPUESTA -->
+<section class="prop" aria-labelledby="t-prop">
+  <div class="wrap">
+    <h2 id="t-prop">Lo que te propongo</h2>
+    <p class="sub">Un sistema simple para la heladería: los pedidos de la página, de WhatsApp y del teléfono en un solo lugar, y la caja del día lista para cerrar.</p>
+    <div class="pgrid">
+      <div class="pbox">
+        <h3>Qué incluye</h3>
+        <ul>
+          <li>Página de pedidos con tamaños, gustos del día, promo, envío o retiro y medio de pago.</li>
+          <li>Comandas en pantalla para el local, con estados y aviso de pedido nuevo. Si tienen comandera, se imprimen.</li>
+          <li>Carga rápida de los pedidos de WhatsApp, teléfono o PedidoShop.</li>
+          <li>Cada pedido marca efectivo, Mercado Pago o transferencia, y si ya se cobró.</li>
+          <li>Tu panel: caja por día con lo que entró por cada medio, historial, descarga a Excel, precios, gustos, promos y usuarios.</li>
+          <li>Instalación en la compu y los celulares del local, y explicación al equipo.</li>
+        </ul>
+      </div>
+      <div class="pbox price">
+        <h3>Inversión</h3>
+        <div class="amt">$420.000</div>
+        <div class="row"><span>Para arrancar (40%)</span><b>$168.000</b></div>
+        <div class="row"><span>Cuando lo ves funcionando (30%)</span><b>$126.000</b></div>
+        <div class="row"><span>A la entrega (30%)</span><b>$126.000</b></div>
+        <p>Incluye el dominio .com el primer año (a tu nombre) y el primer mes de soporte. Después, mantenimiento de <b>$40.000 por mes</b>: el sistema online, copias de seguridad diarias, cambios chicos y ayuda al equipo por WhatsApp.</p>
+        <p>Plazo: 2 a 3 semanas desde que me pasás gustos, precios y promos.</p>
+      </div>
+      <div class="pbox">
+        <h3>Para más adelante, si hace falta</h3>
+        <ul>
+          <li>Pago online dentro del pedido (por ahora seguís mandando el link o el alias).</li>
+          <li>Conexión con la impresora fiscal o factura electrónica.</li>
+          <li>Stock de potes, cucuruchos e insumos.</li>
+        </ul>
+        <p class="limits">Es un sistema de gestión interna: no emite facturas ni reemplaza la impresora fiscal.</p>
+      </div>
+      <div class="pbox">
+        <h3>Cómo seguimos</h3>
+        <ol>
+          <li>Me contás qué querés ver en la caja y me pasás tamaños, gustos, precios y promos.</li>
+          <li>Con el anticipo arranco. En unos 10 días lo ves funcionando con tus datos.</li>
+          <li>Ajustamos lo que haga falta, lo instalo en el local y le explico al equipo.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="cta">
+      <a href="https://wa.me/5493364626434?text=Hola%20Marcelo%2C%20vi%20la%20propuesta%20de%20pedidos%20y%20caja%20para%20la%20helader%C3%ADa." target="_blank" rel="noopener">Hablar con Marcelo por WhatsApp</a>
+      <span>Marcelo Malacalza, San Nicolás. Lo armo y lo mantengo yo.</span>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">Maqueta hecha por <a href="https://marcem.com.ar" target="_blank" rel="noopener">MARCEM</a>, de Marcelo Malacalza. Gustos, precios, clientes y números de ejemplo.</div></footer>
+
+<div class="mdl" id="mdl" role="dialog" aria-modal="true" aria-labelledby="mdlT">
+  <div class="sh">
+    <h3 id="mdlT">Así le llega al local</h3>
+    <div class="bub" id="mdlMsg"></div>
+    <p id="mdlNote"></p>
+    <button type="button" class="btn" id="mdlClose">Entendido</button>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var money = function (n) { return '$' + Math.round(n).toLocaleString('es-AR'); };
+
+  var SIZES = [
+    { id: 'c', n: 'Cucurucho', g: 2, p: 4000 },
+    { id: 'q', n: '1/4 kg', g: 2, p: 6500 },
+    { id: 'm', n: '1/2 kg', g: 3, p: 11000 },
+    { id: 'k', n: '1 kg', g: 4, p: 19000 }
+  ];
+  var FLAVORS = ['Dulce de leche granizado', 'Chocolate amargo', 'Frutilla al agua', 'Pistacho', 'Limón', 'Sambayón', 'Menta granizada', 'Crema americana', 'Banana split', 'Mascarpone con frutos rojos'];
+  var OUT = { 'Sambayón': true };
+  var ENVIO = 1500;
+  var PAYS = [{ id: 'ef', n: 'Efectivo', h: 'Le pagás al cadete en la puerta.' }, { id: 'mp', n: 'Mercado Pago', h: 'Te mandamos el link de pago por WhatsApp.' }, { id: 'tr', n: 'Transferencia', h: 'Te mandamos el alias por WhatsApp.' }];
+  var PAYN = { ef: 'Efectivo', mp: 'Mercado Pago', tr: 'Transferencia' };
+  var STATES = ['Nuevo', 'Preparando', 'Salió', 'Entregado'];
+  var sizeOf = function (id) { return SIZES.filter(function (s) { return s.id === id; })[0]; };
+
+  var next = 124;
+  var ORDERS = [
+    { n: 119, t: '19:05', ch: 'Mostrador', c: 'Mostrador', del: 'ret', addr: '', items: [{ s: 'k', f: ['Chocolate amargo', 'Pistacho', 'Limón', 'Crema americana'] }], pay: 'ef', paid: true, st: 3 },
+    { n: 120, t: '19:40', ch: 'WhatsApp', c: 'Diego (ejemplo)', del: 'env', addr: 'Calle de ejemplo 123', items: [{ s: 'm', f: ['Dulce de leche granizado', 'Frutilla al agua', 'Menta granizada'] }], pay: 'mp', paid: true, st: 3 },
+    { n: 121, t: '20:15', ch: 'PedidoShop', c: 'Carla (ejemplo)', del: 'env', addr: 'Calle de ejemplo 456', items: [{ s: 'q', f: ['Limón', 'Frutilla al agua'] }, { s: 'q', f: ['Chocolate amargo', 'Banana split'] }], pay: 'tr', paid: true, st: 2 },
+    { n: 122, t: '20:50', ch: 'Teléfono', c: 'Sergio (ejemplo)', del: 'env', addr: 'Calle de ejemplo 789', items: [{ s: 'k', f: ['Dulce de leche granizado', 'Chocolate amargo', 'Sambayón', 'Pistacho'] }], pay: 'ef', paid: false, st: 2 },
+    { n: 123, t: '21:20', ch: 'WhatsApp', c: 'Vero (ejemplo)', del: 'ret', addr: '', items: [{ s: 'm', f: ['Mascarpone con frutos rojos', 'Pistacho', 'Crema americana'] }], pay: 'mp', paid: false, st: 1 }
+  ];
+  var HIST = [
+    { d: 'Ayer', n: 31, ef: 162000, mp: 214500, tr: 98000 },
+    { d: 'Anteayer', n: 27, ef: 140500, mp: 188000, tr: 76500 },
+    { d: 'Hace 3 días', n: 22, ef: 118000, mp: 151000, tr: 64000 }
+  ];
+  var closedToday = false;
+  var newest = null;
+
+  var orderTotal = function (o) { return o.items.reduce(function (a, it) { return a + sizeOf(it.s).p; }, 0) + (o.del === 'env' ? ENVIO : 0); };
+  var nowT = function () { var d = new Date(); return ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2); };
+  var toast = function (msg) { var t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(function () { t.classList.remove('on'); }, 3600); };
+
+  // ---------- vistas ----------
+  document.querySelectorAll('.vsw button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.body.dataset.v = b.dataset.view;
+      document.querySelectorAll('.vsw button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      var top = document.querySelector('.vsw').offsetTop;
+      if (window.scrollY > top) window.scrollTo(0, top);
+    });
+  });
+
+  // ---------- selector genérico (tamaño, gustos, pago) ----------
+  function sizeButtons(el, cur) {
+    el.innerHTML = SIZES.map(function (s) {
+      return '<button type="button" class="opt" data-s="' + s.id + '" aria-pressed="' + (s.id === cur) + '"><b>' + s.n + '</b><span>' + money(s.p) + ' · hasta ' + s.g + ' gustos</span></button>';
+    }).join('');
+  }
+  function flavorChips(el, picked, max) {
+    el.innerHTML = FLAVORS.map(function (f) {
+      var on = picked.indexOf(f) > -1, out = !!OUT[f];
+      var full = !on && max && picked.length >= max;
+      return '<button type="button" class="chip" data-f="' + esc(f) + '" aria-pressed="' + on + '"' + (out || full ? ' disabled' : '') + '>' + esc(f) + '</button>';
+    }).join('');
+  }
+  function payButtons(el, cur) {
+    el.innerHTML = PAYS.map(function (p) { return '<button type="button" class="opt" data-p="' + p.id + '" aria-pressed="' + (p.id === cur) + '"><b>' + p.n + '</b></button>'; }).join('');
+  }
+
+  // ---------- cliente ----------
+  var cs = { s: 'm', f: [], cart: [], del: 'env', pay: 'ef' };
+  $('envCost').textContent = 'Costo ' + money(ENVIO) + ' (ejemplo)';
+  function drawCli() {
+    sizeButtons($('sizes'), cs.s);
+    var max = sizeOf(cs.s).g;
+    cs.f = cs.f.filter(function (f) { return !OUT[f]; }).slice(0, max);
+    flavorChips($('flv'), cs.f, max);
+    $('flvHint').textContent = 'Elegiste ' + cs.f.length + ' de ' + max + '. Los gustos agotados no se pueden elegir.';
+    $('addPote').disabled = cs.f.length === 0;
+    $('cart').innerHTML = cs.cart.length ? cs.cart.map(function (it, i) {
+      return '<div class="it"><span><b>' + sizeOf(it.s).n + '</b><br>' + esc(it.f.join(', ')) + '</span><span>' + money(sizeOf(it.s).p) + '<br><button type="button" data-rm="' + i + '" aria-label="Quitar">Quitar</button></span></div>';
+    }).join('') : '<p class="hint">Todavía no agregaste nada.</p>';
+    document.querySelectorAll('#deliv .opt').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.d === cs.del)); });
+    $('addrWrap').hidden = cs.del !== 'env';
+    payButtons($('pay'), cs.pay);
+    $('payHint').textContent = PAYS.filter(function (p) { return p.id === cs.pay; })[0].h;
+    var tot = cs.cart.reduce(function (a, it) { return a + sizeOf(it.s).p; }, 0) + (cs.cart.length && cs.del === 'env' ? ENVIO : 0);
+    $('cTotal').textContent = money(tot);
+    var okName = $('cName').value.trim().length > 1, okAddr = cs.del === 'ret' || $('cAddr').value.trim().length > 3;
+    $('send').disabled = !(cs.cart.length && okName && okAddr);
+    var pOn = $('promoOn').checked, txt = $('promoTxt').value.trim();
+    $('promoBanner').hidden = !(pOn && txt);
+    $('promoBanner').textContent = txt;
+  }
+  $('sizes').addEventListener('click', function (e) { var b = e.target.closest('[data-s]'); if (b) { cs.s = b.dataset.s; drawCli(); } });
+  $('flv').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-f]'); if (!b || b.disabled) return;
+    var f = b.dataset.f, i = cs.f.indexOf(f);
+    if (i > -1) cs.f.splice(i, 1); else cs.f.push(f);
+    drawCli();
+  });
+  $('addPote').addEventListener('click', function () { cs.cart.push({ s: cs.s, f: cs.f.slice() }); cs.f = []; drawCli(); });
+  $('cart').addEventListener('click', function (e) { var b = e.target.closest('[data-rm]'); if (b) { cs.cart.splice(+b.dataset.rm, 1); drawCli(); } });
+  $('deliv').addEventListener('click', function (e) { var b = e.target.closest('[data-d]'); if (b) { cs.del = b.dataset.d; drawCli(); } });
+  $('pay').addEventListener('click', function (e) { var b = e.target.closest('[data-p]'); if (b) { cs.pay = b.dataset.p; drawCli(); } });
+  $('cName').addEventListener('input', drawCli);
+  $('cAddr').addEventListener('input', drawCli);
+  $('send').addEventListener('click', function () {
+    var o = { n: next++, t: nowT(), ch: 'Página', c: $('cName').value.trim(), del: cs.del, addr: $('cAddr').value.trim(), items: cs.cart.slice(), pay: cs.pay, paid: false, st: 0 };
+    ORDERS.push(o); newest = o.n;
+    var lines = o.items.map(function (it) { return '• ' + sizeOf(it.s).n + ': ' + it.f.join(', '); }).join('\n');
+    $('mdlMsg').textContent = 'Pedido #' + o.n + ' de ' + o.c + '\n' + lines + '\n' + (o.del === 'env' ? 'Envío a: ' + o.addr : 'Retira en el local') + '\nPago: ' + PAYN[o.pay] + '\nTotal: ' + money(orderTotal(o)) + '\n¿Me confirman el pedido?';
+    $('mdlNote').textContent = 'En la demo no se envía nada. En el sistema real, además de este WhatsApp, el pedido #' + o.n + ' ya aparece en las comandas del local. Pasá a “El local” para verlo.';
+    $('mdl').classList.add('on'); $('mdlClose').focus();
+    cs.cart = []; cs.f = []; $('cName').value = ''; $('cAddr').value = '';
+    drawAll();
+  });
+  $('mdlClose').addEventListener('click', function () { $('mdl').classList.remove('on'); });
+  $('mdl').addEventListener('click', function (e) { if (e.target === $('mdl')) $('mdl').classList.remove('on'); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') $('mdl').classList.remove('on'); });
+
+  // ---------- local ----------
+  var ls = { s: 'm', f: [], pay: 'ef' };
+  function drawLoad() {
+    sizeButtons($('lSizes'), ls.s);
+    var max = sizeOf(ls.s).g;
+    ls.f = ls.f.filter(function (f) { return !OUT[f]; }).slice(0, max);
+    flavorChips($('lFlv'), ls.f, max);
+    payButtons($('lPay'), ls.pay);
+    $('lTotal').textContent = money(sizeOf(ls.s).p + ($('lDel').value === 'env' ? ENVIO : 0));
+    $('saveLoad').disabled = ls.f.length === 0;
+  }
+  $('openLoad').addEventListener('click', function () { $('loadf').hidden = false; drawLoad(); $('lName').focus(); });
+  $('cancelLoad').addEventListener('click', function () { $('loadf').hidden = true; });
+  $('lSizes').addEventListener('click', function (e) { var b = e.target.closest('[data-s]'); if (b) { ls.s = b.dataset.s; drawLoad(); } });
+  $('lFlv').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-f]'); if (!b || b.disabled) return;
+    var f = b.dataset.f, i = ls.f.indexOf(f); if (i > -1) ls.f.splice(i, 1); else ls.f.push(f); drawLoad();
+  });
+  $('lPay').addEventListener('click', function (e) { var b = e.target.closest('[data-p]'); if (b) { ls.pay = b.dataset.p; drawLoad(); } });
+  $('lDel').addEventListener('change', drawLoad);
+  $('loadf').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var ch = $('lCh').value;
+    var o = { n: next++, t: nowT(), ch: ch, c: $('lName').value.trim() || (ch === 'Mostrador' ? 'Mostrador' : 'Sin nombre'), del: $('lDel').value, addr: $('lAddr').value.trim(), items: [{ s: ls.s, f: ls.f.slice() }], pay: ls.pay, paid: ch === 'Mostrador', st: ch === 'Mostrador' ? 3 : 0 };
+    ORDERS.push(o); newest = o.n;
+    ls.f = []; $('lName').value = ''; $('lAddr').value = ''; $('loadf').hidden = true;
+    drawAll(); toast('Comanda #' + o.n + ' guardada. Ya cuenta en la caja de hoy.');
+  });
+
+  function drawLoc() {
+    var c = [0, 0, 0, 0], pend = 0;
+    ORDERS.forEach(function (o) { c[o.st]++; if (!o.paid) pend++; });
+    $('counts').innerHTML = STATES.map(function (s, i) { return '<span>' + s + ': <b>' + c[i] + '</b></span>'; }).join('') + '<span>Sin cobrar: <b>' + pend + '</b></span>';
+    $('tickets').innerHTML = ORDERS.slice().reverse().map(function (o) {
+      var items = o.items.map(function (it) { return '<div><b>' + sizeOf(it.s).n + '</b></div>' + it.f.map(function (f) { return '<div>· ' + esc(f) + '</div>'; }).join(''); }).join('');
+      var nextSt = o.st < 3 ? STATES[o.st + 1] : null;
+      var paidTxt = o.pay === 'ef' ? (o.paid ? 'Cobrado' : 'Cobró el cadete') : (o.paid ? 'Cobrado' : 'Marcar cobrado');
+      return '<article class="ticket tk' + (o.n === newest ? ' new' : '') + (o.st === 3 && o.paid ? ' done' : '') + '">' +
+        '<div class="hd"><span>#' + o.n + ' · ' + o.t + '</span><span>' + STATES[o.st] + '</span></div>' +
+        '<div>' + esc(o.ch) + ' · ' + (o.del === 'env' ? 'Envío' : 'Retira') + '</div>' +
+        '<div>' + esc(o.c) + (o.del === 'env' && o.addr ? '<br>' + esc(o.addr) : '') + '</div><hr>' + items + '<hr>' +
+        '<div class="row"><span><span class="tag t-' + o.pay + '">' + PAYN[o.pay] + '</span> <span class="tag ' + (o.paid ? 't-ok' : 't-pend') + '">' + (o.paid ? 'Cobrado' : 'Sin cobrar') + '</span></span><b>' + money(orderTotal(o)) + '</b></div>' +
+        '<div class="acts"><button type="button" data-adv="' + o.n + '"' + (nextSt ? '' : ' disabled') + '>' + (nextSt ? 'Pasar a: ' + nextSt : 'Entregado') + '</button>' +
+        '<button type="button" data-paid="' + o.n + '" class="' + (o.paid ? 'on' : '') + '" aria-pressed="' + o.paid + '">' + paidTxt + '</button></div>' +
+        '</article>';
+    }).join('');
+    $('gl').innerHTML = FLAVORS.map(function (f) {
+      return '<label class="sw' + (OUT[f] ? ' off' : '') + '"><span>' + esc(f) + '</span><input type="checkbox" data-g="' + esc(f) + '"' + (OUT[f] ? '' : ' checked') + ' aria-label="' + esc(f) + ' disponible"></label>';
+    }).join('');
+  }
+  var find = function (n) { return ORDERS.filter(function (o) { return o.n === +n; })[0]; };
+  $('tickets').addEventListener('click', function (e) {
+    var a = e.target.closest('[data-adv]'), p = e.target.closest('[data-paid]');
+    newest = null;
+    if (a) { var o = find(a.dataset.adv); if (o.st < 3) o.st++; drawAll(); }
+    if (p) { var q = find(p.dataset.paid); q.paid = !q.paid; drawAll(); }
+  });
+  $('gl').addEventListener('change', function (e) {
+    var f = e.target.dataset.g; if (!f) return;
+    OUT[f] = !e.target.checked; drawAll();
+    toast(OUT[f] ? f + ': agotado. Ya no aparece en la página.' : f + ': disponible otra vez.');
+  });
+
+  // ---------- caja ----------
+  function sums() {
+    var s = { n: ORDERS.length, ef: 0, mp: 0, tr: 0, pend: 0, total: 0, ch: {} };
+    ORDERS.forEach(function (o) {
+      var t = orderTotal(o); s.total += t;
+      if (o.paid) s[o.pay] += t; else s.pend += t;
+      s.ch[o.ch] = (s.ch[o.ch] || 0) + 1;
+    });
+    return s;
+  }
+  function drawCaja() {
+    var s = sums(), max = Math.max(s.ef, s.mp, s.tr, s.pend, 1);
+    var bar = function (v, c) { return '<div class="b" style="width:' + Math.max(2, v / max * 100) + '%;background:' + c + '"></div>'; };
+    var d = new Date();
+    $('z').innerHTML =
+      '<div class="ctr"><b>CIERRE DE CAJA</b><br>' + d.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' }) + '</div><hr>' +
+      '<div class="row"><span>Pedidos</span><b>' + s.n + '</b></div>' +
+      '<div class="big">' + money(s.total) + '</div><div class="ctr">vendido hoy</div><hr>' +
+      '<div class="row"><span>Efectivo</span><b>' + money(s.ef) + '</b></div>' + bar(s.ef, 'var(--pist)') +
+      '<div class="row"><span>Mercado Pago</span><b>' + money(s.mp) + '</b></div>' + bar(s.mp, 'var(--mp)') +
+      '<div class="row"><span>Transferencia</span><b>' + money(s.tr) + '</b></div>' + bar(s.tr, 'var(--ddl)') +
+      '<div class="row"><span>Sin cobrar todavía</span><b>' + money(s.pend) + '</b></div>' + bar(s.pend, 'var(--fru)') +
+      '<hr><div>Por dónde entraron:</div>' +
+      Object.keys(s.ch).map(function (k) { return '<div class="row"><span>' + esc(k) + '</span><b>' + s.ch[k] + '</b></div>'; }).join('') +
+      (closedToday ? '<hr><div class="ctr"><b>Caja cerrada</b></div>' : '');
+    var rows = (closedToday ? [{ d: 'Hoy', n: s.n, ef: s.ef, mp: s.mp, tr: s.tr }] : []).concat(HIST);
+    $('hist').innerHTML = rows.map(function (r) {
+      return '<tr><td>' + r.d + '</td><td class="n">' + r.n + '</td><td class="n">' + money(r.ef) + '</td><td class="n">' + money(r.mp) + '</td><td class="n">' + money(r.tr) + '</td><td class="n"><b>' + money(r.ef + r.mp + r.tr) + '</b></td></tr>';
+    }).join('');
+    $('prices').innerHTML = SIZES.map(function (z) {
+      return '<label class="f">' + z.n + '<input type="number" inputmode="numeric" min="0" step="100" data-pr="' + z.id + '" value="' + z.p + '"></label>';
+    }).join('');
+    $('closeDay').disabled = closedToday;
+  }
+  $('prices').addEventListener('change', function (e) {
+    var id = e.target.dataset.pr; if (!id) return;
+    var v = Math.max(0, Math.round(+e.target.value || 0));
+    sizeOf(id).p = v; drawAll(); toast('Precio actualizado. Ya se ve así en la página.');
+  });
+  $('promoOn').addEventListener('change', drawCli);
+  $('promoTxt').addEventListener('input', drawCli);
+  $('closeDay').addEventListener('click', function () {
+    var pend = ORDERS.filter(function (o) { return !o.paid; }).length;
+    closedToday = true; drawCaja();
+    toast(pend ? 'Caja cerrada. Ojo: quedaron ' + pend + ' pedidos sin cobrar marcados.' : 'Caja cerrada. Quedó guardada en el historial.');
+  });
+  $('csv').addEventListener('click', function () {
+    var head = ['Pedido', 'Hora', 'Canal', 'Cliente', 'Entrega', 'Detalle', 'Medio de pago', 'Cobrado', 'Total'];
+    var q = function (v) { return '"' + String(v).replace(/"/g, '""') + '"'; };
+    var lines = [head.map(q).join(';')].concat(ORDERS.map(function (o) {
+      return [o.n, o.t, o.ch, o.c, o.del === 'env' ? 'Envío' : 'Retiro', o.items.map(function (it) { return sizeOf(it.s).n + ': ' + it.f.join(', '); }).join(' | '), PAYN[o.pay], o.paid ? 'Sí' : 'No', orderTotal(o)].map(q).join(';');
+    }));
+    var blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'caja-heladeria-ejemplo.csv';
+    document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  });
+
+  function drawAll() { drawCli(); drawLoc(); drawCaja(); if (!$('loadf').hidden) drawLoad(); }
+  drawAll();
+})();
+</script>
+</body>
+</html>
