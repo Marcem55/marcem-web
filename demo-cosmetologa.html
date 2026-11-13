@@ -459,6 +459,35 @@ dialog.sheet.wide { max-width: 760px; }
   #d-ficha .acts, #d-ficha .sigl { display: none !important; }
   #d-ficha .alert, #d-ficha .okbox, #d-ficha .ck, #d-ficha .cui, #d-ficha .prot li { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
+
+/* tienda */
+.shop { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.shop > li { min-width: 0; background: var(--bg); border-radius: var(--r-m); padding: 10px 10px 14px; display: grid; gap: 6px; align-content: start; scroll-margin-top: 90px; transition: box-shadow .3s; }
+.shop > li:target { box-shadow: 0 0 0 3px var(--vio); }
+.shop .pi { border-radius: 12px; display: grid; place-items: center; aspect-ratio: 1; }
+.shop .pi svg { width: 62%; height: auto; }
+.shop h3 { font-size: 18px; line-height: 1.15; margin-top: 4px; }
+.shop .d { font-size: 13.5px; color: var(--soft); }
+.shop .row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-top: 4px; }
+.shop .price { font-weight: 800; font-size: 17px; }
+@media (min-width: 760px) { .shop { grid-template-columns: repeat(3, 1fr); gap: 18px; } .shop > li { padding: 14px 14px 18px; } .shop h3 { font-size: 21px; } }
+/* contraindicaciones */
+.cib { margin: 4px 0 14px; }
+.cib > legend { font-family: inherit; font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.ci-m { border-radius: var(--r-m); padding: 12px 14px; font-size: 14.5px; margin-top: 10px; }
+.ci-m.stop { background: #FBE1E6; color: #6E1426; }
+.ci-m.warn { background: #FFF2D6; color: #5E4106; }
+.ci-m b { display: block; margin-bottom: 2px; }
+/* fotos en la evolución */
+.evo .ph { display: block; width: 96px; height: 120px; border-radius: 10px; overflow: hidden; margin-top: 8px; background: var(--bg); }
+.evo .ph canvas, .evo .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.fcmp { background: var(--bg); border-radius: var(--r-m); padding: 12px; margin-bottom: 16px; }
+.fcmp .cmp { max-width: 360px; margin: 10px auto 0; }
+.ph-up { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.ph-up label { position: relative; }
+.ph-up input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
+.ph-up label:focus-within .mini { outline: 3px solid var(--vio); outline-offset: 2px; }
+.ph-up img { width: 64px; height: 80px; object-fit: cover; border-radius: 10px; }
 @media (min-width: 560px) { .gal { grid-template-columns: repeat(3, 1fr); } .kpis { grid-template-columns: repeat(4, 1fr); } }
 @media (min-width: 900px) {
   body.cli { padding-bottom: 0; }
@@ -501,7 +530,7 @@ dialog.sheet.wide { max-width: 760px; }
       <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="17" fill="#ECE6F8"/><path d="M17 7c4 5 7 8.6 7 12.2A7 7 0 0 1 10 19.2C10 15.6 13 12 17 7Z" fill="#6B4FB0"/><path d="M14 20.5a3.2 3.2 0 0 0 3 2.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
       <span><b translate="no">Consultorio Ejemplo</b><small>Sofía Ejemplo, cosmetóloga</small></span>
     </a>
-    <nav class="tnav" aria-label="Secciones"><a href="#tratamientos">Tratamientos</a><a href="#trabajos">Trabajos</a><a href="#instagram">Instagram</a><a href="#condiciones">Condiciones</a></nav>
+    <nav class="tnav" aria-label="Secciones"><a href="#tratamientos">Tratamientos</a><a href="#trabajos">Trabajos</a><a href="#tienda">Tienda</a><a href="#instagram">Instagram</a><a href="#condiciones">Condiciones</a></nav>
     <button type="button" class="btn btn-g btn-s btn-mis" data-open="mis">Mis turnos</button>
     <button type="button" class="btn btn-p btn-pedir" data-open="pedir">Pedir turno</button>
   </div>
@@ -593,7 +622,15 @@ dialog.sheet.wide { max-width: 760px; }
   </div>
 </section>
 
-<section class="sec paper" id="instagram" aria-labelledby="ig-t">
+<section class="sec paper" id="tienda" aria-labelledby="shop-t">
+  <div class="w">
+    <div class="sh"><h2 id="shop-t">Tienda</h2><p>Los productos que uso en el consultorio, para seguir la rutina en casa. Los retirás en el consultorio o te los envío.</p></div>
+    <ul class="shop" id="shop"></ul>
+    <p class="note">En la demo, los productos y precios son ficticios. En tu página va tu catálogo, con stock y pago online si querés.</p>
+  </div>
+</section>
+
+<section class="sec" id="instagram" aria-labelledby="ig-t">
   <div class="w two two-c">
     <div class="sh" style="margin:0"><h2 id="ig-t">Seguime en Instagram</h2><p>Tips de cuidado, rutinas y el día a día del consultorio. Tus últimas publicaciones aparecen acá.</p><div style="margin-top:20px"><a class="btn btn-g" href="#instagram" id="ig-follow">Ver perfil en Instagram</a></div></div>
     <div class="ig">
@@ -604,7 +641,7 @@ dialog.sheet.wide { max-width: 760px; }
   </div>
 </section>
 
-<section class="sec" id="condiciones" aria-labelledby="cond-t">
+<section class="sec paper" id="condiciones" aria-labelledby="cond-t">
   <div class="w two">
     <div>
       <div class="sh"><h2 id="cond-t">Condiciones de los turnos</h2><p>Para cuidar tu lugar y el de las demás clientas.</p></div>
@@ -619,7 +656,7 @@ dialog.sheet.wide { max-width: 760px; }
   </div>
 </section>
 
-<section class="sec paper" aria-labelledby="where-t">
+<section class="sec" aria-labelledby="where-t">
   <div class="w two">
     <div class="where"><h3 id="where-t">Dónde estoy</h3><p>Calle Ejemplo 123, San Nicolás de los Arroyos.</p><p>Lunes a sábado, de 9 a 19 h. Atención solo con turno.</p></div>
     <div class="where"><h3>Antes de venir</h3><p>Si podés, vení sin maquillaje. Si estás usando ácidos o tomando medicación para la piel, contámelo al pedir el turno.</p></div>
@@ -715,6 +752,23 @@ dialog.sheet.wide { max-width: 760px; }
     ['ciru', 'Cirugías o rellenos recientes', true], ['tabaco', 'Fuma', false], ['sol', 'Mucha exposición al sol', false]
   ];
   var ANTn = {}; ANT.forEach(function (a) { ANTn[a[0]] = a[1]; });
+  /* contraindicaciones por tratamiento: 2 = no se recomienda, 1 = consultar antes */
+  var CI = {
+    peel: { emb: 2, isotre: 2, herpes: 1, acidos: 1, sol: 1, alergia: 1 }, derm: { isotre: 2, herpes: 1, acidos: 1 },
+    acne: { implant: 2, isotre: 1, emb: 1 }, limp: { isotre: 1, herpes: 1 }, hidr: { implant: 1 },
+    lift: { emb: 1, alergia: 1 }, cejas: { emb: 1, alergia: 1 }, drena: { emb: 1, hta: 1, diab: 1 }, espalda: { isotre: 1 }
+  };
+  var ciOf = function (tid, ant) { var m = CI[tid] || {}; ant = ant || {}; return Object.keys(m).filter(function (k) { return ant[k]; }).map(function (k) { return [k, m[k]]; }).sort(function (x, y) { return y[1] - x[1]; }); };
+  var PRODS = [
+    { id: 'gel', n: 'Gel limpiador suave', d: 'Piel mixta a grasa. 200 ml.', p: 14500, bg: '#D9EEF0', fg: '#2F7F86', sh: 'tubo' },
+    { id: 'mic', n: 'Agua micelar', d: 'Para piel sensible, sin perfume. 250 ml.', p: 11800, bg: '#F6E3EC', fg: '#A3466E', sh: 'bot' },
+    { id: 'nia', n: 'Sérum niacinamida 10 %', d: 'Para poros y brillo. 30 ml.', p: 19900, bg: '#ECE6F8', fg: '#5B3FA0', sh: 'got' },
+    { id: 'crema', n: 'Crema reparadora', d: 'Para piel seca o tirante. 50 g.', p: 17600, bg: '#FBEFD9', fg: '#A87410', sh: 'pote' },
+    { id: 'fps', n: 'Protector solar FPS 50', d: 'Toque seco, con color. 50 ml.', p: 16900, bg: '#FFE6D3', fg: '#C2622E', sh: 'tubo' },
+    { id: 'arc', n: 'Máscara de arcilla', d: 'Uso semanal en zona T. 100 g.', p: 13200, bg: '#DDF0E6', fg: '#1E8A66', sh: 'pote' }
+  ];
+  var pById = function (id) { return PRODS.filter(function (x) { return x.id === id; })[0]; };
+  var SHOP_URL = 'https://marcem.com.ar/demo-cosmetologa#p-';
   var ALERTS = ['alergia', 'emb', 'isotre', 'implant', 'herpes', 'acidos', 'ciru'];
   var FOTO = ['I', 'II', 'III', 'IV', 'V', 'VI'];
 
@@ -724,15 +778,15 @@ dialog.sheet.wide { max-width: 760px; }
 
   var C = [
     { id: 1, n: 'Carla Romero', tel: '336 455-1020', tipo: 'Mixta', nota: 'Usa retinol de noche.', visits: [[-38, 'limp', true], [-75, 'limp', true], [-118, 'hidr', true]],
-      fc: { nac: '1991-04-12', dni: '36.204.118', mail: 'carla.ejemplo@correo.com', ocup: 'Docente', sangre: '0+', emerg: 'Pablo (pareja), 336 455-2040', motivo: 'Poros y brillo en zona T.', ant: { acidos: true }, antDet: 'Retinol 0,3 % de noche.', prev: 'Limpiezas faciales cada tanto.', hab: { agua: 'A veces', verd: 'Siempre', carb: 'A veces', alc: 'A veces', tab: 'Nunca', act: 'A veces' }, sueno: '7 h', cui: { limp: ['2 veces por día', 'Gel limpiador'], exf: ['No usa', ''], hid: ['1 vez por día', 'Crema liviana'], fps: ['A veces', 'FPS 50 en gel'], ser: ['1 vez por día', 'Retinol 0,3 %'] }, foto: 'III', tip: ['Mixta'], desh: 'Leve', tex: 'Áspera', ton: 'Apagada', gros: 'Gruesa', pat: ['Comedones abiertos', 'Comedones cerrados', 'Poros dilatados'], map: [[104, 62, 'com'], [116, 70, 'com'], [98, 74, 'com'], [104, 128, 'com'], [116, 126, 'com'], [110, 120, 'com'], [146, 140, 'acne']], mapN: 'Comedones en frente y nariz. Un granito en mejilla derecha.', dx: 'Piel mixta, levemente deshidratada, con comedones en zona T.', prot: [['Higiene', 'Gel enzimático', ''], ['Vapor y extracción', '', 'Zona T, 10 min'], ['Máscara', 'Arcilla verde', 'Solo zona T'], ['Hidratación', 'Gel de ácido hialurónico', ''], ['Protección', 'FPS 50', '']], rec: 'Protector solar todos los días. Suspender retinol 5 días antes de un peeling.', fotoOk: true, consent: -118, obs: 'Suspender retinol 5 días antes de peelings.' },
-      evo: [[-38, 'limp', 'Extracción en zona T, máscara de arcilla.', 'Mejoró la textura respecto a la sesión anterior.'], [-75, 'limp', 'Vapor, extracción, máscara hidratante.', 'Leve enrojecimiento que bajó en 20 min.']] },
+      fc: { nac: '1991-04-12', dni: '36.204.118', mail: 'carla.ejemplo@correo.com', ocup: 'Docente', sangre: '0+', emerg: 'Pablo (pareja), 336 455-2040', motivo: 'Poros y brillo en zona T.', ant: { acidos: true }, antDet: 'Retinol 0,3 % de noche.', prev: 'Limpiezas faciales cada tanto.', hab: { agua: 'A veces', verd: 'Siempre', carb: 'A veces', alc: 'A veces', tab: 'Nunca', act: 'A veces' }, sueno: '7 h', cui: { limp: ['2 veces por día', 'Gel limpiador'], exf: ['No usa', ''], hid: ['1 vez por día', 'Crema liviana'], fps: ['A veces', 'FPS 50 en gel'], ser: ['1 vez por día', 'Retinol 0,3 %'] }, foto: 'III', tip: ['Mixta'], desh: 'Leve', tex: 'Áspera', ton: 'Apagada', gros: 'Gruesa', pat: ['Comedones abiertos', 'Comedones cerrados', 'Poros dilatados'], map: [[104, 62, 'com'], [116, 70, 'com'], [98, 74, 'com'], [104, 128, 'com'], [116, 126, 'com'], [110, 120, 'com'], [146, 140, 'acne']], mapN: 'Comedones en frente y nariz. Un granito en mejilla derecha.', dx: 'Piel mixta, levemente deshidratada, con comedones en zona T.', prot: [['Higiene', 'Gel enzimático', ''], ['Vapor y extracción', '', 'Zona T, 10 min'], ['Máscara', 'Arcilla verde', 'Solo zona T'], ['Hidratación', 'Gel de ácido hialurónico', ''], ['Protección', 'FPS 50', '']], rec: 'Protector solar todos los días. Suspender retinol 5 días antes de un peeling.', recP: ['gel', 'nia', 'fps'], fotoOk: true, consent: -118, obs: 'Suspender retinol 5 días antes de peelings.' },
+      evo: [[-38, 'limp', 'Extracción en zona T, máscara de arcilla.', 'Mejoró la textura respecto a la sesión anterior.', { o: { seed: 52, tone: 4, issue: 'dull' }, a: true }], [-75, 'limp', 'Vapor, extracción, máscara hidratante.', 'Leve enrojecimiento que bajó en 20 min.', { o: { seed: 52, tone: 4, issue: 'dull' }, a: false }]] },
     { id: 2, n: 'Julieta Méndez', tel: '336 412-8833', tipo: 'Sensible', nota: 'Rosácea leve. Productos sin perfume.', visits: [[-9, 'peel', true], [-30, 'peel', true]], pack: { t: 'peel', of: 4, used: 2 },
-      fc: { nac: '1987-09-03', ocup: 'Contadora', sangre: 'A+', motivo: 'Manchas en pómulos.', ant: { alergia: true, sol: true }, antDet: 'Alergia a fragancias.', fam: 'Madre con melasma.', hab: { agua: 'Siempre', verd: 'Siempre', carb: 'A veces', alc: 'Nunca', tab: 'Nunca', act: 'Siempre' }, cui: { limp: ['2 veces por día', 'Agua micelar'], hid: ['2 veces por día', 'Crema sin perfume'], fps: ['1 vez por día', 'FPS 50 mineral'] }, foto: 'II', tip: ['Seca', 'Sensible'], desh: 'Media', tex: 'Lisa', ton: 'Con manchas', gros: 'Fina', pat: ['Hiperpigmentación', 'Rosácea', 'Telangiectasias'], map: [[68, 132, 'man'], [76, 126, 'man'], [150, 130, 'man'], [142, 136, 'man'], [86, 140, 'roj'], [134, 142, 'roj']], dx: 'Piel seca sensible con rosácea leve e hiperpigmentación en pómulos.', prot: [['Higiene', 'Leche limpiadora sin perfume', ''], ['Peeling', 'Ácido mandélico 10 %', '4 min, probar antes en zona'], ['Neutralizar y calmar', 'Máscara de avena', ''], ['Protección', 'FPS 50 mineral', '']], rec: 'Nada de exfoliantes en casa. Protector cada 3 horas si está al sol.', fotoOk: true, pubOk: true, consent: -30, obs: 'Peeling suave al 10 %. Probar en zona antes.' },
-      evo: [[-9, 'peel', 'Peeling mandélico 10 %, 4 min.', 'Tolera bien. Manchas un poco más claras.'], [-30, 'peel', 'Prueba en zona y peeling mandélico 10 %, 3 min.', 'Sin reacción.']] },
+      fc: { nac: '1987-09-03', ocup: 'Contadora', sangre: 'A+', motivo: 'Manchas en pómulos.', ant: { alergia: true, sol: true }, antDet: 'Alergia a fragancias.', fam: 'Madre con melasma.', hab: { agua: 'Siempre', verd: 'Siempre', carb: 'A veces', alc: 'Nunca', tab: 'Nunca', act: 'Siempre' }, cui: { limp: ['2 veces por día', 'Agua micelar'], hid: ['2 veces por día', 'Crema sin perfume'], fps: ['1 vez por día', 'FPS 50 mineral'] }, foto: 'II', tip: ['Seca', 'Sensible'], desh: 'Media', tex: 'Lisa', ton: 'Con manchas', gros: 'Fina', pat: ['Hiperpigmentación', 'Rosácea', 'Telangiectasias'], map: [[68, 132, 'man'], [76, 126, 'man'], [150, 130, 'man'], [142, 136, 'man'], [86, 140, 'roj'], [134, 142, 'roj']], dx: 'Piel seca sensible con rosácea leve e hiperpigmentación en pómulos.', prot: [['Higiene', 'Leche limpiadora sin perfume', ''], ['Peeling', 'Ácido mandélico 10 %', '4 min, probar antes en zona'], ['Neutralizar y calmar', 'Máscara de avena', ''], ['Protección', 'FPS 50 mineral', '']], rec: 'Nada de exfoliantes en casa. Protector cada 3 horas si está al sol.', recP: ['mic', 'crema', 'fps'], fotoOk: true, pubOk: true, consent: -30, obs: 'Peeling suave al 10 %. Probar en zona antes.' },
+      evo: [[-9, 'peel', 'Peeling mandélico 10 %, 4 min.', 'Tolera bien. Manchas un poco más claras.', { o: { seed: 23, tone: 2, issue: 'spots' }, a: true }], [-30, 'peel', 'Prueba en zona y peeling mandélico 10 %, 3 min.', 'Sin reacción.', { o: { seed: 23, tone: 2, issue: 'spots' }, a: false }]] },
     { id: 3, n: 'Rocío Bianchi', tel: '336 470-2211', tipo: 'Grasa', nota: 'Viene por primera vez.', visits: [], fc: { ant: { isotre: true }, antDet: 'Terminó isotretinoína hace 4 meses (lo completó online).', byClient: true, consent: 0 }, evo: [] },
     { id: 4, n: 'Martina Sosa', tel: '336 401-5577', tipo: 'Grasa', nota: 'Acné en mentón. Plan de 4 sesiones.', visits: [[-16, 'acne', false], [-31, 'acne', true]], pack: { t: 'acne', of: 4, used: 2 }, debe: 30000,
-      fc: { nac: '2003-01-22', ocup: 'Estudiante', motivo: 'Granitos en mentón y mandíbula.', ant: {}, antDet: '', hab: { agua: 'Nunca', verd: 'A veces', carb: 'Siempre', alc: 'A veces', tab: 'Nunca' }, cui: { limp: ['1 vez por día', 'Jabón común'], fps: ['No usa', ''] }, foto: 'III', tip: ['Grasa'], desh: 'No', tex: 'Irregular', ton: 'Rojiza', pat: ['Pápulas', 'Pústulas', 'Comedones cerrados'], map: [[96, 196, 'acne'], [110, 202, 'acne'], [124, 196, 'acne'], [74, 184, 'acne'], [146, 186, 'acne'], [104, 190, 'com']], mapN: 'Lesiones en mentón y mandíbula.', dx: 'Acné grado II en zona U.', prot: [['Higiene', 'Gel con ácido salicílico', ''], ['Extracción', '', 'Solo comedones'], ['Alta frecuencia', '', '5 min'], ['Máscara calmante', 'Azufre y caléndula', '']], rec: 'Limpieza con gel salicílico mañana y noche. No tocar los granitos.', consent: -31, obs: 'Acné grado II. Recomendado control con dermatólogo.' },
-      evo: [[-16, 'acne', 'Limpieza, alta frecuencia, máscara calmante.', 'Menos lesiones activas.'], [-31, 'acne', 'Limpieza profunda y alta frecuencia.', 'Primera sesión del plan.']] },
+      fc: { nac: '2003-01-22', ocup: 'Estudiante', motivo: 'Granitos en mentón y mandíbula.', ant: {}, antDet: '', hab: { agua: 'Nunca', verd: 'A veces', carb: 'Siempre', alc: 'A veces', tab: 'Nunca' }, cui: { limp: ['1 vez por día', 'Jabón común'], fps: ['No usa', ''] }, foto: 'III', tip: ['Grasa'], desh: 'No', tex: 'Irregular', ton: 'Rojiza', pat: ['Pápulas', 'Pústulas', 'Comedones cerrados'], map: [[96, 196, 'acne'], [110, 202, 'acne'], [124, 196, 'acne'], [74, 184, 'acne'], [146, 186, 'acne'], [104, 190, 'com']], mapN: 'Lesiones en mentón y mandíbula.', dx: 'Acné grado II en zona U.', prot: [['Higiene', 'Gel con ácido salicílico', ''], ['Extracción', '', 'Solo comedones'], ['Alta frecuencia', '', '5 min'], ['Máscara calmante', 'Azufre y caléndula', '']], rec: 'Limpieza con gel salicílico mañana y noche. No tocar los granitos.', recP: ['gel', 'arc'], consent: -31, obs: 'Acné grado II. Recomendado control con dermatólogo.' },
+      evo: [[-16, 'acne', 'Limpieza, alta frecuencia, máscara calmante.', 'Menos lesiones activas.', { o: { seed: 41, tone: 0, issue: 'acne' }, a: true }], [-31, 'acne', 'Limpieza profunda y alta frecuencia.', 'Primera sesión del plan.', { o: { seed: 41, tone: 0, issue: 'acne' }, a: false }]] },
     { id: 5, n: 'Lucía Ferreyra', tel: '336 433-9014', tipo: 'Seca', nota: '', visits: [[-58, 'lift', true], [-112, 'lift', true]], fc: { tip: ['Seca'], foto: 'II', pat: ['Arrugas', 'Flacidez'], ant: {}, consent: -112 }, evo: [] },
     { id: 6, n: 'Valentina Ruiz', tel: '336 488-3009', tipo: 'Mixta', nota: 'Prefiere turnos de mañana.', visits: [[-12, 'cejas', true]], fc: { ant: { emb: true }, antDet: 'Embarazada de 5 meses.', consent: -12 }, evo: [] },
     { id: 7, n: 'Agustina Paz', tel: '336 466-7720', tipo: 'Sensible', nota: '', visits: [[-64, 'hidr', true], [-95, 'derm', true]], debe: 12000, fc: { ant: {} }, evo: [] },
@@ -751,7 +805,8 @@ dialog.sheet.wide { max-width: 760px; }
     { id: 'a2', c: 2, t: 'peel', day: -1, h: '14:00', sena: 'ok', st: 'ok' },
     { id: 'a3', c: 3, t: 'acne', day: -1, h: '17:00', sena: 'rev', st: 'ok', first: true },
     { id: 'a4', c: 4, t: 'acne', day: 2, h: '12:00', sena: 'ok', st: 'ok' },
-    { id: 'a5', c: 6, t: 'cejas', day: 0, h: '09:00', sena: 'ok', st: 'ok' }
+    { id: 'a5', c: 6, t: 'cejas', day: 0, h: '09:00', sena: 'ok', st: 'ok' },
+    { id: 'a6', c: 6, t: 'peel', day: 3, h: '16:00', sena: 'rev', st: 'ok' }
   ];
   var FILL = {}; // otras clientas (relleno de la demo)
   var tids = ['limp', 'hidr', 'lift', 'derm', 'drena', 'peel'];
@@ -917,6 +972,18 @@ dialog.sheet.wide { max-width: 760px; }
     showD($('d-work'), from);
   }
 
+  /* tienda (web) */
+  function prodSvg(p) {
+    var f = p.fg, w = '#FFFFFF', lab = '<rect x="46" y="72" width="28" height="22" rx="3" fill="' + w + '" opacity=".9"/><path d="M50 79h20M50 86h14" stroke="' + f + '" stroke-width="2.4" stroke-linecap="round"/>';
+    var body = p.sh === 'tubo' ? '<path d="M42 18h36l-4 92H46z" fill="' + f + '"/><rect x="47" y="108" width="26" height="16" rx="3" fill="' + f + '" opacity=".75"/>' + lab
+      : p.sh === 'bot' ? '<rect x="51" y="14" width="18" height="12" rx="3" fill="' + f + '" opacity=".75"/><rect x="54" y="26" width="12" height="12" fill="' + f + '" opacity=".6"/><rect x="38" y="38" width="44" height="86" rx="12" fill="' + f + '"/>' + lab
+      : p.sh === 'got' ? '<ellipse cx="60" cy="22" rx="8" ry="10" fill="' + f + '" opacity=".75"/><rect x="53" y="30" width="14" height="22" rx="3" fill="' + f + '" opacity=".9"/><rect x="42" y="52" width="36" height="72" rx="9" fill="' + f + '"/>' + lab
+      : '<rect x="28" y="56" width="64" height="18" rx="6" fill="' + f + '" opacity=".8"/><rect x="32" y="72" width="56" height="52" rx="10" fill="' + f + '"/><rect x="44" y="86" width="32" height="20" rx="3" fill="' + w + '" opacity=".9"/><path d="M48 93h24M48 99h16" stroke="' + f + '" stroke-width="2.4" stroke-linecap="round"/>';
+    return '<svg viewBox="0 0 120 140" aria-hidden="true">' + body + '</svg>';
+  }
+  $('shop').innerHTML = PRODS.map(function (p) { return '<li id="p-' + p.id + '"><div class="pi" style="background:' + p.bg + '">' + prodSvg(p) + '</div><h3>' + esc(p.n) + '</h3><p class="d">' + esc(p.d) + '</p><div class="row"><span class="price num">' + fmt(p.p) + '</span><button type="button" class="btn btn-g btn-s" data-buy="' + p.id + '">Lo quiero</button></div></li>'; }).join('');
+  qa('#shop [data-buy]').forEach(function (b) { b.onclick = function () { var p = pById(b.dataset.buy); showWA('Hola Sofía, quiero comprar ' + p.n + ' (' + fmt(p.p) + '). ¿Lo retiro en el consultorio o me lo enviás?'); }; });
+
   /* instagram */
   var POSTS = [
     { k: 'img', img: 'g1', l: 'Foto de una limpieza con aparatología' },
@@ -951,7 +1018,7 @@ dialog.sheet.wide { max-width: 760px; }
   var P = {};
   function openPedir(tid, from) {
     var r = recoTrat();
-    P = { step: tid ? 2 : 1, t: tid || (r ? r.id : null), day: null, h: '', nm: P.nm || '', tel: P.tel || '', ok: false, nota: '' };
+    P = { step: tid ? 2 : 1, t: tid || (r ? r.id : null), day: null, h: '', nm: P.nm || '', tel: P.tel || '', ok: false, nota: '', ci: null };
     renderPedir(); showD($('d-pedir'), from);
   }
   function setProg(n) { qa('#d-pedir .prog i').forEach(function (i, k) { i.classList.toggle('on', k < n); }); }
@@ -998,14 +1065,29 @@ dialog.sheet.wide { max-width: 760px; }
     } else {
       var t3 = byId(P.t), d3 = days[P.day], s3 = toMin(P.h);
       $('dp-h').textContent = 'Tus datos';
+      var ck = Object.keys(CI[t3.id] || {});
+      if (!P.ci) { P.ci = {}; var known = C.filter(function (x) { return P.tel && digits(x.tel) === digits(P.tel); })[0]; if (known && known.fc && known.fc.ant) ck.forEach(function (k) { if (known.fc.ant[k]) P.ci[k] = true; }); }
       b.innerHTML = '<div class="sum"><b>' + esc(t3.n) + '</b><span class="num">' + esc(dLong.format(d3)) + ', de ' + P.h + ' a ' + toHM(s3 + t3.min) + ' h. ' + fmt(t3.p) + '.</span></div>' + fields(true) +
+        (ck.length ? '<fieldset class="fsec cib"><legend>Antes de reservar, ¿alguno de estos aplica a vos?</legend><div class="cks">' + ck.map(function (k) { return '<label class="ck"><input type="checkbox" data-ci="' + k + '"' + (P.ci[k] ? ' checked' : '') + '><span>' + esc(ANTn[k]) + '</span></label>'; }).join('') + '</div><div id="ci-m" aria-live="polite"></div></fieldset>' : '') +
         '<label class="check"><input type="checkbox" id="f-ok"' + (P.ok ? ' checked' : '') + '><span>Leí las condiciones: dejo una seña de ' + fmt(SENA) + ' para confirmar, puedo reprogramar hasta 24 h antes y <b>si cancelo, la seña no se devuelve</b>.</span></label><p class="err" id="perr" role="alert"></p>';
       bindFields();
       $('f-ok').onchange = function (e) { P.ok = e.target.checked; };
       f.innerHTML = '<button type="button" class="btn btn-g" id="bk">Atrás</button><button type="button" class="btn wa-btn" id="nx">Pedir por WhatsApp</button>';
       $('bk').onclick = function () { P.step = 2; renderPedir(); };
-      $('nx').onclick = confirmBooking;
+      qa('[data-ci]', b).forEach(function (x) { x.onchange = function () { P.ci[x.dataset.ci] = x.checked; updCi(); }; });
+      updCi();
     }
+  }
+  function updCi() {
+    var t = byId(P.t), list = ciOf(t.id, P.ci), stop = list.filter(function (x) { return x[1] === 2; }), m = $('ci-m'), nx = $('nx');
+    var nm = function (l) { return l.map(function (x) { return ANTn[x[0]].toLowerCase(); }).join(', '); };
+    if (m) {
+      if (stop.length) m.innerHTML = '<div class="ci-m stop"><b>Con esto, no se recomienda ' + esc(t.n.toLowerCase()) + '.</b>Escribile a Sofía antes de reservar y te recomienda otro tratamiento que sí puedas hacer.</div>';
+      else if (list.length) m.innerHTML = '<div class="ci-m warn"><b>Podés reservar, pero lo vemos antes de empezar.</b>Sofía lo va a tener anotado en tu turno (' + esc(nm(list)) + ').</div>';
+      else m.innerHTML = '';
+    }
+    nx.textContent = stop.length ? 'Consultar por WhatsApp' : 'Pedir por WhatsApp';
+    nx.onclick = stop.length ? function () { if (!valid(false)) return; closeD($('d-pedir')); showWA('Hola Sofía, soy ' + P.nm + '. Quería sacar turno para ' + t.n.toLowerCase() + ', pero tengo: ' + nm(stop) + '. ¿Qué tratamiento me recomendás?'); } : confirmBooking;
   }
   function fields(withNote) {
     return '<div class="field"><label for="f-nm">Tu nombre</label><input id="f-nm" name="name" autocomplete="given-name" maxlength="40" placeholder="Martina…" value="' + esc(P.nm) + '"></div>' +
@@ -1031,10 +1113,12 @@ dialog.sheet.wide { max-width: 760px; }
     if (free(P.day, t.min).indexOf(P.h) < 0) { $('perr').textContent = 'Ese horario se acaba de ocupar. Elegí otro.'; P.step = 2; P.h = ''; renderPedir(); return; }
     var c = C.filter(function (x) { return digits(x.tel) === digits(P.tel); })[0], isNew = !c;
     if (!c) { c = { id: ++nid, n: P.nm, tel: P.tel, tipo: st.tipo && st.tipo !== 'No sé' ? st.tipo : '', nota: P.nota.trim(), visits: [], fc: { ant: {} }, evo: [] }; C.unshift(c); }
+    var cis = ciOf(t.id, P.ci || {}); c.fc = c.fc || { ant: {} }; c.fc.ant = c.fc.ant || {}; cis.forEach(function (x) { c.fc.ant[x[0]] = true; });
     A.push({ id: 'a' + (++nid), c: c.id, t: t.id, day: P.day, h: P.h, sena: 'rev', st: 'ok', first: isNew || st.vez === 'Es la primera vez', fresh: true, preo: Object.keys(st.preo), nota: P.nota.trim() });
     var L = ['Hola Sofía, soy ' + P.nm + '. Quiero pedir un turno:', '', '• ' + t.n + ' (' + durTxt(t.min) + ', ' + fmt(t.p) + ')', '• ' + dLong.format(d) + ', ' + P.h + ' h'];
     var pre = Object.keys(st.preo);
     if (st.tipo || pre.length || st.vez) { L.push('', 'Mi ficha:'); if (st.tipo) L.push('• Piel: ' + st.tipo.toLowerCase()); if (pre.length) L.push('• Quiero mejorar: ' + pre.join(', ').toLowerCase()); if (st.vez) L.push('• ' + st.vez); }
+    if (cis.length) L.push('', 'Tengo: ' + cis.map(function (x) { return ANTn[x[0]].toLowerCase(); }).join(', ') + '.');
     if (P.nota.trim()) L.push('', 'Para tener en cuenta: ' + P.nota.trim());
     L.push('', 'Te mando el comprobante de la seña de ' + fmt(SENA) + '. ¿Me lo confirmás?');
     closeD($('d-pedir')); showWA(L.join('\n'));
@@ -1110,7 +1194,7 @@ dialog.sheet.wide { max-width: 760px; }
   var first = function (n) { return n.split(' ')[0]; };
   var whenTxt = function (a) { return a.day < 0 ? 'hoy' : DN[days[a.day].getDay()] + ' ' + days[a.day].getDate(); };
   var pill = function (g) { return '<span class="pill ' + g[1] + '">' + esc(g[0]) + '</span>'; };
-  var shortAlert = { alergia: 'Alergia', emb: 'Embarazo', isotre: 'Isotretinoína', implant: 'Implantes', herpes: 'Herpes', acidos: 'Usa ácidos', ciru: 'Cirugía reciente' };
+  var shortAlert = { alergia: 'Alergia', emb: 'Embarazo', isotre: 'Isotretinoína', implant: 'Implantes', herpes: 'Herpes', acidos: 'Usa ácidos', ciru: 'Cirugía reciente', sol: 'Mucho sol', hta: 'Presión alta', diab: 'Diabetes' };
   function remindMsg(c) {
     var v = lastVisit(c), t = v ? byId(v[1]) : null, ns = nextSlot(), when = ns ? dLong.format(days[ns[0]]) + ' a las ' + ns[1] + ' h' : 'la semana que viene';
     if (c.pack) return 'Hola ' + first(c.n) + '! ¿Cómo va tu piel? Te quedan ' + (c.pack.of - c.pack.used) + ' sesiones de ' + byId(c.pack.t).n.toLowerCase() + '. ¿Te reservo la próxima? Tengo lugar el ' + when + '.';
@@ -1129,7 +1213,9 @@ dialog.sheet.wide { max-width: 760px; }
   }
   function agItem(a) {
     var c = cById(a.c), t = byId(a.t), tags = [], s = toMin(a.h);
-    alertsOf(c).forEach(function (k) { tags.push(['⚠ ' + shortAlert[k], 'al']); });
+    var cil = a.st === 'ok' ? ciOf(a.t, c.fc && c.fc.ant) : [], ciK = cil.map(function (x) { return x[0]; });
+    if (cil.length) { var stp = cil.filter(function (x) { return x[1] === 2; }); tags.push(stp.length ? ['⛔ No recomendado con ' + stp.map(function (x) { return shortAlert[x[0]].toLowerCase(); }).join(' y '), 'al'] : ['Revisar antes: ' + cil.map(function (x) { return shortAlert[x[0]].toLowerCase(); }).join(', '), 'y']); }
+    alertsOf(c).forEach(function (k) { if (ciK.indexOf(k) < 0) tags.push(['⚠ ' + shortAlert[k], 'al']); });
     if (c.tipo) tags.push(['Piel ' + c.tipo.toLowerCase(), '']);
     if (a.first) tags.push(['Primera vez', 'r']);
     if (!fichaOk(c)) tags.push(['Ficha sin completar', 'y']); else if (c.fc.byClient && !c.visits.length) tags.push(['Completó la ficha online', 'g']);
@@ -1197,7 +1283,42 @@ dialog.sheet.wide { max-width: 760px; }
   var CONS = 'Declaro que fui informada sobre el protocolo a realizar, sus beneficios, cuidados y posibles reacciones, y que los datos de esta ficha son verdaderos. Autorizo la realización del tratamiento.';
   var fmk = 'acne', sig = null;
 
-  function openFicha(id, from) { FX.id = id; FX.tab = 'clin'; renderFicha(); showD($('d-ficha'), from); }
+  function openFicha(id, from) { FX.id = id; FX.tab = 'clin'; FX.ph = null; FX.ca = null; FX.cb = null; renderFicha(); showD($('d-ficha'), from); }
+  /* fotos de la evolución: comparador */
+  var phList = function (c) { return c.evo.map(function (e, i) { return [i, e]; }).filter(function (x) { return x[1][4]; }); };
+  function paintPh(cv, ph) { if (ph.src) cover(cv, ph.src); else paint(cv, ph.o, ph.a); }
+  function cmpHtml(c) {
+    var L = phList(c); if (L.length < 2) return '';
+    if (FX.ca == null || !c.evo[FX.ca] || !c.evo[FX.ca][4]) FX.ca = L[L.length - 1][0];
+    if (FX.cb == null || !c.evo[FX.cb] || !c.evo[FX.cb][4]) FX.cb = L[0][0];
+    var opt = function (sel) { return L.map(function (x) { return '<option value="' + x[0] + '"' + (x[0] === sel ? ' selected' : '') + '>' + esc(dShort.format(addD(today, x[1][0]))) + ', ' + esc(byId(x[1][1]) ? byId(x[1][1]).n : '') + '</option>'; }).join(''); };
+    var fc = c.fc || {};
+    return '<div class="fcmp"><p class="stp-t">Comparar fotos</p><div class="two-f"><div class="field" style="margin:0"><label for="cp-a">Antes</label><select id="cp-a">' + opt(FX.ca) + '</select></div><div class="field" style="margin:0"><label for="cp-b">Después</label><select id="cp-b">' + opt(FX.cb) + '</select></div></div>' +
+      '<div class="cmp" id="fx-cmp" style="--x:50%"><canvas class="bef" aria-hidden="true"></canvas><canvas class="aft" aria-hidden="true"></canvas><span class="lb l">Antes</span><span class="lb r">Después</span><span class="line"></span><input type="range" min="0" max="100" value="50" aria-label="Deslizá para comparar las dos fotos"><span class="knob" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#241B35" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6-6 6 6 6M15 6l6 6-6 6"/></svg></span></div>' +
+      '<div class="acts" style="margin-top:10px">' + (fc.pubOk ? '<button type="button" class="mini dark" id="cp-pub">Publicar en Trabajos</button>' : '<span class="hint">Para publicarla en la página, la clienta tiene que autorizarlo en el consentimiento.</span>') + '</div></div>';
+  }
+  function toURL(ph, cb) {
+    var cv = document.createElement('canvas'); cv.width = 640; cv.height = 800;
+    if (!ph.src) { paint(cv, ph.o, ph.a); return cb(cv.toDataURL('image/jpeg', .86)); }
+    withImg(ph.src, function (im) { var x = cv.getContext('2d'), s = Math.max(cv.width / im.naturalWidth, cv.height / im.naturalHeight), w = im.naturalWidth * s, h = im.naturalHeight * s; x.drawImage(im, (cv.width - w) / 2, (cv.height - h) / 2, w, h); cb(cv.toDataURL('image/jpeg', .86)); });
+  }
+  function bindCmp(c) {
+    requestAnimationFrame(function () { qa('#df-b canvas[data-ep]').forEach(function (cv) { paint(cv, c.evo[+cv.dataset.ep][4].o, c.evo[+cv.dataset.ep][4].a); }); });
+    var el = $('fx-cmp'); if (!el) return;
+    var draw = function () { var b = el.querySelector('.bef'), a = el.querySelector('.aft'); sizeCanvas(b); sizeCanvas(a); paintPh(b, c.evo[FX.ca][4]); paintPh(a, c.evo[FX.cb][4]); };
+    el.querySelector('input').oninput = function (e) { el.style.setProperty('--x', e.target.value + '%'); };
+    $('cp-a').onchange = function (e) { FX.ca = +e.target.value; draw(); };
+    $('cp-b').onchange = function (e) { FX.cb = +e.target.value; draw(); };
+    requestAnimationFrame(draw);
+    if ($('cp-pub')) $('cp-pub').onclick = function () {
+      var ea = c.evo[FX.ca], eb = c.evo[FX.cb], t = byId(eb[1]) || T[0], n = phList(c).length;
+      toURL(ea[4], function (ua) { toURL(eb[4], function (ub) {
+        WORKS.unshift({ k: 'ba', f: fOf(t.id), t: t.n, tid: t.id, s: n + ' sesiones', o: { imgs: [ua, ub] } });
+        st.wf = 'todos'; renderWorks(); if (pst.tab === 'trab') renderPanel();
+        toast('Publicado en Trabajos, sin el nombre de ' + first(c.n) + '.');
+      }); });
+    };
+  }
   function mkShape(m, i) {
     var x = m[0], y = m[1], k = MKn[m[2]] || MK[5], c = k[2], a = ' data-mi="' + i + '" fill="' + c + '" stroke="#fff" stroke-width="1.5"';
     if (m[2] === 'com') return '<rect x="' + (x - 4.5) + '" y="' + (y - 4.5) + '" width="9" height="9" rx="1.5"' + a + '/>';
@@ -1277,6 +1398,7 @@ dialog.sheet.wide { max-width: 760px; }
         '<fieldset class="fsec"><legend>Diagnóstico y protocolo</legend>' + area('fc-dx', 'Diagnóstico', fc.dx, 'Piel mixta deshidratada con acné grado I…', 400) +
         '<p class="stp-t" style="margin-top:6px">Protocolo</p><ol class="prot">' + fc.prot.map(function (r, i) { return '<li><span class="pn num">' + (i + 1) + '</span><input data-pr="' + i + '" data-pc="0" maxlength="60" aria-label="Paso ' + (i + 1) + ', proceso" placeholder="Proceso (limpieza, peeling…)" value="' + esc(r[0]) + '"><input data-pr="' + i + '" data-pc="1" maxlength="60" aria-label="Paso ' + (i + 1) + ', producto" placeholder="Producto" value="' + esc(r[1]) + '"><input data-pr="' + i + '" data-pc="2" maxlength="80" aria-label="Paso ' + (i + 1) + ', observaciones" placeholder="Observaciones" value="' + esc(r[2]) + '"><button type="button" class="x sm" data-prx="' + i + '" aria-label="Quitar paso ' + (i + 1) + '"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></li>'; }).join('') + '</ol>' +
         '<div class="acts"><button type="button" class="mini" id="pr-add">Agregar paso</button></div>' +
+        '<p class="stp-t" style="margin-top:10px">Productos recomendados</p><p class="hint" style="margin:-2px 0 8px">Van con link a tu tienda cuando le mandás la rutina.</p><div class="cks">' + PRODS.map(function (x) { return '<label class="ck ok"><input type="checkbox" data-rp="' + x.id + '"' + ((fc.recP || []).indexOf(x.id) >= 0 ? ' checked' : '') + '><span>' + esc(x.n) + ' <span class="hint num">' + fmt(x.p) + '</span></span></label>'; }).join('') + '</div>' +
         '<div class="fgrid" style="margin-top:10px">' + area('fc-rec', 'Recomendaciones para casa', fc.rec, 'FPS 50 cada 3 horas, no exfoliar por 5 días…', 400) + area('fc-obs', 'Observaciones', fc.obs, '', 500) + '</div></fieldset>' +
         '<fieldset class="fsec"><legend>Consentimiento informado</legend><p class="cons">' + CONS + '</p>' +
         '<label class="check"><input type="checkbox" id="fc-fok"' + (fc.fotoOk ? ' checked' : '') + '><span>Autorizo fotos de antes y después para mi seguimiento.</span></label>' +
@@ -1316,12 +1438,15 @@ dialog.sheet.wide { max-width: 760px; }
     } else if (FX.tab === 'evo') {
       var opts = T.map(function (t) { return '<option value="' + t.id + '">' + esc(t.n) + '</option>'; }).join('');
       b.innerHTML = alertHtml + '<p class="stp-t">Cada sesión, qué se hizo y cómo respondió la piel.</p>' +
-        (c.evo.length ? '<ol class="evo">' + c.evo.map(function (e) { return '<li><span class="dt num">' + esc(dLong.format(addD(today, e[0]))) + '</span><b>' + esc(byId(e[1]) ? byId(e[1]).n : e[1]) + '</b><p>' + esc(e[2]) + '</p>' + (e[3] ? '<p><b style="display:inline;color:var(--ink)">Resultado:</b> ' + esc(e[3]) + '</p>' : '') + '</li>'; }).join('') + '</ol>' : '<p class="empty">Todavía no hay sesiones registradas.</p>') +
+        cmpHtml(c) + (c.evo.length ? '<ol class="evo">' + c.evo.map(function (e, i) { return '<li><span class="dt num">' + esc(dLong.format(addD(today, e[0]))) + '</span><b>' + esc(byId(e[1]) ? byId(e[1]).n : e[1]) + '</b><p>' + esc(e[2]) + '</p>' + (e[3] ? '<p><b style="display:inline;color:var(--ink)">Resultado:</b> ' + esc(e[3]) + '</p>' : '') + (e[4] ? '<span class="ph">' + (e[4].src ? '<img src="' + e[4].src + '" alt="Foto de la sesión">' : '<canvas data-ep="' + i + '" width="192" height="240" role="img" aria-label="Foto de la sesión, ilustrativa"></canvas>') + '</span>' : '') + '</li>'; }).join('') + '</ol>' : '<p class="empty">Todavía no hay sesiones registradas.</p>') +
         '<div class="addt"><p class="stp-t">Registrar sesión de hoy</p><div class="field"><label for="ev-t">Tratamiento</label><select id="ev-t">' + opts + '</select></div>' +
         '<div class="field"><label for="ev-d">Qué se hizo (productos, concentración, tiempos, aparatología)</label><textarea id="ev-d" maxlength="400" placeholder="Peeling mandélico 10 %, 4 min…"></textarea></div>' +
-        '<div class="field"><label for="ev-r">Cómo respondió la piel</label><textarea id="ev-r" maxlength="300" placeholder="Leve eritema que bajó en 15 min…"></textarea></div><p class="err" id="everr" role="alert"></p></div>';
+        '<div class="field"><label for="ev-r">Cómo respondió la piel</label><textarea id="ev-r" maxlength="300" placeholder="Leve eritema que bajó en 15 min…"></textarea></div>' +
+        '<p class="stp-t">Foto de la sesión <span class="hint">(opcional)</span></p><div class="ph-up">' + (FX.ph ? '<img src="' + FX.ph + '" alt="Foto elegida">' : '') + '<label><span class="mini dark">' + (FX.ph ? 'Cambiar foto' : 'Sacar foto') + '</span><input type="file" accept="image/jpeg,image/png,image/webp" capture="environment" id="ev-cam" aria-label="Sacar foto con la cámara"></label><label><span class="mini">Elegir de la galería</span><input type="file" accept="image/jpeg,image/png,image/webp" id="ev-gal" aria-label="Elegir foto de la galería"></label></div><p class="err" id="everr" role="alert"></p></div>';
       f.innerHTML = '<button type="button" class="btn btn-p" id="ev-add">Guardar sesión</button>';
-      $('ev-add').onclick = function () { var d = $('ev-d').value.trim(); if (d.length < 3) { $('everr').textContent = 'Escribí qué se hizo en la sesión.'; $('ev-d').focus(); return; } c.evo.unshift([0, $('ev-t').value, d, $('ev-r').value.trim()]); renderFicha(); toast('Sesión registrada en la evolución.'); };
+      $('ev-add').onclick = function () { var d = $('ev-d').value.trim(); if (d.length < 3) { $('everr').textContent = 'Escribí qué se hizo en la sesión.'; $('ev-d').focus(); return; } c.evo.unshift([0, $('ev-t').value, d, $('ev-r').value.trim(), FX.ph ? { src: FX.ph } : null]); FX.ph = null; renderFicha(); toast('Sesión registrada en la evolución.'); };
+      ['ev-cam', 'ev-gal'].forEach(function (id) { $(id).onchange = function () { var keep = { d: $('ev-d').value, r: $('ev-r').value, t: $('ev-t').value }; readFile($(id), function (u) { FX.ph = u; renderFicha(); $('ev-d').value = keep.d; $('ev-r').value = keep.r; $('ev-t').value = keep.t; }); }; });
+      bindCmp(c);
     } else {
       var turns = A.filter(function (a) { return a.c === c.id && a.day >= 0 && a.st === 'ok'; });
       b.innerHTML = (c.pack ? '<p class="stp-t">Plan: ' + esc(byId(c.pack.t).n) + ', ' + c.pack.used + ' de ' + c.pack.of + ' sesiones</p><div class="bar-pack" role="img" aria-label="' + c.pack.used + ' de ' + c.pack.of + ' sesiones"><i style="width:' + (c.pack.used / c.pack.of * 100) + '%"></i></div>' : '') +
@@ -1331,9 +1456,16 @@ dialog.sheet.wide { max-width: 760px; }
       f.innerHTML = '<button type="button" class="btn btn-g" data-close>Cerrar</button>';
       if ($('fx-pay')) $('fx-pay').onclick = function () { var m = c.debe; c.debe = 0; c.visits.forEach(function (v) { v[2] = true; }); renderFicha(); renderPanel(); toast('Pago de ' + fmt(m) + ' registrado.'); };
       $('fx-rem').onclick = function () { showWA(remindMsg(c), c.n + ', ' + c.tel); };
-      $('fx-rut').onclick = function () { showWA('Hola ' + first(c.n) + '! Te paso tu rutina:\n\n' + (c.fc && c.fc.rec ? c.fc.rec : 'De día: limpiador suave, sérum, hidratante y protector solar.\nDe noche: limpiador, sérum y crema reparadora.') + '\n\nCualquier duda, me escribís.', c.n + ', ' + c.tel); };
+      $('fx-rut').onclick = function () { showWA(rutinaMsg(c), c.n + ', ' + c.tel); };
       $('fx-res').onclick = function () { showWA('Hola ' + first(c.n) + '! Gracias por venir. Si te gustó la atención, ¿me dejás una reseña en Google? Me ayuda un montón: [link a tu perfil de Google]', c.n + ', ' + c.tel); };
     }
+  }
+  function rutinaMsg(c) {
+    var fc = c.fc || {}, L = ['Hola ' + first(c.n) + '! Te paso tu rutina:', '', fc.rec || 'De día: limpiador suave, sérum, hidratante y protector solar.\nDe noche: limpiador, sérum y crema reparadora.'];
+    var ps = (fc.recP || []).map(pById).filter(Boolean);
+    if (ps.length) { L.push('', 'Los productos que te recomiendo:'); ps.forEach(function (x) { L.push('• ' + x.n + ', ' + fmt(x.p) + ': ' + SHOP_URL + x.id); }); L.push('', 'Si querés, te los separo y los retirás en tu próximo turno.'); }
+    else L.push('', 'Cualquier duda, me escribís.');
+    return L.join('\n');
   }
   function saveClin(silent) {
     if (!$('fp-clin') || !$('fc-sv')) return;
@@ -1348,7 +1480,7 @@ dialog.sheet.wide { max-width: 760px; }
     fc.foto = rad('fc-foto') || fc.foto; fc.desh = rad('fc-des'); fc.tex = rad('fc-tex'); fc.ton = rad('fc-ton'); fc.gros = rad('fc-gro');
     fc.tip = qa('[data-tip]', b).filter(function (x) { return x.checked; }).map(function (x) { return x.dataset.tip; });
     fc.pat = qa('[data-pat]', b).filter(function (x) { return x.checked; }).map(function (x) { return x.dataset.pat; });
-    fc.mapN = v('fc-mapn'); fc.dx = v('fc-dx'); fc.rec = v('fc-rec'); fc.obs = v('fc-obs');
+    fc.mapN = v('fc-mapn'); fc.recP = qa('[data-rp]', b).filter(function (x) { return x.checked; }).map(function (x) { return x.dataset.rp; }); fc.dx = v('fc-dx'); fc.rec = v('fc-rec'); fc.obs = v('fc-obs');
     qa('[data-pr]', b).forEach(function (x) { var r = fc.prot[+x.dataset.pr]; if (r) r[+x.dataset.pc] = x.value.trim(); });
     fc.fotoOk = $('fc-fok').checked; fc.pubOk = $('fc-pok').checked;
     if (sig && $('sg')) { fc.firma = $('sg').toDataURL('image/png'); if (fc.consent == null || fc.byClient) fc.consent = 0; sig = null; }
