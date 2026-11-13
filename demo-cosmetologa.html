@@ -359,6 +359,106 @@ dialog.sheet[open] { display: flex; flex-direction: column; animation: up .26s c
 .toast { position: fixed; left: 50%; bottom: calc(var(--bar-h) + 16px + env(safe-area-inset-bottom)); transform: translateX(-50%); background: var(--ink); color: #fff; padding: 11px 18px; border-radius: 999px; font-size: 14px; font-weight: 600; z-index: 60; width: max-content; max-width: calc(100% - 32px); text-align: center; box-shadow: 0 10px 30px -10px rgba(0,0,0,.4); }
 body:not(.cli) .toast { bottom: 20px; }
 
+/* ficha clínica, horarios y carga de trabajos */
+dialog.sheet.wide { max-width: 760px; }
+.ftabs { flex: none; display: flex; gap: 6px; padding: 10px 18px 10px; border-bottom: 1px solid var(--line); overflow-x: auto; scrollbar-width: none; }
+.ftabs button { flex: none; border: 1.5px solid var(--line); background: var(--paper); border-radius: 999px; min-height: 40px; padding: 0 14px; font-weight: 700; font-size: 14px; }
+.ftabs button[aria-selected="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+.fgrid { display: grid; gap: 0 14px; }
+.fsec { border: 0; margin: 0 0 18px; padding: 0; min-width: 0; }
+.fsec > legend { font-family: Gloock, Georgia, serif; font-size: 21px; padding: 0; margin-bottom: 10px; }
+.field select { min-height: 50px; border-radius: 12px; border: 1.5px solid var(--line); padding: 0 12px; background: var(--bg); color: var(--ink); width: 100%; }
+.cks { display: grid; grid-template-columns: 1fr; gap: 6px; }
+.ck { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: center; min-height: 44px; padding: 6px 12px; border-radius: 12px; background: var(--bg); font-size: 14.5px; cursor: pointer; }
+.ck input { width: 20px; height: 20px; margin: 0; accent-color: var(--rose-d); }
+.ck:has(input:checked) { background: var(--rose); color: #5C1530; font-weight: 600; }
+.ck.ok input { accent-color: var(--gel-d); }
+.ck.ok:has(input:checked) { background: var(--gel); color: #134A38; }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg label { position: relative; }
+.seg input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.seg span { display: inline-grid; place-items: center; min-width: 46px; min-height: 42px; padding: 0 12px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--paper); font-weight: 700; font-size: 14px; }
+.seg input:checked + span { background: var(--ink); color: #fff; border-color: var(--ink); }
+.seg input:focus-visible + span { outline: 3px solid var(--vio); outline-offset: 2px; }
+.alert { display: flex; gap: 10px; align-items: flex-start; background: var(--rose); color: #5C1530; border-radius: var(--r-m); padding: 12px 14px; font-size: 14.5px; margin-bottom: 14px; }
+.alert svg { flex: none; margin-top: 2px; }
+.okbox { background: var(--gel); color: #134A38; border-radius: var(--r-m); padding: 12px 14px; font-size: 14.5px; margin-bottom: 14px; }
+.evo { list-style: none; margin: 0 0 16px; padding: 0; }
+.evo li { border-left: 3px solid var(--vio); padding: 4px 0 12px 14px; margin-left: 4px; position: relative; }
+.evo li::before { content: ""; position: absolute; left: -7.5px; top: 8px; width: 12px; height: 12px; border-radius: 50%; background: var(--paper); border: 3px solid var(--vio); }
+.evo b { display: block; }
+.evo .dt { font-size: 13px; color: var(--mute); font-weight: 700; }
+.evo p { font-size: 14.5px; color: var(--soft); margin-top: 3px; }
+.pill.al { background: #B3263E; color: #fff; }
+.tline { list-style: none; margin: 12px 0 0; padding: 0; }
+.tline li { display: grid; grid-template-columns: 96px 1fr; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; align-items: center; }
+.tline .tm { font-weight: 800; }
+.tline .bk { border-radius: 10px; padding: 8px 10px; background: var(--vio-l); color: var(--vio-d); font-weight: 700; }
+.tline .gap { border-radius: 10px; padding: 6px 10px; background: repeating-linear-gradient(135deg, #F1EEF6 0 6px, #E6E0EF 6px 12px); color: var(--soft); font-size: 13px; }
+.tline .bl { border-radius: 10px; padding: 8px 10px; background: #3A3150; color: #fff; font-weight: 700; }
+.tline .fr { color: var(--gel-d); font-weight: 700; }
+.cfg { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
+.wk { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.wk li { display: grid; grid-template-columns: 56px 1fr auto; gap: 12px; align-items: center; padding: 8px 0; border-top: 1px solid var(--line); }
+.wk .th { width: 56px; height: 56px; border-radius: 12px; overflow: hidden; background: var(--bg); position: relative; }
+.wk .th img, .wk .th canvas { width: 100%; height: 100%; object-fit: cover; display: block; }
+.drop { display: grid; place-items: center; text-align: center; gap: 4px; border: 2px dashed var(--line); border-radius: var(--r-m); padding: 16px; background: var(--bg); font-size: 14px; color: var(--soft); position: relative; min-height: 96px; }
+.drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.drop:focus-within { outline: 3px solid var(--vio); outline-offset: 2px; }
+.drop img { max-height: 120px; border-radius: 10px; }
+.drop.has { border-style: solid; border-color: var(--vio); }
+.two-f { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.addt { background: var(--bg); border-radius: var(--r-m); padding: 14px; margin-top: 14px; }
+@media (min-width: 640px) { .fgrid { grid-template-columns: 1fr 1fr; } .cks { grid-template-columns: 1fr 1fr; } }
+@media print {
+  body * { visibility: hidden !important; }
+  #d-ficha, #d-ficha * { visibility: visible !important; }
+  #d-ficha { position: absolute; inset: 0; max-height: none; max-width: none; box-shadow: none; border-radius: 0; }
+  #d-ficha .sh-f, #d-ficha .x, #d-ficha .ftabs { display: none !important; }
+  #d-ficha .sh-b { overflow: visible; }
+}
+.habs { display: grid; gap: 4px 14px; }
+.segr { margin-bottom: 10px; min-width: 0; }
+.segr .stp-t { margin-bottom: 6px; }
+.cuis { display: grid; gap: 8px; }
+.cui { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 8px; align-items: center; padding: 10px 12px; border-radius: 12px; background: var(--bg); }
+.cui b { grid-column: 1 / -1; font-size: 14.5px; }
+.cui select, .cui input, .prot input { min-height: 44px; border-radius: 10px; border: 1.5px solid var(--line); padding: 0 10px; background: var(--paper); color: var(--ink); width: 100%; min-width: 0; font: inherit; font-size: 14.5px; }
+.fmapw { display: grid; gap: 12px; }
+.mks span { gap: 6px; display: inline-flex; align-items: center; }
+.fface { background: var(--bg); border-radius: var(--r-m); padding: 8px; display: grid; place-items: center; }
+#fmap { width: 100%; max-width: 300px; height: auto; cursor: crosshair; touch-action: manipulation; }
+#fmap [data-mi] { cursor: pointer; }
+.prot { list-style: none; margin: 0 0 10px; padding: 0; display: grid; gap: 8px; }
+.prot li { display: grid; grid-template-columns: 28px 1fr 40px; gap: 6px; align-items: center; padding: 8px; border-radius: 12px; background: var(--bg); }
+.prot li input:nth-of-type(2), .prot li input:nth-of-type(3) { grid-column: 2; }
+.prot li .x.sm { grid-column: 3; grid-row: 1; width: 40px; height: 40px; }
+.prot .pn { grid-row: 1; width: 26px; height: 26px; border-radius: 50%; background: var(--vio-l); color: var(--vio-d); display: grid; place-items: center; font-weight: 800; font-size: 13px; }
+.cons { font-size: 14.5px; color: var(--soft); background: var(--bg); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
+.sigw { position: relative; border: 2px dashed var(--line); border-radius: var(--r-m); background: var(--paper); }
+.sigw canvas { display: block; width: 100%; height: 150px; touch-action: none; cursor: crosshair; }
+.sigl { position: absolute; left: 16px; bottom: 12px; font-size: 13px; color: var(--mute); pointer-events: none; border-top: 1.5px solid var(--line); padding-top: 4px; width: calc(100% - 32px); }
+.sigw.on .sigl { opacity: .5; }
+.sigd { display: grid; gap: 6px; justify-items: start; }
+.sigd img { max-width: 320px; width: 100%; height: auto; border-bottom: 1.5px solid var(--line); }
+@media (min-width: 640px) {
+  .habs { grid-template-columns: 1fr 1fr; }
+  .cui { grid-template-columns: 150px 1fr 1fr; }
+  .cui b { grid-column: auto; }
+  .fmapw { grid-template-columns: 180px 1fr; align-items: start; }
+  .mks { flex-direction: column; }
+  .prot li { grid-template-columns: 28px 1fr 1fr 1.2fr 40px; }
+  .prot li > * { grid-row: 1; }
+  .prot li input:nth-of-type(1) { grid-column: 2; }
+  .prot li input:nth-of-type(2) { grid-column: 3; }
+  .prot li input:nth-of-type(3) { grid-column: 4; }
+  .prot li .x.sm { grid-column: 5; }
+}
+@media print {
+  #d-ficha .fpane[hidden] { display: block !important; }
+  #d-ficha .acts, #d-ficha .sigl { display: none !important; }
+  #d-ficha .alert, #d-ficha .okbox, #d-ficha .ck, #d-ficha .cui, #d-ficha .prot li { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
 @media (min-width: 560px) { .gal { grid-template-columns: repeat(3, 1fr); } .kpis { grid-template-columns: repeat(4, 1fr); } }
 @media (min-width: 900px) {
   body.cli { padding-bottom: 0; }
@@ -550,6 +650,7 @@ body:not(.cli) .toast { bottom: 20px; }
 <dialog class="sheet" id="d-mis" aria-labelledby="dm-h">
   <div class="sh-h"><h2 id="dm-h">Mis turnos</h2><button type="button" class="x" data-close aria-label="Cerrar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
   <div class="sh-b" id="dm-b"></div>
+  <div class="sh-f" id="dm-f" hidden></div>
 </dialog>
 <dialog class="sheet" id="d-wa" aria-labelledby="dw-h">
   <div class="sh-h"><h2 id="dw-h">Así llega por WhatsApp</h2><button type="button" class="x" data-close aria-label="Cerrar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
@@ -561,6 +662,12 @@ body:not(.cli) .toast { bottom: 20px; }
   <div class="sh-b" id="dk-b"></div>
   <div class="sh-f" id="dk-f"></div>
 </dialog>
+<dialog class="sheet wide" id="d-ficha" aria-labelledby="df-h">
+  <div class="sh-h"><h2 id="df-h">Ficha</h2><button type="button" class="x" data-close aria-label="Cerrar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <div class="ftabs" role="tablist" aria-label="Secciones de la ficha" id="df-tabs"></div>
+  <div class="sh-b" id="df-b"></div>
+  <div class="sh-f" id="df-f"></div>
+</dialog>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
 <script>
@@ -571,12 +678,17 @@ body:not(.cli) .toast { bottom: 20px; }
   var qa = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var money = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 });
   var fmt = function (n) { return money.format(Math.round(n)).replace(/\s/g, ''); };
-  var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var dLong = new Intl.DateTimeFormat('es-AR', { weekday: 'long', day: 'numeric', month: 'long' });
   var dShort = new Intl.DateTimeFormat('es-AR', { day: 'numeric', month: 'short' });
+  var dNum = new Intl.DateTimeFormat('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
   var SENA = 8000;
   var DN = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
-  var HOURS = ['09:00', '10:30', '12:00', '14:00', '15:30', '17:00', '18:00'];
+  var CFG = { buffer: 15, step: 30 };
+  var OPEN = function (d) { return d.getDay() === 6 ? [540, 840] : [540, 1140]; };
+  var toMin = function (hm) { var p = hm.split(':'); return +p[0] * 60 + +p[1]; };
+  var toHM = function (m) { return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); };
+  var durTxt = function (m) { return m < 60 ? m + ' min' : (m % 60 ? Math.floor(m / 60) + ' h ' + (m % 60) + ' min' : (m / 60) + ' h'); };
 
   var CATS = [{ id: 'facial', n: 'Facial' }, { id: 'mirada', n: 'Cejas y pestañas' }, { id: 'corporal', n: 'Corporal' }];
   var T = [
@@ -595,46 +707,84 @@ body:not(.cli) .toast { bottom: 20px; }
   var PREO = [{ v: 'Brillo y poros', t: 'limp' }, { v: 'Granitos', t: 'acne' }, { v: 'Manchas', t: 'peel' }, { v: 'Piel tirante o apagada', t: 'hidr' }, { v: 'Textura o vello fino', t: 'derm' }];
   var VEZ = ['Es la primera vez', 'Ya vine'];
 
+  /* antecedentes de la ficha clínica */
+  var ANT = [
+    ['alergia', 'Alergias (productos, medicamentos, látex)', true], ['medic', 'Toma medicación', true], ['emb', 'Embarazo o lactancia', true],
+    ['isotre', 'Isotretinoína (últimos 6 meses)', true], ['acidos', 'Usa ácidos o retinoides', true], ['herpes', 'Herpes labial frecuente', true],
+    ['diab', 'Diabetes', false], ['hta', 'Presión alta', false], ['implant', 'Marcapasos o implantes metálicos', true],
+    ['ciru', 'Cirugías o rellenos recientes', true], ['tabaco', 'Fuma', false], ['sol', 'Mucha exposición al sol', false]
+  ];
+  var ANTn = {}; ANT.forEach(function (a) { ANTn[a[0]] = a[1]; });
+  var ALERTS = ['alergia', 'emb', 'isotre', 'implant', 'herpes', 'acidos', 'ciru'];
+  var FOTO = ['I', 'II', 'III', 'IV', 'V', 'VI'];
+
   var today = new Date(); today.setHours(12, 0, 0, 0);
   var addD = function (d, n) { var x = new Date(d); x.setDate(x.getDate() + n); return x; };
-  var keyOf = function (d) { return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
   var days = []; for (var k = 1; days.length < 10; k++) { var dd = addD(today, k); if (dd.getDay() !== 0) days.push(dd); }
-  var busy = {}, blocked = {};
-  days.forEach(function (d, i) {
-    var b = {}; HOURS.forEach(function (h, j) { if ((i * 3 + j * 5) % 7 < 3) b[h] = true; });
-    if (d.getDay() === 6) { b['17:00'] = true; b['18:00'] = true; }
-    busy[keyOf(d)] = b; blocked[keyOf(d)] = {};
-  });
-  HOURS.forEach(function (h) { busy[keyOf(days[1])][h] = true; });
-  var free = function (d) { var k = keyOf(d); return HOURS.filter(function (h) { return !busy[k][h] && !blocked[k][h]; }); };
 
   var C = [
-    { id: 1, n: 'Carla Romero', tel: '336 455-1020', tipo: 'Mixta', nota: 'Usa retinol de noche.', visits: [[-38, 'limp', true], [-75, 'limp', true], [-118, 'hidr', true]] },
-    { id: 2, n: 'Julieta Méndez', tel: '336 412-8833', tipo: 'Sensible', nota: 'Rosácea leve. Productos sin perfume.', visits: [[-9, 'peel', true], [-30, 'peel', true]], pack: { t: 'peel', of: 4, used: 2 } },
-    { id: 3, n: 'Rocío Bianchi', tel: '336 470-2211', tipo: 'Grasa', nota: 'Viene por primera vez.', visits: [] },
-    { id: 4, n: 'Martina Sosa', tel: '336 401-5577', tipo: 'Grasa', nota: 'Acné en mentón. Plan de 4 sesiones.', visits: [[-16, 'acne', false], [-31, 'acne', true]], pack: { t: 'acne', of: 4, used: 2 }, debe: 30000 },
-    { id: 5, n: 'Lucía Ferreyra', tel: '336 433-9014', tipo: 'Seca', nota: '', visits: [[-58, 'lift', true], [-112, 'lift', true]] },
-    { id: 6, n: 'Valentina Ruiz', tel: '336 488-3009', tipo: 'Mixta', nota: 'Prefiere turnos de mañana.', visits: [[-12, 'cejas', true]] },
-    { id: 7, n: 'Agustina Paz', tel: '336 466-7720', tipo: 'Sensible', nota: '', visits: [[-64, 'hidr', true], [-95, 'derm', true]], debe: 12000 },
-    { id: 8, n: 'Camila Torres', tel: '336 419-4402', tipo: 'Mixta', nota: 'Drenaje semanal.', visits: [[-6, 'drena', true], [-13, 'drena', true], [-20, 'drena', true]], pack: { t: 'drena', of: 8, used: 3 } }
+    { id: 1, n: 'Carla Romero', tel: '336 455-1020', tipo: 'Mixta', nota: 'Usa retinol de noche.', visits: [[-38, 'limp', true], [-75, 'limp', true], [-118, 'hidr', true]],
+      fc: { nac: '1991-04-12', dni: '36.204.118', mail: 'carla.ejemplo@correo.com', ocup: 'Docente', sangre: '0+', emerg: 'Pablo (pareja), 336 455-2040', motivo: 'Poros y brillo en zona T.', ant: { acidos: true }, antDet: 'Retinol 0,3 % de noche.', prev: 'Limpiezas faciales cada tanto.', hab: { agua: 'A veces', verd: 'Siempre', carb: 'A veces', alc: 'A veces', tab: 'Nunca', act: 'A veces' }, sueno: '7 h', cui: { limp: ['2 veces por día', 'Gel limpiador'], exf: ['No usa', ''], hid: ['1 vez por día', 'Crema liviana'], fps: ['A veces', 'FPS 50 en gel'], ser: ['1 vez por día', 'Retinol 0,3 %'] }, foto: 'III', tip: ['Mixta'], desh: 'Leve', tex: 'Áspera', ton: 'Apagada', gros: 'Gruesa', pat: ['Comedones abiertos', 'Comedones cerrados', 'Poros dilatados'], map: [[104, 62, 'com'], [116, 70, 'com'], [98, 74, 'com'], [104, 128, 'com'], [116, 126, 'com'], [110, 120, 'com'], [146, 140, 'acne']], mapN: 'Comedones en frente y nariz. Un granito en mejilla derecha.', dx: 'Piel mixta, levemente deshidratada, con comedones en zona T.', prot: [['Higiene', 'Gel enzimático', ''], ['Vapor y extracción', '', 'Zona T, 10 min'], ['Máscara', 'Arcilla verde', 'Solo zona T'], ['Hidratación', 'Gel de ácido hialurónico', ''], ['Protección', 'FPS 50', '']], rec: 'Protector solar todos los días. Suspender retinol 5 días antes de un peeling.', fotoOk: true, consent: -118, obs: 'Suspender retinol 5 días antes de peelings.' },
+      evo: [[-38, 'limp', 'Extracción en zona T, máscara de arcilla.', 'Mejoró la textura respecto a la sesión anterior.'], [-75, 'limp', 'Vapor, extracción, máscara hidratante.', 'Leve enrojecimiento que bajó en 20 min.']] },
+    { id: 2, n: 'Julieta Méndez', tel: '336 412-8833', tipo: 'Sensible', nota: 'Rosácea leve. Productos sin perfume.', visits: [[-9, 'peel', true], [-30, 'peel', true]], pack: { t: 'peel', of: 4, used: 2 },
+      fc: { nac: '1987-09-03', ocup: 'Contadora', sangre: 'A+', motivo: 'Manchas en pómulos.', ant: { alergia: true, sol: true }, antDet: 'Alergia a fragancias.', fam: 'Madre con melasma.', hab: { agua: 'Siempre', verd: 'Siempre', carb: 'A veces', alc: 'Nunca', tab: 'Nunca', act: 'Siempre' }, cui: { limp: ['2 veces por día', 'Agua micelar'], hid: ['2 veces por día', 'Crema sin perfume'], fps: ['1 vez por día', 'FPS 50 mineral'] }, foto: 'II', tip: ['Seca', 'Sensible'], desh: 'Media', tex: 'Lisa', ton: 'Con manchas', gros: 'Fina', pat: ['Hiperpigmentación', 'Rosácea', 'Telangiectasias'], map: [[68, 132, 'man'], [76, 126, 'man'], [150, 130, 'man'], [142, 136, 'man'], [86, 140, 'roj'], [134, 142, 'roj']], dx: 'Piel seca sensible con rosácea leve e hiperpigmentación en pómulos.', prot: [['Higiene', 'Leche limpiadora sin perfume', ''], ['Peeling', 'Ácido mandélico 10 %', '4 min, probar antes en zona'], ['Neutralizar y calmar', 'Máscara de avena', ''], ['Protección', 'FPS 50 mineral', '']], rec: 'Nada de exfoliantes en casa. Protector cada 3 horas si está al sol.', fotoOk: true, pubOk: true, consent: -30, obs: 'Peeling suave al 10 %. Probar en zona antes.' },
+      evo: [[-9, 'peel', 'Peeling mandélico 10 %, 4 min.', 'Tolera bien. Manchas un poco más claras.'], [-30, 'peel', 'Prueba en zona y peeling mandélico 10 %, 3 min.', 'Sin reacción.']] },
+    { id: 3, n: 'Rocío Bianchi', tel: '336 470-2211', tipo: 'Grasa', nota: 'Viene por primera vez.', visits: [], fc: { ant: { isotre: true }, antDet: 'Terminó isotretinoína hace 4 meses (lo completó online).', byClient: true, consent: 0 }, evo: [] },
+    { id: 4, n: 'Martina Sosa', tel: '336 401-5577', tipo: 'Grasa', nota: 'Acné en mentón. Plan de 4 sesiones.', visits: [[-16, 'acne', false], [-31, 'acne', true]], pack: { t: 'acne', of: 4, used: 2 }, debe: 30000,
+      fc: { nac: '2003-01-22', ocup: 'Estudiante', motivo: 'Granitos en mentón y mandíbula.', ant: {}, antDet: '', hab: { agua: 'Nunca', verd: 'A veces', carb: 'Siempre', alc: 'A veces', tab: 'Nunca' }, cui: { limp: ['1 vez por día', 'Jabón común'], fps: ['No usa', ''] }, foto: 'III', tip: ['Grasa'], desh: 'No', tex: 'Irregular', ton: 'Rojiza', pat: ['Pápulas', 'Pústulas', 'Comedones cerrados'], map: [[96, 196, 'acne'], [110, 202, 'acne'], [124, 196, 'acne'], [74, 184, 'acne'], [146, 186, 'acne'], [104, 190, 'com']], mapN: 'Lesiones en mentón y mandíbula.', dx: 'Acné grado II en zona U.', prot: [['Higiene', 'Gel con ácido salicílico', ''], ['Extracción', '', 'Solo comedones'], ['Alta frecuencia', '', '5 min'], ['Máscara calmante', 'Azufre y caléndula', '']], rec: 'Limpieza con gel salicílico mañana y noche. No tocar los granitos.', consent: -31, obs: 'Acné grado II. Recomendado control con dermatólogo.' },
+      evo: [[-16, 'acne', 'Limpieza, alta frecuencia, máscara calmante.', 'Menos lesiones activas.'], [-31, 'acne', 'Limpieza profunda y alta frecuencia.', 'Primera sesión del plan.']] },
+    { id: 5, n: 'Lucía Ferreyra', tel: '336 433-9014', tipo: 'Seca', nota: '', visits: [[-58, 'lift', true], [-112, 'lift', true]], fc: { tip: ['Seca'], foto: 'II', pat: ['Arrugas', 'Flacidez'], ant: {}, consent: -112 }, evo: [] },
+    { id: 6, n: 'Valentina Ruiz', tel: '336 488-3009', tipo: 'Mixta', nota: 'Prefiere turnos de mañana.', visits: [[-12, 'cejas', true]], fc: { ant: { emb: true }, antDet: 'Embarazada de 5 meses.', consent: -12 }, evo: [] },
+    { id: 7, n: 'Agustina Paz', tel: '336 466-7720', tipo: 'Sensible', nota: '', visits: [[-64, 'hidr', true], [-95, 'derm', true]], debe: 12000, fc: { ant: {} }, evo: [] },
+    { id: 8, n: 'Camila Torres', tel: '336 419-4402', tipo: 'Mixta', nota: 'Drenaje semanal.', visits: [[-6, 'drena', true], [-13, 'drena', true], [-20, 'drena', true]], pack: { t: 'drena', of: 8, used: 3 }, fc: { ant: { hta: true }, consent: -20 }, evo: [] }
   ];
   var cById = function (id) { return C.filter(function (c) { return c.id === id; })[0]; };
   var lastVisit = function (c) { return c.visits.length ? c.visits[0] : null; };
   var daysSince = function (c) { var v = lastVisit(c); return v ? -v[0] : null; };
   var dueFor = function (c) { var v = lastVisit(c); return !!v && -v[0] >= byId(v[1]).every; };
+  var alertsOf = function (c) { var a = (c.fc && c.fc.ant) || {}; return ALERTS.filter(function (k) { return a[k]; }); };
+  var fichaOk = function (c) { return !!(c.fc && c.fc.consent != null); };
 
+  /* agenda: day -1 = hoy; los turnos de "otras clientas" no se muestran con nombre en la web */
   var A = [
     { id: 'a1', c: 1, t: 'limp', day: -1, h: '10:30', sena: 'ok', st: 'ok' },
     { id: 'a2', c: 2, t: 'peel', day: -1, h: '14:00', sena: 'ok', st: 'ok' },
     { id: 'a3', c: 3, t: 'acne', day: -1, h: '17:00', sena: 'rev', st: 'ok', first: true },
-    { id: 'a4', c: 4, t: 'acne', day: 2, h: '12:00', sena: 'ok', st: 'ok' }
+    { id: 'a4', c: 4, t: 'acne', day: 2, h: '12:00', sena: 'ok', st: 'ok' },
+    { id: 'a5', c: 6, t: 'cejas', day: 0, h: '09:00', sena: 'ok', st: 'ok' }
   ];
-  busy[keyOf(days[2])]['12:00'] = true;
+  var FILL = {}; // otras clientas (relleno de la demo)
+  var tids = ['limp', 'hidr', 'lift', 'derm', 'drena', 'peel'];
+  days.forEach(function (d, i) {
+    var o = OPEN(d), list = [], cur = o[0] + ((i * 30) % 90);
+    var seed = i * 7 + 3;
+    while (cur < o[1] - 60) { seed = (seed * 13 + 5) % 17; if (seed % 3 === 0) { var t = tids[seed % tids.length]; list.push({ s: cur, t: t }); cur += byId(t).min + CFG.buffer + 60; } else cur += 90; }
+    FILL[i] = list;
+  });
+  FILL[1] = []; (function () { var o = OPEN(days[1]), cur = o[0]; while (cur + 60 <= o[1]) { FILL[1].push({ s: cur, t: 'limp' }); cur += 60 + CFG.buffer; } })(); // un día completo
+  var BL = {}; days.forEach(function (d, i) { BL[i] = {}; });
   var WAIT = [{ n: 'Florencia G.', tel: '336 420-1188', t: 'limp', day: 1 }];
   var nid = 100;
   var st = { tipo: '', preo: {}, vez: '', cat: 'facial', wf: 'todos' };
 
-  /* imágenes ilustrativas de antes / después */
+  function occ(di, excl) {
+    var out = [];
+    A.forEach(function (a) { if (a.day === di && a.id !== excl && a.st !== 'cancel' && a.st !== 'aus') { var s = toMin(a.h); out.push({ s: s, e: s + byId(a.t).min, a: a }); } });
+    (FILL[di] || []).forEach(function (f) { out.push({ s: f.s, e: f.s + byId(f.t).min, f: f }); });
+    return out.sort(function (x, y) { return x.s - y.s; });
+  }
+  function free(di, dur, excl) {
+    var d = days[di], o = OPEN(d), b = occ(di, excl), res = [], bl = BL[di];
+    for (var c = o[0]; c + dur <= o[1]; c += CFG.step) {
+      var ok = b.every(function (x) { return c + dur + CFG.buffer <= x.s || c >= x.e + CFG.buffer; });
+      if (ok) ok = Object.keys(bl).every(function (k) { var s = +k; return !bl[k] || c + dur <= s || c >= s + CFG.step; });
+      if (ok) res.push(toHM(c));
+    }
+    return res;
+  }
+  var DEF = 60;
+
+  /* imágenes ilustrativas y fotos para antes / después */
   function rng(seed) { var s = seed % 2147483647; if (s <= 0) s += 2147483646; return function () { s = s * 16807 % 2147483647; return (s - 1) / 2147483646; }; }
   var TONES = [[234, 200, 180], [222, 184, 160], [206, 160, 132], [241, 214, 198], [190, 140, 112]];
   function skin(cv, o) {
@@ -646,7 +796,6 @@ body:not(.cli) .toast { bottom: 20px; }
     if (!a && o.issue === 'dull') { ctx.fillStyle = 'rgba(150,140,110,.2)'; ctx.fillRect(0, 0, W, H); }
     var sc = W / 480, pores = Math.round(((o.issue === 'texture' && !a) ? 2600 : (a ? 700 : 1500)) * (W * H) / (480 * 600));
     for (i = 0; i < pores; i++) { ctx.fillStyle = 'rgba(90,45,30,' + (a ? .05 : .09) * (r() + .4) + ')'; ctx.beginPath(); ctx.arc(r() * W, r() * H, (r() * 1.6 + .4) * sc, 0, 6.3); ctx.fill(); }
-    if (o.issue === 'texture' && !a) { ctx.strokeStyle = 'rgba(110,60,40,.09)'; ctx.lineWidth = sc; for (i = 0; i < 70; i++) { var sx = r() * W, sy = r() * H; ctx.beginPath(); ctx.moveTo(sx, sy); ctx.quadraticCurveTo(sx + 20 * sc, sy + (r() - .5) * 14 * sc, sx + (40 + r() * 30) * sc, sy + (r() - .5) * 10 * sc); ctx.stroke(); } }
     var n = { acne: 26, spots: 18 }[o.issue] || 0;
     for (i = 0; i < n; i++) {
       var px = W * (.12 + r() * .76), py = H * (.15 + r() * .75), rad = (o.issue === 'acne' ? 4 + r() * 9 : 8 + r() * 20) * sc, rot = r() * 3, sq = .7 + r() * .5, keepR = r(), dotR = r();
@@ -660,17 +809,21 @@ body:not(.cli) .toast { bottom: 20px; }
     if (o.issue === 'acne' && !a) { var rg = ctx.createRadialGradient(W * .55, H * .6, 0, W * .55, H * .6, W * .5); rg.addColorStop(0, 'rgba(210,90,90,.14)'); rg.addColorStop(1, 'rgba(210,90,90,0)'); ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H); }
     if (a) { var hl = ctx.createRadialGradient(W * .32, H * .3, 0, W * .32, H * .3, W * .45); hl.addColorStop(0, 'rgba(255,250,245,.3)'); hl.addColorStop(1, 'rgba(255,250,245,0)'); ctx.fillStyle = hl; ctx.fillRect(0, 0, W, H); }
   }
+  var imgCache = {};
+  function withImg(src, cb) { var im = imgCache[src]; if (im && im.complete && im.naturalWidth) return cb(im); if (!im) { im = new Image(); im.src = src; imgCache[src] = im; } im.addEventListener('load', function () { cb(im); }, { once: true }); }
+  function cover(cv, src) { withImg(src, function (im) { var ctx = cv.getContext('2d'), W = cv.width, H = cv.height, s = Math.max(W / im.naturalWidth, H / im.naturalHeight), w = im.naturalWidth * s, h = im.naturalHeight * s; ctx.drawImage(im, (W - w) / 2, (H - h) / 2, w, h); }); }
+  function paint(cv, o, after) { if (o.imgs) cover(cv, o.imgs[after ? 1 : 0]); else { var o2 = {}; for (var k in o) o2[k] = o[k]; o2.after = !!after; skin(cv, o2); } }
   function sizeCanvas(cv) { var b = cv.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2); cv.width = Math.max(120, Math.round(b.width * dpr)); cv.height = Math.max(120, Math.round(b.height * dpr)); }
   function mountCmp(el, o) {
     var b = el.querySelector('.bef'), a = el.querySelector('.aft'), inp = el.querySelector('input');
-    function draw() { sizeCanvas(b); sizeCanvas(a); skin(b, o); var o2 = {}; for (var k in o) o2[k] = o[k]; o2.after = true; skin(a, o2); }
+    function draw() { sizeCanvas(b); sizeCanvas(a); paint(b, o, false); paint(a, o, true); }
     draw(); inp.oninput = function () { el.style.setProperty('--x', inp.value + '%'); };
     return draw;
   }
   var MAIN = { seed: 41, tone: 0, issue: 'acne' };
   var mainDraw = mountCmp($('cmp-main'), MAIN);
 
-  /* ficha */
+  /* ficha de piel (web) */
   function chip(group, name, value, type) {
     var l = document.createElement('label'); l.className = 'chip';
     var id = name + '-' + value.normalize('NFD').replace(/[^\w]+/g, '');
@@ -694,11 +847,11 @@ body:not(.cli) .toast { bottom: 20px; }
     if (st.tipo === 'Sensible') ex.push('Para piel sensible uso productos suaves y probamos antes.');
     if (n > 1) ex.push('Lo demás lo vemos juntas en el consultorio.');
     r.className = 'reco on';
-    r.innerHTML = '<small>Para empezar, te sugiero</small><b>' + esc(t.n) + '</b><p>' + esc(ex.join(' ') || t.d) + '</p><div class="row"><span class="meta num">' + t.min + ' min, ' + fmt(t.p) + '</span><button type="button" class="btn btn-p btn-s" id="reco-go">Pedir turno con este tratamiento</button></div>';
+    r.innerHTML = '<small>Para empezar, te sugiero</small><b>' + esc(t.n) + '</b><p>' + esc(ex.join(' ') || t.d) + '</p><div class="row"><span class="meta num">' + durTxt(t.min) + ', ' + fmt(t.p) + '</span><button type="button" class="btn btn-p btn-s" id="reco-go">Pedir turno con este tratamiento</button></div>';
     $('reco-go').onclick = function (e) { openPedir(t.id, e.currentTarget); };
   }
 
-  /* tratamientos */
+  /* tratamientos (web) */
   function renderCats() {
     $('cats').innerHTML = CATS.map(function (c) { return '<button type="button" role="tab" aria-selected="' + (c.id === st.cat) + '" data-c="' + c.id + '">' + c.n + '</button>'; }).join('');
     qa('#cats button').forEach(function (b) { b.onclick = function () { st.cat = b.dataset.c; renderCats(); renderTrat(); }; });
@@ -706,42 +859,47 @@ body:not(.cli) .toast { bottom: 20px; }
   function renderTrat() {
     var list = T.filter(function (t) { return t.on && t.c === st.cat; });
     $('trat').innerHTML = list.length ? list.map(function (t) {
-      return '<li><div><h3>' + esc(t.n) + '</h3><p class="d">' + esc(t.d) + '</p><div class="m"><span class="pill num">' + t.min + ' min</span>' + (t.tag ? '<span class="pill ' + t.tag[1] + '">' + esc(t.tag[0]) + '</span>' : '') + '</div></div><div class="side"><span class="price num">' + fmt(t.p) + '</span><button type="button" class="btn btn-g btn-s" data-t="' + t.id + '">Pedir turno</button></div></li>';
+      return '<li><div><h3>' + esc(t.n) + '</h3><p class="d">' + esc(t.d) + '</p><div class="m"><span class="pill num">' + durTxt(t.min) + '</span>' + (t.tag ? '<span class="pill ' + t.tag[1] + '">' + esc(t.tag[0]) + '</span>' : '') + '</div></div><div class="side"><span class="price num">' + fmt(t.p) + '</span><button type="button" class="btn btn-g btn-s" data-t="' + t.id + '">Pedir turno</button></div></li>';
     }).join('') : '<li><p class="d">No hay tratamientos disponibles en esta categoría por ahora.</p></li>';
     qa('#trat button[data-t]').forEach(function (b) { b.onclick = function () { openPedir(b.dataset.t, b); }; });
   }
 
-  /* trabajos */
+  /* trabajos (web) */
   var WORKS = [
     { k: 'ba', f: 'acne', t: 'Tratamiento para acné', tid: 'acne', s: '4 sesiones', o: { seed: 41, tone: 0, issue: 'acne' } },
-    { k: 'photo', f: 'limpieza', t: 'Limpieza con aparatología', tid: 'limp', s: 'En el consultorio', img: 'g1' },
+    { k: 'photo', f: 'limpieza', t: 'Limpieza con aparatología', tid: 'limp', s: 'En el consultorio', img: 'g1', big: 'hero' },
     { k: 'ba', f: 'manchas', t: 'Peeling suave', tid: 'peel', s: '3 sesiones', o: { seed: 23, tone: 2, issue: 'spots' } },
     { k: 'video', f: 'limpieza', t: 'Máscara hidratante, paso a paso', tid: 'hidr', s: 'Video, 0:42', img: 'g3' },
-    { k: 'photo', f: 'limpieza', t: 'Desmaquillado y preparación', tid: 'limp', s: 'Primer paso de cada sesión', img: 'g2' },
+    { k: 'photo', f: 'limpieza', t: 'Desmaquillado y preparación', tid: 'limp', s: 'Primer paso de cada sesión', img: 'g2', big: 'sofia' },
     { k: 'ba', f: 'limpieza', t: 'Hidratación profunda', tid: 'hidr', s: '2 sesiones', o: { seed: 52, tone: 4, issue: 'dull' } }
   ];
-  var WF = [['todos', 'Todos'], ['acne', 'Acné'], ['manchas', 'Manchas'], ['limpieza', 'Limpieza e hidratación'], ['video', 'Videos']];
+  var srcOf = function (key) { return IMG[key] || key; };
+  var WF = [['todos', 'Todos'], ['acne', 'Acné'], ['manchas', 'Manchas'], ['limpieza', 'Limpieza e hidratación'], ['mirada', 'Cejas y pestañas'], ['video', 'Videos']];
+  var fOf = function (tid) { return { acne: 'acne', peel: 'manchas', lift: 'mirada', cejas: 'mirada' }[tid] || 'limpieza'; };
   function renderWorks() {
-    $('wf').innerHTML = WF.map(function (f) { return '<button type="button" role="tab" aria-selected="' + (f[0] === st.wf) + '" data-f="' + f[0] + '">' + f[1] + '</button>'; }).join('');
+    var used = WF.filter(function (f) { return f[0] === 'todos' || WORKS.some(function (w) { return f[0] === 'video' ? w.k === 'video' : w.f === f[0]; }); });
+    $('wf').innerHTML = used.map(function (f) { return '<button type="button" role="tab" aria-selected="' + (f[0] === st.wf) + '" data-f="' + f[0] + '">' + f[1] + '</button>'; }).join('');
     qa('#wf button').forEach(function (b) { b.onclick = function () { st.wf = b.dataset.f; renderWorks(); }; });
     var list = WORKS.filter(function (w) { return st.wf === 'todos' || (st.wf === 'video' ? w.k === 'video' : w.f === st.wf); });
     $('gal').innerHTML = list.map(function (w) {
       var i = WORKS.indexOf(w), cap = '<span class="cap">' + esc(w.t) + '<small>' + esc(w.s) + '</small></span>';
-      if (w.k === 'video') return '<button type="button" class="work" data-w="' + i + '" aria-label="Ver video: ' + esc(w.t) + '"><img src="' + IMG[w.img] + '" alt="" width="440" height="440"><span class="kind">Video</span><span class="play" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="#241B35"><path d="M8 5v14l11-7z"/></svg></span>' + cap + '</button>';
-      if (w.k === 'photo') return '<button type="button" class="work" data-w="' + i + '" aria-label="Ver foto: ' + esc(w.t) + '"><img src="' + IMG[w.img] + '" alt="" width="440" height="440"><span class="kind">Foto</span>' + cap + '</button>';
+      if (w.k === 'video') return '<button type="button" class="work" data-w="' + i + '" aria-label="Ver video: ' + esc(w.t) + '"><img src="' + srcOf(w.img) + '" alt="" width="440" height="440"><span class="kind">Video</span><span class="play" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="#241B35"><path d="M8 5v14l11-7z"/></svg></span>' + cap + '</button>';
+      if (w.k === 'photo') return '<button type="button" class="work" data-w="' + i + '" aria-label="Ver foto: ' + esc(w.t) + '"><img src="' + srcOf(w.img) + '" alt="" width="440" height="440"><span class="kind">Foto</span>' + cap + '</button>';
       return '<button type="button" class="work" data-w="' + i + '" aria-label="Comparar antes y después: ' + esc(w.t) + ', ' + esc(w.s) + '"><canvas data-wc="' + i + '" aria-hidden="true"></canvas><span class="half"><canvas data-wa="' + i + '" aria-hidden="true"></canvas></span><span class="sep"></span><span class="kind">Antes y después</span>' + cap + '</button>';
     }).join('') || '<p class="note">No hay trabajos en esta categoría todavía.</p>';
     requestAnimationFrame(function () {
-      qa('#gal canvas[data-wc]').forEach(function (cv) { sizeCanvas(cv); skin(cv, WORKS[+cv.dataset.wc].o); });
-      qa('#gal canvas[data-wa]').forEach(function (cv) { var w = WORKS[+cv.dataset.wa], o = {}; for (var k in w.o) o[k] = w.o[k]; o.after = true; sizeCanvas(cv); skin(cv, o); });
+      qa('#gal canvas[data-wc]').forEach(function (cv) { sizeCanvas(cv); paint(cv, WORKS[+cv.dataset.wc].o, false); });
+      qa('#gal canvas[data-wa]').forEach(function (cv) { sizeCanvas(cv); paint(cv, WORKS[+cv.dataset.wa].o, true); });
     });
     qa('#gal .work').forEach(function (b) { b.onclick = function () { openWork(+b.dataset.w, b); }; });
   }
   function openWork(i, from) {
     var w = WORKS[i];
     if (w.k === 'ba') {
-      for (var k in w.o) MAIN[k] = w.o[k];
+      for (var k in MAIN) delete MAIN[k];
+      for (k in w.o) MAIN[k] = w.o[k];
       $('cmp-cap').innerHTML = '<b>' + esc(w.t) + '</b>, ' + esc(w.s);
+      $('cmp-main').nextElementSibling.lastElementChild.textContent = w.o.imgs ? 'Foto real' : 'Imagen ilustrativa';
       $('cmp-main').style.setProperty('--x', '50%'); $('cmp-main').querySelector('input').value = 50;
       mainDraw();
       var top = $('cmp-main').getBoundingClientRect().top;
@@ -752,8 +910,8 @@ body:not(.cli) .toast { bottom: 20px; }
     $('dk-h').textContent = w.t;
     $('dk-b').innerHTML = w.k === 'video'
       ? '<div class="video-ph"><img src="' + IMG.mask + '" alt="Clienta con máscara hidratante aplicada con pincel" width="900" height="600"><span class="play" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="#241B35"><path d="M8 5v14l11-7z"/></svg></span></div><p class="muted">Acá va tu video: un reel del tratamiento, una rutina o tu consultorio. Se reproduce sin salir de la página.</p>'
-      : '<div class="video-ph"><img src="' + (w.img === 'g1' ? IMG.hero : IMG.sofia) + '" alt="' + esc(w.t) + '" style="aspect-ratio:4/5;object-position:50% 40%"></div><p class="muted">' + esc(w.s) + '.</p>';
-    var t = byId(w.tid);
+      : '<div class="video-ph"><img src="' + srcOf(w.big || w.img) + '" alt="' + esc(w.t) + '" style="aspect-ratio:4/5;object-position:50% 40%"></div><p class="muted">' + esc(w.s) + '.</p>';
+    var t = byId(w.tid) || T[0];
     $('dk-f').innerHTML = '<button type="button" class="btn btn-p" id="dk-go">Pedir turno: ' + esc(t.n) + '</button>';
     $('dk-go').onclick = function () { closeD($('d-work')); openPedir(t.id); };
     showD($('d-work'), from);
@@ -787,7 +945,7 @@ body:not(.cli) .toast { bottom: 20px; }
   function showWA(msg, to) { $('dw-to').textContent = 'Para: ' + (to || 'Sofía, Consultorio Ejemplo'); $('dw-m').textContent = msg; showD($('d-wa')); }
   $('wa-q').onclick = function () { showWA('Hola Sofía, quería hacerte una consulta.'); };
   qa('[data-open]').forEach(function (b) { b.addEventListener('click', function () { if (b.dataset.open === 'pedir') openPedir(b.dataset.t || null, b); else openMis(b); }); });
-  $('next-go').onclick = function (e) { var n = nextSlot(); if (!n) return; openPedir(null, e.currentTarget); P.day = n[0]; P.h = n[1]; P.step = 1; P.after = 3; renderPedir(); };
+  $('next-go').onclick = function (e) { var n = nextSlot(); if (!n) return; openPedir(null, e.currentTarget); P.day = n[0]; P.h = n[1]; P.after = 3; renderPedir(); };
 
   /* pedir turno */
   var P = {};
@@ -803,19 +961,25 @@ body:not(.cli) .toast { bottom: 20px; }
     b.scrollTop = 0;
     if (P.step === 1) {
       $('dp-h').textContent = 'Elegí el tratamiento';
-      b.innerHTML = (P.h ? '<div class="sum"><span>Horario elegido</span><b class="num">' + esc(dLong.format(days[P.day])) + ', ' + P.h + ' h</b></div>' : '') + CATS.map(function (c) {
+      b.innerHTML = (P.h ? '<div class="sum"><span>Horario elegido</span><b class="num">' + esc(dLong.format(days[P.day])) + ', ' + P.h + ' h</b><span class="hint">Si el tratamiento dura más, puede que ese horario no alcance y elegís otro.</span></div>' : '') + CATS.map(function (c) {
         var list = T.filter(function (t) { return t.on && t.c === c.id; }); if (!list.length) return '';
-        return '<p class="stp-t">' + c.n + '</p><div class="opt-list" style="margin-bottom:14px">' + list.map(function (t) { return '<button type="button" class="opt" data-t="' + t.id + '" aria-pressed="' + (t.id === P.t) + '"><span><b>' + esc(t.n) + '</b><span class="num">' + t.min + ' min</span></span><span class="p num">' + fmt(t.p) + '</span></button>'; }).join('') + '</div>';
+        return '<p class="stp-t">' + c.n + '</p><div class="opt-list" style="margin-bottom:14px">' + list.map(function (t) { return '<button type="button" class="opt" data-t="' + t.id + '" aria-pressed="' + (t.id === P.t) + '"><span><b>' + esc(t.n) + '</b><span class="num">' + durTxt(t.min) + '</span></span><span class="p num">' + fmt(t.p) + '</span></button>'; }).join('') + '</div>';
       }).join('');
-      qa('.opt', b).forEach(function (o) { o.onclick = function () { P.t = o.dataset.t; P.step = P.after || 2; P.after = null; renderPedir(); }; });
+      qa('.opt', b).forEach(function (o) { o.onclick = function () {
+        P.t = o.dataset.t;
+        if (P.after && P.h && free(P.day, byId(P.t).min).indexOf(P.h) < 0) { P.h = ''; P.after = null; P.step = 2; toast('Ese horario no alcanza para ' + byId(P.t).n.toLowerCase() + '. Elegí otro.'); }
+        else { P.step = P.after || 2; P.after = null; }
+        renderPedir();
+      }; });
       f.innerHTML = '<button type="button" class="btn btn-g" data-close>Cancelar</button>';
     } else if (P.step === 2) {
       var t = byId(P.t);
       $('dp-h').textContent = 'Elegí día y horario';
-      if (P.day === null) { for (var i = 0; i < days.length; i++) if (free(days[i]).length) { P.day = i; break; } }
-      var d = days[P.day], fr = free(d);
-      b.innerHTML = '<div class="sum"><span>Tratamiento</span><b>' + esc(t.n) + '</b><span class="num">' + t.min + ' min, ' + fmt(t.p) + '</span></div>' +
-        '<div class="days" role="group" aria-label="Día">' + days.map(function (x, k) { var n = free(x).length; return '<button type="button" class="day' + (n ? '' : ' full') + '" data-d="' + k + '" aria-pressed="' + (k === P.day) + '" aria-label="' + dLong.format(x) + (n ? ', ' + n + ' horarios libres' : ', completo') + '"><small>' + DN[x.getDay()] + '</small><b class="num">' + x.getDate() + '</b><em>' + (n ? n + ' libres' : 'completo') + '</em></button>'; }).join('') + '</div>' +
+      if (P.day === null) { for (var i = 0; i < days.length; i++) if (free(i, t.min).length) { P.day = i; break; } }
+      if (P.day === null) P.day = 0;
+      var d = days[P.day], fr = free(P.day, t.min);
+      b.innerHTML = '<div class="sum"><span>Tratamiento</span><b>' + esc(t.n) + '</b><span class="num">' + durTxt(t.min) + ', ' + fmt(t.p) + '. Los horarios ya contemplan lo que dura.</span></div>' +
+        '<div class="days" role="group" aria-label="Día">' + days.map(function (x, k) { var n = free(k, t.min).length; return '<button type="button" class="day' + (n ? '' : ' full') + '" data-d="' + k + '" aria-pressed="' + (k === P.day) + '" aria-label="' + dLong.format(x) + (n ? ', ' + n + ' horarios libres' : ', completo') + '"><small>' + DN[x.getDay()] + '</small><b class="num">' + x.getDate() + '</b><em>' + (n ? n + ' libres' : 'completo') + '</em></button>'; }).join('') + '</div>' +
         (fr.length ? '<p class="stp-t" style="margin-top:12px">Horarios libres, ' + esc(dLong.format(d)) + '</p><div class="slots" role="group" aria-label="Horario">' + fr.map(function (h) { return '<button type="button" class="slot num" aria-pressed="' + (h === P.h) + '">' + h + '</button>'; }).join('') + '</div><p class="err" id="perr" role="alert"></p>'
           : '<div class="full-box" style="margin-top:12px"><b>El ' + esc(dLong.format(d)) + ' está completo.</b><br>Si se libera un horario, te aviso por WhatsApp.<br><button type="button" class="btn btn-s" id="wait">Avisame si se libera</button></div>');
       qa('.day', b).forEach(function (x) { x.onclick = function () { P.day = +x.dataset.d; P.h = ''; renderPedir(); }; });
@@ -832,9 +996,9 @@ body:not(.cli) .toast { bottom: 20px; }
       $('bk').onclick = function () { P.step = 2; renderPedir(); };
       $('nx').onclick = function () { if (!valid()) return; WAIT.push({ n: P.nm, tel: P.tel, t: P.t, day: P.day }); closeD($('d-pedir')); toast('Listo, ' + P.nm + '. Si se libera un horario, te aviso.'); renderPanel(); };
     } else {
-      var t3 = byId(P.t), d3 = days[P.day];
+      var t3 = byId(P.t), d3 = days[P.day], s3 = toMin(P.h);
       $('dp-h').textContent = 'Tus datos';
-      b.innerHTML = '<div class="sum"><b>' + esc(t3.n) + '</b><span class="num">' + esc(dLong.format(d3)) + ', ' + P.h + ' h. ' + t3.min + ' min, ' + fmt(t3.p) + '.</span></div>' + fields(true) +
+      b.innerHTML = '<div class="sum"><b>' + esc(t3.n) + '</b><span class="num">' + esc(dLong.format(d3)) + ', de ' + P.h + ' a ' + toHM(s3 + t3.min) + ' h. ' + fmt(t3.p) + '.</span></div>' + fields(true) +
         '<label class="check"><input type="checkbox" id="f-ok"' + (P.ok ? ' checked' : '') + '><span>Leí las condiciones: dejo una seña de ' + fmt(SENA) + ' para confirmar, puedo reprogramar hasta 24 h antes y <b>si cancelo, la seña no se devuelve</b>.</span></label><p class="err" id="perr" role="alert"></p>';
       bindFields();
       $('f-ok').onchange = function (e) { P.ok = e.target.checked; };
@@ -864,36 +1028,60 @@ body:not(.cli) .toast { bottom: 20px; }
   function confirmBooking() {
     if (!valid(true)) return;
     var t = byId(P.t), d = days[P.day];
+    if (free(P.day, t.min).indexOf(P.h) < 0) { $('perr').textContent = 'Ese horario se acaba de ocupar. Elegí otro.'; P.step = 2; P.h = ''; renderPedir(); return; }
     var c = C.filter(function (x) { return digits(x.tel) === digits(P.tel); })[0], isNew = !c;
-    if (!c) { c = { id: ++nid, n: P.nm, tel: P.tel, tipo: st.tipo && st.tipo !== 'No sé' ? st.tipo : '', nota: P.nota.trim(), visits: [] }; C.unshift(c); }
-    busy[keyOf(d)][P.h] = true;
+    if (!c) { c = { id: ++nid, n: P.nm, tel: P.tel, tipo: st.tipo && st.tipo !== 'No sé' ? st.tipo : '', nota: P.nota.trim(), visits: [], fc: { ant: {} }, evo: [] }; C.unshift(c); }
     A.push({ id: 'a' + (++nid), c: c.id, t: t.id, day: P.day, h: P.h, sena: 'rev', st: 'ok', first: isNew || st.vez === 'Es la primera vez', fresh: true, preo: Object.keys(st.preo), nota: P.nota.trim() });
-    var L = ['Hola Sofía, soy ' + P.nm + '. Quiero pedir un turno:', '', '• ' + t.n + ' (' + t.min + ' min, ' + fmt(t.p) + ')', '• ' + dLong.format(d) + ', ' + P.h + ' h'];
+    var L = ['Hola Sofía, soy ' + P.nm + '. Quiero pedir un turno:', '', '• ' + t.n + ' (' + durTxt(t.min) + ', ' + fmt(t.p) + ')', '• ' + dLong.format(d) + ', ' + P.h + ' h'];
     var pre = Object.keys(st.preo);
     if (st.tipo || pre.length || st.vez) { L.push('', 'Mi ficha:'); if (st.tipo) L.push('• Piel: ' + st.tipo.toLowerCase()); if (pre.length) L.push('• Quiero mejorar: ' + pre.join(', ').toLowerCase()); if (st.vez) L.push('• ' + st.vez); }
     if (P.nota.trim()) L.push('', 'Para tener en cuenta: ' + P.nota.trim());
     L.push('', 'Te mando el comprobante de la seña de ' + fmt(SENA) + '. ¿Me lo confirmás?');
     closeD($('d-pedir')); showWA(L.join('\n'));
-    M.tel = P.tel; renderPanel(); nextFree();
+    M.tel = P.tel; renderPanel(); nextFree(); renderMisIfOpen();
+    if (!fichaOk(c)) setTimeout(function () { toast('Tip: desde “Mis turnos” podés completar tu ficha antes de venir.'); }, 400);
   }
 
-  /* mis turnos */
-  var M = { tel: '', resch: null, cx: null, day: null };
-  function openMis(from) { M.resch = null; M.cx = null; renderMis(); showD($('d-mis'), from); }
-  function myTurns() { var t = digits(M.tel); return A.filter(function (a) { var c = cById(a.c); return a.day >= 0 && c && t && digits(c.tel) === t; }); }
+  /* mis turnos + ficha online de la clienta */
+  var M = { tel: '', resch: null, cx: null, day: null, view: 'list' };
+  function openMis(from) { M.resch = null; M.cx = null; M.view = 'list'; renderMis(); showD($('d-mis'), from); }
+  function renderMisIfOpen() { if ($('d-mis').open) renderMis(); }
+  function meC() { var t = digits(M.tel); return t ? C.filter(function (c) { return digits(c.tel) === t; })[0] : null; }
+  function myTurns() { var c = meC(); return c ? A.filter(function (a) { return a.day >= 0 && a.c === c.id; }) : []; }
   function renderMis() {
-    var b = $('dm-b');
+    var b = $('dm-b'), f = $('dm-f'), c = meC();
+    f.hidden = true; f.innerHTML = '';
+    if (M.view === 'ficha' && c) {
+      $('dm-h').textContent = 'Mi ficha';
+      var fc = c.fc || (c.fc = { ant: {} });
+      b.innerHTML = '<p class="aviso"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#533B90" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>Estos datos de salud solo los ve Sofía y se usan para cuidar tu piel durante el tratamiento. No se comparten.</span></p>' +
+        '<fieldset class="fsec"><legend>¿Tenés alguno de estos?</legend><div class="cks">' + ANT.map(function (a) { return '<label class="ck"><input type="checkbox" data-ma="' + a[0] + '"' + (fc.ant[a[0]] ? ' checked' : '') + '><span>' + esc(a[1]) + '</span></label>'; }).join('') + '</div></fieldset>' +
+        '<div class="field"><label for="ma-det">Contame más (qué alergia, qué medicación…)</label><textarea id="ma-det" maxlength="300" placeholder="Por ejemplo: alergia al ibuprofeno…">' + esc(fc.antDet || '') + '</textarea></div>' +
+        '<div class="field"><label for="ma-nac">Fecha de nacimiento</label><input id="ma-nac" type="date" autocomplete="bday" value="' + esc(fc.nac || '') + '"></div>' +
+        '<label class="check"><input type="checkbox" id="ma-ok"' + (fc.consent != null ? ' checked' : '') + '><span>Confirmo que los datos son correctos y doy mi consentimiento para que se usen solo para mi tratamiento.</span></label><p class="err" id="maerr" role="alert"></p>';
+      f.hidden = false; f.innerHTML = '<button type="button" class="btn btn-g" id="ma-bk">Volver</button><button type="button" class="btn btn-p" id="ma-sv">Guardar mi ficha</button>';
+      $('ma-bk').onclick = function () { M.view = 'list'; renderMis(); };
+      $('ma-sv').onclick = function () {
+        if (!$('ma-ok').checked) { $('maerr').textContent = 'Para guardar, marcá la confirmación.'; $('ma-ok').focus(); return; }
+        qa('[data-ma]', b).forEach(function (x) { fc.ant[x.dataset.ma] = x.checked; });
+        fc.antDet = $('ma-det').value.trim(); fc.nac = $('ma-nac').value; fc.consent = 0; fc.byClient = true;
+        M.view = 'list'; renderMis(); renderPanel(); toast('Ficha guardada. Sofía ya la tiene antes de tu turno.');
+      };
+      return;
+    }
+    $('dm-h').textContent = 'Mis turnos';
     var html = '<div class="field"><label for="m-tel">Tu WhatsApp</label><div class="row2"><input id="m-tel" type="tel" inputmode="tel" autocomplete="tel" name="tel" placeholder="336 401-5577…" value="' + esc(M.tel) + '"><button type="button" class="btn btn-p btn-s" id="m-go">Buscar</button></div><span class="hint">Para probar la demo, usá 336 401-5577.</span></div>';
     if (M.tel) {
       var list = myTurns();
       if (!list.length) html += '<p class="empty">No hay turnos con ese número. Revisá que sea el mismo que usaste al pedirlo o <button type="button" class="mini" id="m-new">pedí un turno</button>.</p>';
+      if (c) html += fichaOk(c) ? '<div class="okbox">Tu ficha está completa. <button type="button" class="mini" id="m-fc" style="margin-left:6px">Ver o actualizar</button></div>' : '<div class="alert"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8C2F52" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 4h6l1 2h3v15H5V6h3z"/><path d="M9 12h6M9 16h4"/></svg><span>Completá tu ficha antes de venir: son 2 minutos y ganamos tiempo en la sesión.<br><button type="button" class="mini dark" id="m-fc" style="margin-top:8px">Completar mi ficha</button></span></div>';
       list.forEach(function (a) {
         var t = byId(a.t), d = days[a.day], hrs = (d - today) / 36e5;
-        html += '<div class="my' + (a.st === 'cancel' ? ' cancel' : '') + '"><b>' + esc(t.n) + '</b><span class="num">' + esc(dLong.format(d)) + ', ' + a.h + ' h. ' + t.min + ' min.</span><div class="tags"><span class="pill ' + (a.sena === 'ok' ? 'g">Seña recibida' : 'y">Seña por confirmar') + '</span>' + (a.st === 'cancel' ? '<span class="pill r">Cancelado</span>' : '') + (a.moved ? '<span class="pill v">Reprogramado</span>' : '') + '</div>' +
+        html += '<div class="my' + (a.st === 'cancel' ? ' cancel' : '') + '"><b>' + esc(t.n) + '</b><span class="num">' + esc(dLong.format(d)) + ', ' + a.h + ' h. ' + durTxt(t.min) + '.</span><div class="tags"><span class="pill ' + (a.sena === 'ok' ? 'g">Seña recibida' : 'y">Seña por confirmar') + '</span>' + (a.st === 'cancel' ? '<span class="pill r">Cancelado</span>' : '') + (a.moved ? '<span class="pill v">Reprogramado</span>' : '') + '</div>' +
           (a.st === 'ok' ? '<div class="acts"><button type="button" class="mini dark" data-rs="' + a.id + '"' + (hrs < 24 ? ' disabled' : '') + '>Reprogramar</button><button type="button" class="mini" data-cx="' + a.id + '">Cancelar turno</button></div>' + (hrs < 24 ? '<p class="hint" style="margin-top:6px">Falta menos de 24 h: ya no se puede reprogramar.</p>' : '') : '') + '</div>';
         if (M.resch === a.id) {
-          html += '<div class="sum"><b>Elegí el nuevo horario</b><span>La seña se mantiene.</span><div class="days" role="group" aria-label="Nuevo día">' + days.map(function (x, k) { var n = free(x).length; return '<button type="button" class="day' + (n ? '' : ' full') + '" data-md="' + k + '" aria-pressed="' + (k === M.day) + '"' + (n ? '' : ' disabled') + '><small>' + DN[x.getDay()] + '</small><b class="num">' + x.getDate() + '</b><em>' + (n ? n + ' libres' : 'completo') + '</em></button>'; }).join('') + '</div>' +
-            (M.day != null ? '<div class="slots">' + free(days[M.day]).map(function (h) { return '<button type="button" class="slot num" data-mh="' + h + '">' + h + '</button>'; }).join('') + '</div>' : '<p class="hint">Primero elegí el día.</p>') + '</div>';
+          html += '<div class="sum"><b>Elegí el nuevo horario</b><span>La seña se mantiene.</span><div class="days" role="group" aria-label="Nuevo día">' + days.map(function (x, k) { var n = free(k, t.min, a.id).length; return '<button type="button" class="day' + (n ? '' : ' full') + '" data-md="' + k + '" aria-pressed="' + (k === M.day) + '"' + (n ? '' : ' disabled') + '><small>' + DN[x.getDay()] + '</small><b class="num">' + x.getDate() + '</b><em>' + (n ? n + ' libres' : 'completo') + '</em></button>'; }).join('') + '</div>' +
+            (M.day != null ? '<div class="slots">' + free(M.day, t.min, a.id).map(function (h) { return '<button type="button" class="slot num" data-mh="' + h + '">' + h + '</button>'; }).join('') + '</div>' : '<p class="hint">Primero elegí el día.</p>') + '</div>';
         }
         if (M.cx === a.id) html += '<div class="warn"><b>¿Cancelás este turno?</b><br>Tu seña de ' + fmt(SENA) + ' <b>no se devuelve</b>. Si lo que necesitás es otro día, reprogramalo y la seña se mantiene.<div class="acts"><button type="button" class="mini dark" data-cxok="' + a.id + '">Sí, cancelar el turno</button><button type="button" class="mini" data-rs="' + a.id + '"' + (hrs < 24 ? ' disabled' : '') + '>Mejor reprogramar</button></div></div>';
       });
@@ -903,24 +1091,26 @@ body:not(.cli) .toast { bottom: 20px; }
     $('m-go').onclick = function () { M.tel = $('m-tel').value; M.resch = null; M.cx = null; renderMis(); };
     $('m-tel').onkeydown = function (e) { if (e.key === 'Enter') $('m-go').click(); };
     if ($('m-new')) $('m-new').onclick = function () { closeD($('d-mis')); openPedir(null); };
+    if ($('m-fc')) $('m-fc').onclick = function () { M.view = 'ficha'; renderMis(); $('dm-b').scrollTop = 0; };
     var get = function (id) { return A.filter(function (y) { return y.id === id; })[0]; };
     qa('[data-rs]', b).forEach(function (x) { x.onclick = function () { M.resch = x.dataset.rs; M.cx = null; M.day = null; renderMis(); }; });
     qa('[data-cx]', b).forEach(function (x) { x.onclick = function () { M.cx = x.dataset.cx; M.resch = null; renderMis(); }; });
-    qa('[data-cxok]', b).forEach(function (x) { x.onclick = function () { var a = get(x.dataset.cxok); a.st = 'cancel'; busy[keyOf(days[a.day])][a.h] = false; M.cx = null; renderMis(); renderPanel(); nextFree(); toast('Turno cancelado. Sofía ya lo ve en su agenda.'); }; });
+    qa('[data-cxok]', b).forEach(function (x) { x.onclick = function () { var a = get(x.dataset.cxok); a.st = 'cancel'; M.cx = null; renderMis(); renderPanel(); nextFree(); toast('Turno cancelado. Sofía ya lo ve en su agenda.'); }; });
     qa('[data-md]', b).forEach(function (x) { x.onclick = function () { M.day = +x.dataset.md; renderMis(); }; });
-    qa('[data-mh]', b).forEach(function (x) { x.onclick = function () { var a = get(M.resch); busy[keyOf(days[a.day])][a.h] = false; a.day = M.day; a.h = x.dataset.mh; a.moved = true; busy[keyOf(days[a.day])][a.h] = true; M.resch = null; renderMis(); renderPanel(); nextFree(); toast('Turno reprogramado: ' + dLong.format(days[a.day]) + ', ' + a.h + ' h.'); }; });
+    qa('[data-mh]', b).forEach(function (x) { x.onclick = function () { var a = get(M.resch); a.day = M.day; a.h = x.dataset.mh; a.moved = true; M.resch = null; renderMis(); renderPanel(); nextFree(); toast('Turno reprogramado: ' + dLong.format(days[a.day]) + ', ' + a.h + ' h.'); }; });
   }
 
-  function nextSlot() { for (var i = 0; i < days.length; i++) { var f = free(days[i]); if (f.length) return [i, f[0]]; } return null; }
+  function nextSlot() { for (var i = 0; i < days.length; i++) { var f = free(i, DEF); if (f.length) return [i, f[0]]; } return null; }
   function nextFree() { var n = nextSlot(); $('next-free').textContent = n ? (DN[days[n[0]].getDay()] + ' ' + days[n[0]].getDate() + ', ' + n[1] + ' h') : 'Sin lugar esta semana'; $('next-go').hidden = !n; }
 
-  /* panel */
-  var PT = [['hoy', 'Agenda'], ['clientas', 'Clientas'], ['trat', 'Tratamientos'], ['horarios', 'Horarios y espera'], ['mes', 'Resumen del mes']];
-  var pst = { tab: 'hoy', q: '', f: 'todas', open: null, pday: 0 };
+  /* ===== panel ===== */
+  var PT = [['hoy', 'Agenda'], ['clientas', 'Clientas y fichas'], ['trat', 'Tratamientos'], ['trab', 'Trabajos'], ['horarios', 'Horarios'], ['mes', 'Resumen del mes']];
+  var pst = { tab: 'hoy', q: '', f: 'todas', pday: 0, nt: null, nw: { k: 'photo', t: '', tid: 'limp', s: '', a: null, b: null } };
   var initials = function (n) { return n.split(' ').map(function (p) { return p[0]; }).slice(0, 2).join('').toUpperCase(); };
   var first = function (n) { return n.split(' ')[0]; };
   var whenTxt = function (a) { return a.day < 0 ? 'hoy' : DN[days[a.day].getDay()] + ' ' + days[a.day].getDate(); };
   var pill = function (g) { return '<span class="pill ' + g[1] + '">' + esc(g[0]) + '</span>'; };
+  var shortAlert = { alergia: 'Alergia', emb: 'Embarazo', isotre: 'Isotretinoína', implant: 'Implantes', herpes: 'Herpes', acidos: 'Usa ácidos', ciru: 'Cirugía reciente' };
   function remindMsg(c) {
     var v = lastVisit(c), t = v ? byId(v[1]) : null, ns = nextSlot(), when = ns ? dLong.format(days[ns[0]]) + ' a las ' + ns[1] + ' h' : 'la semana que viene';
     if (c.pack) return 'Hola ' + first(c.n) + '! ¿Cómo va tu piel? Te quedan ' + (c.pack.of - c.pack.used) + ' sesiones de ' + byId(c.pack.t).n.toLowerCase() + '. ¿Te reservo la próxima? Tengo lugar el ' + when + '.';
@@ -929,17 +1119,20 @@ body:not(.cli) .toast { bottom: 20px; }
   }
   function renderPanel() {
     $('ph-date').textContent = 'Hoy es ' + dLong.format(today) + '.';
-    var due = C.filter(dueFor).length, rev = A.filter(function (a) { return a.sena === 'rev' && a.st === 'ok'; }).length;
-    var cnt = { hoy: rev, clientas: due, horarios: WAIT.length };
+    var due = C.filter(dueFor).length, rev = A.filter(function (a) { return a.sena === 'rev' && a.st === 'ok'; }).length, inc = C.filter(function (c) { return !fichaOk(c); }).length;
+    var cnt = { hoy: rev, clientas: due + inc, horarios: WAIT.length };
     $('ptabs').innerHTML = PT.map(function (p) { return '<button type="button" role="tab" aria-selected="' + (p[0] === pst.tab) + '" data-pt="' + p[0] + '">' + p[1] + (cnt[p[0]] ? ' <span class="cnt num">' + cnt[p[0]] + '</span>' : '') + '</button>'; }).join('');
     qa('#ptabs button').forEach(function (b) { b.onclick = function () { pst.tab = b.dataset.pt; renderPanel(); }; });
-    $('pbody').innerHTML = pst.tab === 'hoy' ? pHoy(rev, due) : pst.tab === 'clientas' ? pClientas() : pst.tab === 'trat' ? pTrat() : pst.tab === 'horarios' ? pHorarios() : pMes();
+    $('pbody').innerHTML = pst.tab === 'hoy' ? pHoy(rev, due) : pst.tab === 'clientas' ? pClientas() : pst.tab === 'trat' ? pTrat() : pst.tab === 'trab' ? pTrab() : pst.tab === 'horarios' ? pHorarios() : pMes();
     bindPanel();
+    if (pst.tab === 'trab') drawTrabThumbs();
   }
   function agItem(a) {
-    var c = cById(a.c), t = byId(a.t), tags = [];
+    var c = cById(a.c), t = byId(a.t), tags = [], s = toMin(a.h);
+    alertsOf(c).forEach(function (k) { tags.push(['⚠ ' + shortAlert[k], 'al']); });
     if (c.tipo) tags.push(['Piel ' + c.tipo.toLowerCase(), '']);
     if (a.first) tags.push(['Primera vez', 'r']);
+    if (!fichaOk(c)) tags.push(['Ficha sin completar', 'y']); else if (c.fc.byClient && !c.visits.length) tags.push(['Completó la ficha online', 'g']);
     if (a.st === 'ok') tags.push(a.sena === 'ok' ? ['Seña recibida', 'g'] : ['Seña por revisar', 'y']);
     if (c.pack && c.pack.t === a.t && a.st === 'ok') tags.push(['Plan: sesión ' + (c.pack.used + 1) + ' de ' + c.pack.of, 'v']);
     if (a.moved) tags.push(['Reprogramó', 'v']);
@@ -952,55 +1145,276 @@ body:not(.cli) .toast { bottom: 20px; }
       if (a.sena === 'rev') acts += '<button type="button" class="mini dark" data-sena="' + a.id + '">Seña recibida</button>';
       acts += a.day < 0 ? '<button type="button" class="mini" data-done="' + a.id + '">Atendida</button><button type="button" class="mini" data-aus="' + a.id + '">No vino</button>' : '<button type="button" class="mini" data-rem="' + a.id + '">Recordatorio</button>';
     }
-    acts += '<button type="button" class="mini wa" data-wac="' + c.id + '">WhatsApp</button>';
-    return '<li class="' + (a.fresh ? 'fresh ' : '') + (a.st !== 'ok' ? 'done' : '') + '"><div class="h num">' + esc(a.h) + '<small>' + whenTxt(a) + '</small></div><div class="who"><b>' + esc(c.n) + '</b><span>' + esc(t.n) + ', ' + t.min + ' min</span><div class="tags">' + tags.map(pill).join('') + '</div>' + (info ? '<p class="info">' + esc(info) + '</p>' : '') + '<div class="acts">' + acts + '</div></div></li>';
+    acts += '<button type="button" class="mini" data-fc="' + c.id + '">Ficha</button><button type="button" class="mini wa" data-wac="' + c.id + '">WhatsApp</button>';
+    return '<li class="' + (a.fresh ? 'fresh ' : '') + (a.st !== 'ok' ? 'done' : '') + '"><div class="h num">' + esc(a.h) + '<small>a ' + toHM(s + t.min) + '</small><small>' + whenTxt(a) + '</small></div><div class="who"><b>' + esc(c.n) + '</b><span>' + esc(t.n) + ', ' + durTxt(t.min) + '</span><div class="tags">' + tags.map(pill).join('') + '</div>' + (info ? '<p class="info">' + esc(info) + '</p>' : '') + '<div class="acts">' + acts + '</div></div></li>';
   }
   function pHoy(rev, due) {
     var hoy = A.filter(function (a) { return a.day < 0; }).sort(function (x, y) { return x.h.localeCompare(y.h); });
     var prox = A.filter(function (a) { return a.day >= 0; }).sort(function (x, y) { return x.day - y.day || x.h.localeCompare(y.h); });
     var plata = hoy.filter(function (a) { return a.st === 'ok' || a.st === 'done'; }).reduce(function (s, a) { return s + byId(a.t).p - SENA; }, 0);
     return '<div class="kpis"><div class="kpi"><b class="num">' + hoy.filter(function (a) { return a.st === 'ok'; }).length + '</b><span>turnos que quedan hoy</span></div><div class="kpi"><b class="num">' + rev + '</b><span>señas por revisar</span></div><div class="kpi"><b class="num">' + due + '</b><span>clientas para recordar</span></div><div class="kpi"><b class="num">' + fmt(plata) + '</b><span>a cobrar hoy, sin señas</span></div></div>' +
-      '<div class="pgrid"><div class="box"><h2>Hoy</h2><p>Cada turno llega con la ficha de la clienta.</p><ul class="ag">' + hoy.map(agItem).join('') + '</ul></div>' +
+      '<div class="pgrid"><div class="box"><h2>Hoy</h2><p>Cada turno llega con la ficha de la clienta. Las alertas de salud se ven en rojo.</p><ul class="ag">' + hoy.map(agItem).join('') + '</ul></div>' +
       '<div class="box"><h2>Próximos días</h2><p>Lo que piden desde la página aparece acá, resaltado.</p><ul class="ag">' + (prox.length ? prox.map(agItem).join('') : '<li class="empty">Todavía no hay turnos para los próximos días.</li>') + '</ul></div></div>';
   }
   function pClientas() {
     var q = pst.q.toLowerCase().trim(), qd = digits(q);
     var list = C.filter(function (c) {
       if (q && c.n.toLowerCase().indexOf(q) < 0 && !(qd && digits(c.tel).indexOf(qd) >= 0)) return false;
-      return pst.f === 'volver' ? dueFor(c) : pst.f === 'deben' ? !!c.debe : pst.f === 'plan' ? !!c.pack : pst.f === 'nuevas' ? c.visits.length < 2 : true;
+      return pst.f === 'volver' ? dueFor(c) : pst.f === 'deben' ? !!c.debe : pst.f === 'plan' ? !!c.pack : pst.f === 'ficha' ? !fichaOk(c) : pst.f === 'alertas' ? alertsOf(c).length > 0 : true;
     }).sort(function (a, b) { return (dueFor(b) - dueFor(a)) || ((daysSince(b) || 0) - (daysSince(a) || 0)); });
-    var F = [['todas', 'Todas'], ['volver', 'Toca volver'], ['deben', 'Deben'], ['plan', 'Con plan'], ['nuevas', 'Nuevas']];
-    return '<div class="box"><h2>Seguimiento de clientas</h2><p>Quién tiene que volver según cada tratamiento, cuándo vino, si pagó y su ficha. Un toque y le escribís.</p>' +
+    var F = [['todas', 'Todas'], ['volver', 'Toca volver'], ['deben', 'Deben'], ['plan', 'Con plan'], ['ficha', 'Ficha incompleta'], ['alertas', 'Con alertas']];
+    return '<div class="box"><h2>Clientas y fichas</h2><p>La ficha clínica de cada una, la evolución sesión por sesión, quién tiene que volver y quién debe. Un toque y le escribís.</p>' +
       '<div class="search"><label class="sr" for="cq">Buscar clienta</label><input id="cq" type="search" autocomplete="off" placeholder="Buscar por nombre o teléfono…" value="' + esc(pst.q) + '"></div>' +
       '<div class="tabs" role="tablist" aria-label="Filtrar clientas">' + F.map(function (f) { return '<button type="button" role="tab" aria-selected="' + (f[0] === pst.f) + '" data-cf="' + f[0] + '">' + f[1] + '</button>'; }).join('') + '</div>' +
-      '<ul class="cl">' + (list.length ? list.map(clItem).join('') : '<li class="empty">No hay clientas con ese filtro.</li>') + '</ul></div>';
+      '<ul class="cl">' + (list.length ? list.map(clItem).join('') : '<li class="empty">No hay clientas con ese filtro.</li>') + '</ul>' +
+      '<div class="acts"><button type="button" class="mini dark" id="new-c">Nueva clienta</button></div></div>';
   }
   function clItem(c) {
-    var v = lastVisit(c), t = v ? byId(v[1]) : null, ds = daysSince(c), tags = [], open = pst.open === c.id, det = '';
+    var v = lastVisit(c), t = v ? byId(v[1]) : null, ds = daysSince(c), tags = [];
+    alertsOf(c).forEach(function (k) { tags.push(['⚠ ' + shortAlert[k], 'al']); });
     if (dueFor(c)) tags.push(['Toca volver', 'r']);
     if (c.debe) tags.push(['Debe ' + fmt(c.debe), 'y']);
     if (c.pack) tags.push(['Plan ' + c.pack.used + ' de ' + c.pack.of, 'v']);
+    if (!fichaOk(c)) tags.push(['Ficha incompleta', 'y']);
     if (!c.visits.length) tags.push(['Nueva', 'g']);
-    if (open) {
-      det = '<div class="det"><h3>Ficha</h3><p>' + (c.tipo ? 'Piel ' + esc(c.tipo.toLowerCase()) + '. ' : '') + esc(c.nota || 'Sin notas.') + '</p><p class="hint" style="margin-top:4px">WhatsApp: ' + esc(c.tel) + '</p>' +
-        (c.pack ? '<h3>Plan</h3><p>' + esc(byId(c.pack.t).n) + ': ' + c.pack.used + ' de ' + c.pack.of + ' sesiones.</p><div class="bar-pack" role="img" aria-label="' + c.pack.used + ' de ' + c.pack.of + ' sesiones"><i style="width:' + (c.pack.used / c.pack.of * 100) + '%"></i></div>' : '') +
-        '<h3>Historial</h3>' + (c.visits.length ? '<ul class="hist">' + c.visits.map(function (x) { return '<li><span>' + esc(dShort.format(addD(today, x[0]))) + ', ' + esc(byId(x[1]).n) + '</span>' + pill(x[2] ? ['Pagó', 'g'] : ['Debe', 'y']) + '</li>'; }).join('') + '</ul>' : '<p>Todavía no vino.</p>') +
-        '<div class="acts">' + (c.debe ? '<button type="button" class="mini dark" data-pay="' + c.id + '">Registrar pago de ' + fmt(c.debe) + '</button>' : '') + '<button type="button" class="mini" data-rut="' + c.id + '">Mandar rutina</button><button type="button" class="mini" data-res="' + c.id + '">Pedir reseña</button><button type="button" class="mini" data-cum="' + c.id + '">Saludo de cumpleaños</button></div></div>';
-    }
     return '<li><div class="top-row"><span class="av" aria-hidden="true">' + esc(initials(c.n)) + '</span><div style="min-width:0"><b>' + esc(c.n) + '</b><span class="sub">' + (t ? 'Última: ' + esc(t.n) : 'Sin visitas todavía') + '</span></div><div class="when">' + (ds != null ? '<strong class="num">hace ' + ds + ' días</strong>' + (t ? 'vuelve cada ' + t.every : '') : '<strong>Nueva</strong>') + '</div></div>' +
       (tags.length ? '<div class="tags indent">' + tags.map(pill).join('') + '</div>' : '') +
-      '<div class="acts indent"><button type="button" class="mini wa" data-wac="' + c.id + '" data-kind="remind">' + (dueFor(c) || c.pack ? 'Recordarle que vuelva' : 'WhatsApp') + '</button><button type="button" class="mini" data-oc="' + c.id + '" aria-expanded="' + open + '">' + (open ? 'Cerrar ficha' : 'Ver ficha') + '</button></div>' + det + '</li>';
+      '<div class="acts indent"><button type="button" class="mini dark" data-fc="' + c.id + '">Abrir ficha</button><button type="button" class="mini wa" data-wac="' + c.id + '" data-kind="remind">' + (dueFor(c) || c.pack ? 'Recordarle que vuelva' : 'WhatsApp') + '</button></div></li>';
   }
+
+  /* ficha clínica (panel), basada en la planilla en papel */
+  var FX = { id: null, tab: 'clin' };
+  var SANGRE = ['', '0+', '0-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'No sabe'];
+  var HAB = [['agua', 'Toma agua'], ['verd', 'Come frutas y verduras'], ['carb', 'Harinas y azúcar'], ['alc', 'Alcohol'], ['tab', 'Tabaco'], ['act', 'Actividad física']];
+  var HABV = ['Siempre', 'A veces', 'Nunca'];
+  var CUI = [['limp', 'Limpieza'], ['exf', 'Exfoliación'], ['hid', 'Hidratación'], ['fps', 'Protección solar'], ['ser', 'Sérum o activos']];
+  var CUIV = ['', 'No usa', 'A veces', '1 vez por semana', '2 o 3 por semana', '1 vez por día', '2 veces por día'];
+  var FOTOD = { I: 'Muy clara, siempre se quema', II: 'Clara, se quema fácil', III: 'Media, a veces se quema', IV: 'Trigueña, rara vez se quema', V: 'Morena, casi nunca se quema', VI: 'Negra, nunca se quema' };
+  var TIPO = ['Normal', 'Mixta', 'Seca', 'Grasa', 'Asfixiada', 'Desvitalizada', 'Sensible'];
+  var PAT = ['Comedones abiertos', 'Comedones cerrados', 'Pápulas', 'Pústulas', 'Quistes', 'Milium', 'Hiperpigmentación', 'Melasma', 'Cicatrices', 'Telangiectasias', 'Rosácea', 'Poros dilatados', 'Arrugas', 'Flacidez'];
+  var MK = [['acne', 'Acné', '#C23B6A'], ['com', 'Comedones', '#5B3FA0'], ['man', 'Manchas', '#A87410'], ['roj', 'Rojez o vasitos', '#E0563F'], ['cic', 'Cicatrices', '#55506A'], ['otr', 'Otro', '#1E8A66']];
+  var MKn = {}; MK.forEach(function (m) { MKn[m[0]] = m; });
+  var CONS = 'Declaro que fui informada sobre el protocolo a realizar, sus beneficios, cuidados y posibles reacciones, y que los datos de esta ficha son verdaderos. Autorizo la realización del tratamiento.';
+  var fmk = 'acne', sig = null;
+
+  function openFicha(id, from) { FX.id = id; FX.tab = 'clin'; renderFicha(); showD($('d-ficha'), from); }
+  function mkShape(m, i) {
+    var x = m[0], y = m[1], k = MKn[m[2]] || MK[5], c = k[2], a = ' data-mi="' + i + '" fill="' + c + '" stroke="#fff" stroke-width="1.5"';
+    if (m[2] === 'com') return '<rect x="' + (x - 4.5) + '" y="' + (y - 4.5) + '" width="9" height="9" rx="1.5"' + a + '/>';
+    if (m[2] === 'man') return '<path d="M' + x + ' ' + (y - 6) + 'L' + (x + 6) + ' ' + y + 'L' + x + ' ' + (y + 6) + 'L' + (x - 6) + ' ' + y + 'Z"' + a + '/>';
+    if (m[2] === 'roj') return '<path d="M' + x + ' ' + (y - 6) + 'L' + (x + 6) + ' ' + (y + 5) + 'L' + (x - 6) + ' ' + (y + 5) + 'Z"' + a + '/>';
+    if (m[2] === 'cic') return '<rect x="' + (x - 7) + '" y="' + (y - 2.5) + '" width="14" height="5" rx="2"' + a + '/>';
+    return '<circle cx="' + x + '" cy="' + y + '" r="5"' + a + '/>';
+  }
+  function faceSvg(map) {
+    return '<svg id="fmap" viewBox="0 0 220 250" role="img" aria-label="Mapa facial. Tocá para marcar dónde está cada lesión.">' +
+      '<g fill="none" stroke="#B9B0CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M110 14C62 14 38 52 38 102c0 34 8 62 22 84 14 22 30 38 50 38s36-16 50-38c14-22 22-50 22-84 0-50-24-88-72-88Z" fill="#FBF8FD"/>' +
+      '<path d="M38 104c-10-2-14 8-12 18 2 12 8 22 16 22M182 104c10-2 14 8 12 18-2 12-8 22-16 22"/>' +
+      '<path d="M84 222v24M136 222v24"/>' +
+      '<path d="M62 84c10-7 24-8 36-3M122 81c12-5 26-4 36 3"/>' +
+      '<path d="M66 102c8-6 20-6 28 0-8 6-20 6-28 0ZM126 102c8-6 20-6 28 0-8 6-20 6-28 0Z"/>' +
+      '<path d="M110 104v34c-4 6-12 8-14 4M110 138c4 6 12 8 14 4"/>' +
+      '<path d="M88 168c8-5 16-6 22-3 6-3 14-2 22 3-8 9-36 9-44 0Z"/>' +
+      '<path d="M110 14v4M60 56h0" stroke-dasharray="2 5" opacity=".5"/></g>' +
+      '<g id="fmk">' + (map || []).map(mkShape).join('') + '</g></svg>';
+  }
+  function mapSum(map) {
+    if (!map || !map.length) return 'Sin marcas todavía.';
+    var n = {}; map.forEach(function (m) { n[m[2]] = (n[m[2]] || 0) + 1; });
+    return Object.keys(n).map(function (k) { return n[k] + ' ' + (MKn[k] ? MKn[k][1].toLowerCase() : k); }).join(', ') + '.';
+  }
+  function renderFicha() {
+    var c = cById(FX.id); if (!c) return; var fc = c.fc || (c.fc = { ant: {} }); fc.ant = fc.ant || {}; c.evo = c.evo || [];
+    fc.hab = fc.hab || {}; fc.cui = fc.cui || {}; fc.tip = fc.tip || []; fc.pat = fc.pat || []; fc.map = fc.map || []; fc.prot = fc.prot || [['', '', '']];
+    $('df-h').textContent = c.n;
+    var tabs = [['clin', 'Datos y antecedentes'], ['ana', 'Análisis y protocolo'], ['evo', 'Evolución'], ['pagos', 'Turnos y pagos']];
+    $('df-tabs').innerHTML = tabs.map(function (x) { return '<button type="button" role="tab" aria-selected="' + (x[0] === FX.tab) + '" data-ft="' + x[0] + '">' + x[1] + '</button>'; }).join('');
+    qa('#df-tabs button').forEach(function (bt) {
+      bt.onclick = function () {
+        var to = bt.dataset.ft, pane = $('fp-' + to);
+        if (pane && $('fp-' + FX.tab)) { FX.tab = to; qa('.fpane').forEach(function (p) { p.hidden = p.id !== 'fp-' + to; }); qa('#df-tabs button').forEach(function (z) { z.setAttribute('aria-selected', z === bt); }); $('df-b').scrollTop = 0; return; }
+        saveClin(true); FX.tab = to; renderFicha();
+      };
+    });
+    var b = $('df-b'), f = $('df-f'), al = alertsOf(c);
+    var alertHtml = al.length ? '<div class="alert"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8C2F52" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 3 2 21h20z"/><path d="M12 10v5M12 18h.01"/></svg><span><b>Atención:</b> ' + al.map(function (k) { return esc(ANTn[k]); }).join(', ') + (fc.antDet ? '. ' + esc(fc.antDet) : '') + '</span></div>' : '';
+    var fld = function (id, label, val, extra, ph) { return '<div class="field"><label for="' + id + '">' + label + '</label><input id="' + id + '" autocomplete="off" value="' + esc(val || '') + '"' + (ph ? ' placeholder="' + ph + '"' : '') + (extra || '') + '></div>'; };
+    var area = function (id, label, val, ph, max) { return '<div class="field"><label for="' + id + '">' + label + '</label><textarea id="' + id + '" maxlength="' + (max || 400) + '"' + (ph ? ' placeholder="' + ph + '"' : '') + '>' + esc(val || '') + '</textarea></div>'; };
+    var seg = function (name, label, opts, val) { return '<div class="segr"><p class="stp-t" id="lb-' + name + '">' + label + '</p><div class="seg" role="radiogroup" aria-labelledby="lb-' + name + '">' + opts.map(function (x) { return '<label><input type="radio" name="' + name + '" value="' + esc(x) + '"' + (val === x ? ' checked' : '') + '><span>' + esc(x) + '</span></label>'; }).join('') + '</div></div>'; };
+    var cks = function (attr, opts, arr, cls) { return '<div class="cks">' + opts.map(function (x) { return '<label class="ck' + (cls || '') + '"><input type="checkbox" ' + attr + '="' + esc(x) + '"' + (arr.indexOf(x) >= 0 ? ' checked' : '') + '><span>' + esc(x) + '</span></label>'; }).join('') + '</div>'; };
+    if (FX.tab === 'clin' || FX.tab === 'ana') {
+      var age = fc.nac ? Math.floor((today - new Date(fc.nac + 'T12:00')) / 315576e5) : null;
+      var p1 = '<div class="fpane" id="fp-clin"' + (FX.tab === 'clin' ? '' : ' hidden') + '>' + alertHtml + (fc.byClient ? '<div class="okbox">Los antecedentes los completó ' + esc(first(c.n)) + ' desde la página, antes de su turno.</div>' : '') +
+        '<fieldset class="fsec"><legend>Datos personales</legend><div class="fgrid">' +
+        '<div class="field"><label for="fc-nac">Fecha de nacimiento' + (age != null ? ' <span class="hint">(' + age + ' años)</span>' : '') + '</label><input id="fc-nac" type="date" value="' + esc(fc.nac || '') + '"></div>' +
+        fld('fc-dni', 'DNI', fc.dni, ' inputmode="numeric" maxlength="12"', '30.123.456') +
+        '<div class="field"><label for="fc-tel">WhatsApp</label><input id="fc-tel" type="tel" inputmode="tel" value="' + esc(c.tel) + '"></div>' +
+        fld('fc-mail', 'Correo', fc.mail, ' type="email" inputmode="email" maxlength="80"', 'nombre@correo.com') +
+        fld('fc-ocup', 'Ocupación', fc.ocup, ' maxlength="60"', 'Docente…') +
+        '<div class="field"><label for="fc-san">Grupo sanguíneo</label><select id="fc-san">' + SANGRE.map(function (x) { return '<option' + (fc.sangre === x ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></div>' +
+        fld('fc-eme', 'Contacto de emergencia', fc.emerg, ' maxlength="80"', 'Nombre y teléfono') +
+        fld('fc-mot', 'Motivo de consulta', fc.motivo, ' maxlength="120"', 'Manchas en pómulos…') + '</div></fieldset>' +
+        '<fieldset class="fsec"><legend>Antecedentes</legend><p class="hint" style="margin:-4px 0 10px">Los marcados en rosa avisan arriba de la ficha y en la agenda.</p><div class="cks">' + ANT.map(function (a) { return '<label class="ck"><input type="checkbox" data-ant="' + a[0] + '"' + (fc.ant[a[0]] ? ' checked' : '') + '><span>' + esc(a[1]) + '</span></label>'; }).join('') + '</div>' +
+        '<div class="fgrid" style="margin-top:10px">' + area('fc-det', 'Alergias y medicación (detalle)', fc.antDet, 'Alergia a fragancias, toma anticonceptivos…') +
+        area('fc-enf', 'Enfermedades actuales', fc.enf, 'Hipotiroidismo, SOP…', 300) + area('fc-fam', 'Antecedentes familiares', fc.fam, 'Madre con melasma…', 300) +
+        area('fc-qui', 'Cirugías', fc.quir, 'Rinoplastia 2019…', 300) + '</div>' +
+        area('fc-pre', 'Tratamientos estéticos previos', fc.prev, 'Peelings, botox, láser, dónde y cuándo…', 300) + '</fieldset>' +
+        '<fieldset class="fsec"><legend>Hábitos</legend><div class="habs">' + HAB.map(function (h) { return seg('fh-' + h[0], h[1], HABV, fc.hab[h[0]]); }).join('') + '</div>' +
+        '<div class="fgrid" style="margin-top:6px">' + fld('fc-sue', 'Horas de sueño', fc.sueno, ' maxlength="20"', '7 h') + fld('fc-otr', 'Otros', fc.otros, ' maxlength="100"', 'Estrés, anticonceptivos…') + '</div></fieldset>' +
+        '<fieldset class="fsec"><legend>Cuidado habitual</legend><div class="cuis">' + CUI.map(function (x) { var v = fc.cui[x[0]] || ['', '']; return '<div class="cui"><b id="cl-' + x[0] + '">' + x[1] + '</b><select id="cf-' + x[0] + '" aria-labelledby="cl-' + x[0] + '" aria-label="Frecuencia">' + CUIV.map(function (o) { return '<option value="' + o + '"' + (v[0] === o ? ' selected' : '') + '>' + (o || 'Frecuencia') + '</option>'; }).join('') + '</select><input id="cp-' + x[0] + '" maxlength="60" autocomplete="off" aria-label="Producto para ' + x[1].toLowerCase() + '" placeholder="Producto" value="' + esc(v[1]) + '"></div>'; }).join('') + '</div></fieldset></div>';
+      var p2 = '<div class="fpane" id="fp-ana"' + (FX.tab === 'ana' ? '' : ' hidden') + '>' + alertHtml +
+        '<fieldset class="fsec"><legend>Análisis de la piel</legend>' +
+        '<div class="segr"><p class="stp-t" id="lb-fc-foto">Fototipo (Fitzpatrick)</p><div class="seg" role="radiogroup" aria-labelledby="lb-fc-foto">' + FOTO.map(function (x) { return '<label title="' + FOTOD[x] + '"><input type="radio" name="fc-foto" value="' + x + '"' + (fc.foto === x ? ' checked' : '') + '><span>' + x + '</span></label>'; }).join('') + '</div><p class="hint" id="fc-fotod">' + (fc.foto ? FOTOD[fc.foto] : 'Elegí el fototipo.') + '</p></div>' +
+        '<p class="stp-t" style="margin-top:12px">Tipología cutánea</p>' + cks('data-tip', TIPO, fc.tip, ' ok') +
+        '<div class="fgrid" style="margin-top:6px">' + seg('fc-des', 'Deshidratación', ['No', 'Leve', 'Media', 'Alta'], fc.desh) + seg('fc-tex', 'Textura', ['Lisa', 'Áspera', 'Irregular'], fc.tex) + seg('fc-ton', 'Tonalidad', ['Uniforme', 'Apagada', 'Con manchas', 'Rojiza'], fc.ton) + seg('fc-gro', 'Grosor', ['Fina', 'Media', 'Gruesa'], fc.gros) + '</div>' +
+        '<p class="stp-t" style="margin-top:12px">Lesiones y patologías</p>' + cks('data-pat', PAT, fc.pat, ' ok') + '</fieldset>' +
+        '<fieldset class="fsec"><legend>Mapa facial</legend><p class="hint" style="margin:-4px 0 10px">Elegí qué marcar y tocá la cara. Tocá una marca para borrarla.</p>' +
+        '<div class="fmapw"><div class="seg mks" role="radiogroup" aria-label="Qué marcar">' + MK.map(function (m) { return '<label><input type="radio" name="fmk" value="' + m[0] + '"' + (m[0] === fmk ? ' checked' : '') + '><span><svg width="14" height="14" viewBox="-7 -7 14 14" aria-hidden="true">' + mkShape([0, 0, m[0]], -1).replace(/ data-mi="-1"/, '') + '</svg>' + m[1] + '</span></label>'; }).join('') + '</div>' +
+        '<div class="fface">' + faceSvg(fc.map) + '</div></div>' +
+        '<p class="hint" id="fmap-s" aria-live="polite">' + esc(mapSum(fc.map)) + '</p><div class="acts"><button type="button" class="mini" id="fm-u">Deshacer</button><button type="button" class="mini" id="fm-c">Borrar todo</button></div>' +
+        area('fc-mapn', 'Notas del mapa', fc.mapN, 'Comedones en zona T, manchas en pómulos…', 300) + '</fieldset>' +
+        '<fieldset class="fsec"><legend>Diagnóstico y protocolo</legend>' + area('fc-dx', 'Diagnóstico', fc.dx, 'Piel mixta deshidratada con acné grado I…', 400) +
+        '<p class="stp-t" style="margin-top:6px">Protocolo</p><ol class="prot">' + fc.prot.map(function (r, i) { return '<li><span class="pn num">' + (i + 1) + '</span><input data-pr="' + i + '" data-pc="0" maxlength="60" aria-label="Paso ' + (i + 1) + ', proceso" placeholder="Proceso (limpieza, peeling…)" value="' + esc(r[0]) + '"><input data-pr="' + i + '" data-pc="1" maxlength="60" aria-label="Paso ' + (i + 1) + ', producto" placeholder="Producto" value="' + esc(r[1]) + '"><input data-pr="' + i + '" data-pc="2" maxlength="80" aria-label="Paso ' + (i + 1) + ', observaciones" placeholder="Observaciones" value="' + esc(r[2]) + '"><button type="button" class="x sm" data-prx="' + i + '" aria-label="Quitar paso ' + (i + 1) + '"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></li>'; }).join('') + '</ol>' +
+        '<div class="acts"><button type="button" class="mini" id="pr-add">Agregar paso</button></div>' +
+        '<div class="fgrid" style="margin-top:10px">' + area('fc-rec', 'Recomendaciones para casa', fc.rec, 'FPS 50 cada 3 horas, no exfoliar por 5 días…', 400) + area('fc-obs', 'Observaciones', fc.obs, '', 500) + '</div></fieldset>' +
+        '<fieldset class="fsec"><legend>Consentimiento informado</legend><p class="cons">' + CONS + '</p>' +
+        '<label class="check"><input type="checkbox" id="fc-fok"' + (fc.fotoOk ? ' checked' : '') + '><span>Autorizo fotos de antes y después para mi seguimiento.</span></label>' +
+        '<label class="check"><input type="checkbox" id="fc-pok"' + (fc.pubOk ? ' checked' : '') + '><span>Autorizo que se publiquen en la página o redes, sin mostrar mi cara.</span></label>' +
+        '<p class="stp-t" style="margin-top:10px">Firma de la clienta</p>' +
+        (fc.firma ? '<div class="sigd"><img src="' + fc.firma + '" alt="Firma de ' + esc(c.n) + '"><span class="hint">Firmó el ' + dNum.format(addD(today, fc.consent || 0)) + '.</span></div><div class="acts"><button type="button" class="mini" id="sg-re">Volver a firmar</button></div>'
+          : (fc.consent != null ? '<p class="okbox" style="margin-bottom:8px">Consentimiento ' + (fc.byClient ? 'aceptado online' : 'firmado en papel') + ' el ' + dNum.format(addD(today, fc.consent)) + '. Puede firmar acá en la próxima visita.</p>' : '') +
+            '<div class="sigw"><canvas id="sg" width="640" height="200" aria-label="Espacio para firmar con el dedo o el mouse"></canvas><span class="sigl" aria-hidden="true">Firmá acá</span></div><div class="acts"><button type="button" class="mini" id="sg-c">Borrar firma</button></div>') +
+        '</fieldset></div>';
+      b.innerHTML = p1 + p2;
+      f.innerHTML = '<button type="button" class="btn btn-g" id="fc-pr">Imprimir ficha</button><button type="button" class="btn btn-p" id="fc-sv">Guardar ficha</button>';
+      $('fc-sv').onclick = function () { saveClin(); toast('Ficha de ' + first(c.n) + ' guardada.'); renderFicha(); };
+      $('fc-pr').onclick = function () { saveClin(true); window.print(); };
+      qa('input[name="fc-foto"]', b).forEach(function (r) { r.onchange = function () { $('fc-fotod').textContent = FOTOD[r.value]; }; });
+      qa('input[name="fmk"]', b).forEach(function (r) { r.onchange = function () { fmk = r.value; }; });
+      var svg = $('fmap'), redraw = function () { $('fmk').innerHTML = fc.map.map(mkShape).join(''); $('fmap-s').textContent = mapSum(fc.map); };
+      svg.onclick = function (e) {
+        var t = e.target; if (t.dataset && t.dataset.mi != null) { fc.map.splice(+t.dataset.mi, 1); redraw(); return; }
+        var pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; var m = svg.getScreenCTM(); if (!m) return; var q = pt.matrixTransform(m.inverse());
+        if (fc.map.length >= 80) { toast('Llegaste al máximo de marcas.'); return; }
+        fc.map.push([Math.round(q.x), Math.round(q.y), fmk]); redraw();
+      };
+      $('fm-u').onclick = function () { fc.map.pop(); redraw(); };
+      $('fm-c').onclick = function () { fc.map = []; redraw(); };
+      $('pr-add').onclick = function () { saveClin(true); fc.prot.push(['', '', '']); renderFicha(); var l = qa('[data-pc="0"]', $('df-b')); l[l.length - 1].focus(); };
+      qa('[data-prx]', b).forEach(function (x) { x.onclick = function () { saveClin(true); fc.prot.splice(+x.dataset.prx, 1); if (!fc.prot.length) fc.prot.push(['', '', '']); renderFicha(); }; });
+      if ($('sg-re')) $('sg-re').onclick = function () { saveClin(true); fc.firma = null; renderFicha(); };
+      sig = null; if ($('sg')) {
+        var cv = $('sg'), cx = cv.getContext('2d'), down = false, last = null;
+        cx.lineWidth = 3.2; cx.lineCap = 'round'; cx.lineJoin = 'round'; cx.strokeStyle = '#1F1A2E';
+        var pos = function (e) { var r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * cv.width / r.width, (e.clientY - r.top) * cv.height / r.height]; };
+        cv.onpointerdown = function (e) { down = true; last = pos(e); try { cv.setPointerCapture(e.pointerId); } catch (er) { } cv.parentNode.classList.add('on'); };
+        cv.onpointermove = function (e) { if (!down) return; var p = pos(e); cx.beginPath(); cx.moveTo(last[0], last[1]); cx.lineTo(p[0], p[1]); cx.stroke(); last = p; sig = true; };
+        cv.onpointerup = cv.onpointercancel = function () { down = false; };
+        $('sg-c').onclick = function () { cx.clearRect(0, 0, cv.width, cv.height); sig = null; cv.parentNode.classList.remove('on'); };
+      }
+    } else if (FX.tab === 'evo') {
+      var opts = T.map(function (t) { return '<option value="' + t.id + '">' + esc(t.n) + '</option>'; }).join('');
+      b.innerHTML = alertHtml + '<p class="stp-t">Cada sesión, qué se hizo y cómo respondió la piel.</p>' +
+        (c.evo.length ? '<ol class="evo">' + c.evo.map(function (e) { return '<li><span class="dt num">' + esc(dLong.format(addD(today, e[0]))) + '</span><b>' + esc(byId(e[1]) ? byId(e[1]).n : e[1]) + '</b><p>' + esc(e[2]) + '</p>' + (e[3] ? '<p><b style="display:inline;color:var(--ink)">Resultado:</b> ' + esc(e[3]) + '</p>' : '') + '</li>'; }).join('') + '</ol>' : '<p class="empty">Todavía no hay sesiones registradas.</p>') +
+        '<div class="addt"><p class="stp-t">Registrar sesión de hoy</p><div class="field"><label for="ev-t">Tratamiento</label><select id="ev-t">' + opts + '</select></div>' +
+        '<div class="field"><label for="ev-d">Qué se hizo (productos, concentración, tiempos, aparatología)</label><textarea id="ev-d" maxlength="400" placeholder="Peeling mandélico 10 %, 4 min…"></textarea></div>' +
+        '<div class="field"><label for="ev-r">Cómo respondió la piel</label><textarea id="ev-r" maxlength="300" placeholder="Leve eritema que bajó en 15 min…"></textarea></div><p class="err" id="everr" role="alert"></p></div>';
+      f.innerHTML = '<button type="button" class="btn btn-p" id="ev-add">Guardar sesión</button>';
+      $('ev-add').onclick = function () { var d = $('ev-d').value.trim(); if (d.length < 3) { $('everr').textContent = 'Escribí qué se hizo en la sesión.'; $('ev-d').focus(); return; } c.evo.unshift([0, $('ev-t').value, d, $('ev-r').value.trim()]); renderFicha(); toast('Sesión registrada en la evolución.'); };
+    } else {
+      var turns = A.filter(function (a) { return a.c === c.id && a.day >= 0 && a.st === 'ok'; });
+      b.innerHTML = (c.pack ? '<p class="stp-t">Plan: ' + esc(byId(c.pack.t).n) + ', ' + c.pack.used + ' de ' + c.pack.of + ' sesiones</p><div class="bar-pack" role="img" aria-label="' + c.pack.used + ' de ' + c.pack.of + ' sesiones"><i style="width:' + (c.pack.used / c.pack.of * 100) + '%"></i></div>' : '') +
+        '<p class="stp-t" style="margin-top:14px">Próximos turnos</p>' + (turns.length ? '<ul class="hist">' + turns.map(function (a) { return '<li><span>' + esc(dLong.format(days[a.day])) + ', ' + a.h + ' h, ' + esc(byId(a.t).n) + '</span>' + pill(a.sena === 'ok' ? ['Seña recibida', 'g'] : ['Seña por revisar', 'y']) + '</li>'; }).join('') + '</ul>' : '<p class="hint">No tiene turnos reservados.</p>') +
+        '<p class="stp-t" style="margin-top:14px">Historial y pagos</p>' + (c.visits.length ? '<ul class="hist">' + c.visits.map(function (x) { return '<li><span>' + esc(dShort.format(addD(today, x[0]))) + ', ' + esc(byId(x[1]).n) + ' (' + fmt(byId(x[1]).p) + ')</span>' + pill(x[2] ? ['Pagó', 'g'] : ['Debe', 'y']) + '</li>'; }).join('') + '</ul>' : '<p class="hint">Todavía no vino.</p>') +
+        '<div class="acts" style="margin-top:14px">' + (c.debe ? '<button type="button" class="mini dark" id="fx-pay">Registrar pago de ' + fmt(c.debe) + '</button>' : '') + '<button type="button" class="mini wa" id="fx-rem">Recordarle que vuelva</button><button type="button" class="mini" id="fx-rut">Mandar rutina</button><button type="button" class="mini" id="fx-res">Pedir reseña</button></div>';
+      f.innerHTML = '<button type="button" class="btn btn-g" data-close>Cerrar</button>';
+      if ($('fx-pay')) $('fx-pay').onclick = function () { var m = c.debe; c.debe = 0; c.visits.forEach(function (v) { v[2] = true; }); renderFicha(); renderPanel(); toast('Pago de ' + fmt(m) + ' registrado.'); };
+      $('fx-rem').onclick = function () { showWA(remindMsg(c), c.n + ', ' + c.tel); };
+      $('fx-rut').onclick = function () { showWA('Hola ' + first(c.n) + '! Te paso tu rutina:\n\n' + (c.fc && c.fc.rec ? c.fc.rec : 'De día: limpiador suave, sérum, hidratante y protector solar.\nDe noche: limpiador, sérum y crema reparadora.') + '\n\nCualquier duda, me escribís.', c.n + ', ' + c.tel); };
+      $('fx-res').onclick = function () { showWA('Hola ' + first(c.n) + '! Gracias por venir. Si te gustó la atención, ¿me dejás una reseña en Google? Me ayuda un montón: [link a tu perfil de Google]', c.n + ', ' + c.tel); };
+    }
+  }
+  function saveClin(silent) {
+    if (!$('fp-clin') || !$('fc-sv')) return;
+    var c = cById(FX.id), fc = c.fc, b = $('df-b'), v = function (id) { return $(id).value.trim(); };
+    var rad = function (n) { var r = b.querySelector('input[name="' + n + '"]:checked'); return r ? r.value : ''; };
+    fc.nac = $('fc-nac').value; fc.dni = v('fc-dni'); fc.mail = v('fc-mail'); fc.ocup = v('fc-ocup'); fc.sangre = $('fc-san').value; fc.emerg = v('fc-eme'); fc.motivo = v('fc-mot');
+    var tel = v('fc-tel'); if (digits(tel).length >= 8) c.tel = tel;
+    qa('[data-ant]', b).forEach(function (x) { fc.ant[x.dataset.ant] = x.checked; });
+    fc.antDet = v('fc-det'); fc.enf = v('fc-enf'); fc.fam = v('fc-fam'); fc.quir = v('fc-qui'); fc.prev = v('fc-pre');
+    HAB.forEach(function (h) { fc.hab[h[0]] = rad('fh-' + h[0]); }); fc.sueno = v('fc-sue'); fc.otros = v('fc-otr');
+    CUI.forEach(function (x) { fc.cui[x[0]] = [$('cf-' + x[0]).value, v('cp-' + x[0])]; });
+    fc.foto = rad('fc-foto') || fc.foto; fc.desh = rad('fc-des'); fc.tex = rad('fc-tex'); fc.ton = rad('fc-ton'); fc.gros = rad('fc-gro');
+    fc.tip = qa('[data-tip]', b).filter(function (x) { return x.checked; }).map(function (x) { return x.dataset.tip; });
+    fc.pat = qa('[data-pat]', b).filter(function (x) { return x.checked; }).map(function (x) { return x.dataset.pat; });
+    fc.mapN = v('fc-mapn'); fc.dx = v('fc-dx'); fc.rec = v('fc-rec'); fc.obs = v('fc-obs');
+    qa('[data-pr]', b).forEach(function (x) { var r = fc.prot[+x.dataset.pr]; if (r) r[+x.dataset.pc] = x.value.trim(); });
+    fc.fotoOk = $('fc-fok').checked; fc.pubOk = $('fc-pok').checked;
+    if (sig && $('sg')) { fc.firma = $('sg').toDataURL('image/png'); if (fc.consent == null || fc.byClient) fc.consent = 0; sig = null; }
+    var tp = ['Grasa', 'Seca', 'Mixta', 'Sensible', 'Normal'].filter(function (x) { return fc.tip.indexOf(x) >= 0; })[0]; if (tp && tp !== 'Normal') c.tipo = tp;
+    renderPanel();
+  }
+
   function pTrat() {
-    return '<div class="box"><h2>Tratamientos</h2><p>Pausá los que no estés haciendo, cambiá precios y cada cuánto conviene volver. La página se actualiza al instante y el seguimiento usa esos días.</p><ul class="tl">' + T.map(function (t, i) {
-      return '<li' + (t.on ? '' : ' class="off"') + '><div><div class="nm">' + esc(t.n) + '</div><div class="row"><label for="p-' + t.id + '">Precio</label><input id="p-' + t.id + '" type="number" inputmode="numeric" min="0" step="500" value="' + t.p + '" data-pp="' + i + '"><label for="e-' + t.id + '">Volver cada</label><select id="e-' + t.id + '" data-pe="' + i + '">' + [7, 15, 21, 30, 35, 45, 49, 60].map(function (n) { return '<option value="' + n + '"' + (n === t.every ? ' selected' : '') + '>' + n + ' días</option>'; }).join('') + '</select></div></div><button type="button" class="sw" role="switch" aria-checked="' + t.on + '" aria-label="' + esc(t.n) + ' visible en la página" data-sw="' + i + '"></button></li>';
-    }).join('') + '</ul></div>';
+    var nt = pst.nt;
+    var DUR = [15, 20, 30, 40, 45, 50, 60, 75, 90, 120, 150, 180];
+    var durSel = function (id, val, attr) { return '<select id="' + id + '" ' + attr + '>' + DUR.map(function (n) { return '<option value="' + n + '"' + (n === val ? ' selected' : '') + '>' + durTxt(n) + '</option>'; }).join('') + '</select>'; };
+    return '<div class="box"><h2>Tratamientos</h2><p>Duración, precio y cada cuánto conviene volver. La duración define qué horarios se ofrecen en la página; el seguimiento usa los días de regreso.</p><ul class="tl">' + T.map(function (t, i) {
+      return '<li' + (t.on ? '' : ' class="off"') + '><div><div class="nm">' + esc(t.n) + '</div><div class="row"><label for="d-' + t.id + '">Dura</label>' + durSel('d-' + t.id, t.min, 'data-pd2="' + i + '"') + '<label for="p-' + t.id + '">Precio</label><input id="p-' + t.id + '" type="number" inputmode="numeric" min="0" step="500" value="' + t.p + '" data-pp="' + i + '"><label for="e-' + t.id + '">Volver cada</label><select id="e-' + t.id + '" data-pe="' + i + '">' + [7, 15, 21, 30, 35, 45, 49, 60, 90].map(function (n) { return '<option value="' + n + '"' + (n === t.every ? ' selected' : '') + '>' + n + ' días</option>'; }).join('') + '</select></div></div><button type="button" class="sw" role="switch" aria-checked="' + t.on + '" aria-label="' + esc(t.n) + ' visible en la página" data-sw="' + i + '"></button></li>';
+    }).join('') + '</ul>' +
+      (nt ? '<div class="addt"><p class="stp-t">Nuevo tratamiento</p><div class="fgrid">' +
+        '<div class="field"><label for="nt-n">Nombre</label><input id="nt-n" maxlength="60" autocomplete="off" placeholder="Microneedling…" value="' + esc(nt.n) + '"></div>' +
+        '<div class="field"><label for="nt-c">Categoría</label><select id="nt-c">' + CATS.map(function (c) { return '<option value="' + c.id + '"' + (c.id === nt.c ? ' selected' : '') + '>' + c.n + '</option>'; }).join('') + '</select></div>' +
+        '<div class="field"><label for="nt-m">Duración</label>' + durSel('nt-m', nt.min, '') + '</div>' +
+        '<div class="field"><label for="nt-p">Precio</label><input id="nt-p" type="number" inputmode="numeric" min="0" step="500" placeholder="35000" value="' + esc(nt.p) + '"></div>' +
+        '<div class="field"><label for="nt-e">Volver cada</label><select id="nt-e">' + [7, 15, 21, 30, 35, 45, 60, 90].map(function (n) { return '<option value="' + n + '"' + (n === nt.every ? ' selected' : '') + '>' + n + ' días</option>'; }).join('') + '</select></div>' +
+        '<div class="field"><label for="nt-d">Descripción corta</label><input id="nt-d" maxlength="120" autocomplete="off" placeholder="Estimula colágeno y mejora la textura…" value="' + esc(nt.d) + '"></div></div><p class="err" id="nterr" role="alert"></p>' +
+        '<div class="acts"><button type="button" class="mini dark" id="nt-ok">Agregar a la página</button><button type="button" class="mini" id="nt-x">Cancelar</button></div></div>'
+        : '<div class="acts" style="margin-top:12px"><button type="button" class="mini dark" id="nt-open">Agregar tratamiento</button></div>') + '</div>';
   }
+  function pTrab() {
+    var nw = pst.nw;
+    var drop = function (id, label, src) { return '<label class="drop' + (src ? ' has' : '') + '">' + (src ? '<img src="' + src + '" alt="">' : '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#5B5270" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-8 8"/></svg>') + '<span>' + (src ? 'Cambiar ' : '') + label + '</span><input type="file" accept="image/jpeg,image/png,image/webp" id="' + id + '"></label>'; };
+    return '<div class="pgrid"><div class="box"><h2>Subir un trabajo</h2><p>Una foto o un antes y después. Aparece al instante en la sección Trabajos de la página.</p>' +
+      '<div class="seg" role="radiogroup" aria-label="Tipo de trabajo" style="margin-bottom:12px">' + [['photo', 'Foto'], ['ba', 'Antes y después']].map(function (x) { return '<label><input type="radio" name="nw-k" value="' + x[0] + '"' + (nw.k === x[0] ? ' checked' : '') + '><span>' + x[1] + '</span></label>'; }).join('') + '</div>' +
+      (nw.k === 'ba' ? '<div class="two-f">' + drop('nw-a', 'foto de antes', nw.a) + drop('nw-b', 'foto de después', nw.b) + '</div>' : drop('nw-a', 'foto', nw.a)) +
+      '<div class="fgrid" style="margin-top:12px"><div class="field"><label for="nw-t">Tratamiento</label><select id="nw-t">' + T.map(function (t) { return '<option value="' + t.id + '"' + (t.id === nw.tid ? ' selected' : '') + '>' + esc(t.n) + '</option>'; }).join('') + '</select></div>' +
+      '<div class="field"><label for="nw-s">Detalle</label><input id="nw-s" maxlength="60" autocomplete="off" placeholder="4 sesiones…" value="' + esc(nw.s) + '"></div></div>' +
+      '<label class="check"><input type="checkbox" id="nw-ok"><span>La clienta dio permiso para mostrar estas fotos.</span></label><p class="err" id="nwerr" role="alert"></p>' +
+      '<div class="acts"><button type="button" class="mini dark" id="nw-add">Publicar en la página</button></div><p class="muted">JPG, PNG o WEBP de hasta 8 MB. En la demo las fotos quedan solo en tu navegador.</p></div>' +
+      '<div class="box"><h2>Publicados</h2><p>Lo que se ve hoy en la página.</p><ul class="wk">' + WORKS.map(function (w, i) {
+        return '<li><span class="th">' + (w.k === 'ba' ? '<canvas data-tt="' + i + '" width="112" height="112" aria-hidden="true"></canvas>' : '<img src="' + srcOf(w.img) + '" alt="">') + '</span><div style="min-width:0"><b style="display:block">' + esc(w.t) + '</b><span class="sub" style="font-size:13px;color:var(--soft)">' + ({ ba: 'Antes y después', photo: 'Foto', video: 'Video' }[w.k]) + ', ' + esc(w.s) + '</span></div><button type="button" class="mini" data-wdel="' + i + '" aria-label="Quitar ' + esc(w.t) + '">Quitar</button></li>';
+      }).join('') + '</ul></div></div>';
+  }
+  function drawTrabThumbs() { qa('[data-tt]').forEach(function (cv) { paint(cv, WORKS[+cv.dataset.tt].o, true); }); }
   function pHorarios() {
-    var k = keyOf(days[pst.pday]);
-    var w = WAIT.map(function (x, i) { var fr = free(days[x.day]).length; return '<li><div class="top-row" style="grid-template-columns:1fr auto"><div style="min-width:0"><b>' + esc(x.n) + '</b><span class="sub">' + esc(byId(x.t).n) + ', quiere el ' + esc(dLong.format(days[x.day])) + '</span></div><button type="button" class="mini ' + (fr ? 'wa' : '') + '" data-wt="' + i + '"' + (fr ? '' : ' disabled') + '>' + (fr ? 'Avisarle' : 'Sin lugar aún') + '</button></div></li>'; }).join('');
-    return '<div class="pgrid"><div class="box"><h2>Horarios</h2><p>Bloqueá un horario (un trámite, un curso, un día corto) y deja de ofrecerse en la página.</p><div class="days" role="group" aria-label="Día">' + days.map(function (d, i) { return '<button type="button" class="day" data-pd="' + i + '" aria-pressed="' + (i === pst.pday) + '"><small>' + DN[d.getDay()] + '</small><b class="num">' + d.getDate() + '</b><em>' + free(d).length + ' libres</em></button>'; }).join('') + '</div>' +
-      '<div class="blk">' + HOURS.map(function (h) { return busy[k][h] ? '<button type="button" class="busy num" disabled aria-label="' + h + ', con turno">' + h + '</button>' : '<button type="button" class="num" data-bh="' + h + '" aria-pressed="' + !!blocked[k][h] + '">' + h + '</button>'; }).join('') + '</div><p class="muted">Punteado: turno tomado. Oscuro y tachado: bloqueado por vos.</p></div>' +
+    var di = pst.pday, d = days[di], o = OPEN(d), b = occ(di), bl = BL[di];
+    var items = [];
+    b.forEach(function (x) { items.push({ s: x.s, e: x.e, kind: 'bk', x: x }); });
+    Object.keys(bl).forEach(function (k) { if (bl[k]) items.push({ s: +k, e: +k + CFG.step, kind: 'bl' }); });
+    items.sort(function (p, q) { return p.s - q.s; });
+    var rows = [], cur = o[0];
+    items.forEach(function (it) {
+      if (it.s > cur) rows.push('<li><span class="tm num">' + toHM(cur) + '–' + toHM(it.s) + '</span><span class="fr">Libre</span></li>');
+      if (it.kind === 'bk') {
+        var nm = it.x.a ? cById(it.x.a.c).n : 'Otra clienta';
+        rows.push('<li><span class="tm num">' + toHM(it.s) + '–' + toHM(it.e) + '</span><span class="bk">' + esc(nm) + ', ' + esc(byId(it.x.a ? it.x.a.t : it.x.f.t).n) + '</span></li>');
+        if (CFG.buffer) rows.push('<li><span class="tm num">' + toHM(it.e) + '–' + toHM(it.e + CFG.buffer) + '</span><span class="gap">Tiempo entre turnos (' + CFG.buffer + ' min)</span></li>');
+        cur = Math.max(cur, it.e + CFG.buffer);
+      } else { rows.push('<li><span class="tm num">' + toHM(it.s) + '–' + toHM(it.e) + '</span><span class="bl">Bloqueado por vos</span></li>'); cur = Math.max(cur, it.e); }
+    });
+    if (cur < o[1]) rows.push('<li><span class="tm num">' + toHM(cur) + '–' + toHM(o[1]) + '</span><span class="fr">Libre</span></li>');
+    var chips = []; for (var c = o[0]; c < o[1]; c += CFG.step) {
+      var taken = b.some(function (x) { return c < x.e && x.s < c + CFG.step; });
+      chips.push(taken ? '<button type="button" class="busy num" disabled aria-label="' + toHM(c) + ', con turno">' + toHM(c) + '</button>' : '<button type="button" class="num" data-bh="' + c + '" aria-pressed="' + !!bl[c] + '">' + toHM(c) + '</button>');
+    }
+    var w = WAIT.map(function (x, i) { var fr = free(x.day, byId(x.t).min).length; return '<li><div class="top-row" style="grid-template-columns:1fr auto"><div style="min-width:0"><b>' + esc(x.n) + '</b><span class="sub">' + esc(byId(x.t).n) + ', quiere el ' + esc(dLong.format(days[x.day])) + '</span></div><button type="button" class="mini ' + (fr ? 'wa' : '') + '" data-wt="' + i + '"' + (fr ? '' : ' disabled') + '>' + (fr ? 'Avisarle' : 'Sin lugar aún') + '</button></div></li>'; }).join('');
+    return '<div class="box"><h2>Cómo se arman los turnos</h2><p>Cada turno ocupa lo que dura el tratamiento, más un tiempo libre para limpiar, preparar la camilla y recibir a la próxima. Así no se te superponen.</p><div class="cfg">' +
+      '<div class="field"><label for="cfg-b">Tiempo entre turnos</label><select id="cfg-b">' + [0, 5, 10, 15, 20, 30].map(function (n) { return '<option value="' + n + '"' + (n === CFG.buffer ? ' selected' : '') + '>' + (n ? n + ' min' : 'Sin tiempo') + '</option>'; }).join('') + '</select></div>' +
+      '<div class="field"><label for="cfg-s">Ofrecer turnos cada</label><select id="cfg-s">' + [15, 30, 60].map(function (n) { return '<option value="' + n + '"' + (n === CFG.step ? ' selected' : '') + '>' + n + ' min</option>'; }).join('') + '</select></div></div><p class="hint">Atención: lunes a viernes de 9 a 19 h, sábados de 9 a 14 h.</p></div>' +
+      '<div class="pgrid"><div class="box"><h2>Día por día</h2><p>Tocá un horario libre para bloquearlo (un trámite, un curso, un día corto).</p><div class="days" role="group" aria-label="Día">' + days.map(function (x, i) { return '<button type="button" class="day" data-pd="' + i + '" aria-pressed="' + (i === di) + '"><small>' + DN[x.getDay()] + '</small><b class="num">' + x.getDate() + '</b><em>' + free(i, DEF).length + ' libres</em></button>'; }).join('') + '</div>' +
+      '<div class="blk">' + chips.join('') + '</div><ul class="tline">' + rows.join('') + '</ul></div>' +
       '<div class="box"><h2>Lista de espera</h2><p>Clientas que quieren un día completo. Si alguien cancela o reprograma, les avisás con un toque.</p><ul class="cl">' + (w || '<li class="empty">Nadie en espera.</li>') + '</ul></div></div>';
   }
   function pMes() {
@@ -1012,30 +1426,61 @@ body:not(.cli) .toast { bottom: 20px; }
       '<div class="pgrid"><div class="box"><h2>Turnos por semana</h2><p>La última semana todavía está en curso.</p><div class="chart" role="img" aria-label="Turnos por semana: ' + W.join(', ') + '">' + W.map(function (n, i) { return '<div><span class="num">' + n + '</span><i style="height:' + (n / max * 100) + '%"></i><span>Sem ' + (i + 1) + '</span></div>'; }).join('') + '</div></div>' +
       '<div class="box"><h2>Lo más pedido</h2><p>Para decidir qué promocionar.</p><ul class="rank">' + rank.map(function (r) { return '<li><span>' + esc(r[0]) + '</span><b class="num">' + r[1] + '</b></li>'; }).join('') + '</ul></div></div><p class="note">Números de ejemplo.</p>';
   }
+  function readFile(inp, cb) {
+    var f = inp.files && inp.files[0]; if (!f) return;
+    if (!/^image\/(jpeg|png|webp)$/.test(f.type)) { toast('Subí una foto JPG, PNG o WEBP.'); inp.value = ''; return; }
+    if (f.size > 8 * 1024 * 1024) { toast('La foto pesa más de 8 MB. Probá con una más liviana.'); inp.value = ''; return; }
+    cb(URL.createObjectURL(f));
+  }
   function bindPanel() {
     var b = $('pbody'), getA = function (id) { return A.filter(function (y) { return y.id === id; })[0]; };
     qa('[data-sena]', b).forEach(function (x) { x.onclick = function () { var a = getA(x.dataset.sena); a.sena = 'ok'; renderPanel(); toast('Seña recibida. Le llega la confirmación a ' + first(cById(a.c).n) + '.'); }; });
-    qa('[data-done]', b).forEach(function (x) { x.onclick = function () { var a = getA(x.dataset.done); a.st = 'done'; var c = cById(a.c); c.visits.unshift([0, a.t, true]); if (c.pack && c.pack.t === a.t) c.pack.used = Math.min(c.pack.of, c.pack.used + 1); renderPanel(); toast('Atendida. ' + first(c.n) + ' queda en el seguimiento.'); }; });
+    qa('[data-done]', b).forEach(function (x) { x.onclick = function () { var a = getA(x.dataset.done); a.st = 'done'; var c = cById(a.c); c.visits.unshift([0, a.t, true]); if (c.pack && c.pack.t === a.t) c.pack.used = Math.min(c.pack.of, c.pack.used + 1); renderPanel(); toast('Atendida. Registrá la sesión en su ficha.'); openFicha(c.id); FX.tab = 'evo'; renderFicha(); }; });
     qa('[data-aus]', b).forEach(function (x) { x.onclick = function () { var a = getA(x.dataset.aus); a.st = 'aus'; renderPanel(); toast('Marcada como ausente. La seña queda.'); }; });
-    qa('[data-rem]', b).forEach(function (x) { x.onclick = function () { var a = getA(x.dataset.rem), c = cById(a.c), t = byId(a.t); showWA('Hola ' + first(c.n) + '! Te recuerdo tu turno de ' + t.n.toLowerCase() + ' el ' + dLong.format(days[a.day]) + ' a las ' + a.h + ' h. Si no podés venir, reprogramalo desde “Mis turnos” hasta 24 h antes. ¡Te espero!', c.n + ', ' + c.tel); }; });
+    qa('[data-rem]', b).forEach(function (x) { x.onclick = function () { var a = getA(x.dataset.rem), c = cById(a.c), t = byId(a.t); showWA('Hola ' + first(c.n) + '! Te recuerdo tu turno de ' + t.n.toLowerCase() + ' el ' + dLong.format(days[a.day]) + ' a las ' + a.h + ' h. Si no podés venir, reprogramalo desde “Mis turnos” hasta 24 h antes.' + (fichaOk(c) ? '' : ' Antes de venir, completá tu ficha en “Mis turnos”.') + ' ¡Te espero!', c.n + ', ' + c.tel); }; });
     qa('[data-wac]', b).forEach(function (x) { x.onclick = function () { var c = cById(+x.dataset.wac); showWA(x.dataset.kind === 'remind' ? remindMsg(c) : 'Hola ' + first(c.n) + '! ', c.n + ', ' + c.tel); }; });
-    qa('[data-oc]', b).forEach(function (x) { x.onclick = function () { var id = +x.dataset.oc; pst.open = pst.open === id ? null : id; renderPanel(); }; });
-    qa('[data-pay]', b).forEach(function (x) { x.onclick = function () { var c = cById(+x.dataset.pay), m = c.debe; c.debe = 0; c.visits.forEach(function (v) { v[2] = true; }); renderPanel(); toast('Pago de ' + fmt(m) + ' registrado.'); }; });
-    qa('[data-rut]', b).forEach(function (x) { x.onclick = function () { var c = cById(+x.dataset.rut); showWA('Hola ' + first(c.n) + '! Te paso tu rutina:\n\nDe día: limpiador suave, sérum, hidratante y protector solar.\nDe noche: limpiador, sérum y crema reparadora.\n\nCualquier duda, me escribís.', c.n + ', ' + c.tel); }; });
-    qa('[data-res]', b).forEach(function (x) { x.onclick = function () { var c = cById(+x.dataset.res); showWA('Hola ' + first(c.n) + '! Gracias por venir. Si te gustó la atención, ¿me dejás una reseña en Google? Me ayuda un montón: [link a tu perfil de Google]', c.n + ', ' + c.tel); }; });
-    qa('[data-cum]', b).forEach(function (x) { x.onclick = function () { var c = cById(+x.dataset.cum); showWA('¡Feliz cumple, ' + first(c.n) + '! 🎉 Este mes tenés un 10% en tu próximo tratamiento. ¿Te reservo un turno?', c.n + ', ' + c.tel); }; });
+    qa('[data-fc]', b).forEach(function (x) { x.onclick = function () { openFicha(+x.dataset.fc, x); }; });
+    if ($('new-c')) $('new-c').onclick = function () { var c = { id: ++nid, n: 'Clienta nueva', tel: '', tipo: '', nota: '', visits: [], fc: { ant: {} }, evo: [] }; C.unshift(c); renderPanel(); openFicha(c.id); toast('Completá los datos y guardá la ficha.'); };
     qa('[data-cf]', b).forEach(function (x) { x.onclick = function () { pst.f = x.dataset.cf; renderPanel(); }; });
     if ($('cq')) $('cq').oninput = function (e) { pst.q = e.target.value; var pos = e.target.selectionStart; renderPanel(); var n = $('cq'); n.focus(); try { n.setSelectionRange(pos, pos); } catch (er) {} };
     qa('[data-sw]', b).forEach(function (x) { x.onclick = function () { var t = T[+x.dataset.sw]; t.on = !t.on; renderPanel(); renderTrat(); reco(); toast(t.on ? t.n + ' vuelve a verse en la página.' : t.n + ' ya no aparece en la página.'); }; });
     qa('[data-pp]', b).forEach(function (x) { x.onchange = function () { var t = T[+x.dataset.pp]; t.p = Math.max(0, Math.round(+x.value || 0)); x.value = t.p; renderTrat(); reco(); toast('Precio actualizado: ' + t.n + ', ' + fmt(t.p) + '.'); }; });
+    qa('[data-pd2]', b).forEach(function (x) { x.onchange = function () { var t = T[+x.dataset.pd2]; t.min = +x.value; renderTrat(); reco(); nextFree(); toast(t.n + ' dura ' + durTxt(t.min) + '. Los horarios de la página ya lo contemplan.'); }; });
     qa('[data-pe]', b).forEach(function (x) { x.onchange = function () { var t = T[+x.dataset.pe]; t.every = +x.value; renderPanel(); toast(t.n + ': recordar a los ' + t.every + ' días.'); }; });
+    if ($('nt-open')) $('nt-open').onclick = function () { pst.nt = { n: '', c: 'facial', min: 60, p: '', every: 30, d: '' }; renderPanel(); $('nt-n').focus(); };
+    if ($('nt-x')) $('nt-x').onclick = function () { pst.nt = null; renderPanel(); };
+    if ($('nt-ok')) $('nt-ok').onclick = function () {
+      var n = $('nt-n').value.trim(), p = Math.round(+$('nt-p').value || 0);
+      if (n.length < 3) { $('nterr').textContent = 'Escribí el nombre del tratamiento.'; $('nt-n').focus(); return; }
+      if (p <= 0) { $('nterr').textContent = 'Poné el precio, por ejemplo 35000.'; $('nt-p').focus(); return; }
+      var t = { id: 'n' + (++nid), c: $('nt-c').value, n: n, d: $('nt-d').value.trim() || 'Consultame por este tratamiento.', min: +$('nt-m').value, p: p, on: true, every: +$('nt-e').value, tag: ['Nuevo', 'v'] };
+      T.push(t); pst.nt = null; st.cat = t.c; renderCats(); renderTrat(); renderPanel(); toast(t.n + ' ya está en la página, con ' + durTxt(t.min) + ' por turno.');
+    };
+    qa('input[name="nw-k"]', b).forEach(function (x) { x.onchange = function () { pst.nw.k = x.value; renderPanel(); }; });
+    if ($('nw-a')) $('nw-a').onchange = function (e) { readFile(e.target, function (u) { pst.nw.a = u; renderPanel(); }); };
+    if ($('nw-b')) $('nw-b').onchange = function (e) { readFile(e.target, function (u) { pst.nw.b = u; renderPanel(); }); };
+    if ($('nw-t')) $('nw-t').onchange = function (e) { pst.nw.tid = e.target.value; };
+    if ($('nw-s')) $('nw-s').oninput = function (e) { pst.nw.s = e.target.value; };
+    if ($('nw-add')) $('nw-add').onclick = function () {
+      var nw = pst.nw, e = $('nwerr');
+      if (!nw.a || (nw.k === 'ba' && !nw.b)) { e.textContent = nw.k === 'ba' ? 'Subí la foto de antes y la de después.' : 'Subí una foto.'; return; }
+      if (!$('nw-ok').checked) { e.textContent = 'Confirmá que la clienta dio permiso.'; $('nw-ok').focus(); return; }
+      var t = byId(nw.tid), w = { k: nw.k, f: fOf(nw.tid), t: t.n, tid: t.id, s: nw.s.trim() || 'En el consultorio' };
+      if (nw.k === 'ba') w.o = { imgs: [nw.a, nw.b] }; else { w.img = nw.a; w.big = nw.a; }
+      WORKS.unshift(w); pst.nw = { k: nw.k, t: '', tid: nw.tid, s: '', a: null, b: null }; st.wf = 'todos';
+      renderWorks(); renderPanel(); toast('Publicado en Trabajos.');
+    };
+    qa('[data-wdel]', b).forEach(function (x) { x.onclick = function () { var i = +x.dataset.wdel, w = WORKS[i]; WORKS.splice(i, 1); renderWorks(); renderPanel(); toastUndo('“' + w.t + '” se quitó de la página.', function () { WORKS.splice(i, 0, w); renderWorks(); renderPanel(); }); }; });
+    if ($('cfg-b')) $('cfg-b').onchange = function (e) { CFG.buffer = +e.target.value; renderPanel(); nextFree(); toast(CFG.buffer ? 'Entre turno y turno quedan ' + CFG.buffer + ' min libres.' : 'Los turnos pueden quedar pegados.'); };
+    if ($('cfg-s')) $('cfg-s').onchange = function (e) { CFG.step = +e.target.value; BL = {}; days.forEach(function (d, i) { BL[i] = {}; }); renderPanel(); nextFree(); toast('La página ofrece turnos cada ' + CFG.step + ' min.'); };
     qa('[data-pd]', b).forEach(function (x) { x.onclick = function () { pst.pday = +x.dataset.pd; renderPanel(); }; });
-    qa('[data-bh]', b).forEach(function (x) { x.onclick = function () { var k = keyOf(days[pst.pday]), h = x.dataset.bh; blocked[k][h] = !blocked[k][h]; renderPanel(); nextFree(); toast(blocked[k][h] ? h + ' h bloqueado: ya no se ofrece.' : h + ' h libre otra vez.'); }; });
-    qa('[data-wt]', b).forEach(function (x) { x.onclick = function () { var w = WAIT[+x.dataset.wt], h = free(days[w.day])[0]; showWA('Hola ' + first(w.n) + '! Se liberó un lugar el ' + dLong.format(days[w.day]) + ' a las ' + h + ' h para ' + byId(w.t).n.toLowerCase() + '. ¿Lo querés? Te lo guardo una hora.', w.n + ', ' + w.tel); }; });
+    qa('[data-bh]', b).forEach(function (x) { x.onclick = function () { var bl = BL[pst.pday], m = +x.dataset.bh; bl[m] = !bl[m]; renderPanel(); nextFree(); toast(bl[m] ? toHM(m) + ' h bloqueado: ya no se ofrece.' : toHM(m) + ' h libre otra vez.'); }; });
+    qa('[data-wt]', b).forEach(function (x) { x.onclick = function () { var w = WAIT[+x.dataset.wt], h = free(w.day, byId(w.t).min)[0]; showWA('Hola ' + first(w.n) + '! Se liberó un lugar el ' + dLong.format(days[w.day]) + ' a las ' + h + ' h para ' + byId(w.t).n.toLowerCase() + '. ¿Lo querés? Te lo guardo una hora.', w.n + ', ' + w.tel); }; });
   }
 
   var tt;
   function toast(m) { var e = $('toast'); e.textContent = m; e.hidden = false; clearTimeout(tt); tt = setTimeout(function () { e.hidden = true; }, 2800); }
+  function toastUndo(m, undo) { var e = $('toast'); e.innerHTML = esc(m) + ' <button type="button" class="mini" id="undo" style="margin-left:8px;min-height:32px">Deshacer</button>'; e.hidden = false; $('undo').onclick = function () { undo(); e.hidden = true; }; clearTimeout(tt); tt = setTimeout(function () { e.hidden = true; }, 5000); }
   qa('.vsw button').forEach(function (b) {
     b.onclick = function () {
       var v = b.dataset.view;
