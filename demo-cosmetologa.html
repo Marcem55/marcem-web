@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo: página y turnos para cosmetólogas (ejemplo ficticio) · MARCEM</title>
+<meta name="description" content="Probá una página para cosmetólogas hecha por MARCEM: tratamientos con precio y duración, ficha de piel antes del turno, horarios libres, seña y panel con la agenda del día. Ejemplo ficticio.">
+<link rel="canonical" href="https://marcem.com.ar/demo-cosmetologa">
+<meta name="theme-color" content="#2B2140">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="MARCEM">
+<meta property="og:title" content="Demo: página y turnos para cosmetólogas (ejemplo ficticio) · MARCEM">
+<meta property="og:description" content="Tratamientos con precio y duración, ficha de piel antes del turno, horarios libres, seña y panel con la agenda del día. Ejemplo ficticio hecho por MARCEM.">
+<meta property="og:url" content="https://marcem.com.ar/demo-cosmetologa">
+<meta property="og:image" content="https://marcem.com.ar/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gloock&family=Onest:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --bg: #F4F2F8; --ink: #2B2140; --soft: #5E5473; --vio: #6C4FB3; --vio-d: #523A92;
+    --gel: #D3F1E6; --gel-d: #1F7A5C; --rose: #F8DCE6; --line: #DCD6E8; --white: #FFFFFF;
+    --wa: #25D366; --wa-d: #128C4A;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 Onest, system-ui, -apple-system, "Segoe UI", sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--vio); outline-offset: 2px; }
+  h1, h2, h3 { font-family: Gloock, Georgia, "Times New Roman", serif; font-weight: 400; line-height: 1.12; margin: 0; letter-spacing: -.01em; }
+  .w { max-width: 1040px; margin: 0 auto; padding: 0 18px; }
+  [hidden] { display: none !important; }
+
+  .demo-bar { background: #0B3D53; color: #D5E6ED; font: 700 13px/1.3 system-ui, -apple-system, sans-serif; }
+  .demo-bar .in { max-width: 1040px; margin: 0 auto; padding: 10px 18px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+  .demo-bar span { display: inline-flex; gap: 8px; align-items: center; }
+  .demo-bar i { width: 8px; height: 8px; border-radius: 9px; background: #25D366; flex: none; }
+  .demo-bar a { color: #FFFFFF; text-decoration: none; white-space: nowrap; }
+
+  /* Selector de vista: dos "frascos" */
+  .vsw { position: sticky; top: 0; z-index: 20; background: rgba(244,242,248,.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .vsw .in { max-width: 1040px; margin: 0 auto; padding: 10px 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .vsw button { border: 1.5px solid var(--ink); background: transparent; border-radius: 999px; padding: 10px 12px; font-weight: 600; font-size: 14.5px; min-height: 46px; }
+  .vsw button[aria-pressed="true"] { background: var(--ink); color: var(--white); }
+
+  /* Cliente */
+  .nav { display: flex; justify-content: space-between; align-items: center; padding: 18px 0; gap: 12px; }
+  .logo { font-family: Gloock, Georgia, serif; font-size: 22px; }
+  .logo small { display: block; font: 500 12.5px/1.2 Onest, system-ui, sans-serif; color: var(--soft); }
+  .nav a { text-decoration: none; font-weight: 600; font-size: 14.5px; border-bottom: 2px solid var(--vio); padding-bottom: 2px; }
+
+  .hero { padding: 18px 0 34px; display: grid; gap: 26px; }
+  .hero h1 { font-size: clamp(36px, 10vw, 64px); max-width: 13ch; }
+  .hero p { font-size: 17.5px; color: var(--soft); max-width: 46ch; margin: 14px 0 0; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .b1, .b2 { display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 22px; border-radius: 999px; font-weight: 700; text-decoration: none; border: 0; }
+  .b1 { background: var(--vio); color: var(--white); }
+  .b1:hover { background: var(--vio-d); }
+  .b2 { border: 1.5px solid var(--ink); background: transparent; }
+  .facts { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 6px 22px; margin-top: 22px; font-size: 14px; color: var(--soft); }
+  .facts b { display: block; color: var(--ink); font-size: 15px; }
+
+  /* Elemento memorable: la ficha de piel */
+  .ficha { background: var(--white); border-radius: 22px; padding: 22px 20px 20px; box-shadow: 0 1px 0 var(--line), 0 18px 40px -26px rgba(43,33,64,.45); position: relative; overflow: hidden; }
+  .ficha::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 8px; background: repeating-linear-gradient(90deg, var(--gel) 0 26px, var(--rose) 26px 52px); }
+  .ficha-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; border-bottom: 1.5px dashed var(--line); padding-bottom: 12px; margin-bottom: 14px; }
+  .ficha-h h2 { font-size: 26px; }
+  .ficha-h span { font-size: 13px; color: var(--soft); white-space: nowrap; }
+  .q { margin: 0 0 14px; border: 0; padding: 0; }
+  .q legend { font-weight: 700; font-size: 15px; margin-bottom: 8px; padding: 0; }
+  .opts { display: flex; flex-wrap: wrap; gap: 7px; }
+  .opts label { position: relative; }
+  .opts input { position: absolute; opacity: 0; inset: 0; }
+  .opts span { display: inline-flex; align-items: center; gap: 7px; min-height: 42px; padding: 0 14px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--bg); font-size: 14.5px; font-weight: 500; cursor: pointer; }
+  .opts span::before { content: ""; width: 14px; height: 14px; border-radius: 4px; border: 1.5px solid var(--soft); flex: none; }
+  .opts input:checked + span { border-color: var(--vio); background: #EEE8FA; }
+  .opts input:checked + span::before { background: var(--vio); border-color: var(--vio); box-shadow: inset 0 0 0 2.5px #EEE8FA; }
+  .opts input:focus-visible + span { outline: 3px solid var(--vio); outline-offset: 2px; }
+  .reco { margin-top: 6px; border-radius: 16px; background: var(--gel); padding: 14px 16px; }
+  .reco small { display: block; font-size: 12.5px; font-weight: 700; color: var(--gel-d); }
+  .reco b { display: block; font-family: Gloock, Georgia, serif; font-weight: 400; font-size: 23px; line-height: 1.2; margin: 2px 0 4px; }
+  .reco p { margin: 0; font-size: 14.5px; color: #24433A; }
+  .reco .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+  .reco .meta { font-weight: 700; font-size: 15px; }
+  .reco button { border: 0; background: var(--ink); color: var(--white); border-radius: 999px; min-height: 44px; padding: 0 18px; font-weight: 700; }
+  .reco.empty { background: var(--bg); color: var(--soft); font-size: 14.5px; }
+
+  section { padding: 40px 0; }
+  .sh { display: flex; justify-content: space-between; align-items: end; gap: 14px; margin-bottom: 18px; flex-wrap: wrap; }
+  .sh h2 { font-size: clamp(28px, 7vw, 40px); }
+  .sh p { margin: 4px 0 0; color: var(--soft); max-width: 44ch; }
+
+  /* Tratamientos: lista tipo carta, sin tarjetas iguales */
+  .trat { list-style: none; margin: 0; padding: 0; border-top: 1.5px solid var(--ink); }
+  .trat li { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; padding: 16px 0; border-bottom: 1px solid var(--line); align-items: center; }
+  .trat h3 { font-size: 22px; }
+  .trat p { margin: 2px 0 0; color: var(--soft); font-size: 14.5px; grid-column: 1; }
+  .trat .side { grid-row: 1 / span 2; grid-column: 2; text-align: right; display: grid; gap: 6px; justify-items: end; }
+  .trat .price { font-weight: 700; font-size: 17px; white-space: nowrap; }
+  .trat .dur { font-size: 13px; color: var(--soft); white-space: nowrap; }
+  .trat button { border: 1.5px solid var(--ink); background: transparent; border-radius: 999px; min-height: 40px; padding: 0 14px; font-weight: 600; font-size: 14px; white-space: nowrap; }
+  .trat li.sel { background: linear-gradient(90deg, #EEE8FA, transparent 80%); }
+  .note { font-size: 13px; color: var(--soft); margin-top: 10px; }
+
+  /* Turnos */
+  .turno { background: var(--white); border-radius: 22px; padding: 20px; box-shadow: 0 1px 0 var(--line); }
+  .chosen { display: flex; justify-content: space-between; gap: 12px; align-items: center; background: var(--bg); border-radius: 14px; padding: 12px 14px; margin-bottom: 16px; font-size: 14.5px; flex-wrap: wrap; }
+  .chosen b { font-size: 15.5px; }
+  .chosen a { font-weight: 600; font-size: 14px; }
+  .days { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
+  .days button { flex: none; width: 64px; min-height: 70px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--white); display: grid; place-content: center; gap: 0; line-height: 1.15; }
+  .days button small { font-size: 12.5px; color: var(--soft); }
+  .days button b { font-size: 20px; }
+  .days button[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--white); }
+  .days button[aria-pressed="true"] small { color: #D9D2E8; }
+  .days button:disabled { opacity: .45; cursor: not-allowed; }
+  .slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(86px, 1fr)); gap: 8px; margin: 16px 0; }
+  .slots button { min-height: 46px; border-radius: 12px; border: 1.5px solid var(--gel-d); background: var(--gel); font-weight: 700; color: #134A38; }
+  .slots button[aria-pressed="true"] { background: var(--gel-d); color: var(--white); }
+  .slots .none { grid-column: 1 / -1; color: var(--soft); font-size: 14.5px; }
+  .field { display: grid; gap: 6px; margin-bottom: 12px; }
+  .field label { font-weight: 600; font-size: 14.5px; }
+  .field input { min-height: 48px; border-radius: 12px; border: 1.5px solid var(--line); padding: 0 14px; font: inherit; background: var(--bg); color: var(--ink); }
+  .sena { border-left: 4px solid var(--vio); padding: 4px 0 4px 12px; margin: 4px 0 16px; font-size: 14.5px; color: var(--soft); }
+  .sena b { color: var(--ink); }
+  .wa { display: flex; width: 100%; align-items: center; justify-content: center; gap: 10px; min-height: 54px; border: 0; border-radius: 999px; background: var(--wa); color: #0A2A17; font-weight: 800; font-size: 16px; }
+  .wa:hover { background: #1FBE5B; }
+  .wa:disabled { background: var(--line); color: var(--soft); cursor: not-allowed; }
+  .err { color: #A3243B; font-size: 14px; min-height: 20px; margin: 8px 0 0; }
+
+  .steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 14px; }
+  .steps li { counter-increment: s; display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: start; }
+  .steps li::before { content: counter(s); width: 40px; height: 40px; border-radius: 50%; background: var(--rose); display: grid; place-items: center; font-family: Gloock, Georgia, serif; font-size: 19px; }
+  .steps b { display: block; }
+  .steps span { color: var(--soft); font-size: 14.5px; }
+  .where { display: grid; gap: 6px; font-size: 15px; }
+  .where b { font-family: Gloock, Georgia, serif; font-weight: 400; font-size: 22px; }
+  .mini { display: inline-block; margin-top: 10px; font-weight: 600; background: none; border: 0; padding: 0; text-decoration: underline; text-underline-offset: 3px; }
+
+  /* Panel */
+  .v-pan { background: #EFEBF6; min-height: 70vh; }
+  .ph { padding: 22px 0 8px; display: flex; justify-content: space-between; align-items: end; gap: 12px; flex-wrap: wrap; }
+  .ph h1 { font-size: clamp(28px, 7vw, 40px); }
+  .ph p { margin: 2px 0 0; color: var(--soft); }
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0 18px; }
+  .kpis div { background: var(--white); border-radius: 16px; padding: 12px; }
+  .kpis b { display: block; font-family: Gloock, Georgia, serif; font-weight: 400; font-size: 28px; line-height: 1.1; }
+  .kpis span { font-size: 13px; color: var(--soft); }
+  .pgrid { display: grid; gap: 14px; padding-bottom: 40px; }
+  .pgrid > *, .two > *, .hero > * { min-width: 0; }
+  .box { background: var(--white); border-radius: 20px; padding: 18px; }
+  .box h2 { font-size: 24px; margin-bottom: 4px; }
+  .box > p { margin: 0 0 12px; color: var(--soft); font-size: 14.5px; }
+  .ag { list-style: none; margin: 0; padding: 0; }
+  .ag li { display: grid; grid-template-columns: 58px 1fr; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line); }
+  .ag .h { font-weight: 800; font-size: 16px; }
+  .ag .who b { display: block; }
+  .ag .who span { font-size: 13.5px; color: var(--soft); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .tag { font-size: 12.5px; font-weight: 700; border-radius: 8px; padding: 3px 8px; background: var(--bg); }
+  .tag.new { background: var(--rose); color: #7A2343; }
+  .tag.ok { background: var(--gel); color: #134A38; }
+  .tag.pend { background: #FFF1C9; color: #6B4E00; }
+  .ag .acts { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .ag .acts button { border: 1.5px solid var(--line); background: var(--white); border-radius: 999px; min-height: 38px; padding: 0 12px; font-size: 13.5px; font-weight: 600; }
+  .ag li.fresh { background: #F6F2FD; }
+  .tl { list-style: none; margin: 0; padding: 0; }
+  .tl li { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); }
+  .tl li.off .nm { color: var(--soft); text-decoration: line-through; }
+  .tl .nm { font-weight: 600; }
+  .tl .pr { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 13.5px; color: var(--soft); }
+  .tl input[type=number] { width: 104px; min-height: 38px; border-radius: 10px; border: 1.5px solid var(--line); padding: 0 8px; font: inherit; font-size: 14.5px; color: var(--ink); background: var(--bg); }
+  .sw { position: relative; width: 52px; height: 30px; border-radius: 99px; border: 0; background: var(--line); }
+  .sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: var(--white); transition: transform .2s; }
+  .sw[aria-checked="true"] { background: var(--gel-d); }
+  .sw[aria-checked="true"]::after { transform: translateX(22px); }
+  .blk { display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); gap: 7px; }
+  .blk button { min-height: 42px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--white); font-weight: 700; font-size: 14px; }
+  .blk button.busy { background: var(--bg); color: var(--soft); border-style: dashed; cursor: default; }
+  .blk button[aria-pressed="true"] { background: #3A3150; color: var(--white); border-color: #3A3150; text-decoration: line-through; }
+  .daysel { margin: 4px 0 10px; }
+
+  .made { padding: 28px 18px 110px; font: 14px/1.5 system-ui, -apple-system, sans-serif; color: #6B6280; }
+  .made .in { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .made-box { background: #2B2140; color: #E9E4F3; border-radius: 18px; padding: 18px; display: flex; flex-direction: column; gap: 14px; }
+  .made-box a { align-self: flex-start; display: inline-flex; gap: 8px; align-items: center; background: #25D366; color: #0A2A17; border-radius: 999px; padding: 12px 18px; font-weight: 800; text-decoration: none; }
+  .made a { color: inherit; }
+  .float { position: fixed; right: 16px; bottom: 16px; width: 58px; height: 58px; border-radius: 50%; background: var(--wa-d); display: grid; place-items: center; box-shadow: 0 10px 24px -8px rgba(0,0,0,.4); z-index: 15; border: 0; }
+  .mdl { position: fixed; inset: 0; background: rgba(20,14,32,.55); display: none; align-items: flex-end; justify-content: center; z-index: 50; padding: 12px; }
+  .mdl.on { display: flex; }
+  .mdl .shm { background: var(--white); border-radius: 22px; padding: 20px; max-width: 460px; width: 100%; max-height: 90vh; overflow: auto; }
+  .mdl h3 { font-size: 24px; margin-bottom: 12px; }
+  .bub { background: #DCF8C6; border-radius: 14px 14px 4px 14px; padding: 12px 14px; white-space: pre-wrap; font-size: 14.5px; color: #10261A; }
+  .mdl p { font-size: 13.5px; color: var(--soft); }
+  .mdl button { width: 100%; min-height: 48px; border-radius: 999px; border: 0; background: var(--ink); color: var(--white); font-weight: 700; }
+  .toast { position: fixed; left: 50%; bottom: 88px; transform: translateX(-50%); background: var(--ink); color: var(--white); padding: 10px 16px; border-radius: 999px; font-size: 14px; font-weight: 600; z-index: 40; max-width: calc(100% - 32px); text-align: center; }
+
+  @media (min-width: 860px) {
+    .hero { grid-template-columns: 1.05fr .95fr; align-items: center; padding: 36px 0 56px; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+    .pgrid { grid-template-columns: 1.2fr 1fr; align-items: start; }
+    .pgrid .full { grid-column: 1 / -1; }
+    .made-box { flex-direction: row; justify-content: space-between; align-items: center; }
+    .mdl { align-items: center; }
+  }
+  @media (max-width: 380px) { .facts { grid-template-columns: 1fr 1fr; } .trat li { grid-template-columns: 1fr; } .trat .side { grid-row: auto; grid-column: 1; justify-items: start; text-align: left; grid-template-columns: auto auto auto; align-items: center; gap: 10px; } }
+</style>
+</head>
+<body>
+<div class="demo-bar"><div class="in"><span><i></i>Demo con datos ficticios, hecha por MARCEM</span><a href="./">Volver a MARCEM →</a></div></div>
+<nav class="vsw" aria-label="Cambiar vista"><div class="in"><button type="button" data-view="cli" aria-pressed="true">Lo que ve tu clienta</button><button type="button" data-view="pan" aria-pressed="false">Panel de tu cabina</button></div></nav>
+
+<main>
+<div class="v-cli" id="v-cli">
+<div class="w">
+  <nav class="nav" aria-label="Principal"><span class="logo">Cabina Ejemplo<small>Sofía Ejemplo · Cosmetóloga</small></span><a href="#turno">Pedir turno</a></nav>
+  <header class="hero">
+    <div>
+      <h1>Tu piel, con un plan.</h1>
+      <p>Limpiezas, peelings e hidratación en cabina. Contame qué te preocupa, mirá el precio y la duración de cada tratamiento y elegí un horario libre.</p>
+      <div class="ctas"><a class="b1" href="#ficha">Ver qué me conviene</a><a class="b2" href="#tratamientos">Tratamientos y precios</a></div>
+      <div class="facts"><div><b>Lun a sáb</b>9 a 19 h</div><div><b>Centro</b>San Nicolás</div><div><b>Seña</b>para confirmar</div></div>
+    </div>
+    <form class="ficha" id="ficha" aria-labelledby="ficha-t" onsubmit="return false">
+      <div class="ficha-h"><h2 id="ficha-t">Ficha de tu piel</h2><span>1 minuto</span></div>
+      <fieldset class="q"><legend>¿Cómo sentís tu piel?</legend>
+        <div class="opts" id="o-tipo"></div></fieldset>
+      <fieldset class="q"><legend>¿Qué te gustaría mejorar?</legend>
+        <div class="opts" id="o-preo"></div></fieldset>
+      <fieldset class="q"><legend>¿Ya viniste a la cabina?</legend>
+        <div class="opts" id="o-vez"></div></fieldset>
+      <div class="reco empty" id="reco" aria-live="polite">Marcá qué te gustaría mejorar y te digo con qué tratamiento empezar.</div>
+    </form>
+  </header>
+</div>
+
+<section id="tratamientos" style="background: var(--white);">
+  <div class="w">
+    <div class="sh"><div><h2>Tratamientos</h2><p>Precio y duración de cada uno, sin tener que preguntar.</p></div></div>
+    <ul class="trat" id="trat"></ul>
+    <p class="note">Precios de ejemplo. En tu página van tus tratamientos y tus precios, y los cambiás vos desde el panel.</p>
+  </div>
+</section>
+
+<section id="turno">
+  <div class="w two">
+    <div>
+      <div class="sh"><div><h2>Pedí tu turno</h2><p>Elegí el día y un horario libre. Te llega la confirmación por WhatsApp y el día anterior, un recordatorio.</p></div></div>
+      <ol class="steps">
+        <li><div><b>Te escucho y armo tu ficha</b><span>Los primeros 10 minutos: tu piel, tu rutina y lo que te molesta.</span></div></li>
+        <li><div><b>Tratamiento en cabina</b><span>Te explico cada paso mientras lo hacemos.</span></div></li>
+        <li><div><b>Rutina para casa</b><span>Te la mando por WhatsApp, con qué usar de día y de noche.</span></div></li>
+      </ol>
+    </div>
+    <div class="turno">
+      <div class="chosen" id="chosen"></div>
+      <div class="days" id="days" role="group" aria-label="Día"></div>
+      <div class="slots" id="slots" role="group" aria-label="Horario"></div>
+      <div class="field"><label for="nm">Tu nombre</label><input id="nm" autocomplete="given-name" maxlength="40" placeholder="Ej.: Martina"></div>
+      <div class="sena" id="sena"></div>
+      <button type="button" class="wa" id="go"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Pedir este turno por WhatsApp</button>
+      <p class="err" id="err" role="alert"></p>
+      <button type="button" class="mini" id="cambiar">¿Tenés que cambiar o cancelar un turno?</button>
+    </div>
+  </div>
+</section>
+
+<section style="background: var(--white);">
+  <div class="w two">
+    <div class="where"><b>Dónde estoy</b><span>Calle Ejemplo 123, San Nicolás de los Arroyos.</span><span>Lunes a sábado, de 9 a 19 h. Atención con turno.</span></div>
+    <div class="where"><b>Antes de venir</b><span>Si podés, vení sin maquillaje. Si estás usando ácidos o tomando medicación para la piel, contámelo en la ficha.</span></div>
+  </div>
+</section>
+</div>
+
+<div class="v-pan" id="v-pan" hidden>
+  <div class="w">
+    <div class="ph"><div><h1>Hola, Sofía</h1><p id="ph-date"></p></div></div>
+    <div class="kpis"><div><b id="k-hoy">0</b><span>turnos hoy</span></div><div><b id="k-sena">0</b><span>señas por revisar</span></div><div><b id="k-new">0</b><span>clientas nuevas</span></div></div>
+    <div class="pgrid">
+      <div class="box">
+        <h2>Agenda</h2>
+        <p>Cada turno llega con la ficha que completó la clienta. Lo que pidas en "Lo que ve tu clienta" aparece acá.</p>
+        <ul class="ag" id="ag"></ul>
+      </div>
+      <div class="box">
+        <h2>Tratamientos</h2>
+        <p>Pausá los que no estés haciendo o cambiá el precio. Se actualiza en la página al instante.</p>
+        <ul class="tl" id="tl"></ul>
+      </div>
+      <div class="box full">
+        <h2>Horarios libres</h2>
+        <p>Bloqueá un horario (un trámite, un curso, un día corto) y deja de aparecer para tus clientas.</p>
+        <div class="days daysel" id="pdays" role="group" aria-label="Día a bloquear"></div>
+        <div class="blk" id="blk"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
+
+<footer class="made"><div class="in"><div class="made-box"><div><b>Esta página es una demo de MARCEM.</b><br>La cabina, las clientas y los precios son ficticios. La tuya va con tu nombre, tus tratamientos, tus horarios y tu WhatsApp.</div><a href="https://wa.me/5493364626434?text=Hola%20Marcelo%2C%20vi%20la%20demo%20para%20cosmet%C3%B3logas%20y%20quiero%20una%20para%20mi%20cabina." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Quiero una así</a></div><span>Demo hecha por <a href="./">MARCEM · Soluciones digitales</a></span></div></footer>
+<button type="button" class="float" id="float" aria-label="Consultar por WhatsApp"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></button>
+
+<div class="mdl" id="mdl" role="dialog" aria-modal="true" aria-labelledby="mdl-h"><div class="shm"><h3 id="mdl-h">Así te llega por WhatsApp</h3><div class="bub" id="mdl-m"></div><p>En tu página este botón abre WhatsApp con el mensaje listo. En la demo solo te lo mostramos.</p><button type="button" id="mdl-x">Entendido</button></div></div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function () {
+  var $ = function (i) { return document.getElementById(i); };
+  var fmt = function (n) { return '$' + Math.round(n).toLocaleString('es-AR'); };
+  var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  var SENA = 8000;
+
+  var T = [
+    { id: 'limp', n: 'Limpieza facial profunda', d: 'Extracción, vapor y máscara según tu piel. La base de todo.', min: 60, p: 28000, on: true },
+    { id: 'acne', n: 'Tratamiento para acné', d: 'Limpieza, activos para calmar y plan de sesiones.', min: 60, p: 30000, on: true },
+    { id: 'peel', n: 'Peeling suave', d: 'Unifica el tono y aclara manchas. Por sesiones.', min: 45, p: 32000, on: true },
+    { id: 'hidr', n: 'Hidratación profunda', d: 'Para piel tirante o apagada. Máscara y masaje facial.', min: 50, p: 30000, on: true },
+    { id: 'derm', n: 'Dermaplaning', d: 'Saca células muertas y vello fino. La piel queda lisa.', min: 40, p: 25000, on: true },
+    { id: 'lift', n: 'Lifting de pestañas', d: 'Curva natural que dura de 6 a 8 semanas.', min: 60, p: 22000, on: true }
+  ];
+  var byId = function (id) { return T.filter(function (t) { return t.id === id; })[0]; };
+  var TIPOS = ['Grasa', 'Seca', 'Mixta', 'Sensible', 'No sé'];
+  var PREO = [
+    { v: 'Brillo y poros', t: 'limp' }, { v: 'Granitos', t: 'acne' }, { v: 'Manchas', t: 'peel' },
+    { v: 'Piel tirante o apagada', t: 'hidr' }, { v: 'Textura o vello fino', t: 'derm' }
+  ];
+  var VEZ = ['Es la primera vez', 'Ya vine'];
+
+  // Días hábiles desde mañana
+  var DN = ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'];
+  var HOURS = ['09:00', '10:30', '12:00', '14:00', '15:30', '17:00', '18:00'];
+  var days = []; var d0 = new Date(); d0.setHours(12, 0, 0, 0);
+  var today = new Date(d0);
+  for (var k = 1; days.length < 8; k++) { var d = new Date(d0); d.setDate(d0.getDate() + k); if (d.getDay() !== 0) days.push(d); }
+  var keyOf = function (d) { return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
+  var busy = {}; var blocked = {};
+  days.forEach(function (d, i) { var b = {}; HOURS.forEach(function (h, j) { if ((i * 3 + j * 5) % 7 < 3) b[h] = true; }); if (d.getDay() === 6) { b['17:00'] = true; b['18:00'] = true; } busy[keyOf(d)] = b; blocked[keyOf(d)] = {}; });
+  busy[keyOf(days[2])] = {}; HOURS.forEach(function (h) { busy[keyOf(days[2])][h] = true; }); // un día completo
+
+  var st = { tipo: '', preo: {}, vez: '', trat: 'limp', day: null, slot: '', pday: 0 };
+
+  function opt(group, name, value, type, checked) {
+    var l = document.createElement('label'); var id = name + '-' + value.replace(/\W+/g, '');
+    l.innerHTML = '<input type="' + type + '" name="' + name + '" value="' + esc(value) + '" id="' + id + '"' + (checked ? ' checked' : '') + '><span>' + esc(value) + '</span>';
+    group.appendChild(l); return l.querySelector('input');
+  }
+  TIPOS.forEach(function (v) { opt($('o-tipo'), 'tipo', v, 'radio').addEventListener('change', function () { st.tipo = v; reco(); }); });
+  PREO.forEach(function (p) { opt($('o-preo'), 'preo', p.v, 'checkbox').addEventListener('change', function (e) { if (e.target.checked) st.preo[p.v] = p.t; else delete st.preo[p.v]; reco(); }); });
+  VEZ.forEach(function (v) { opt($('o-vez'), 'vez', v, 'radio').addEventListener('change', function () { st.vez = v; reco(); }); });
+
+  function recoTrat() {
+    var ids = Object.keys(st.preo).map(function (k) { return st.preo[k]; });
+    var order = ['acne', 'limp', 'peel', 'hidr', 'derm'];
+    for (var i = 0; i < order.length; i++) { if (ids.indexOf(order[i]) >= 0 && byId(order[i]).on) return byId(order[i]); }
+    if (ids.length) return byId('limp').on ? byId('limp') : null;
+    return null;
+  }
+  function reco() {
+    var r = $('reco'); var t = recoTrat();
+    if (!Object.keys(st.preo).length) { r.className = 'reco empty'; r.textContent = 'Marcá qué te gustaría mejorar y te digo con qué tratamiento empezar.'; return; }
+    if (!t) { r.className = 'reco empty'; r.textContent = 'Ese tratamiento no está disponible ahora. Escribime y lo vemos juntas.'; return; }
+    var extra = [];
+    if (st.vez === 'Es la primera vez') extra.push('Como es tu primera vez, sumamos 10 minutos para armar tu ficha.');
+    if (st.tipo === 'Sensible') extra.push('Para piel sensible uso productos suaves y probamos antes.');
+    if (Object.keys(st.preo).length > 1 && t.id !== 'limp') extra.push('Lo demás lo vemos en la cabina y armamos un plan.');
+    if (Object.keys(st.preo).length > 1 && t.id === 'limp') extra.push('Empezamos por acá y en la cabina vemos el resto.');
+    r.className = 'reco';
+    r.innerHTML = '<small>Te recomiendo empezar por</small><b>' + esc(t.n) + '</b><p>' + esc(extra.join(' ') || t.d) + '</p><div class="row"><span class="meta">' + t.min + ' min · ' + fmt(t.p) + '</span><button type="button" id="reco-go">Elegir horario</button></div>';
+    $('reco-go').onclick = function () { pick(t.id, true); };
+  }
+
+  function renderTrat() {
+    $('trat').innerHTML = T.filter(function (t) { return t.on; }).map(function (t) {
+      return '<li' + (t.id === st.trat ? ' class="sel"' : '') + '><h3>' + esc(t.n) + '</h3><p>' + esc(t.d) + '</p><div class="side"><span class="price">' + fmt(t.p) + '</span><span class="dur">' + t.min + ' min</span><button type="button" data-t="' + t.id + '"' + (t.id === st.trat ? ' aria-pressed="true"' : '') + '>' + (t.id === st.trat ? 'Elegido' : 'Elegir') + '</button></div></li>';
+    }).join('');
+    Array.prototype.forEach.call($('trat').querySelectorAll('button'), function (b) { b.onclick = function () { pick(b.getAttribute('data-t'), true); }; });
+  }
+  function pick(id, jump) {
+    st.trat = id; renderTrat(); renderChosen(); renderSena();
+    if (jump) { $('turno').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); }
+  }
+  function renderChosen() {
+    var t = byId(st.trat);
+    if (!t || !t.on) { var f = T.filter(function (x) { return x.on; })[0]; st.trat = f ? f.id : ''; t = f; }
+    $('chosen').innerHTML = t ? '<div><span>Tratamiento</span><br><b>' + esc(t.n) + '</b> · ' + t.min + ' min · ' + fmt(t.p) + '</div><a href="#tratamientos">Cambiar</a>' : '<div>No hay tratamientos disponibles.</div>';
+  }
+  function free(d) { var k = keyOf(d); return HOURS.filter(function (h) { return !busy[k][h] && !blocked[k][h]; }); }
+  function dayBtn(d, pressed) { return '<small>' + DN[d.getDay()] + '</small><b>' + d.getDate() + '</b>'; }
+  function renderDays() {
+    if (st.day === null || !free(days[st.day]).length) { st.day = null; for (var i = 0; i < days.length; i++) { if (free(days[i]).length) { st.day = i; break; } } }
+    $('days').innerHTML = days.map(function (d, i) { var n = free(d).length; return '<button type="button" data-i="' + i + '" aria-pressed="' + (i === st.day) + '"' + (n ? '' : ' disabled') + ' aria-label="' + DN[d.getDay()] + ' ' + d.getDate() + (n ? ', ' + n + ' horarios libres' : ', completo') + '">' + dayBtn(d) + '</button>'; }).join('');
+    Array.prototype.forEach.call($('days').querySelectorAll('button'), function (b) { b.onclick = function () { st.day = +b.getAttribute('data-i'); st.slot = ''; renderDays(); }; });
+    renderSlots();
+  }
+  function renderSlots() {
+    if (st.day === null) { $('slots').innerHTML = '<p class="none">No quedan horarios libres esta semana.</p>'; return; }
+    var f = free(days[st.day]); if (f.indexOf(st.slot) < 0) st.slot = '';
+    $('slots').innerHTML = f.map(function (h) { return '<button type="button" aria-pressed="' + (h === st.slot) + '">' + h + '</button>'; }).join('');
+    Array.prototype.forEach.call($('slots').querySelectorAll('button'), function (b) { b.onclick = function () { st.slot = b.textContent; $('err').textContent = ''; renderSlots(); }; });
+  }
+  function renderSena() { $('sena').innerHTML = 'Para confirmar el turno se deja una <b>seña de ' + fmt(SENA) + '</b> por transferencia (alias ejemplo.cabina) y me mandás el comprobante. Se descuenta del total.'; }
+
+  function longDate(d) { return d.toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' }); }
+  function showWA(m) { $('mdl-m').textContent = m; $('mdl').classList.add('on'); $('mdl-x').focus(); }
+  $('mdl-x').onclick = function () { $('mdl').classList.remove('on'); };
+  $('mdl').addEventListener('click', function (e) { if (e.target === $('mdl')) $('mdl').classList.remove('on'); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') $('mdl').classList.remove('on'); });
+  $('float').onclick = function () { showWA('Hola Sofía, quería hacerte una consulta.'); };
+  $('cambiar').onclick = function () { showWA('Hola Sofía, tengo un turno y necesito cambiarlo (o cancelarlo). ¿Qué otro horario tenés?'); };
+
+  var agenda = [
+    { h: '10:30', n: 'Carla R.', t: 'limp', tags: [['Mixta', ''], ['Seña recibida', 'ok']] },
+    { h: '14:00', n: 'Julieta M.', t: 'peel', tags: [['Sensible', ''], ['Seña recibida', 'ok']] },
+    { h: '17:00', n: 'Rocío B.', t: 'acne', tags: [['Primera vez', 'new'], ['Seña por revisar', 'pend']] }
+  ];
+
+  $('go').onclick = function () {
+    var t = byId(st.trat); var nm = $('nm').value.trim().replace(/\s+/g, ' ');
+    if (!t) return;
+    if (!st.slot) { $('err').textContent = 'Elegí un horario libre.'; return; }
+    if (nm.length < 2) { $('err').textContent = 'Escribí tu nombre.'; $('nm').focus(); return; }
+    $('err').textContent = '';
+    var d = days[st.day];
+    var lines = ['Hola Sofía, soy ' + nm + '. Quiero pedir un turno:', '', '• ' + t.n + ' (' + t.min + ' min, ' + fmt(t.p) + ')', '• ' + longDate(d) + ', ' + st.slot + ' h'];
+    var preos = Object.keys(st.preo);
+    if (st.tipo || preos.length || st.vez) {
+      lines.push('', 'Mi ficha:');
+      if (st.tipo) lines.push('• Piel: ' + st.tipo.toLowerCase());
+      if (preos.length) lines.push('• Quiero mejorar: ' + preos.join(', ').toLowerCase());
+      if (st.vez) lines.push('• ' + st.vez);
+    }
+    lines.push('', 'Te mando el comprobante de la seña de ' + fmt(SENA) + '. ¿Me lo confirmás?');
+    busy[keyOf(d)][st.slot] = true;
+    var tags = []; if (st.tipo && st.tipo !== 'No sé') tags.push([st.tipo, '']); if (st.vez === 'Es la primera vez') tags.push(['Primera vez', 'new']); tags.push(['Seña por revisar', 'pend']);
+    agenda.push({ h: st.slot, n: nm, t: t.id, tags: tags, fresh: true, day: d });
+    showWA(lines.join('\n'));
+    st.slot = ''; renderDays(); renderPanel();
+  };
+
+  // Panel
+  function renderPanel() {
+    $('ph-date').textContent = 'Hoy es ' + longDate(today) + '. Turnos pedidos desde la web: abajo, marcados en violeta.';
+    var list = agenda.slice().sort(function (a, b) { return (a.day ? 1 : 0) - (b.day ? 1 : 0) || a.h.localeCompare(b.h); });
+    $('ag').innerHTML = list.map(function (a, i) {
+      var t = byId(a.t); var when = a.day ? DN[a.day.getDay()] + ' ' + a.day.getDate() : '';
+      return '<li' + (a.fresh ? ' class="fresh"' : '') + '><div class="h">' + esc(a.h) + (when ? '<br><span style="font-weight:600;font-size:12.5px;color:#5E5473">' + when + '</span>' : '') + '</div><div class="who"><b>' + esc(a.n) + '</b><span>' + esc(t.n) + ' · ' + t.min + ' min</span><div class="tags">' + a.tags.map(function (g) { return '<span class="tag ' + g[1] + '">' + esc(g[0]) + '</span>'; }).join('') + '</div>' +
+        (a.tags.some(function (g) { return g[1] === 'pend'; }) ? '<div class="acts"><button type="button" data-ok="' + agenda.indexOf(a) + '">Seña recibida</button><button type="button" data-rem="' + agenda.indexOf(a) + '">Mandar recordatorio</button></div>' : '<div class="acts"><button type="button" data-rem="' + agenda.indexOf(a) + '">Mandar recordatorio</button></div>') + '</div></li>';
+    }).join('');
+    Array.prototype.forEach.call($('ag').querySelectorAll('[data-ok]'), function (b) { b.onclick = function () { var a = agenda[+b.getAttribute('data-ok')]; a.tags = a.tags.map(function (g) { return g[1] === 'pend' ? ['Seña recibida', 'ok'] : g; }); renderPanel(); toast('Turno confirmado. Le llega el aviso a ' + a.n + '.'); }; });
+    Array.prototype.forEach.call($('ag').querySelectorAll('[data-rem]'), function (b) { b.onclick = function () { var a = agenda[+b.getAttribute('data-rem')]; var t = byId(a.t); showWA('Hola ' + a.n.split(' ')[0] + ', te recuerdo tu turno de ' + t.n.toLowerCase() + (a.day ? ' el ' + longDate(a.day) : ' hoy') + ' a las ' + a.h + ' h. Si no podés venir, avisame así le doy el lugar a otra persona. ¡Te espero!'); }; });
+    $('k-hoy').textContent = agenda.filter(function (a) { return !a.day; }).length;
+    $('k-sena').textContent = agenda.filter(function (a) { return a.tags.some(function (g) { return g[1] === 'pend'; }); }).length;
+    $('k-new').textContent = agenda.filter(function (a) { return a.tags.some(function (g) { return g[1] === 'new'; }); }).length;
+
+    $('tl').innerHTML = T.map(function (t, i) { return '<li' + (t.on ? '' : ' class="off"') + '><div><div class="nm">' + esc(t.n) + '</div><div class="pr"><label for="p-' + t.id + '">Precio $</label><input type="number" id="p-' + t.id + '" min="0" step="500" inputmode="numeric" value="' + t.p + '"> · ' + t.min + ' min</div></div><button type="button" class="sw" role="switch" aria-checked="' + t.on + '" aria-label="' + esc(t.n) + ' visible en la página" data-i="' + i + '"></button></li>'; }).join('');
+    Array.prototype.forEach.call($('tl').querySelectorAll('.sw'), function (b) { b.onclick = function () { var t = T[+b.getAttribute('data-i')]; t.on = !t.on; renderPanel(); renderTrat(); renderChosen(); reco(); toast(t.on ? t.n + ' vuelve a verse en la página.' : t.n + ' ya no aparece en la página.'); }; });
+    Array.prototype.forEach.call($('tl').querySelectorAll('input'), function (inp) { inp.onchange = function () { var t = byId(inp.id.slice(2)); var v = Math.max(0, Math.round(+inp.value || 0)); t.p = v; inp.value = v; renderTrat(); renderChosen(); reco(); toast('Precio actualizado: ' + t.n + ' ' + fmt(v) + '.'); }; });
+
+    $('pdays').innerHTML = days.map(function (d, i) { return '<button type="button" data-i="' + i + '" aria-pressed="' + (i === st.pday) + '">' + dayBtn(d) + '</button>'; }).join('');
+    Array.prototype.forEach.call($('pdays').querySelectorAll('button'), function (b) { b.onclick = function () { st.pday = +b.getAttribute('data-i'); renderPanel(); }; });
+    var k = keyOf(days[st.pday]);
+    $('blk').innerHTML = HOURS.map(function (h) { var bz = busy[k][h]; return '<button type="button"' + (bz ? ' class="busy" disabled aria-label="' + h + ', con turno"' : ' aria-pressed="' + !!blocked[k][h] + '"') + '>' + h + '</button>'; }).join('');
+    Array.prototype.forEach.call($('blk').querySelectorAll('button:not(.busy)'), function (b) { b.onclick = function () { var h = b.textContent; blocked[k][h] = !blocked[k][h]; renderPanel(); renderDays(); toast(blocked[k][h] ? h + ' h bloqueado: ya no se ofrece.' : h + ' h libre otra vez.'); }; });
+  }
+
+  var tt;
+  function toast(m) { var e = $('toast'); e.textContent = m; e.hidden = false; clearTimeout(tt); tt = setTimeout(function () { e.hidden = true; }, 2600); }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.vsw button'), function (b) {
+    b.onclick = function () {
+      var v = b.getAttribute('data-view');
+      Array.prototype.forEach.call(document.querySelectorAll('.vsw button'), function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      $('v-cli').hidden = v !== 'cli'; $('v-pan').hidden = v !== 'pan'; $('float').hidden = v !== 'cli';
+      window.scrollTo(0, 0);
+    };
+  });
+
+  renderTrat(); renderChosen(); renderDays(); renderSena(); reco(); renderPanel();
+})();
+</script>
+</body>
+</html>
