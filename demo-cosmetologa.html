@@ -410,30 +410,26 @@ dialog.sheet.wide { max-width: 760px; }
 .two-f { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .addt { background: var(--bg); border-radius: var(--r-m); padding: 14px; margin-top: 14px; }
 @media (min-width: 640px) { .fgrid { grid-template-columns: 1fr 1fr; } .cks { grid-template-columns: 1fr 1fr; } }
-@media print {
-  body * { visibility: hidden !important; }
-  #d-ficha, #d-ficha * { visibility: visible !important; }
-  #d-ficha { position: absolute; inset: 0; max-height: none; max-width: none; box-shadow: none; border-radius: 0; }
-  #d-ficha .sh-f, #d-ficha .x, #d-ficha .ftabs { display: none !important; }
-  #d-ficha .sh-b { overflow: visible; }
-}
+
 .habs { display: grid; gap: 4px 14px; }
 .segr { margin-bottom: 10px; min-width: 0; }
 .segr .stp-t { margin-bottom: 6px; }
 .cuis { display: grid; gap: 8px; }
 .cui { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 8px; align-items: center; padding: 10px 12px; border-radius: 12px; background: var(--bg); }
 .cui b { grid-column: 1 / -1; font-size: 14.5px; }
-.cui select, .cui input, .prot input { min-height: 44px; border-radius: 10px; border: 1.5px solid var(--line); padding: 0 10px; background: var(--paper); color: var(--ink); width: 100%; min-width: 0; font: inherit; font-size: 14.5px; }
+.cui select, .cui input { min-height: 44px; border-radius: 10px; border: 1.5px solid var(--line); padding: 0 10px; background: var(--paper); color: var(--ink); width: 100%; min-width: 0; font: inherit; font-size: 14.5px; }
 .fmapw { display: grid; gap: 12px; }
 .mks span { gap: 6px; display: inline-flex; align-items: center; }
 .fface { background: var(--bg); border-radius: var(--r-m); padding: 8px; display: grid; place-items: center; }
 #fmap { width: 100%; max-width: 300px; height: auto; cursor: crosshair; touch-action: manipulation; }
 #fmap [data-mi] { cursor: pointer; }
 .prot { list-style: none; margin: 0 0 10px; padding: 0; display: grid; gap: 8px; }
-.prot li { display: grid; grid-template-columns: 28px 1fr 40px; gap: 6px; align-items: center; padding: 8px; border-radius: 12px; background: var(--bg); }
-.prot li input:nth-of-type(2), .prot li input:nth-of-type(3) { grid-column: 2; }
-.prot li .x.sm { grid-column: 3; grid-row: 1; width: 40px; height: 40px; }
-.prot .pn { grid-row: 1; width: 26px; height: 26px; border-radius: 50%; background: var(--vio-l); color: var(--vio-d); display: grid; place-items: center; font-weight: 800; font-size: 13px; }
+.prot li { display: grid; grid-template-columns: 28px 1fr 40px; gap: 8px; align-items: start; padding: 8px; border-radius: 12px; background: var(--bg); }
+.prot .pf { display: grid; gap: 6px; min-width: 0; }
+.prot textarea { display: block; width: 100%; min-width: 0; min-height: 44px; resize: none; overflow: hidden; field-sizing: content; border-radius: 10px; border: 1.5px solid var(--line); padding: 11px 10px; background: var(--paper); color: var(--ink); font: inherit; font-size: 14.5px; line-height: 1.35; }
+.prot textarea[data-pc="0"] { font-weight: 700; }
+.prot li .x.sm { width: 40px; height: 40px; }
+.prot .pn { margin-top: 9px; width: 26px; height: 26px; border-radius: 50%; background: var(--vio-l); color: var(--vio-d); display: grid; place-items: center; font-weight: 800; font-size: 13px; }
 .cons { font-size: 14.5px; color: var(--soft); background: var(--bg); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; }
 .sigw { position: relative; border: 2px dashed var(--line); border-radius: var(--r-m); background: var(--paper); }
 .sigw canvas { display: block; width: 100%; height: 150px; touch-action: none; cursor: crosshair; }
@@ -447,18 +443,53 @@ dialog.sheet.wide { max-width: 760px; }
   .cui b { grid-column: auto; }
   .fmapw { grid-template-columns: 180px 1fr; align-items: start; }
   .mks { flex-direction: column; }
-  .prot li { grid-template-columns: 28px 1fr 1fr 1.2fr 40px; }
-  .prot li > * { grid-row: 1; }
-  .prot li input:nth-of-type(1) { grid-column: 2; }
-  .prot li input:nth-of-type(2) { grid-column: 3; }
-  .prot li input:nth-of-type(3) { grid-column: 4; }
-  .prot li .x.sm { grid-column: 5; }
+  .prot .pf { grid-template-columns: 1fr 1fr; }
+  .prot .pf textarea[data-pc="2"] { grid-column: 1 / -1; }
 }
+/* ficha imprimible */
+#pf { display: none; }
 @media print {
-  #d-ficha .fpane[hidden] { display: block !important; }
-  #d-ficha .acts, #d-ficha .sigl { display: none !important; }
-  #d-ficha .alert, #d-ficha .okbox, #d-ficha .ck, #d-ficha .cui, #d-ficha .prot li { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  @page { size: A4; margin: 12mm 13mm 14mm; }
+  html, body { background: #fff !important; }
+  body > *:not(#pf) { display: none !important; }
+  #pf { display: block; color: #1F1A2E; font-family: Onest, system-ui, sans-serif; font-size: 10pt; line-height: 1.4; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
+#pf .ph { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; padding-bottom: 10px; border-bottom: 2.5px solid #5B3FA0; }
+#pf .br { display: flex; gap: 10px; align-items: center; }
+#pf .br i { width: 34px; height: 34px; border-radius: 50%; background: #ECE6F8; display: grid; place-items: center; }
+#pf .br b { display: block; font-family: Gloock, Georgia, serif; font-weight: 400; font-size: 18pt; line-height: 1; }
+#pf .br small, #pf .pr { font-size: 8.8pt; color: #5B5270; }
+#pf .pr { text-align: right; }
+#pf .pr b { display: block; font-size: 10.5pt; color: #5B3FA0; text-transform: uppercase; letter-spacing: .08em; }
+#pf .cl { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin: 12px 0 6px; }
+#pf .cl h1 { font-family: Gloock, Georgia, serif; font-weight: 400; font-size: 20pt; line-height: 1.1; margin: 0; }
+#pf .tag { display: inline-block; font-size: 8.5pt; font-weight: 700; border-radius: 99px; padding: 1.5pt 7pt; background: #F1EEF6; color: #3C3550; margin: 0 4px 3px 0; }
+#pf .tag.al { background: #B3263E; color: #fff; }
+#pf .tag.ok { background: #D3F1E6; color: #1D6F55; }
+#pf h2 { font-family: Onest, system-ui, sans-serif; font-weight: 800; font-size: 8.6pt; line-height: 1.6; padding-top: 2px; text-transform: uppercase; letter-spacing: .09em; color: #5B3FA0; margin: 13px 0 6px; padding-bottom: 3px; border-bottom: 1px solid #DDD6EA; }
+#pf .pfs { break-inside: avoid; }
+#pf .kv { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px 14px; }
+#pf .kv.kv2 { grid-template-columns: repeat(2, 1fr); }
+#pf .kv div { min-width: 0; }
+#pf .kv span { display: block; font-size: 7.8pt; color: #7A7290; text-transform: uppercase; letter-spacing: .05em; }
+#pf .kv b { font-weight: 600; overflow-wrap: anywhere; }
+#pf .kvf { grid-column: 1 / -1; }
+#pf table { width: 100%; border-collapse: collapse; font-size: 9.4pt; }
+#pf th { text-align: left; font-size: 7.8pt; color: #7A7290; text-transform: uppercase; letter-spacing: .05em; font-weight: 700; padding: 4px 6px; border-bottom: 1px solid #DDD6EA; }
+#pf td { padding: 5px 6px; border-bottom: 1px solid #EEEAF4; vertical-align: top; overflow-wrap: anywhere; }
+#pf tr { break-inside: avoid; }
+#pf td.n { width: 18px; color: #5B3FA0; font-weight: 800; }
+#pf .an { display: grid; grid-template-columns: 1fr 62mm; gap: 14px; align-items: start; }
+#pf .fm { border: 1px solid #DDD6EA; border-radius: 8px; padding: 6px; text-align: center; }
+#pf .fm svg { width: 100%; height: auto; max-height: 70mm; }
+#pf .lg { font-size: 8pt; color: #5B5270; margin-top: 4px; display: flex; flex-wrap: wrap; gap: 3px 8px; justify-content: center; }
+#pf .lg em { font-style: normal; display: inline-flex; gap: 3px; align-items: center; }
+#pf .tx { white-space: pre-wrap; overflow-wrap: anywhere; }
+#pf .cons { font-size: 9pt; color: #3C3550; background: #F6F3FA; border-radius: 6px; padding: 8px 10px; }
+#pf .sg { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 15mm; }
+#pf .sg div { border-top: 1px solid #1F1A2E; padding-top: 4px; font-size: 8.8pt; color: #5B5270; position: relative; }
+#pf .sg img { position: absolute; bottom: 100%; left: 0; height: 16mm; width: auto; }
+#pf .ft { margin-top: 14px; padding-top: 6px; border-top: 1px solid #DDD6EA; font-size: 7.8pt; color: #7A7290; display: flex; justify-content: space-between; gap: 10px; }
 
 /* tienda */
 .shop { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -745,6 +776,7 @@ dialog.sheet.wide { max-width: 760px; }
 
 <footer class="made"><div class="in"><div class="made-box"><div><b>Esta página es una demo de MARCEM.</b><br>El consultorio, las clientas y los precios son ficticios, y los antes y después son ilustrativos. La tuya va con tu nombre, tus tratamientos, tus fotos y tu WhatsApp.</div><a href="https://wa.me/5493364626434?text=Hola%20Marcelo%2C%20vi%20la%20demo%20para%20cosmet%C3%B3logas%20y%20quiero%20una%20para%20mi%20consultorio." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Quiero una así</a></div><span>Demo hecha por <a href="./">MARCEM, soluciones digitales</a>. Fotos: Pexels.</span></div></footer>
 
+<div id="pf"></div>
 <dialog class="sheet" id="d-pedir" aria-labelledby="dp-h">
   <div class="sh-h"><h2 id="dp-h">Pedir turno</h2><button type="button" class="x" data-close aria-label="Cerrar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
   <div class="prog" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -1586,7 +1618,8 @@ dialog.sheet.wide { max-width: 760px; }
         '<p class="hint" id="fmap-s" aria-live="polite">' + esc(mapSum(fc.map)) + '</p><div class="acts"><button type="button" class="mini" id="fm-u">Deshacer</button><button type="button" class="mini" id="fm-c">Borrar todo</button></div>' +
         area('fc-mapn', 'Notas del mapa', fc.mapN, 'Comedones en zona T, manchas en pómulos…', 300) + '</fieldset>' +
         '<fieldset class="fsec"><legend>Diagnóstico y protocolo</legend>' + area('fc-dx', 'Diagnóstico', fc.dx, 'Piel mixta deshidratada con acné grado I…', 400) +
-        '<p class="stp-t" style="margin-top:6px">Protocolo</p><ol class="prot">' + fc.prot.map(function (r, i) { return '<li><span class="pn num">' + (i + 1) + '</span><input data-pr="' + i + '" data-pc="0" maxlength="60" aria-label="Paso ' + (i + 1) + ', proceso" placeholder="Proceso (limpieza, peeling…)" value="' + esc(r[0]) + '"><input data-pr="' + i + '" data-pc="1" maxlength="60" aria-label="Paso ' + (i + 1) + ', producto" placeholder="Producto" value="' + esc(r[1]) + '"><input data-pr="' + i + '" data-pc="2" maxlength="80" aria-label="Paso ' + (i + 1) + ', observaciones" placeholder="Observaciones" value="' + esc(r[2]) + '"><button type="button" class="x sm" data-prx="' + i + '" aria-label="Quitar paso ' + (i + 1) + '"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></li>'; }).join('') + '</ol>' +
+        '<p class="stp-t" style="margin-top:6px">Protocolo</p><ol class="prot">' + fc.prot.map(function (r, i) { var ta = function (c, ph, mx, lab) { return '<textarea class="ag" rows="1" data-pr="' + i + '" data-pc="' + c + '" maxlength="' + mx + '" aria-label="Paso ' + (i + 1) + ', ' + lab + '" placeholder="' + ph + '">' + esc(r[c]) + '</textarea>'; };
+          return '<li><span class="pn num">' + (i + 1) + '</span><div class="pf">' + ta(0, 'Proceso (limpieza, peeling…)', 80, 'proceso') + ta(1, 'Producto', 80, 'producto') + ta(2, 'Observaciones (tiempo, concentración, zona…)', 200, 'observaciones') + '</div><button type="button" class="x sm" data-prx="' + i + '" aria-label="Quitar paso ' + (i + 1) + '"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></li>'; }).join('') + '</ol>' +
         '<div class="acts"><button type="button" class="mini" id="pr-add">Agregar paso</button></div>' +
         '<p class="stp-t" style="margin-top:10px">Productos recomendados</p><p class="hint" style="margin:-2px 0 8px">Van con link a tu tienda cuando le mandás la rutina.</p><div class="cks">' + PRODS.map(function (x) { return '<label class="ck ok"><input type="checkbox" data-rp="' + x.id + '"' + ((fc.recP || []).indexOf(x.id) >= 0 ? ' checked' : '') + '><span>' + esc(x.n) + ' <span class="hint num">' + fmt(x.p) + '</span></span></label>'; }).join('') + '</div>' +
         '<div class="fgrid" style="margin-top:10px">' + area('fc-rec', 'Recomendaciones para casa', fc.rec, 'FPS 50 cada 3 horas, no exfoliar por 5 días…', 400) + area('fc-obs', 'Observaciones', fc.obs, '', 500) + '</div></fieldset>' +
@@ -1601,7 +1634,9 @@ dialog.sheet.wide { max-width: 760px; }
       b.innerHTML = p1 + p2;
       f.innerHTML = '<button type="button" class="btn btn-g" id="fc-pr">Imprimir ficha</button><button type="button" class="btn btn-p" id="fc-sv">Guardar ficha</button>';
       $('fc-sv').onclick = function () { saveClin(); toast('Ficha de ' + first(c.n) + ' guardada.'); renderFicha(); };
-      $('fc-pr').onclick = function () { saveClin(true); window.print(); };
+      $('fc-pr').onclick = function () { saveClin(true); printFicha(c); };
+      var grow = function (t) { if (CSS.supports && CSS.supports('field-sizing', 'content')) return; t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px'; };
+      qa('textarea.ag', b).forEach(function (t) { t.addEventListener('input', function () { grow(t); }); requestAnimationFrame(function () { grow(t); }); });
       qa('input[name="fc-foto"]', b).forEach(function (r) { r.onchange = function () { $('fc-fotod').textContent = FOTOD[r.value]; }; });
       qa('input[name="fmk"]', b).forEach(function (r) { r.onchange = function () { fmk = r.value; }; });
       var svg = $('fmap'), redraw = function () { $('fmk').innerHTML = fc.map.map(mkShape).join(''); $('fmap-s').textContent = mapSum(fc.map); };
@@ -1649,6 +1684,36 @@ dialog.sheet.wide { max-width: 760px; }
       $('fx-rut').onclick = function () { showWA(rutinaMsg(c), c.n + ', ' + c.tel); };
       $('fx-res').onclick = function () { showWA('Hola ' + first(c.n) + '! Gracias por venir. Si te gustó la atención, ¿me dejás una reseña en Google? Me ayuda un montón: [link a tu perfil de Google]', c.n + ', ' + c.tel); };
     }
+  }
+  var PRO = { n: 'Sofía Ejemplo', t: 'Cosmetóloga', mat: 'M.P. 0000', lug: 'Consultorio Ejemplo', dir: 'Calle Ejemplo 123, San Nicolás de los Arroyos', tel: '336 400-0000', ig: '@consultorio.ejemplo' };
+  function printFicha(c) {
+    var fc = c.fc || {}, d = function (v) { return v ? esc(v) : '<span style="color:#A39CB4">—</span>'; };
+    var kv = function (l, v, cls) { return '<div' + (cls ? ' class="' + cls + '"' : '') + '><span>' + l + '</span><b>' + d(v) + '</b></div>'; };
+    var age = fc.nac ? Math.floor((today - new Date(fc.nac + 'T12:00')) / 315576e5) : null;
+    var antOn = ANT.filter(function (a) { return fc.ant && fc.ant[a[0]]; });
+    var sec = function (h, body) { return '<div class="pfs"><h2>' + h + '</h2>' + body + '</div>'; };
+    var prot = (fc.prot || []).filter(function (r) { return r[0] || r[1] || r[2]; });
+    var prods = (fc.recP || []).map(pById).filter(Boolean);
+    var used = {}; (fc.map || []).forEach(function (m) { used[m[2]] = 1; });
+    var html = '<div class="ph"><div class="br"><i><svg width="18" height="18" viewBox="0 0 24 24" fill="#5B3FA0" aria-hidden="true"><path d="M12 2.5c-3.2 4.3-6.5 8.3-6.5 12a6.5 6.5 0 0 0 13 0c0-3.7-3.3-7.7-6.5-12z"/></svg></i><div><b>' + esc(PRO.lug) + '</b><small>' + esc(PRO.n) + ' · ' + esc(PRO.t) + ' · ' + esc(PRO.mat) + '</small></div></div>' +
+      '<div class="pr"><b>Ficha cosmetológica facial</b>' + esc(PRO.dir) + '<br>' + esc(PRO.tel) + ' · ' + esc(PRO.ig) + '</div></div>' +
+      '<div class="cl"><h1>' + esc(c.n) + '</h1><span style="font-size:9pt;color:#5B5270">Impresa el ' + dNum.format(today) + '</span></div>' +
+      (antOn.length ? '<div>' + antOn.map(function (a) { return '<span class="tag' + (a[2] ? ' al' : '') + '">' + esc(a[1]) + '</span>'; }).join('') + '</div>' : '') +
+      sec('Datos personales', '<div class="kv">' + kv('Fecha de nacimiento', fc.nac ? dNum.format(new Date(fc.nac + 'T12:00')) + (age != null ? ' (' + age + ' años)' : '') : '') + kv('DNI', fc.dni) + kv('WhatsApp', c.tel) + kv('Correo', fc.mail) + kv('Ocupación', fc.ocup) + kv('Grupo sanguíneo', fc.sangre) + kv('Contacto de emergencia', fc.emerg) + kv('Motivo de consulta', fc.motivo, 'kvf') + '</div>') +
+      sec('Antecedentes', '<div class="kv kv2">' + kv('Alergias y medicación', fc.antDet) + kv('Enfermedades actuales', fc.enf) + kv('Antecedentes familiares', fc.fam) + kv('Cirugías', fc.quir) + kv('Tratamientos estéticos previos', fc.prev, 'kvf') + '</div>') +
+      sec('Hábitos y cuidado habitual', '<div class="kv">' + HAB.map(function (h) { return kv(h[1], (fc.hab || {})[h[0]]); }).join('') + kv('Horas de sueño', fc.sueno) + kv('Otros', fc.otros, 'kvf') + '</div>' +
+        '<table style="margin-top:8px"><thead><tr><th>Paso</th><th>Frecuencia</th><th>Producto</th></tr></thead><tbody>' + CUI.map(function (x) { var v = (fc.cui || {})[x[0]] || ['', '']; return '<tr><td><b>' + x[1] + '</b></td><td>' + d(v[0]) + '</td><td>' + d(v[1]) + '</td></tr>'; }).join('') + '</tbody></table>') +
+      sec('Análisis de la piel', '<div class="an"><div><div class="kv kv2">' + kv('Fototipo', fc.foto ? fc.foto + ', ' + FOTOD[fc.foto].toLowerCase() : '', 'kvf') + kv('Tipología', (fc.tip || []).join(', ')) + kv('Deshidratación', fc.desh) + kv('Textura', fc.tex) + kv('Tonalidad', fc.ton) + kv('Grosor', fc.gros) + kv('Lesiones y patologías', (fc.pat || []).join(', '), 'kvf') + kv('Notas del mapa', fc.mapN, 'kvf') + '</div></div>' +
+        '<div class="fm">' + faceSvg(fc.map).replace(' id="fmap"', '').replace(' id="fmk"', '') + '<div class="lg">' + MK.filter(function (m) { return used[m[0]]; }).map(function (m) { return '<em><svg width="9" height="9" viewBox="-7 -7 14 14" aria-hidden="true">' + mkShape([0, 0, m[0]], -1).replace(/ data-mi="-1"/, '') + '</svg>' + m[1] + '</em>'; }).join('') + '</div></div></div>') +
+      sec('Diagnóstico', '<p class="tx">' + d(fc.dx) + '</p>') +
+      sec('Protocolo', prot.length ? '<table><thead><tr><th></th><th>Proceso</th><th>Producto</th><th>Observaciones</th></tr></thead><tbody>' + prot.map(function (r, i) { return '<tr><td class="n">' + (i + 1) + '</td><td><b>' + d(r[0]) + '</b></td><td>' + d(r[1]) + '</td><td>' + d(r[2]) + '</td></tr>'; }).join('') + '</tbody></table>' : '<p>' + d('') + '</p>') +
+      sec('Recomendaciones para casa', '<p class="tx">' + d(fc.rec) + '</p>' + (prods.length ? '<p style="margin-top:4px">' + prods.map(function (x) { return '<span class="tag ok">' + esc(x.n) + '</span>'; }).join('') + '</p>' : '')) +
+      (fc.obs ? sec('Observaciones', '<p class="tx">' + esc(fc.obs) + '</p>') : '') +
+      sec('Consentimiento informado', '<p class="cons">' + CONS + '</p><p style="margin-top:6px;font-size:9pt">' + (fc.fotoOk ? '☑' : '☐') + ' Autoriza fotos de antes y después para su seguimiento. &nbsp; ' + (fc.pubOk ? '☑' : '☐') + ' Autoriza publicarlas sin mostrar su cara.</p>' +
+        '<div class="sg"><div>' + (fc.firma ? '<img src="' + fc.firma + '" alt="">' : '') + 'Firma de la clienta' + (fc.consent != null ? ' · ' + dNum.format(addD(today, fc.consent)) : '') + '</div><div>' + esc(PRO.n) + ', ' + esc(PRO.t.toLowerCase()) + ' · ' + esc(PRO.mat) + '</div></div>' +
+      '<div class="ft"><span>Datos de salud confidenciales. Uso exclusivo del tratamiento (Ley 25.326).</span><span>' + esc(PRO.lug) + ' · Demo con datos ficticios</span></div>');
+    $('pf').innerHTML = html;
+    setTimeout(function () { window.print(); }, 60);
   }
   function rutinaMsg(c) {
     var fc = c.fc || {}, L = ['Hola ' + first(c.n) + '! Te paso tu rutina:', '', fc.rec || 'De día: limpiador suave, sérum, hidratante y protector solar.\nDe noche: limpiador, sérum y crema reparadora.'];
