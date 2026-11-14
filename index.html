@@ -1030,6 +1030,7 @@
     { id: 'kinesiologo', chip: 'Kinesiología', name: 'Lic. Pablo Ejemplo, Kinesiología', text: 'Tu paciente toca dónde le duele y te escribe con la consulta ya explicada.', demo: 'demo-kinesiologo', label: 'kinesiología' },
     { id: 'abogado', chip: 'Abogados', name: 'Dr. Martín Ejemplo, Abogado laboral', text: 'La persona elige qué le pasó, entiende sus opciones y te escribe con su caso contado.', demo: 'demo-abogado', label: 'abogado' },
     { id: 'cosmetologa', chip: 'Cosmetología', name: 'Consultorio Ejemplo, cosmetóloga con turnos', text: 'Trabajos antes y después, turnos con seña y "Mis turnos" para reprogramar. En el panel: agenda, pagos y a qué clientas recordarles que vuelvan.', demo: 'demo-cosmetologa', label: 'cosmetología' },
+    { id: 'salon', chip: 'Salón con equipo', name: 'Salón Ejemplo, pelo, uñas y estética', text: 'La clienta elige el servicio y con quién, o la primera libre. En el panel: agenda por profesional, comisiones de la semana, caja y fichas con fórmulas de color.', demo: 'demo-salon', label: 'salón' },
     { id: 'peluqueria', chip: 'Peluquería y estética', name: 'Estudio Ejemplo, Peluquería', text: 'Lista de precios clara, fotos de trabajos y turnos online. Menos "¿cuánto sale?" por chat.', demo: 'demo-peluqueria', label: 'peluquería' },
     { id: 'catalogo', chip: 'Comida', name: 'Rotisería Ejemplo', text: 'Tu cliente arma el pedido con cantidades y te llega en un solo mensaje, con el total.', demo: 'demo-catalogo', label: 'rotisería' },
     { id: 'panaderia', chip: 'Panadería', name: 'Panadería Ejemplo', text: 'Catálogo por categoría, encargos con horario de retiro y tortas a medida con precio estimado.', demo: 'demo-panaderia', label: 'panadería' },
@@ -1052,7 +1053,7 @@
     var form = document.getElementById('cot');
     if (!form) return;
     var sel = document.getElementById('cot-rubro');
-    var preset = { catalogo: 'pedido', panaderia: 'pedido', tienda: 'pedido', perfumes: 'pedido', heladeria: 'pedido', cotizador: 'cotizar', turismo: 'cotizar', dermatologa: 'reservar', kinesiologo: 'reservar', peluqueria: 'reservar', cosmetologa: 'reservar', gimnasio: 'reservar', cabanas: 'reservar', turnos: 'reservar', fotografia: 'consultar', profesional: 'consultar', abogado: 'consultar', educacion: 'consultar', inmobiliaria: 'consultar', vendedor: 'interno' };
+    var preset = { catalogo: 'pedido', panaderia: 'pedido', tienda: 'pedido', perfumes: 'pedido', heladeria: 'pedido', cotizador: 'cotizar', turismo: 'cotizar', dermatologa: 'reservar', kinesiologo: 'reservar', peluqueria: 'reservar', salon: 'reservar', cosmetologa: 'reservar', gimnasio: 'reservar', cabanas: 'reservar', turnos: 'reservar', fotografia: 'consultar', profesional: 'consultar', abogado: 'consultar', educacion: 'consultar', inmobiliaria: 'consultar', vendedor: 'interno' };
     rubros.forEach(function (r, i) { var o = document.createElement('option'); o.value = i; o.textContent = r.chip; sel.appendChild(o); });
     var otro = document.createElement('option'); otro.value = 'otro'; otro.textContent = 'Otro rubro'; sel.appendChild(otro);
     var needTxt = { consultar: 'entiendan qué ofrezco y me escriban', pedido: 'armen un pedido', cotizar: 'calculen un precio o presupuesto', reservar: 'reserven un turno o una fecha', interno: 'ordenar algo interno de mi negocio' };
