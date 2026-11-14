@@ -488,6 +488,66 @@ dialog.sheet.wide { max-width: 760px; }
 .ph-up input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; }
 .ph-up label:focus-within .mini { outline: 3px solid var(--vio); outline-offset: 2px; }
 .ph-up img { width: 64px; height: 80px; object-fit: cover; border-radius: 10px; }
+
+/* tienda: stock y pedido */
+.shop .stk { font-size: 12.5px; font-weight: 700; color: var(--sun-d); }
+.shop .stk.no { color: var(--mute); }
+.shop .pi img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+.qty { display: inline-flex; align-items: center; gap: 4px; border: 1.5px solid var(--line); border-radius: 999px; padding: 3px; }
+.qty button { width: 40px; height: 40px; border-radius: 50%; border: 0; background: var(--bg); font-size: 20px; font-weight: 700; }
+.qty b { min-width: 30px; text-align: center; }
+.osum { display: grid; grid-template-columns: 64px 1fr; gap: 12px; align-items: center; background: var(--bg); border-radius: var(--r-m); padding: 10px; margin-bottom: 14px; }
+.osum .pi { width: 64px; height: 64px; border-radius: 10px; display: grid; place-items: center; overflow: hidden; }
+.osum .pi svg { width: 70%; } .osum .pi img { width: 100%; height: 100%; object-fit: cover; }
+/* gift cards */
+.gift { display: grid; gap: 22px; margin-top: 48px; padding-top: 40px; border-top: 1px solid var(--line); }
+.gift .sh { margin-bottom: 0; }
+.gform { display: grid; gap: 4px; min-width: 0; }
+.gprev { min-width: 0; }
+.gcard { position: relative; overflow: hidden; border-radius: 22px; padding: 20px 22px; color: #fff; min-height: 220px; display: grid; grid-template-rows: auto 1fr auto; gap: 10px; box-shadow: 0 18px 40px -18px rgba(36,27,53,.55); }
+.gcard.lila { background: linear-gradient(135deg, #5B3FA0, #A98BE0); }
+.gcard.rosa { background: linear-gradient(135deg, #B2456E, #EFA9C0); }
+.gcard.noche { background: linear-gradient(135deg, #1F1730, #54457A); }
+.gcard::after { content: ""; position: absolute; right: -60px; top: -60px; width: 200px; height: 200px; border-radius: 50%; border: 26px solid rgba(255,255,255,.12); }
+.gcard .gt { display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; opacity: .9; }
+.gcard .gp { font-family: Gloock, Georgia, serif; font-size: clamp(26px, 7vw, 34px); line-height: 1.05; }
+.gcard .gi { font-size: 14.5px; font-weight: 600; margin-top: 6px; }
+.gcard .gm { font-size: 14px; opacity: .92; margin-top: 6px; font-style: italic; overflow-wrap: anywhere; }
+.gcard .gb { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-size: 13px; opacity: .92; }
+.gcard .gv { font-family: Gloock, Georgia, serif; font-size: 24px; }
+.gpay { font-size: 13.5px; color: var(--soft); background: var(--bg); border-radius: 12px; padding: 12px 14px; margin-top: 12px; }
+.gtot { display: flex; justify-content: space-between; align-items: baseline; font-weight: 800; font-size: 18px; margin: 10px 0 4px; }
+@media (min-width: 860px) { .gift { grid-template-columns: 1.1fr .9fr; align-items: start; gap: 36px; } .gprev { position: sticky; top: 96px; } }
+/* panel: tienda, caja y gift cards */
+.ord { list-style: none; margin: 0; padding: 0; }
+.ord > li { padding: 12px 0; border-top: 1px solid var(--line); display: grid; gap: 6px; }
+.ord .otop { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.ord .it { font-size: 14px; color: var(--soft); }
+.ord select, .mov select, .caja-f select, .caja-f input { min-height: 40px; border-radius: 10px; border: 1.5px solid var(--line); padding: 0 8px; background: var(--bg); color: var(--ink); font-size: 14.5px; }
+.pl li { grid-template-columns: 48px 1fr auto; }
+.pl .th { width: 48px; height: 48px; border-radius: 10px; display: grid; place-items: center; overflow: hidden; }
+.pl .th svg { width: 70%; } .pl .th img { width: 100%; height: 100%; object-fit: cover; }
+.pl .row input { width: 88px; }
+.mov { list-style: none; margin: 0; padding: 0; }
+.mov li { display: grid; grid-template-columns: 46px 1fr auto; gap: 10px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); font-size: 14.5px; }
+.mov .tm { font-size: 13px; color: var(--mute); font-weight: 700; }
+.mov .am { font-weight: 800; white-space: nowrap; text-align: right; }
+.mov .am.in { color: var(--gel-d); } .mov .am.out { color: #B3263E; }
+.mov .cn small { display: block; color: var(--mute); font-size: 12.5px; }
+.meds { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 4px 0 12px; }
+.meds div { background: var(--bg); border-radius: 12px; padding: 10px; min-width: 0; }
+.meds b { display: block; font-size: 16px; } .meds span { font-size: 12.5px; color: var(--soft); }
+.caja-f { display: grid; gap: 8px; grid-template-columns: 1fr 1fr; margin-top: 10px; }
+.caja-f > * { min-width: 0; width: 100%; }
+.caja-f .full { grid-column: 1 / -1; }
+.cob { display: grid; gap: 6px; background: var(--bg); border-radius: var(--r-m); padding: 12px 14px; margin-bottom: 12px; font-size: 14.5px; }
+.cob div { display: flex; justify-content: space-between; gap: 10px; }
+.cob .tot { font-weight: 800; font-size: 17px; border-top: 1px solid var(--line); padding-top: 6px; }
+.gcl > li { grid-template-columns: 1fr; }
+.gmini { display: flex; gap: 10px; align-items: center; }
+.gmini i { width: 46px; height: 30px; border-radius: 7px; flex: none; }
+.gmini i.lila { background: linear-gradient(135deg, #5B3FA0, #A98BE0); } .gmini i.rosa { background: linear-gradient(135deg, #B2456E, #EFA9C0); } .gmini i.noche { background: linear-gradient(135deg, #1F1730, #54457A); }
+.gimg { width: 100%; border-radius: 16px; display: block; }
 @media (min-width: 560px) { .gal { grid-template-columns: repeat(3, 1fr); } .kpis { grid-template-columns: repeat(4, 1fr); } }
 @media (min-width: 900px) {
   body.cli { padding-bottom: 0; }
@@ -530,7 +590,7 @@ dialog.sheet.wide { max-width: 760px; }
       <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="17" fill="#ECE6F8"/><path d="M17 7c4 5 7 8.6 7 12.2A7 7 0 0 1 10 19.2C10 15.6 13 12 17 7Z" fill="#6B4FB0"/><path d="M14 20.5a3.2 3.2 0 0 0 3 2.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>
       <span><b translate="no">Consultorio Ejemplo</b><small>Sofía Ejemplo, cosmetóloga</small></span>
     </a>
-    <nav class="tnav" aria-label="Secciones"><a href="#tratamientos">Tratamientos</a><a href="#trabajos">Trabajos</a><a href="#tienda">Tienda</a><a href="#instagram">Instagram</a><a href="#condiciones">Condiciones</a></nav>
+    <nav class="tnav" aria-label="Secciones"><a href="#tratamientos">Tratamientos</a><a href="#trabajos">Trabajos</a><a href="#tienda">Tienda</a><a href="#regalos">Gift cards</a><a href="#instagram">Instagram</a><a href="#condiciones">Condiciones</a></nav>
     <button type="button" class="btn btn-g btn-s btn-mis" data-open="mis">Mis turnos</button>
     <button type="button" class="btn btn-p btn-pedir" data-open="pedir">Pedir turno</button>
   </div>
@@ -626,7 +686,14 @@ dialog.sheet.wide { max-width: 760px; }
   <div class="w">
     <div class="sh"><h2 id="shop-t">Tienda</h2><p>Los productos que uso en el consultorio, para seguir la rutina en casa. Los retirás en el consultorio o te los envío.</p></div>
     <ul class="shop" id="shop"></ul>
-    <p class="note">En la demo, los productos y precios son ficticios. En tu página va tu catálogo, con stock y pago online si querés.</p>
+    <p class="note">En la demo, los productos y precios son ficticios. Sin pago online: se paga al retirar o por transferencia.</p>
+    <div class="gift" id="regalos">
+      <div class="gform">
+        <div class="sh"><h2 id="gift-t">Regalá una gift card</h2><p>Armala como quieras: con los tratamientos que elijas o con un monto. Sofía te la manda lista para regalar.</p></div>
+        <div id="gb"></div>
+      </div>
+      <div class="gprev"><div id="gprev" aria-live="polite"></div><p class="gpay">Sin pago online: pagás por transferencia o en el consultorio. Cuando Sofía confirma el pago, te manda la gift card con su código.</p></div>
+    </div>
   </div>
 </section>
 
@@ -694,6 +761,11 @@ dialog.sheet.wide { max-width: 760px; }
   <div class="sh-b"><p class="stp-t" id="dw-to"></p><div class="bub" id="dw-m"></div><p class="muted">En la página real este botón abre WhatsApp con el mensaje listo. En la demo solo te lo mostramos.</p></div>
   <div class="sh-f"><button type="button" class="btn btn-p" data-close>Entendido</button></div>
 </dialog>
+<dialog class="sheet" id="d-gen" aria-labelledby="dg-h">
+  <div class="sh-h"><h2 id="dg-h">Pedido</h2><button type="button" class="x" data-close aria-label="Cerrar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <div class="sh-b" id="dg-b"></div>
+  <div class="sh-f" id="dg-f"></div>
+</dialog>
 <dialog class="sheet" id="d-work" aria-labelledby="dk-h">
   <div class="sh-h"><h2 id="dk-h">Trabajo</h2><button type="button" class="x" data-close aria-label="Cerrar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
   <div class="sh-b" id="dk-b"></div>
@@ -760,15 +832,40 @@ dialog.sheet.wide { max-width: 760px; }
   };
   var ciOf = function (tid, ant) { var m = CI[tid] || {}; ant = ant || {}; return Object.keys(m).filter(function (k) { return ant[k]; }).map(function (k) { return [k, m[k]]; }).sort(function (x, y) { return y[1] - x[1]; }); };
   var PRODS = [
-    { id: 'gel', n: 'Gel limpiador suave', d: 'Piel mixta a grasa. 200 ml.', p: 14500, bg: '#D9EEF0', fg: '#2F7F86', sh: 'tubo' },
-    { id: 'mic', n: 'Agua micelar', d: 'Para piel sensible, sin perfume. 250 ml.', p: 11800, bg: '#F6E3EC', fg: '#A3466E', sh: 'bot' },
-    { id: 'nia', n: 'Sérum niacinamida 10 %', d: 'Para poros y brillo. 30 ml.', p: 19900, bg: '#ECE6F8', fg: '#5B3FA0', sh: 'got' },
-    { id: 'crema', n: 'Crema reparadora', d: 'Para piel seca o tirante. 50 g.', p: 17600, bg: '#FBEFD9', fg: '#A87410', sh: 'pote' },
-    { id: 'fps', n: 'Protector solar FPS 50', d: 'Toque seco, con color. 50 ml.', p: 16900, bg: '#FFE6D3', fg: '#C2622E', sh: 'tubo' },
-    { id: 'arc', n: 'Máscara de arcilla', d: 'Uso semanal en zona T. 100 g.', p: 13200, bg: '#DDF0E6', fg: '#1E8A66', sh: 'pote' }
+    { id: 'gel', n: 'Gel limpiador suave', d: 'Piel mixta a grasa. 200 ml.', p: 14500, st: 8, on: true, bg: '#D9EEF0', fg: '#2F7F86', sh: 'tubo' },
+    { id: 'mic', n: 'Agua micelar', d: 'Para piel sensible, sin perfume. 250 ml.', p: 11800, st: 3, on: true, bg: '#F6E3EC', fg: '#A3466E', sh: 'bot' },
+    { id: 'nia', n: 'Sérum niacinamida 10 %', d: 'Para poros y brillo. 30 ml.', p: 19900, st: 5, on: true, bg: '#ECE6F8', fg: '#5B3FA0', sh: 'got' },
+    { id: 'crema', n: 'Crema reparadora', d: 'Para piel seca o tirante. 50 g.', p: 17600, st: 0, on: true, bg: '#FBEFD9', fg: '#A87410', sh: 'pote' },
+    { id: 'fps', n: 'Protector solar FPS 50', d: 'Toque seco, con color. 50 ml.', p: 16900, st: 12, on: true, bg: '#FFE6D3', fg: '#C2622E', sh: 'tubo' },
+    { id: 'arc', n: 'Máscara de arcilla', d: 'Uso semanal en zona T. 100 g.', p: 13200, st: 2, on: true, bg: '#DDF0E6', fg: '#1E8A66', sh: 'pote' }
   ];
   var pById = function (id) { return PRODS.filter(function (x) { return x.id === id; })[0]; };
   var SHOP_URL = 'https://marcem.com.ar/demo-cosmetologa#p-';
+  var MED = ['Efectivo', 'Transferencia', 'Tarjeta'];
+  var ORD = [
+    { id: 'o1', n: 'Lucía Ferreyra', tel: '336 433-9014', it: [['fps', 1]], ent: 'Retiro en el consultorio', st: 'nuevo', h: '11:02' },
+    { id: 'o2', n: 'Julieta Méndez', tel: '336 412-8833', it: [['mic', 1], ['nia', 1]], ent: 'Envío a domicilio', st: 'listo', h: 'Ayer' },
+    { id: 'o3', n: 'Martina Sosa', tel: '336 401-5577', it: [['gel', 1]], ent: 'Retiro en el consultorio', st: 'entregado', med: 'Efectivo', h: '10:15' }
+  ];
+  var MOV = [
+    { h: '09:05', k: 'base', c: 'Fondo de caja', m: 10000, med: 'Efectivo' },
+    { h: '09:40', k: 'out', c: 'Algodón, gasas y guantes', m: 6200, med: 'Efectivo' },
+    { h: '10:15', k: 'in', c: 'Venta: Gel limpiador suave', s: 'Martina Sosa', m: 14500, med: 'Efectivo' },
+    { h: '11:20', k: 'in', c: 'Seña: Peeling suave', s: 'Julieta Méndez', m: 8000, med: 'Transferencia' },
+    { h: '12:10', k: 'in', c: 'Gift card GC-7K2M', s: 'Pablo, para Lucía', m: 30000, med: 'Transferencia' }
+  ];
+  var GC = [
+    { code: 'GC-7K2M', para: 'Lucía', de: 'Pablo', msg: '¡Feliz cumple! Para que te mimes un rato.', th: 'rosa', k: 'monto', tot: 30000, saldo: 30000, st: 'act', tel: '336 455-2040' },
+    { code: 'GC-Q8TN', para: 'Mamá', de: 'Camila Torres', msg: 'Gracias por todo. Te quiero.', th: 'lila', k: 'trat', items: [['limp', false], ['hidr', false]], st: 'pend', tel: '336 419-4402' },
+    { code: 'GC-3HBW', para: 'Sol', de: 'Agustina Paz', msg: '', th: 'noche', k: 'trat', items: [['lift', true]], st: 'used', tel: '336 466-7720' }
+  ];
+  var GTH = [['lila', 'Lila'], ['rosa', 'Rosa'], ['noche', 'Noche']];
+  var nowHM = function () { var d = new Date(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); };
+  var gcVal = function (g) { return g.k === 'monto' ? g.tot : g.items.reduce(function (a, x) { return a + (byId(x[0]) ? byId(x[0]).p : 0); }, 0); };
+  var gcLeft = function (g) { return g.k === 'monto' ? g.saldo : g.items.filter(function (x) { return !x[1]; }).reduce(function (a, x) { return a + (byId(x[0]) ? byId(x[0]).p : 0); }, 0); };
+  var gcByCode = function (c) { c = String(c || '').toUpperCase().replace(/\s/g, ''); if (c && c.indexOf('GC-') !== 0) c = 'GC-' + c.replace(/^GC/, ''); return GC.filter(function (g) { return g.code === c; })[0]; };
+  var newCode = function () { var A2 = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789', c; do { c = 'GC-'; for (var i = 0; i < 4; i++) c += A2[Math.floor(Math.random() * A2.length)]; } while (gcByCode(c)); return c; };
+  var addMov = function (m) { m.h = m.h || nowHM(); MOV.push(m); };
   var ALERTS = ['alergia', 'emb', 'isotre', 'implant', 'herpes', 'acidos', 'ciru'];
   var FOTO = ['I', 'II', 'III', 'IV', 'V', 'VI'];
 
@@ -981,8 +1078,97 @@ dialog.sheet.wide { max-width: 760px; }
       : '<rect x="28" y="56" width="64" height="18" rx="6" fill="' + f + '" opacity=".8"/><rect x="32" y="72" width="56" height="52" rx="10" fill="' + f + '"/><rect x="44" y="86" width="32" height="20" rx="3" fill="' + w + '" opacity=".9"/><path d="M48 93h24M48 99h16" stroke="' + f + '" stroke-width="2.4" stroke-linecap="round"/>';
     return '<svg viewBox="0 0 120 140" aria-hidden="true">' + body + '</svg>';
   }
-  $('shop').innerHTML = PRODS.map(function (p) { return '<li id="p-' + p.id + '"><div class="pi" style="background:' + p.bg + '">' + prodSvg(p) + '</div><h3>' + esc(p.n) + '</h3><p class="d">' + esc(p.d) + '</p><div class="row"><span class="price num">' + fmt(p.p) + '</span><button type="button" class="btn btn-g btn-s" data-buy="' + p.id + '">Lo quiero</button></div></li>'; }).join('');
-  qa('#shop [data-buy]').forEach(function (b) { b.onclick = function () { var p = pById(b.dataset.buy); showWA('Hola Sofía, quiero comprar ' + p.n + ' (' + fmt(p.p) + '). ¿Lo retiro en el consultorio o me lo enviás?'); }; });
+  var prodPic = function (p) { return p.img ? '<img src="' + p.img + '" alt="">' : prodSvg(p); };
+  function renderShop() {
+    $('shop').innerHTML = PRODS.filter(function (p) { return p.on; }).map(function (p) {
+      var stk = p.st <= 0 ? '<span class="stk no">Sin stock por ahora</span>' : p.st <= 3 ? '<span class="stk">Quedan ' + p.st + '</span>' : '';
+      return '<li id="p-' + p.id + '"><div class="pi" style="background:' + p.bg + '">' + prodPic(p) + '</div><h3>' + esc(p.n) + '</h3><p class="d">' + esc(p.d) + '</p>' + stk + '<div class="row"><span class="price num">' + fmt(p.p) + '</span>' + (p.st > 0 ? '<button type="button" class="btn btn-g btn-s" data-buy="' + p.id + '">Lo quiero</button>' : '<button type="button" class="btn btn-g btn-s" data-ask="' + p.id + '">Avisame</button>') + '</div></li>';
+    }).join('');
+    qa('#shop [data-buy]').forEach(function (b) { b.onclick = function () { openOrder(b.dataset.buy, b); }; });
+    qa('#shop [data-ask]').forEach(function (b) { b.onclick = function () { var p = pById(b.dataset.ask); showWA('Hola Sofía, ¿me avisás cuando vuelva a entrar ' + p.n + '?'); }; });
+  }
+  var OQ = {};
+  function openOrder(id, from) { OQ = { id: id, q: 1, nm: P.nm || '', tel: P.tel || '', ent: 'Retiro en el consultorio' }; renderOrder(); showD($('d-gen'), from); }
+  function renderOrder() {
+    var p = pById(OQ.id);
+    $('dg-h').textContent = 'Tu pedido';
+    $('dg-b').innerHTML = '<div class="osum"><span class="pi" style="background:' + p.bg + '">' + prodPic(p) + '</span><div><b>' + esc(p.n) + '</b><div class="hint">' + esc(p.d) + '</div></div></div>' +
+      '<div class="gtot" style="align-items:center"><div class="qty" role="group" aria-label="Cantidad"><button type="button" id="oq-m" aria-label="Uno menos">−</button><b class="num" aria-live="polite">' + OQ.q + '</b><button type="button" id="oq-p" aria-label="Uno más">+</button></div><span class="num">' + fmt(p.p * OQ.q) + '</span></div>' +
+      (OQ.q >= p.st ? '<p class="hint">Hay ' + p.st + ' en stock.</p>' : '') +
+      '<p class="stp-t" style="margin-top:12px" id="lb-oe">Entrega</p><div class="seg" role="radiogroup" aria-labelledby="lb-oe">' + ['Retiro en el consultorio', 'Envío a domicilio'].map(function (x) { return '<label><input type="radio" name="oe" value="' + x + '"' + (OQ.ent === x ? ' checked' : '') + '><span>' + x + '</span></label>'; }).join('') + '</div>' +
+      (OQ.ent === 'Envío a domicilio' ? '<p class="hint" style="margin-top:6px">Te paso el costo del envío por WhatsApp.</p>' : '') +
+      '<div class="field" style="margin-top:14px"><label for="o-nm">Tu nombre</label><input id="o-nm" autocomplete="given-name" maxlength="40" value="' + esc(OQ.nm) + '"></div><div class="field"><label for="o-tel">Tu WhatsApp</label><input id="o-tel" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" value="' + esc(OQ.tel) + '"></div>' +
+      '<p class="gpay" style="margin-top:0">Sin pago online: pagás al retirar o por transferencia. Te lo separo apenas me escribís.</p><p class="err" id="oerr" role="alert"></p>';
+    $('dg-f').innerHTML = '<button type="button" class="btn btn-g" data-close>Cancelar</button><button type="button" class="btn wa-btn" id="o-go">Pedir por WhatsApp</button>';
+    $('oq-m').onclick = function () { keepO(); OQ.q = Math.max(1, OQ.q - 1); renderOrder(); };
+    $('oq-p').onclick = function () { keepO(); OQ.q = Math.min(p.st, OQ.q + 1); renderOrder(); };
+    qa('input[name="oe"]', $('dg-b')).forEach(function (r) { r.onchange = function () { keepO(); OQ.ent = r.value; renderOrder(); }; });
+    $('o-go').onclick = function () {
+      keepO(); var e = $('oerr');
+      if (OQ.nm.length < 2) { e.textContent = 'Escribí tu nombre.'; $('o-nm').focus(); return; }
+      if (digits(OQ.tel).length < 8) { e.textContent = 'Revisá tu WhatsApp, faltan números.'; $('o-tel').focus(); return; }
+      if (p.st < OQ.q) { e.textContent = 'Ya no queda esa cantidad.'; return; }
+      p.st -= OQ.q; ORD.unshift({ id: 'o' + (++nid), n: OQ.nm, tel: OQ.tel, it: [[p.id, OQ.q]], ent: OQ.ent, st: 'nuevo', h: nowHM(), fresh: true });
+      P.nm = OQ.nm; P.tel = OQ.tel; closeD($('d-gen')); renderShop(); renderPanel();
+      showWA('Hola Sofía, soy ' + OQ.nm + '. Quiero comprar:\n\n• ' + OQ.q + ' × ' + p.n + ' (' + fmt(p.p * OQ.q) + ')\n• ' + OQ.ent + '\n\n¿Me lo separás? Pago ' + (OQ.ent === 'Envío a domicilio' ? 'por transferencia.' : 'al retirar.'));
+    };
+  }
+  function keepO() { if ($('o-nm')) { OQ.nm = $('o-nm').value.trim(); OQ.tel = $('o-tel').value.trim(); } }
+  renderShop();
+
+  /* gift cards (web) */
+  var GB = { k: 'trat', items: ['limp'], m: 30000, para: '', de: '', msg: '', th: 'lila', tel: '' };
+  function gbTotal() { return GB.k === 'monto' ? GB.m : GB.items.reduce(function (a, id) { return a + (byId(id) ? byId(id).p : 0); }, 0); }
+  function gcCard(g) {
+    var items = g.k === 'monto' ? '' : g.items.map(function (x) { var id = typeof x === 'string' ? x : x[0]; return byId(id) ? byId(id).n : ''; }).join(' + ');
+    return '<div class="gcard ' + g.th + '"><div class="gt"><span>Gift card</span><span>Consultorio Ejemplo</span></div><div><div class="gp">Para ' + esc(g.para || '…') + '</div>' +
+      (g.k === 'monto' ? '<div class="gv num">' + fmt(g.tot) + '</div><div class="gi">Para usar en lo que quiera</div>' : '<div class="gi">' + esc(items || 'Elegí al menos un tratamiento') + '</div>') +
+      (g.msg ? '<div class="gm">“' + esc(g.msg) + '”</div>' : '') + '</div><div class="gb"><span>De ' + esc(g.de || '…') + '</span><span class="num">' + esc(g.code || 'GC-····') + ' · válida 6 meses</span></div></div>';
+  }
+  function gbForm(panel) {
+    var on = T.filter(function (t) { return t.on; });
+    return '<p class="stp-t" id="lb-gk">¿Qué querés regalar?</p><div class="seg" role="radiogroup" aria-labelledby="lb-gk">' + [['trat', 'Tratamientos'], ['monto', 'Un monto']].map(function (x) { return '<label><input type="radio" name="gk" value="' + x[0] + '"' + (GB.k === x[0] ? ' checked' : '') + '><span>' + x[1] + '</span></label>'; }).join('') + '</div>' +
+      (GB.k === 'trat' ? '<div class="cks" style="margin-top:10px">' + on.map(function (t) { return '<label class="ck ok"><input type="checkbox" data-gi="' + t.id + '"' + (GB.items.indexOf(t.id) >= 0 ? ' checked' : '') + '><span>' + esc(t.n) + ' <span class="hint num">' + fmt(t.p) + '</span></span></label>'; }).join('') + '</div>'
+        : '<div class="seg" style="margin-top:10px" role="radiogroup" aria-label="Monto">' + [20000, 30000, 50000, 80000].map(function (n) { return '<label><input type="radio" name="gm" value="' + n + '"' + (GB.m === n ? ' checked' : '') + '><span class="num">' + fmt(n) + '</span></label>'; }).join('') + '</div><div class="field" style="margin-top:10px"><label for="g-m">U otro monto</label><input id="g-m" type="number" inputmode="numeric" min="10000" step="1000" value="' + GB.m + '"></div>') +
+      '<div class="fgrid" style="margin-top:12px"><div class="field"><label for="g-para">Para</label><input id="g-para" maxlength="30" autocomplete="off" placeholder="Lucía" value="' + esc(GB.para) + '"></div><div class="field"><label for="g-de">De</label><input id="g-de" maxlength="30" autocomplete="off" placeholder="Tu nombre" value="' + esc(GB.de) + '"></div></div>' +
+      '<div class="field"><label for="g-msg">Mensaje <span class="hint">(opcional)</span></label><textarea id="g-msg" maxlength="140" placeholder="¡Feliz cumple! Para que te mimes.">' + esc(GB.msg) + '</textarea></div>' +
+      '<p class="stp-t" id="lb-gth">Diseño</p><div class="seg" role="radiogroup" aria-labelledby="lb-gth">' + GTH.map(function (x) { return '<label><input type="radio" name="gth" value="' + x[0] + '"' + (GB.th === x[0] ? ' checked' : '') + '><span>' + x[1] + '</span></label>'; }).join('') + '</div>' +
+      (panel ? '<p class="stp-t" style="margin-top:12px" id="lb-gmed">¿Cómo la pagó?</p><div class="seg" role="radiogroup" aria-labelledby="lb-gmed">' + MED.map(function (x, i) { return '<label><input type="radio" name="gmed" value="' + x + '"' + (i === 0 ? ' checked' : '') + '><span>' + x + '</span></label>'; }).join('') + '</div>'
+        : '<div class="field" style="margin-top:12px"><label for="g-tel">Tu WhatsApp</label><input id="g-tel" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="336 400-1234" value="' + esc(GB.tel) + '"></div>') +
+      '<div class="gtot"><span>Total</span><span class="num" id="g-tot">' + fmt(gbTotal()) + '</span></div><p class="err" id="gerr" role="alert"></p>' +
+      (panel ? '' : '<button type="button" class="btn wa-btn" id="g-go" style="width:100%">Pedir gift card por WhatsApp</button>');
+  }
+  function gbPrev() { var el = $('d-gen').open && $('dg-prev') ? $('dg-prev') : $('gprev'); el.innerHTML = gcCard({ k: GB.k, items: GB.items, tot: GB.m, para: GB.para, de: GB.de, msg: GB.msg, th: GB.th }); if ($('g-tot')) $('g-tot').textContent = fmt(gbTotal()); }
+  function gbBind(root, panel, rerender) {
+    var keep = function () { if ($('g-para')) { GB.para = $('g-para').value.trim(); GB.de = $('g-de').value.trim(); GB.msg = $('g-msg').value.trim(); if ($('g-tel')) GB.tel = $('g-tel').value.trim(); } };
+    qa('input[name="gk"]', root).forEach(function (r) { r.onchange = function () { keep(); GB.k = r.value; rerender(); }; });
+    qa('[data-gi]', root).forEach(function (x) { x.onchange = function () { GB.items = qa('[data-gi]', root).filter(function (y) { return y.checked; }).map(function (y) { return y.dataset.gi; }); gbPrev(); }; });
+    qa('input[name="gm"]', root).forEach(function (r) { r.onchange = function () { GB.m = +r.value; $('g-m').value = GB.m; gbPrev(); }; });
+    if ($('g-m')) $('g-m').oninput = function (e) { GB.m = Math.max(0, Math.round(+e.target.value || 0)); qa('input[name="gm"]', root).forEach(function (r) { r.checked = +r.value === GB.m; }); gbPrev(); };
+    qa('input[name="gth"]', root).forEach(function (r) { r.onchange = function () { GB.th = r.value; gbPrev(); }; });
+    ['g-para', 'g-de', 'g-msg', 'g-tel'].forEach(function (id) { if ($(id)) $(id).oninput = function () { keep(); gbPrev(); }; });
+    return function check() {
+      keep(); var e = $('gerr');
+      if (GB.k === 'trat' && !GB.items.length) { e.textContent = 'Elegí al menos un tratamiento.'; return false; }
+      if (GB.k === 'monto' && GB.m < 10000) { e.textContent = 'El monto mínimo es ' + fmt(10000) + '.'; $('g-m').focus(); return false; }
+      if (GB.para.length < 2) { e.textContent = 'Escribí para quién es.'; $('g-para').focus(); return false; }
+      if (GB.de.length < 2) { e.textContent = 'Escribí de parte de quién.'; $('g-de').focus(); return false; }
+      if (!panel && digits(GB.tel).length < 8) { e.textContent = 'Revisá tu WhatsApp, faltan números.'; $('g-tel').focus(); return false; }
+      e.textContent = ''; return true;
+    };
+  }
+  function gbMake(st) { var g = { code: newCode(), para: GB.para, de: GB.de, msg: GB.msg, th: GB.th, k: GB.k, st: st, tel: GB.tel, fresh: true }; if (GB.k === 'monto') { g.tot = GB.m; g.saldo = GB.m; } else g.items = GB.items.map(function (id) { return [id, false]; }); GC.unshift(g); return g; }
+  function renderGift() {
+    $('gb').innerHTML = gbForm(false); gbPrev();
+    var check = gbBind($('gb'), false, renderGift);
+    $('g-go').onclick = function () {
+      if (!check()) return; var g = gbMake('pend'), what = g.k === 'monto' ? fmt(g.tot) : g.items.map(function (x) { return byId(x[0]).n; }).join(', ');
+      renderPanel(); showWA('Hola Sofía, soy ' + g.de + '. Quiero regalar una gift card:\n\n• Para: ' + g.para + '\n• ' + (g.k === 'monto' ? 'Monto: ' : 'Tratamientos: ') + what + '\n• Total: ' + fmt(gcVal(g)) + (g.msg ? '\n• Mensaje: “' + g.msg + '”' : '') + '\n\nTe paso el comprobante de la transferencia. Código del pedido: ' + g.code + '.');
+      GB.para = ''; GB.msg = ''; renderGift();
+    };
+  }
+  renderGift();
+  $('d-gen').addEventListener('close', function () { if (!$('gb').innerHTML) { GB = { k: 'trat', items: ['limp'], m: 30000, para: '', de: '', msg: '', th: 'lila', tel: '' }; renderGift(); } });
 
   /* instagram */
   var POSTS = [
@@ -1092,12 +1278,14 @@ dialog.sheet.wide { max-width: 760px; }
   function fields(withNote) {
     return '<div class="field"><label for="f-nm">Tu nombre</label><input id="f-nm" name="name" autocomplete="given-name" maxlength="40" placeholder="Martina…" value="' + esc(P.nm) + '"></div>' +
       '<div class="field"><label for="f-tel">Tu WhatsApp</label><input id="f-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" maxlength="20" placeholder="336 400-1234…" value="' + esc(P.tel) + '"><span class="hint">Con este número ves, cambiás o cancelás tu turno en “Mis turnos”.</span></div>' +
+      (withNote ? '<div class="field"><label for="f-gc">¿Tenés una gift card? <span style="font-weight:500;color:var(--mute)">(opcional)</span></label><input id="f-gc" autocomplete="off" autocapitalize="characters" maxlength="8" placeholder="GC-7K2M" value="' + esc(P.gc || '') + '"><span class="hint" id="f-gch" aria-live="polite"></span></div>' : '') +
       (withNote ? '<div class="field"><label for="f-nota">¿Algo que tenga que saber? <span style="font-weight:500;color:var(--mute)">(opcional)</span></label><textarea id="f-nota" name="nota" maxlength="200" placeholder="Uso retinol, tengo alergia a…">' + esc(P.nota) + '</textarea></div>' : '');
   }
   function bindFields() {
     $('f-nm').oninput = function (e) { P.nm = e.target.value; e.target.removeAttribute('aria-invalid'); };
     $('f-tel').oninput = function (e) { P.tel = e.target.value; e.target.removeAttribute('aria-invalid'); };
     if ($('f-nota')) $('f-nota').oninput = function (e) { P.nota = e.target.value; };
+    if ($('f-gc')) { var gch = function () { var v = $('f-gc').value.trim(), g = gcByCode(v), h = $('f-gch'); P.gc = v; if (!v) { h.textContent = ''; return; } if (!g || v.replace(/[^A-Za-z0-9]/g, '').length < 6) { h.textContent = 'No encontramos esa gift card. Revisá el código.'; return; } h.textContent = g.st === 'act' ? 'Gift card para ' + g.para + ': ' + (g.k === 'monto' ? 'le quedan ' + fmt(g.saldo) + '.' : g.items.filter(function (x) { return !x[1]; }).map(function (x) { return byId(x[0]).n; }).join(', ') + '.') : g.st === 'pend' ? 'Esa gift card todavía no está pagada.' : 'Esa gift card ya se usó.'; }; $('f-gc').oninput = gch; gch(); }
   }
   var digits = function (s) { return String(s).replace(/\D/g, ''); };
   function valid(needOk) {
@@ -1118,6 +1306,7 @@ dialog.sheet.wide { max-width: 760px; }
     var L = ['Hola Sofía, soy ' + P.nm + '. Quiero pedir un turno:', '', '• ' + t.n + ' (' + durTxt(t.min) + ', ' + fmt(t.p) + ')', '• ' + dLong.format(d) + ', ' + P.h + ' h'];
     var pre = Object.keys(st.preo);
     if (st.tipo || pre.length || st.vez) { L.push('', 'Mi ficha:'); if (st.tipo) L.push('• Piel: ' + st.tipo.toLowerCase()); if (pre.length) L.push('• Quiero mejorar: ' + pre.join(', ').toLowerCase()); if (st.vez) L.push('• ' + st.vez); }
+    var gcu = gcByCode(P.gc); if (gcu && gcu.st === 'act') { A[A.length - 1].gc = gcu.code; L.push('', 'Uso la gift card ' + gcu.code + '.'); }
     if (cis.length) L.push('', 'Tengo: ' + cis.map(function (x) { return ANTn[x[0]].toLowerCase(); }).join(', ') + '.');
     if (P.nota.trim()) L.push('', 'Para tener en cuenta: ' + P.nota.trim());
     L.push('', 'Te mando el comprobante de la seña de ' + fmt(SENA) + '. ¿Me lo confirmás?');
@@ -1188,7 +1377,7 @@ dialog.sheet.wide { max-width: 760px; }
   function nextFree() { var n = nextSlot(); $('next-free').textContent = n ? (DN[days[n[0]].getDay()] + ' ' + days[n[0]].getDate() + ', ' + n[1] + ' h') : 'Sin lugar esta semana'; $('next-go').hidden = !n; }
 
   /* ===== panel ===== */
-  var PT = [['hoy', 'Agenda'], ['clientas', 'Clientas y fichas'], ['trat', 'Tratamientos'], ['trab', 'Trabajos'], ['horarios', 'Horarios'], ['mes', 'Resumen del mes']];
+  var PT = [['hoy', 'Agenda'], ['caja', 'Caja del día'], ['clientas', 'Clientas y fichas'], ['tienda', 'Tienda'], ['gift', 'Gift cards'], ['trat', 'Tratamientos'], ['trab', 'Trabajos'], ['horarios', 'Horarios'], ['mes', 'Resumen del mes']];
   var pst = { tab: 'hoy', q: '', f: 'todas', pday: 0, nt: null, nw: { k: 'photo', t: '', tid: 'limp', s: '', a: null, b: null } };
   var initials = function (n) { return n.split(' ').map(function (p) { return p[0]; }).slice(0, 2).join('').toUpperCase(); };
   var first = function (n) { return n.split(' ')[0]; };
@@ -1204,10 +1393,11 @@ dialog.sheet.wide { max-width: 760px; }
   function renderPanel() {
     $('ph-date').textContent = 'Hoy es ' + dLong.format(today) + '.';
     var due = C.filter(dueFor).length, rev = A.filter(function (a) { return a.sena === 'rev' && a.st === 'ok'; }).length, inc = C.filter(function (c) { return !fichaOk(c); }).length;
-    var cnt = { hoy: rev, clientas: due + inc, horarios: WAIT.length };
+    var cnt = { hoy: rev, clientas: due + inc, horarios: WAIT.length, tienda: ORD.filter(function (o) { return o.st === 'nuevo'; }).length, gift: GC.filter(function (g) { return g.st === 'pend'; }).length };
     $('ptabs').innerHTML = PT.map(function (p) { return '<button type="button" role="tab" aria-selected="' + (p[0] === pst.tab) + '" data-pt="' + p[0] + '">' + p[1] + (cnt[p[0]] ? ' <span class="cnt num">' + cnt[p[0]] + '</span>' : '') + '</button>'; }).join('');
     qa('#ptabs button').forEach(function (b) { b.onclick = function () { pst.tab = b.dataset.pt; renderPanel(); }; });
-    $('pbody').innerHTML = pst.tab === 'hoy' ? pHoy(rev, due) : pst.tab === 'clientas' ? pClientas() : pst.tab === 'trat' ? pTrat() : pst.tab === 'trab' ? pTrab() : pst.tab === 'horarios' ? pHorarios() : pMes();
+    var ae = document.activeElement; if (ae && $('pbody').contains(ae) && ae.blur) ae.blur();
+    $('pbody').innerHTML = pst.tab === 'hoy' ? pHoy(rev, due) : pst.tab === 'clientas' ? pClientas() : pst.tab === 'trat' ? pTrat() : pst.tab === 'trab' ? pTrab() : pst.tab === 'horarios' ? pHorarios() : pst.tab === 'tienda' ? pTienda() : pst.tab === 'caja' ? pCaja() : pst.tab === 'gift' ? pGift() : pMes();
     bindPanel();
     if (pst.tab === 'trab') drawTrabThumbs();
   }
@@ -1558,6 +1748,123 @@ dialog.sheet.wide { max-width: 760px; }
       '<div class="pgrid"><div class="box"><h2>Turnos por semana</h2><p>La última semana todavía está en curso.</p><div class="chart" role="img" aria-label="Turnos por semana: ' + W.join(', ') + '">' + W.map(function (n, i) { return '<div><span class="num">' + n + '</span><i style="height:' + (n / max * 100) + '%"></i><span>Sem ' + (i + 1) + '</span></div>'; }).join('') + '</div></div>' +
       '<div class="box"><h2>Lo más pedido</h2><p>Para decidir qué promocionar.</p><ul class="rank">' + rank.map(function (r) { return '<li><span>' + esc(r[0]) + '</span><b class="num">' + r[1] + '</b></li>'; }).join('') + '</ul></div></div><p class="note">Números de ejemplo.</p>';
   }
+  /* panel: tienda */
+  var OST = { nuevo: ['Nuevo', 'r'], listo: ['Listo para entregar', 'y'], entregado: ['Entregado', 'g'], cancel: ['Cancelado', ''] };
+  var ordTot = function (o) { return o.it.reduce(function (a, x) { return a + pById(x[0]).p * x[1]; }, 0); };
+  function pTienda() {
+    var np = pst.np, act = ORD.filter(function (o) { return o.st === 'nuevo' || o.st === 'listo'; }), done = ORD.filter(function (o) { return o.st === 'entregado' || o.st === 'cancel'; });
+    var oli = function (o) {
+      var acts = o.st === 'nuevo' ? '<button type="button" class="mini dark" data-ol="' + o.id + '">Listo, avisarle</button><button type="button" class="mini" data-ox="' + o.id + '">Cancelar</button>'
+        : o.st === 'listo' ? '<select data-om="' + o.id + '" aria-label="Medio de pago">' + MED.map(function (m) { return '<option>' + m + '</option>'; }).join('') + '</select><button type="button" class="mini dark" data-od="' + o.id + '">Entregado y cobrado</button><button type="button" class="mini" data-ox="' + o.id + '">Cancelar</button>' : '';
+      return '<li' + (o.fresh ? ' class="fresh"' : '') + '><div class="otop"><b>' + esc(o.n) + '</b><span class="num">' + fmt(ordTot(o)) + '</span></div><div class="it">' + o.it.map(function (x) { return x[1] + ' × ' + esc(pById(x[0]).n); }).join(', ') + '. ' + esc(o.ent) + '. <span class="num">' + esc(o.h) + '</span></div><div class="tags">' + pill(OST[o.st]) + (o.med ? pill([o.med, '']) : '') + '</div>' + (acts ? '<div class="acts">' + acts + '<button type="button" class="mini wa" data-ow="' + o.id + '">WhatsApp</button></div>' : '') + '</li>';
+    };
+    return '<div class="pgrid"><div class="box"><h2>Pedidos</h2><p>Lo que piden desde la página. El stock se separa apenas llega el pedido.</p><ul class="ord">' + (act.length ? act.map(oli).join('') : '<li class="empty">No hay pedidos pendientes.</li>') + '</ul>' +
+      (done.length ? '<p class="stp-t" style="margin-top:14px">Entregados y cancelados</p><ul class="ord">' + done.map(oli).join('') + '</ul>' : '') + '</div>' +
+      '<div class="box"><h2>Productos</h2><p>Precio, stock y si se ve en la página. Con 2 o menos te avisa.</p><ul class="tl wk pl">' + PRODS.map(function (x, i) {
+        return '<li' + (x.on ? '' : ' class="off"') + '><span class="th" style="background:' + x.bg + '">' + prodPic(x) + '</span><div style="min-width:0"><div class="nm">' + esc(x.n) + '</div><div class="row"><label for="pp-' + x.id + '">Precio</label><input id="pp-' + x.id + '" type="number" inputmode="numeric" min="0" step="100" value="' + x.p + '" data-xp="' + i + '"><label for="ps-' + x.id + '">Stock</label><input id="ps-' + x.id + '" type="number" inputmode="numeric" min="0" step="1" value="' + x.st + '" data-xs="' + i + '" style="width:72px">' + (x.st <= 0 ? pill(['Sin stock', 'r']) : x.st <= 2 ? pill(['Stock bajo', 'y']) : '') + '</div></div><button type="button" class="sw" role="switch" aria-checked="' + x.on + '" aria-label="' + esc(x.n) + ' visible en la página" data-xo="' + i + '"></button></li>';
+      }).join('') + '</ul>' +
+      (np ? '<div class="addt"><p class="stp-t">Nuevo producto</p><div class="fgrid"><div class="field"><label for="np-n">Nombre</label><input id="np-n" maxlength="50" autocomplete="off" placeholder="Contorno de ojos…" value="' + esc(np.n) + '"></div><div class="field"><label for="np-d">Descripción corta</label><input id="np-d" maxlength="70" autocomplete="off" placeholder="Para ojeras y bolsas. 15 ml." value="' + esc(np.d) + '"></div><div class="field"><label for="np-p">Precio</label><input id="np-p" type="number" inputmode="numeric" min="0" step="100" placeholder="15000" value="' + esc(np.p) + '"></div><div class="field"><label for="np-s">Stock</label><input id="np-s" type="number" inputmode="numeric" min="0" step="1" value="' + esc(np.s) + '"></div></div>' +
+        '<label class="drop' + (np.img ? ' has' : '') + '">' + (np.img ? '<img src="' + np.img + '" alt="">' : '') + '<span>' + (np.img ? 'Cambiar foto' : 'Foto del producto (opcional)') + '</span><input type="file" accept="image/jpeg,image/png,image/webp" id="np-f"></label><p class="err" id="nperr" role="alert"></p><div class="acts"><button type="button" class="mini dark" id="np-ok">Agregar a la tienda</button><button type="button" class="mini" id="np-x">Cancelar</button></div></div>'
+        : '<div class="acts" style="margin-top:12px"><button type="button" class="mini dark" id="np-open">Agregar producto</button></div>') + '</div></div>';
+  }
+  /* panel: caja del día */
+  function cajaTot() {
+    var r = { in: 0, out: 0, base: 0, med: {} }; MED.forEach(function (m) { r.med[m] = 0; });
+    MOV.forEach(function (m) { if (m.k === 'in') { r.in += m.m; r.med[m.med] += m.m; } else if (m.k === 'out') { r.out += m.m; r.med[m.med] -= m.m; } else { r.base += m.m; r.med[m.med] += m.m; } });
+    return r;
+  }
+  function pCaja() {
+    var r = cajaTot(), list = MOV.map(function (m, i) { return [m, i]; }).reverse();
+    return (pst.cierre ? '<div class="okbox">Caja cerrada a las ' + esc(pst.cierre.h) + '. Efectivo contado ' + fmt(pst.cierre.c) + (pst.cierre.c === pst.cierre.e ? ', sin diferencia.' : ', diferencia de ' + fmt(pst.cierre.c - pst.cierre.e) + '.') + '</div>' : '') +
+      '<div class="kpis"><div class="kpi"><b class="num">' + fmt(r.in) + '</b><span>entró hoy</span></div><div class="kpi"><b class="num">' + fmt(r.out) + '</b><span>gastos</span></div><div class="kpi"><b class="num">' + fmt(r.in - r.out) + '</b><span>ganancia del día</span></div><div class="kpi"><b class="num">' + fmt(r.med.Efectivo) + '</b><span>tendría que haber en efectivo</span></div></div>' +
+      '<div class="pgrid"><div class="box"><h2>Movimientos de hoy</h2><p>Turnos cobrados, señas, ventas y gift cards se anotan solos. Los gastos los cargás vos.</p><div class="meds">' + MED.map(function (m) { return '<div><b class="num">' + fmt(r.med[m]) + '</b><span>' + m + '</span></div>'; }).join('') + '</div>' +
+      '<ul class="mov">' + list.map(function (x) { var m = x[0]; return '<li><span class="tm num">' + esc(m.h) + '</span><span class="cn">' + esc(m.c) + '<small>' + esc((m.s ? m.s + ', ' : '') + m.med) + '</small></span><span class="am num ' + (m.k === 'out' ? 'out' : 'in') + '">' + (m.k === 'out' ? '−' : '+') + fmt(m.m) + '</span></li>'; }).join('') + '</ul></div>' +
+      '<div class="box"><h2>Cargar un movimiento</h2><p>Un gasto (insumos, alquiler, luz) o un cobro que no pasó por la agenda.</p><div class="seg" role="radiogroup" aria-label="Tipo"><label><input type="radio" name="mk" value="out" checked><span>Gasto</span></label><label><input type="radio" name="mk" value="in"><span>Ingreso</span></label></div>' +
+      '<div class="caja-f"><input id="mv-c" class="full" maxlength="60" autocomplete="off" placeholder="Concepto: guantes, alquiler…" aria-label="Concepto"><input id="mv-m" type="number" inputmode="numeric" min="0" step="100" placeholder="Monto" aria-label="Monto"><select id="mv-med" aria-label="Medio de pago">' + MED.map(function (m) { return '<option>' + m + '</option>'; }).join('') + '</select></div><p class="err" id="mverr" role="alert"></p><div class="acts"><button type="button" class="mini dark" id="mv-ok">Agregar</button></div>' +
+      '<h2 style="margin-top:22px">Cierre de caja</h2><p>Contá el efectivo y compará con lo que tendría que haber.</p><div class="acts"><button type="button" class="mini dark" id="cj-close">' + (pst.cierre ? 'Volver a cerrar' : 'Cerrar la caja') + '</button></div></div></div><p class="note">En la demo, los movimientos se reinician al recargar.</p>';
+  }
+  function openCierre() {
+    var r = cajaTot();
+    $('dg-h').textContent = 'Cierre de caja';
+    $('dg-b').innerHTML = '<div class="cob"><div><span>Fondo de caja</span><span class="num">' + fmt(r.base) + '</span></div><div><span>Entró en efectivo</span><span class="num">' + fmt(MOV.filter(function (m) { return m.k === 'in' && m.med === 'Efectivo'; }).reduce(function (a, m) { return a + m.m; }, 0)) + '</span></div><div><span>Gastos en efectivo</span><span class="num">−' + fmt(MOV.filter(function (m) { return m.k === 'out' && m.med === 'Efectivo'; }).reduce(function (a, m) { return a + m.m; }, 0)) + '</span></div><div class="tot"><span>Tendría que haber</span><span class="num">' + fmt(r.med.Efectivo) + '</span></div></div>' +
+      '<div class="field"><label for="cj-c">Efectivo que contaste</label><input id="cj-c" type="number" inputmode="numeric" min="0" step="100" value="' + r.med.Efectivo + '"></div><p class="hint" id="cj-d" aria-live="polite">Sin diferencia.</p>' +
+      '<p class="muted">Transferencias del día: ' + fmt(r.med.Transferencia) + '. Tarjeta: ' + fmt(r.med.Tarjeta) + '.</p>';
+    $('dg-f').innerHTML = '<button type="button" class="btn btn-g" data-close>Cancelar</button><button type="button" class="btn btn-p" id="cj-ok">Cerrar caja</button>';
+    $('cj-c').oninput = function (e) { var d = Math.round(+e.target.value || 0) - r.med.Efectivo; $('cj-d').textContent = d === 0 ? 'Sin diferencia.' : d > 0 ? 'Sobran ' + fmt(d) + '.' : 'Faltan ' + fmt(-d) + '.'; };
+    $('cj-ok').onclick = function () { pst.cierre = { h: nowHM(), c: Math.round(+$('cj-c').value || 0), e: r.med.Efectivo }; closeD($('d-gen')); renderPanel(); toast('Caja cerrada.'); };
+    showD($('d-gen'));
+  }
+  /* cobrar un turno al marcarlo atendido */
+  function openCobro(a, done) {
+    var c = cById(a.c), t = byId(a.t), sena = a.sena === 'ok' ? SENA : 0;
+    var act = GC.filter(function (g) { return g.st === 'act'; }), cur = { gc: a.gc && gcByCode(a.gc) && gcByCode(a.gc).st === 'act' ? gcByCode(a.gc).code : '', med: 'Efectivo', debe: false };
+    function cover() { var g = gcByCode(cur.gc); if (!g) return 0; var rest = t.p - sena; if (g.k === 'trat') return g.items.some(function (x) { return x[0] === t.id && !x[1]; }) ? rest : 0; return Math.min(g.saldo, rest); }
+    function draw() {
+      var cv = cover(), rest = Math.max(0, t.p - sena - cv);
+      $('dg-h').textContent = 'Cobrar a ' + first(c.n);
+      $('dg-b').innerHTML = '<div class="cob"><div><span>' + esc(t.n) + '</span><span class="num">' + fmt(t.p) + '</span></div>' + (sena ? '<div><span>Seña ya pagada</span><span class="num">−' + fmt(sena) + '</span></div>' : '') + (cv ? '<div><span>Gift card ' + esc(cur.gc) + '</span><span class="num">−' + fmt(cv) + '</span></div>' : '') + '<div class="tot"><span>A cobrar</span><span class="num">' + fmt(rest) + '</span></div></div>' +
+        (act.length ? '<div class="field"><label for="cb-gc">¿Usa una gift card?</label><select id="cb-gc"><option value="">No</option>' + act.map(function (g) { return '<option value="' + g.code + '"' + (g.code === cur.gc ? ' selected' : '') + '>' + g.code + ', para ' + esc(g.para) + ' (' + fmt(gcLeft(g)) + ')</option>'; }).join('') + '</select>' + (cur.gc && !cv ? '<span class="hint">Esa gift card no incluye este tratamiento.</span>' : '') + '</div>' : '') +
+        (rest ? '<p class="stp-t" id="lb-cbm">Medio de pago</p><div class="seg" role="radiogroup" aria-labelledby="lb-cbm">' + MED.map(function (m) { return '<label><input type="radio" name="cbm" value="' + m + '"' + (m === cur.med ? ' checked' : '') + '><span>' + m + '</span></label>'; }).join('') + '</div><label class="check" style="margin-top:12px"><input type="checkbox" id="cb-d"' + (cur.debe ? ' checked' : '') + '><span>Queda debiendo. Te lo recuerdo en su ficha.</span></label>' : '');
+      $('dg-f').innerHTML = '<button type="button" class="btn btn-g" data-close>Cancelar</button><button type="button" class="btn btn-p" id="cb-ok">' + (rest && !cur.debe ? 'Cobrar ' + fmt(rest) : 'Listo') + '</button>';
+      if ($('cb-gc')) $('cb-gc').onchange = function (e) { cur.gc = e.target.value; draw(); };
+      qa('input[name="cbm"]', $('dg-b')).forEach(function (r) { r.onchange = function () { cur.med = r.value; }; });
+      if ($('cb-d')) $('cb-d').onchange = function (e) { cur.debe = e.target.checked; draw(); };
+      $('cb-ok').onclick = function () {
+        var g = gcByCode(cur.gc);
+        if (g && cv) { if (g.k === 'trat') { g.items.filter(function (x) { return x[0] === t.id && !x[1]; })[0][1] = true; if (g.items.every(function (x) { return x[1]; })) g.st = 'used'; } else { g.saldo -= cv; if (g.saldo <= 0) g.st = 'used'; } }
+        if (rest && cur.debe) c.debe = (c.debe || 0) + rest;
+        else if (rest) addMov({ k: 'in', c: 'Turno: ' + t.n, s: c.n, m: rest, med: cur.med });
+        closeD($('d-gen')); done(!(rest && cur.debe));
+      };
+    }
+    draw(); showD($('d-gen'));
+  }
+  /* panel: gift cards */
+  var GST = { pend: ['Pendiente de pago', 'y'], act: ['Activa', 'g'], used: ['Usada', ''] };
+  function pGift() {
+    var li = function (g) {
+      var what = g.k === 'monto' ? 'Monto ' + fmt(g.tot) + (g.st === 'act' && g.saldo !== g.tot ? ', le quedan ' + fmt(g.saldo) : '') : g.items.map(function (x) { return (x[1] ? '✓ ' : '') + byId(x[0]).n; }).join(', ');
+      var acts = g.st === 'pend' ? '<select data-gm="' + g.code + '" aria-label="Medio de pago">' + MED.map(function (m) { return '<option>' + m + '</option>'; }).join('') + '</select><button type="button" class="mini dark" data-gp="' + g.code + '">Pago recibido</button>' : g.st === 'act' ? '<button type="button" class="mini dark" data-gs="' + g.code + '">Mandar gift card</button>' : '';
+      return '<li' + (g.fresh ? ' class="fresh"' : '') + '><div class="otop"><span class="gmini"><i class="' + g.th + '" aria-hidden="true"></i><span><b>Para ' + esc(g.para) + '</b><span class="hint" style="display:block">De ' + esc(g.de) + ' · <span class="num">' + g.code + '</span></span></span></span><span class="num">' + fmt(gcVal(g)) + '</span></div><div class="it">' + esc(what) + '</div><div class="tags">' + pill(GST[g.st]) + '</div><div class="acts">' + acts + '<button type="button" class="mini wa" data-gw="' + g.code + '">WhatsApp</button></div></li>';
+    };
+    var pend = GC.filter(function (g) { return g.st === 'pend'; }).length, act = GC.filter(function (g) { return g.st === 'act'; });
+    return '<div class="kpis"><div class="kpi"><b class="num">' + pend + '</b><span>esperando el pago</span></div><div class="kpi"><b class="num">' + act.length + '</b><span>activas</span></div><div class="kpi"><b class="num">' + fmt(act.reduce(function (a, g) { return a + gcLeft(g); }, 0)) + '</b><span>por usar en tratamientos</span></div><div class="kpi"><b class="num">6 meses</b><span>de validez</span></div></div>' +
+      '<div class="pgrid"><div class="box"><h2>Gift cards</h2><p>Las que piden desde la página llegan como pendientes. Cuando te pagan, la mandás con su código y se usa al cobrar el turno.</p><ul class="ord gcl">' + GC.map(li).join('') + '</ul></div>' +
+      '<div class="box"><h2>Cargar una gift card</h2><p>Para las que te piden en persona o por mensaje.</p><div class="acts"><button type="button" class="mini dark" id="gc-new">Armar gift card</button></div></div></div>';
+  }
+  function gcImage(g, cb) {
+    var cv = document.createElement('canvas'), W = 1200, H = 750; cv.width = W; cv.height = H; var x = cv.getContext('2d');
+    var col = { lila: ['#5B3FA0', '#A98BE0'], rosa: ['#B2456E', '#EFA9C0'], noche: ['#1F1730', '#54457A'] }[g.th], gr = x.createLinearGradient(0, 0, W, H);
+    gr.addColorStop(0, col[0]); gr.addColorStop(1, col[1]); x.fillStyle = gr; x.beginPath(); x.roundRect ? x.roundRect(0, 0, W, H, 48) : x.rect(0, 0, W, H); x.fill();
+    x.strokeStyle = 'rgba(255,255,255,.13)'; x.lineWidth = 60; x.beginPath(); x.arc(W - 40, 40, 240, 0, 7); x.stroke();
+    x.fillStyle = '#fff'; x.font = '700 30px Onest, sans-serif'; x.fillText('GIFT CARD', 70, 100); x.textAlign = 'right'; x.fillText('CONSULTORIO EJEMPLO', W - 70, 100); x.textAlign = 'left';
+    x.font = '96px Gloock, Georgia, serif'; x.fillText('Para ' + g.para, 70, 300);
+    x.font = '600 40px Onest, sans-serif'; var what = g.k === 'monto' ? fmt(g.tot) + ' para usar en lo que quiera' : g.items.map(function (i) { return byId(i[0]).n; }).join(' + ');
+    var words = what.split(' '), line = '', y = 380; words.forEach(function (w) { if (x.measureText(line + w).width > W - 140) { x.fillText(line, 70, y); line = ''; y += 52; } line += w + ' '; }); x.fillText(line, 70, y);
+    if (g.msg) { x.font = 'italic 34px Onest, sans-serif'; x.fillText('“' + g.msg.slice(0, 60) + (g.msg.length > 60 ? '…' : '') + '”', 70, y + 70); }
+    x.font = '600 32px Onest, sans-serif'; x.fillText('De ' + g.de, 70, H - 70); x.textAlign = 'right'; x.fillText(g.code + ' · válida 6 meses', W - 70, H - 70);
+    cb(cv.toDataURL('image/png'));
+  }
+  function openSendGC(g) {
+    gcImage(g, function (u) {
+      $('dg-h').textContent = 'Gift card ' + g.code;
+      $('dg-b').innerHTML = '<img class="gimg" src="' + u + '" alt="Gift card para ' + esc(g.para) + ', código ' + g.code + '"><p class="muted">Descargala y mandásela por WhatsApp a ' + esc(g.de) + '. Para usarla, dicen el código al pedir el turno.</p>';
+      $('dg-f').innerHTML = '<a class="btn btn-g" id="gc-dl" download="gift-card-' + g.code + '.png" href="' + u + '">Descargar</a><button type="button" class="btn wa-btn" id="gc-wa">Mandar por WhatsApp</button>';
+      $('gc-wa').onclick = function () { closeD($('d-gen')); showWA('Hola ' + first(g.de) + '! Ya está lista la gift card para ' + g.para + ' 🎁\n\nCódigo: ' + g.code + '\nVálida por 6 meses.\n\nPara usarla, que ponga el código al pedir su turno en la página. Te paso la imagen para regalar.', g.de + ', ' + (g.tel || '')); };
+      showD($('d-gen'));
+    });
+  }
+  function openNewGC() {
+    GB = { k: 'trat', items: ['limp'], m: 30000, para: '', de: '', msg: '', th: 'lila', tel: '' }; $('gb').innerHTML = '';
+    var draw = function () {
+      $('dg-h').textContent = 'Armar gift card';
+      $('dg-b').innerHTML = '<div id="dg-prev" style="margin-bottom:14px"></div>' + gbForm(true);
+      gbPrev(); var check = gbBind($('dg-b'), true, draw);
+      $('dg-f').innerHTML = '<button type="button" class="btn btn-g" data-close>Cancelar</button><button type="button" class="btn btn-p" id="gc-ok">Crear y cobrar</button>';
+      $('gc-ok').onclick = function () { if (!check()) return; var med = $('dg-b').querySelector('input[name="gmed"]:checked').value, g = gbMake('act'); addMov({ k: 'in', c: 'Gift card ' + g.code, s: g.de + ', para ' + g.para, m: gcVal(g), med: med }); closeD($('d-gen')); renderPanel(); openSendGC(g); };
+    };
+    draw(); showD($('d-gen'));
+  }
   function readFile(inp, cb) {
     var f = inp.files && inp.files[0]; if (!f) return;
     if (!/^image\/(jpeg|png|webp)$/.test(f.type)) { toast('Subí una foto JPG, PNG o WEBP.'); inp.value = ''; return; }
@@ -1566,8 +1873,40 @@ dialog.sheet.wide { max-width: 760px; }
   }
   function bindPanel() {
     var b = $('pbody'), getA = function (id) { return A.filter(function (y) { return y.id === id; })[0]; };
-    qa('[data-sena]', b).forEach(function (x) { x.onclick = function () { var a = getA(x.dataset.sena); a.sena = 'ok'; renderPanel(); toast('Seña recibida. Le llega la confirmación a ' + first(cById(a.c).n) + '.'); }; });
-    qa('[data-done]', b).forEach(function (x) { x.onclick = function () { var a = getA(x.dataset.done); a.st = 'done'; var c = cById(a.c); c.visits.unshift([0, a.t, true]); if (c.pack && c.pack.t === a.t) c.pack.used = Math.min(c.pack.of, c.pack.used + 1); renderPanel(); toast('Atendida. Registrá la sesión en su ficha.'); openFicha(c.id); FX.tab = 'evo'; renderFicha(); }; });
+    qa('[data-sena]', b).forEach(function (x) { x.onclick = function () { var a = getA(x.dataset.sena); a.sena = 'ok'; addMov({ k: 'in', c: 'Seña: ' + byId(a.t).n, s: cById(a.c).n, m: SENA, med: 'Transferencia' }); renderPanel(); toast('Seña recibida y anotada en la caja. Le llega la confirmación a ' + first(cById(a.c).n) + '.'); }; });
+    qa('[data-done]', b).forEach(function (x) { x.onclick = function () { var a = getA(x.dataset.done); openCobro(a, function (paid) { a.st = 'done'; var c = cById(a.c); c.visits.unshift([0, a.t, paid]); if (c.pack && c.pack.t === a.t) c.pack.used = Math.min(c.pack.of, c.pack.used + 1); renderPanel(); toast(paid ? 'Cobrado y anotado en la caja. Registrá la sesión en su ficha.' : 'Queda debiendo. Registrá la sesión en su ficha.'); openFicha(c.id); FX.tab = 'evo'; renderFicha(); }); }; });
+    var getO = function (id) { return ORD.filter(function (o) { return o.id === id; })[0]; };
+    qa('[data-ol]', b).forEach(function (x) { x.onclick = function () { var o = getO(x.dataset.ol); o.st = 'listo'; o.fresh = false; renderPanel(); showWA('Hola ' + first(o.n) + '! Ya tengo tu pedido listo: ' + o.it.map(function (i) { return i[1] + ' × ' + pById(i[0]).n; }).join(', ') + ' (' + fmt(ordTot(o)) + '). ' + (o.ent === 'Envío a domicilio' ? 'Te paso el alias para la transferencia y el costo del envío.' : 'Pasá a retirarlo cuando quieras, de lunes a sábado.'), o.n + ', ' + o.tel); }; });
+    qa('[data-od]', b).forEach(function (x) { x.onclick = function () { var o = getO(x.dataset.od), sel = b.querySelector('[data-om="' + o.id + '"]'); o.st = 'entregado'; o.med = sel ? sel.value : 'Efectivo'; addMov({ k: 'in', c: 'Venta: ' + o.it.map(function (i) { return pById(i[0]).n; }).join(', '), s: o.n, m: ordTot(o), med: o.med }); renderPanel(); toast('Entregado. ' + fmt(ordTot(o)) + ' anotados en la caja.'); }; });
+    qa('[data-ox]', b).forEach(function (x) { x.onclick = function () { var o = getO(x.dataset.ox); o.st = 'cancel'; o.it.forEach(function (i) { pById(i[0]).st += i[1]; }); renderPanel(); renderShop(); toast('Pedido cancelado. El stock vuelve a estar disponible.'); }; });
+    qa('[data-ow]', b).forEach(function (x) { x.onclick = function () { var o = getO(x.dataset.ow); showWA('Hola ' + first(o.n) + '! ', o.n + ', ' + o.tel); }; });
+    qa('[data-xp]', b).forEach(function (x) { x.onchange = function () { var p = PRODS[+x.dataset.xp]; p.p = Math.max(0, Math.round(+x.value || 0)); x.value = p.p; renderShop(); toast('Precio actualizado: ' + p.n + ', ' + fmt(p.p) + '.'); }; });
+    qa('[data-xs]', b).forEach(function (x) { x.onchange = function () { var p = PRODS[+x.dataset.xs]; p.st = Math.max(0, Math.round(+x.value || 0)); renderPanel(); renderShop(); toast(p.n + ': ' + (p.st ? p.st + ' en stock.' : 'sin stock. En la página aparece “Avisame”.')); }; });
+    qa('[data-xo]', b).forEach(function (x) { x.onclick = function () { var p = PRODS[+x.dataset.xo]; p.on = !p.on; renderPanel(); renderShop(); toast(p.on ? p.n + ' vuelve a verse en la tienda.' : p.n + ' ya no aparece en la tienda.'); }; });
+    if ($('np-open')) $('np-open').onclick = function () { pst.np = { n: '', d: '', p: '', s: 5, img: null }; renderPanel(); $('np-n').focus(); };
+    if ($('np-x')) $('np-x').onclick = function () { pst.np = null; renderPanel(); };
+    var keepNp = function () { if ($('np-n')) { pst.np.n = $('np-n').value; pst.np.d = $('np-d').value; pst.np.p = $('np-p').value; pst.np.s = $('np-s').value; } };
+    if ($('np-f')) $('np-f').onchange = function (e) { keepNp(); readFile(e.target, function (u) { pst.np.img = u; renderPanel(); }); };
+    if ($('np-ok')) $('np-ok').onclick = function () {
+      keepNp(); var np = pst.np, pr = Math.round(+np.p || 0), e = $('nperr');
+      if (np.n.trim().length < 3) { e.textContent = 'Escribí el nombre del producto.'; $('np-n').focus(); return; }
+      if (pr <= 0) { e.textContent = 'Poné el precio, por ejemplo 15000.'; $('np-p').focus(); return; }
+      var pal = [['#ECE6F8', '#5B3FA0'], ['#DDF0E6', '#1E8A66'], ['#F6E3EC', '#A3466E']][PRODS.length % 3];
+      PRODS.push({ id: 'x' + (++nid), n: np.n.trim(), d: np.d.trim() || 'Consultame por este producto.', p: pr, st: Math.max(0, Math.round(+np.s || 0)), on: true, bg: pal[0], fg: pal[1], sh: 'bot', img: np.img });
+      pst.np = null; renderPanel(); renderShop(); toast('Producto agregado a la tienda.');
+    };
+    qa('input[name="mk"]', b).forEach(function (r) { r.onchange = function () { $('mv-c').placeholder = r.value === 'out' ? 'Concepto: guantes, alquiler…' : 'Concepto: cobro de…'; }; });
+    if ($('mv-ok')) $('mv-ok').onclick = function () {
+      var c = $('mv-c').value.trim(), m = Math.round(+$('mv-m').value || 0), k = b.querySelector('input[name="mk"]:checked').value, e = $('mverr');
+      if (c.length < 2) { e.textContent = 'Escribí el concepto.'; $('mv-c').focus(); return; }
+      if (m <= 0) { e.textContent = 'Poné el monto.'; $('mv-m').focus(); return; }
+      addMov({ k: k, c: c, m: m, med: $('mv-med').value }); renderPanel(); toast(k === 'out' ? 'Gasto anotado.' : 'Ingreso anotado.');
+    };
+    if ($('cj-close')) $('cj-close').onclick = openCierre;
+    qa('[data-gp]', b).forEach(function (x) { x.onclick = function () { var g = gcByCode(x.dataset.gp), sel = b.querySelector('[data-gm="' + g.code + '"]'); g.st = 'act'; g.fresh = false; addMov({ k: 'in', c: 'Gift card ' + g.code, s: g.de + ', para ' + g.para, m: gcVal(g), med: sel ? sel.value : 'Transferencia' }); renderPanel(); openSendGC(g); }; });
+    qa('[data-gs]', b).forEach(function (x) { x.onclick = function () { openSendGC(gcByCode(x.dataset.gs)); }; });
+    qa('[data-gw]', b).forEach(function (x) { x.onclick = function () { var g = gcByCode(x.dataset.gw); showWA('Hola ' + first(g.de) + '! ', g.de + ', ' + (g.tel || '')); }; });
+    if ($('gc-new')) $('gc-new').onclick = openNewGC;
     qa('[data-aus]', b).forEach(function (x) { x.onclick = function () { var a = getA(x.dataset.aus); a.st = 'aus'; renderPanel(); toast('Marcada como ausente. La seña queda.'); }; });
     qa('[data-rem]', b).forEach(function (x) { x.onclick = function () { var a = getA(x.dataset.rem), c = cById(a.c), t = byId(a.t); showWA('Hola ' + first(c.n) + '! Te recuerdo tu turno de ' + t.n.toLowerCase() + ' el ' + dLong.format(days[a.day]) + ' a las ' + a.h + ' h. Si no podés venir, reprogramalo desde “Mis turnos” hasta 24 h antes.' + (fichaOk(c) ? '' : ' Antes de venir, completá tu ficha en “Mis turnos”.') + ' ¡Te espero!', c.n + ', ' + c.tel); }; });
     qa('[data-wac]', b).forEach(function (x) { x.onclick = function () { var c = cById(+x.dataset.wac); showWA(x.dataset.kind === 'remind' ? remindMsg(c) : 'Hola ' + first(c.n) + '! ', c.n + ', ' + c.tel); }; });
