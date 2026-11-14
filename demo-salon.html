@@ -629,6 +629,8 @@ dialog.sheet.wide { max-width: 760px; }
 .mov small .pp { font-weight: 700; }
 .seg.pros span { gap: 6px; display: inline-flex; align-items: center; } .seg.pros i { width: 10px; height: 10px; border-radius: 50%; }
 .trat .m .pill.pp { font-size: 12px; }
+.agbar { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin: 4px 0 14px; } .agbar span { color: var(--soft); font-size: 14px; flex: 1 1 220px; }
+.kd { margin-bottom: 4px; }
 @media (min-width: 560px) { .gal { grid-template-columns: repeat(3, 1fr); } .kpis { grid-template-columns: repeat(4, 1fr); } }
 @media (min-width: 900px) {
   body.cli { padding-bottom: 0; }
@@ -985,7 +987,8 @@ dialog.sheet.wide { max-width: 760px; }
   if (today.getDay() === 6) A.forEach(function (a) { if (a.day < 0) { var e = 840 - durOf(a.t, a.p); if (toMin(a.h) > e) a.h = toHM(Math.floor(e / 30) * 30); } });
   A.forEach(function (a) { if (a.day < 0) return; var pr = proById(a.p); while (a.day < days.length - 1 && pr.days.indexOf(days[a.day].getDay()) < 0) a.day++; });
   var FILL = {}; // otras clientas (relleno de la demo)
-  var BL = {}; days.forEach(function (d, i) { BL[i] = {}; FILL[i] = []; });
+  var dayOf = function (di) { return di < 0 ? today : days[di]; };
+  var BL = { '-1': {} }; days.forEach(function (d, i) { BL[i] = {}; FILL[i] = []; });
   var WAIT = [{ n: 'Natalia G.', tel: '336 420-1188', t: 'limp', day: 1 }];
   var nid = 100;
   var st = { tipo: '', preo: {}, vez: '', cat: 'pelo', wf: 'todos' };
@@ -996,7 +999,7 @@ dialog.sheet.wide { max-width: 760px; }
     (FILL[di] || []).forEach(function (f) { out.push({ s: f.s, e: f.s + durOf(f.t, f.p), f: f, p: f.p, t: f.t }); });
     return out.sort(function (x, y) { return x.s - y.s; });
   }
-  function proHours(di, pid) { var pr = proById(pid), d = days[di], o = OPEN(d); if (!pr || pr.days.indexOf(d.getDay()) < 0) return null; return [Math.max(o[0], pr.h[0]), Math.min(o[1], pr.h[1])]; }
+  function proHours(di, pid) { var pr = proById(pid), d = dayOf(di), o = OPEN(d); if (!pr || pr.days.indexOf(d.getDay()) < 0) return null; return [Math.max(o[0], pr.h[0]), Math.min(o[1], pr.h[1])]; }
   function proFree(di, pid, s, dur, excl, O) {
     var h = proHours(di, pid); if (!h || s < h[0] || s + dur > h[1]) return false;
     var bl = BL[di]; if (!Object.keys(bl).every(function (k) { var b = +k; return !bl[k] || s + dur <= b || s >= b + CFG.step; })) return false;
@@ -1022,7 +1025,7 @@ dialog.sheet.wide { max-width: 760px; }
     return null;
   }
   function free(di, dur, excl, pid, tid) {
-    var d = days[di], o = OPEN(d), res = [], O = occ(di, excl);
+    var d = dayOf(di), o = OPEN(d), res = [], O = occ(di, excl);
     for (var c = o[0]; c < o[1]; c += CFG.step) {
       var ok = tid ? !!canAt(di, tid, c, pid, excl) : (pid ? [proById(pid)] : PROS).some(function (p) { return proFree(di, p.id, c, dur, excl, O); });
       if (ok) res.push(toHM(c));
@@ -1474,7 +1477,7 @@ dialog.sheet.wide { max-width: 760px; }
       if (c) html += fichaOk(c) ? '<div class="okbox">Tu ficha está completa. <button type="button" class="mini" id="m-fc" style="margin-left:6px">Ver o actualizar</button></div>' : '<div class="alert"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8C2F52" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 4h6l1 2h3v15H5V6h3z"/><path d="M9 12h6M9 16h4"/></svg><span>Completá tu ficha antes de venir: son 2 minutos y ganamos tiempo en la sesión.<br><button type="button" class="mini dark" id="m-fc" style="margin-top:8px">Completar mi ficha</button></span></div>';
       list.forEach(function (a) {
         var t = byId(a.t), d = days[a.day], hrs = (d - today) / 36e5;
-        html += '<div class="my' + (a.st === 'cancel' ? ' cancel' : '') + '"><b>' + esc(t.n) + '</b><span class="num">' + esc(dLong.format(d)) + ', ' + a.h + ' h. ' + durTxt(durOf(a.t, a.p)) + ', con ' + esc(proById(a.p).n) + '.</span><div class="tags">' + (a.sena === 'na' ? '<span class="pill">Seña en el primer turno</span>' : '<span class="pill ' + (a.sena === 'ok' ? 'g">Seña recibida' : 'y">Seña por confirmar') + '</span>') + (a.st === 'cancel' ? '<span class="pill r">Cancelado</span>' : '') + (a.moved ? '<span class="pill v">Reprogramado</span>' : '') + '</div>' +
+        html += '<div class="my' + (a.st === 'cancel' ? ' cancel' : '') + '"><b>' + esc(t.n) + '</b><span class="num">' + esc(dLong.format(d)) + ', ' + a.h + ' h. ' + durTxt(durOf(a.t, a.p)) + ', con ' + esc(proById(a.p).n) + '.</span><div class="tags">' + (a.sena === 'na' || a.sena === 'none' ? '<span class="pill">' + (a.sena === 'na' ? 'Seña en el primer turno' : 'Sin seña') + '</span>' : '<span class="pill ' + (a.sena === 'ok' ? 'g">Seña recibida' : 'y">Seña por confirmar') + '</span>') + (a.st === 'cancel' ? '<span class="pill r">Cancelado</span>' : '') + (a.moved ? '<span class="pill v">Reprogramado</span>' : '') + '</div>' +
           (a.st === 'ok' ? '<div class="acts"><button type="button" class="mini dark" data-rs="' + a.id + '"' + (hrs < 24 ? ' disabled' : '') + '>Reprogramar</button><button type="button" class="mini" data-cx="' + a.id + '">Cancelar turno</button></div>' + (hrs < 24 ? '<p class="hint" style="margin-top:6px">Falta menos de 24 h: ya no se puede reprogramar.</p>' : '') : '') + '</div>';
         if (M.resch === a.id) {
           html += '<div class="sum"><b>Elegí el nuevo horario</b><span>La seña se mantiene.</span><div class="days" role="group" aria-label="Nuevo día">' + days.map(function (x, k) { var n = free(k, 0, a.id, a.p, a.t).length; return '<button type="button" class="day' + (n ? '' : ' full') + '" data-md="' + k + '" aria-pressed="' + (k === M.day) + '"' + (n ? '' : ' disabled') + '><small>' + DN[x.getDay()] + '</small><b class="num">' + x.getDate() + '</b><em>' + (n ? n + (n === 1 ? ' libre' : ' libres') : 'completo') + '</em></button>'; }).join('') + '</div>' +
@@ -1538,8 +1541,9 @@ dialog.sheet.wide { max-width: 760px; }
     if (t.c === 'pelo' && c.col && c.col.length && (a.t === 'color' || a.t === 'mechas')) tags.push(['Tiene fórmula de color', 'g']);
     if (a.first) tags.push(['Primera vez', 'r']);
     if (!fichaOk(c)) tags.push(['Ficha sin completar', 'y']); else if (c.fc.byClient && !c.visits.length) tags.push(['Completó la ficha online', 'g']);
-    if (a.st === 'ok' && a.sena !== 'na') tags.push(a.sena === 'ok' ? ['Seña recibida', 'g'] : ['Seña por revisar', 'y']);
+    if (a.st === 'ok' && a.sena !== 'na' && a.sena !== 'none') tags.push(a.sena === 'ok' ? ['Seña recibida', 'g'] : ['Seña por revisar', 'y']);
     if (c.pack && c.pack.t === a.t && a.st === 'ok') tags.push(['Plan: sesión ' + (c.pack.used + 1) + ' de ' + c.pack.of, 'v']);
+    if (a.src) tags.push(['Lo pidió ' + SRCN[a.src] + (a.by ? ', lo cargó ' + a.by : ''), 'v']);
     if (a.moved) tags.push(['Reprogramó', 'v']);
     if (a.st === 'cancel') tags.push(['Canceló, seña retenida', 'r']);
     if (a.st === 'done') tags.push(['Atendida', 'g']);
@@ -1574,7 +1578,7 @@ dialog.sheet.wide { max-width: 760px; }
     } else {
       cols = '<div class="box"><h2>' + (ROLE ? 'Tu día' : 'Hoy, ' + esc(who.n)) + '</h2><p>' + (proHoursToday(who) ? 'Atiende ' + proHoursToday(who) + '.' : 'Hoy no trabaja.') + ' Cada turno llega con la ficha de la clienta. Las alertas de salud se ven en rojo.</p><ul class="ag">' + (hoy.length ? hoy.map(function (a) { return agItem(a, true); }).join('') : '<li class="empty">Sin turnos hoy.</li>') + '</ul></div>';
     }
-    return proChips('data-pf') + kp + cols +
+    return '<div class="agbar"><button type="button" class="btn btn-p" id="ag-new">Cargar un turno</button><span>Los que te piden por WhatsApp, por teléfono o en persona. Ocupan el horario igual que los de la página.</span></div>' + proChips('data-pf') + kp + cols +
       '<div class="box"><h2>Próximos días</h2><p>Lo que piden desde la página aparece acá, resaltado' + (who ? '' : ', con el nombre de quien atiende') + '.</p><ul class="ag">' + (prox.length ? prox.map(function (a) { return agItem(a, !!who); }).join('') : '<li class="empty">Todavía no hay turnos para los próximos días.</li>') + '</ul></div>';
   }
   function proHoursToday(pr) { var o = OPEN(today); if (pr.days.indexOf(today.getDay()) < 0 && !A.some(function (a) { return a.day < 0 && a.p === pr.id; })) return ''; return 'de ' + toHM(Math.max(o[0], pr.h[0])) + ' a ' + toHM(Math.min(o[1], pr.h[1])) + ' h'; }
@@ -1848,11 +1852,12 @@ dialog.sheet.wide { max-width: 760px; }
     } else {
       var turns = A.filter(function (a) { return a.c === c.id && a.day >= 0 && a.st === 'ok'; });
       b.innerHTML = (c.pack ? '<p class="stp-t">Plan: ' + esc(byId(c.pack.t).n) + ', ' + c.pack.used + ' de ' + c.pack.of + ' sesiones</p><div class="bar-pack" role="img" aria-label="' + c.pack.used + ' de ' + c.pack.of + ' sesiones"><i style="width:' + (c.pack.used / c.pack.of * 100) + '%"></i></div>' : '') +
-        '<p class="stp-t" style="margin-top:14px">Próximos turnos</p>' + (turns.length ? '<ul class="hist">' + turns.map(function (a) { return '<li><span>' + esc(dLong.format(days[a.day])) + ', ' + a.h + ' h, ' + esc(byId(a.t).n) + ', con ' + esc(proById(a.p).n) + '</span>' + pill(a.sena === 'na' ? ['Seña en el combo', ''] : a.sena === 'ok' ? ['Seña recibida', 'g'] : ['Seña por revisar', 'y']) + '</li>'; }).join('') + '</ul>' : '<p class="hint">No tiene turnos reservados.</p>') +
+        '<p class="stp-t" style="margin-top:14px">Próximos turnos</p>' + (turns.length ? '<ul class="hist">' + turns.map(function (a) { return '<li><span>' + esc(dLong.format(days[a.day])) + ', ' + a.h + ' h, ' + esc(byId(a.t).n) + ', con ' + esc(proById(a.p).n) + '</span>' + pill(a.sena === 'none' ? ['Sin seña', ''] : a.sena === 'na' ? ['Seña en el combo', ''] : a.sena === 'ok' ? ['Seña recibida', 'g'] : ['Seña por revisar', 'y']) + '</li>'; }).join('') + '</ul>' : '<p class="hint">No tiene turnos reservados.</p>') +
         '<p class="stp-t" style="margin-top:14px">Historial y pagos</p>' + (c.visits.length ? '<ul class="hist">' + c.visits.map(function (x) { return '<li><span>' + esc(dShort.format(addD(today, x[0]))) + ', ' + esc(byId(x[1]).n) + (x[3] ? ', con ' + esc(proById(x[3]).n) : '') + ' (' + fmt(byId(x[1]).p) + ')</span>' + pill(x[2] ? ['Pagó', 'g'] : ['Debe', 'y']) + '</li>'; }).join('') + '</ul>' : '<p class="hint">Todavía no vino.</p>') +
-        '<div class="acts" style="margin-top:14px">' + (c.debe ? '<button type="button" class="mini dark" id="fx-pay">Registrar pago de ' + fmt(c.debe) + '</button>' : '') + '<button type="button" class="mini wa" id="fx-rem">Recordarle que vuelva</button><button type="button" class="mini" id="fx-rut">Mandar rutina</button><button type="button" class="mini" id="fx-res">Pedir reseña</button></div>';
+        '<div class="acts" style="margin-top:14px"><button type="button" class="mini dark" id="fx-new">Darle un turno</button>' + (c.debe ? '<button type="button" class="mini dark" id="fx-pay">Registrar pago de ' + fmt(c.debe) + '</button>' : '') + '<button type="button" class="mini wa" id="fx-rem">Recordarle que vuelva</button><button type="button" class="mini" id="fx-rut">Mandar rutina</button><button type="button" class="mini" id="fx-res">Pedir reseña</button></div>';
       f.innerHTML = '<button type="button" class="btn btn-g" data-close>Cerrar</button>';
       if ($('fx-pay')) $('fx-pay').onclick = function () { var m = c.debe; c.debe = 0; c.visits.forEach(function (v) { v[2] = true; }); renderFicha(); renderPanel(); toast('Pago de ' + fmt(m) + ' registrado.'); };
+      $('fx-new').onclick = function () { closeD($('d-ficha')); openCargar(c.id); };
       $('fx-rem').onclick = function () { showWA(remindMsg(c), c.n + ', ' + c.tel); };
       $('fx-rut').onclick = function () { showWA(rutinaMsg(c), c.n + ', ' + c.tel); };
       $('fx-res').onclick = function () { showWA('Hola ' + first(c.n) + '! Gracias por venir. Si te gustó la atención, ¿me dejás una reseña en Google? Me ayuda un montón: [link a tu perfil de Google]', c.n + ', ' + c.tel); };
@@ -2110,8 +2115,65 @@ dialog.sheet.wide { max-width: 760px; }
     if (f.size > 8 * 1024 * 1024) { toast('La foto pesa más de 8 MB. Probá con una más liviana.'); inp.value = ''; return; }
     cb(URL.createObjectURL(f));
   }
+
+  /* cargar un turno desde el panel (WhatsApp, teléfono, en persona) */
+  var SRCN = { wa: 'por WhatsApp', tel: 'por teléfono', per: 'en persona', ig: 'por Instagram' };
+  function openCargar(cid) {
+    var act = T.filter(function (t) { return t.on; });
+    var K = { c: cid || '', nm: '', tel: '', t: act[0].id, p: ROLE || '', day: -1, h: '', src: 'wa', sena: 'none', med: 'Transferencia', nota: '' };
+    var nowM = function () { var d = new Date(); return d.getHours() * 60 + d.getMinutes(); };
+    var slots = function (di) { var k = K.day; K.day = di; var L = free(K.day, 0, null, K.p, K.t); K.day = k; return di < 0 ? L.filter(function (x) { return toMin(x) > nowM() + 10; }) : L; };
+    var err = function (m) { $('kerr').textContent = m; };
+    var keep = function () { if ($('k-nm')) K.nm = $('k-nm').value; if ($('k-tel')) K.tel = $('k-tel').value; if ($('k-nota')) K.nota = $('k-nota').value; };
+    function draw() {
+      var t = byId(K.t), L = slots(K.day); if (L.indexOf(K.h) < 0) K.h = '';
+      var dd = [-1].concat(days.map(function (x, i) { return i; }));
+      $('dg-h').textContent = 'Cargar un turno';
+      $('dg-b').innerHTML =
+        '<div class="field"><label for="k-c">Clienta</label><select id="k-c"><option value="">Clienta nueva</option>' + C.slice().sort(function (a, b) { return a.n.localeCompare(b.n); }).map(function (c) { return '<option value="' + c.id + '"' + (String(c.id) === String(K.c) ? ' selected' : '') + '>' + esc(c.n) + (c.tel ? ' · ' + esc(c.tel) : '') + '</option>'; }).join('') + '</select></div>' +
+        (K.c ? '' : '<div class="fgrid"><div class="field"><label for="k-nm">Nombre y apellido</label><input id="k-nm" maxlength="60" autocomplete="off" value="' + esc(K.nm) + '"></div><div class="field"><label for="k-tel">WhatsApp <span class="hint">(para mandarle la confirmación)</span></label><input id="k-tel" type="tel" inputmode="tel" maxlength="20" autocomplete="off" placeholder="336 400-0000" value="' + esc(K.tel) + '"></div></div>') +
+        '<div class="field"><label for="k-t">Servicio</label><select id="k-t">' + act.map(function (x) { return '<option value="' + x.id + '"' + (x.id === K.t ? ' selected' : '') + '>' + esc(x.n) + ' (' + durTxt(x.min) + ', ' + fmt(x.p) + ')</option>'; }).join('') + '</select></div>' +
+        (ROLE ? '' : '<div class="field"><label for="k-p">Con quién</label><select id="k-p"><option value="">' + (t.parts ? 'Las que estén libres' : 'La primera libre') + '</option>' + (t.parts ? '' : capable(t.id).map(function (pr) { return '<option value="' + pr.id + '"' + (pr.id === K.p ? ' selected' : '') + '>' + esc(pr.n) + ' (' + durTxt(durOf(t.id, pr.id)) + ')</option>'; }).join('')) + '</select></div>') +
+        '<p class="stp-t">Día</p><div class="days kd" role="group" aria-label="Día">' + dd.map(function (k) { var n = slots(k).length, d = dayOf(k); return '<button type="button" class="day' + (n ? '' : ' full') + '" data-kd="' + k + '" aria-pressed="' + (k === K.day) + '"><small>' + (k < 0 ? 'hoy' : DN[d.getDay()]) + '</small><b class="num">' + d.getDate() + '</b><em>' + (n ? n + (n === 1 ? ' libre' : ' libres') : 'completo') + '</em></button>'; }).join('') + '</div>' +
+        (L.length ? '<div class="slots" role="group" aria-label="Horario">' + L.map(function (x) { return '<button type="button" class="slot num" data-kh="' + x + '" aria-pressed="' + (x === K.h) + '">' + x + '</button>'; }).join('') + '</div>' : '<p class="hint" style="margin:10px 0 14px">Ese día no queda lugar' + (K.p ? ' con ' + esc(proById(K.p).n) : '') + '. Probá otro.</p>') +
+        '<p class="stp-t" id="lb-ks">Cómo lo pidió</p><div class="seg" role="radiogroup" aria-labelledby="lb-ks">' + [['wa', 'WhatsApp'], ['tel', 'Teléfono'], ['per', 'En persona'], ['ig', 'Instagram']].map(function (x) { return '<label><input type="radio" name="ks" value="' + x[0] + '"' + (x[0] === K.src ? ' checked' : '') + '><span>' + x[1] + '</span></label>'; }).join('') + '</div>' +
+        '<p class="stp-t" id="lb-kn" style="margin-top:12px">Seña</p><div class="seg" role="radiogroup" aria-labelledby="lb-kn">' + [['none', 'Sin seña'], ['ok', 'Ya la pagó'], ['rev', 'La va a mandar']].map(function (x) { return '<label><input type="radio" name="kn" value="' + x[0] + '"' + (x[0] === K.sena ? ' checked' : '') + '><span>' + x[1] + '</span></label>'; }).join('') + '</div>' +
+        (K.sena === 'ok' ? '<div class="field" style="margin-top:10px"><label for="k-med">Cómo pagó los ' + fmt(SENA) + '</label><select id="k-med">' + MED.map(function (m) { return '<option' + (m === K.med ? ' selected' : '') + '>' + m + '</option>'; }).join('') + '</select></div>' : '') +
+        '<div class="field" style="margin-top:12px"><label for="k-nota">Nota <span class="hint">(opcional)</span></label><input id="k-nota" maxlength="120" autocomplete="off" placeholder="Viene con su hija…" value="' + esc(K.nota) + '"></div><p class="err" id="kerr" role="alert"></p>';
+      $('dg-f').innerHTML = '<button type="button" class="btn btn-g" data-close>Cancelar</button><button type="button" class="btn btn-p" id="k-ok">Agendar turno</button>';
+      $('k-c').onchange = function (e) { keep(); K.c = e.target.value; draw(); };
+      $('k-t').onchange = function (e) { keep(); K.t = e.target.value; if (K.p && !ROLE && proById(K.p).sv.indexOf(K.t) < 0) K.p = ''; draw(); };
+      if ($('k-p')) $('k-p').onchange = function (e) { keep(); K.p = e.target.value; draw(); };
+      qa('[data-kd]', $('dg-b')).forEach(function (x) { x.onclick = function () { keep(); K.day = +x.dataset.kd; draw(); }; });
+      qa('[data-kh]', $('dg-b')).forEach(function (x) { x.onclick = function () { K.h = x.dataset.kh; qa('[data-kh]', $('dg-b')).forEach(function (y) { y.setAttribute('aria-pressed', String(y === x)); }); err(''); }; });
+      qa('input[name="ks"]', $('dg-b')).forEach(function (x) { x.onchange = function () { K.src = x.value; }; });
+      qa('input[name="kn"]', $('dg-b')).forEach(function (x) { x.onchange = function () { keep(); K.sena = x.value; draw(); }; });
+      if ($('k-med')) $('k-med').onchange = function (e) { K.med = e.target.value; };
+      $('k-ok').onclick = confirm;
+    }
+    function confirm() {
+      keep(); var t = byId(K.t), c = K.c ? cById(+K.c) : null, isNew = !c;
+      var nm = K.nm.trim().replace(/\s+/g, ' '), tel = K.tel.trim();
+      if (!c && nm.length < 3) { err('Escribí el nombre de la clienta.'); $('k-nm').focus(); return; }
+      if (!c && tel && digits(tel).length < 8) { err('Revisá el WhatsApp: tiene pocos números.'); $('k-tel').focus(); return; }
+      if (!K.h) { err('Elegí un horario.'); return; }
+      if (!c) { c = C.filter(function (x) { return tel && digits(x.tel) === digits(tel); })[0]; if (c) isNew = false; else { c = { id: ++nid, n: nm, tel: tel, tipo: '', nota: '', visits: [], fc: { ant: {} }, evo: [], col: [] }; C.unshift(c); } }
+      K.nota = K.nota.trim();
+      var asg = canAt(K.day, t.id, toMin(K.h), K.p); if (!asg) { err('Ese horario ya no está libre. Elegí otro.'); K.h = ''; draw(); return; }
+      var grp = asg.length > 1 ? 'g' + (++nid) : null, by = ROLE ? proById(ROLE).n : 'Laura';
+      asg.forEach(function (x, i) { A.push({ id: 'a' + (++nid), c: c.id, t: x[0], p: x[1], day: K.day, h: toHM(x[2]), sena: i ? 'na' : K.sena, st: 'ok', first: isNew, fresh: true, grp: grp, combo: grp ? t.id : null, preo: [], nota: K.nota, src: K.src, by: by }); });
+      var con = asg.map(function (x) { return (asg.length > 1 ? byId(x[0]).n + ' con ' : 'con ') + proById(x[1]).n + (asg.length > 1 ? ' a las ' + toHM(x[2]) : ''); }).join(' y ');
+      if (K.sena === 'ok') addMov({ k: 'in', c: 'Seña: ' + t.n, s: c.n, m: SENA, med: K.med });
+      closeD($('d-gen')); renderPanel(); nextFree(); renderTeam();
+      var when = (K.day < 0 ? 'hoy' : 'el ' + dLong.format(days[K.day])) + ' a las ' + K.h + ' h';
+      if (c.tel) showWA('Hola ' + first(c.n) + '! Te confirmamos tu turno de ' + t.n.toLowerCase() + ' ' + when + (con ? ', ' + con : '') + '. ' + (K.sena === 'rev' ? 'Para dejarlo confirmado, mandanos la seña de ' + fmt(SENA) + ' por transferencia. ' : '') + 'Si necesitás cambiarlo, avisanos con 24 h. ¡Te esperamos!', c.n + ', ' + c.tel);
+      toast('Turno de ' + first(c.n) + ' agendado ' + when + '.' + (c.tel ? ' Mandale la confirmación.' : ''));
+    }
+    draw(); showD($('d-gen'));
+  }
   function bindPanel() {
     var b = $('pbody'), getA = function (id) { return A.filter(function (y) { return y.id === id; })[0]; };
+    if ($('ag-new')) $('ag-new').onclick = function () { openCargar(); };
     var reTeam = function (msg) { renderPanel(); renderTeam(); nextFree(); if (msg) toast(msg); };
     qa('[data-eo]', b).forEach(function (x) { x.ontoggle = function () { pst.eo[x.dataset.eo] = x.open; }; });
     qa('[data-pf]', b).forEach(function (x) { x.onclick = function () { pst.pro = x.dataset.pf; renderPanel(); }; });
