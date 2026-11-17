@@ -140,7 +140,7 @@
 
 <main class="wrap">
   <div class="rotulo" aria-label="Datos de la unidad">
-    <div><b>Edificio Ejemplo · Unidad 3B</b>San Nicolás · en pozo (ejemplo)</div>
+    <div><b>Edificio Ejemplo · Unidad 3B</b>San Nicolás · venta o alquiler (ejemplo)</div>
     <div><b>2 amb.</b>Esc. 1:100</div>
   </div>
 
@@ -193,11 +193,11 @@
   <section class="inmo" aria-labelledby="inmo-h">
     <h2 id="inmo-h">Para tu inmobiliaria</h2>
     <ol>
-      <li><b>Me pasás el plano</b>El PDF de la constructora, una foto del plano o un croquis con medidas.</li>
+      <li><b>Me pasás el plano</b>Un PDF, una foto nítida del plano o un croquis con medidas, y fotos de la propiedad para copiar pisos y colores.</li>
       <li><b>Lo paso a 3D</b>Paredes, aberturas, pisos y muebles de referencia. Lo revisás y ajustamos.</li>
       <li><b>Lo compartís</b>Un link por unidad para mandar por WhatsApp, sumar a la publicación o mostrar en la oficina.</li>
     </ol>
-    <p class="small">Sirve sobre todo para unidades en pozo o a estrenar, donde todavía no hay fotos. No reemplaza las fotos de una propiedad usada.</p>
+    <p class="small">Sirve para alquileres y ventas: el interesado ve la distribución y el tamaño antes de pedir la visita. En unidades en pozo, además, reemplaza las fotos que todavía no existen. En una propiedad usada complementa las fotos, no las reemplaza.</p>
   </section>
 </main>
 
@@ -352,8 +352,8 @@ $('mdl-x').onclick = () => $('mdl').classList.remove('on');
 $('mdl').addEventListener('click', (e) => { if (e.target.id === 'mdl') $('mdl').classList.remove('on'); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') $('mdl').classList.remove('on'); });
 let floorType = 'madera';
-$('ask').onclick = () => showWA(`Hola, recorrí la unidad 3B del Edificio Ejemplo (2 ambientes con balcón, 59 m²).\nMe gustó con piso de ${floorType}.\n¿Me pasás precio, forma de pago y fecha de entrega?`);
-$('share').onclick = () => showWA('Mirá este departamento, se puede recorrer desde el celular:\ninmobiliariaejemplo.com.ar/3b\n(2 ambientes con balcón, 59 m², en pozo)');
+$('ask').onclick = () => showWA(`Hola, recorrí la unidad 3B del Edificio Ejemplo (2 ambientes con balcón, 59 m²).\nMe gustó con piso de ${floorType}.\n¿Me pasás precio y cuándo se puede visitar?`);
+$('share').onclick = () => showWA('Mirá este departamento, se puede recorrer desde el celular:\ninmobiliariaejemplo.com.ar/3b\n(2 ambientes con balcón, 59 m²)');
 
 /* ---------- Motor 3D ---------- */
 const stage = $('stage'), cv = $('cv');
