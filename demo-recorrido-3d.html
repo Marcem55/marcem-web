@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Demo: recorrido 3D desde el plano para inmobiliarias (ejemplo ficticio) · MARCEM</title>
+<meta name="description" content="Probá un recorrido 3D armado a partir del plano de un departamento: plano, maqueta y caminata desde el celular. Demo para inmobiliarias y constructoras de San Nicolás, hecha por MARCEM.">
+<link rel="canonical" href="https://marcem.com.ar/demo-recorrido-3d">
+<meta name="theme-color" content="#173A63">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="MARCEM">
+<meta property="og:title" content="Demo: caminá un departamento desde su plano · MARCEM">
+<meta property="og:description" content="Plano, maqueta 3D y recorrido desde el celular. Demo para inmobiliarias, con datos ficticios.">
+<meta property="og:url" content="https://marcem.com.ar/demo-recorrido-3d">
+<meta property="og:image" content="https://marcem.com.ar/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+  :root {
+    --calco: #EDF1F4;      /* papel de calco */
+    --cian: #173A63;       /* azul cianotipo */
+    --cian2: #2C5D93;
+    --grafito: #23272E;
+    --gris: #5B6470;
+    --linea: #C9D3DC;
+    --marcador: #FFD54A;   /* resaltador amarillo sobre el plano */
+    --wa: #25D366;
+    --blanco: #FFFFFF;
+    --sans: "Familjen Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--calco); color: var(--grafito); font: 16px/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  button { font: inherit; }
+  :focus-visible { outline: 3px solid var(--marcador); outline-offset: 2px; }
+
+  .demo-bar { background: var(--grafito); color: #D8DEE5; font: 700 13px/1.3 system-ui, -apple-system, sans-serif; }
+  .demo-bar .in { max-width: 1100px; margin: 0 auto; padding: 10px 16px; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+  .demo-bar span { display: inline-flex; gap: 8px; align-items: center; }
+  .demo-bar i { width: 8px; height: 8px; border-radius: 9px; background: var(--wa); flex-shrink: 0; }
+  .demo-bar a { color: #FFFFFF; text-decoration: none; white-space: nowrap; }
+
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+
+  /* Encabezado: el rótulo de un plano */
+  .rotulo { margin-top: 18px; display: grid; grid-template-columns: 1fr auto; border: 1.5px solid var(--cian); background: var(--blanco); font-family: var(--mono); font-size: 11.5px; color: var(--cian); }
+  .rotulo > div { padding: 7px 10px; border-right: 1.5px solid var(--cian); }
+  .rotulo > div:last-child { border-right: 0; }
+  .rotulo b { display: block; font: 700 14px/1.2 var(--sans); color: var(--grafito); }
+  h1 { font: 700 clamp(30px, 8.2vw, 54px)/1.02 var(--sans); letter-spacing: -0.02em; margin: 22px 0 10px; color: var(--grafito); max-width: 15ch; }
+  .lead { margin: 0 0 18px; color: var(--gris); font-size: 17px; max-width: 46ch; }
+  .lead mark { background: linear-gradient(transparent 55%, var(--marcador) 55%); color: inherit; padding: 0 2px; }
+
+  /* Escenario */
+  .stage-box { background: var(--blanco); border: 1.5px solid var(--cian); }
+  .modes { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1.5px solid var(--cian); }
+  .modes button { min-height: 50px; border: 0; border-right: 1.5px solid var(--cian); background: var(--blanco); color: var(--cian); font-weight: 700; font-size: 15px; cursor: pointer; padding: 6px 4px; }
+  .modes button:last-child { border-right: 0; }
+  .modes button[aria-pressed="true"] { background: var(--cian); color: var(--blanco); }
+  .stage { position: relative; height: min(118vw, 620px); min-height: 380px; background: #DCE6EE; overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; }
+  @media (min-width: 900px) { .stage { height: 560px; } }
+  .stage canvas { display: block; width: 100%; height: 100%; }
+  .plan { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--calco); background-image: linear-gradient(rgba(23,58,99,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(23,58,99,.07) 1px, transparent 1px); background-size: 22px 22px; transition: opacity .5s ease; }
+  .plan svg { width: 100%; height: 100%; max-width: 640px; }
+  .plan.off { opacity: 0; pointer-events: none; }
+  .stage .go3d { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); min-height: 50px; padding: 0 22px; border: 0; border-radius: 999px; background: var(--grafito); color: var(--blanco); font-weight: 700; font-size: 16px; cursor: pointer; box-shadow: 0 10px 26px rgba(23,58,99,.28); white-space: nowrap; }
+  .tags { position: absolute; inset: 0; pointer-events: none; }
+  .tag { position: absolute; transform: translate(-50%, -50%); background: rgba(255,255,255,.9); border: 1.5px solid var(--cian); color: var(--cian); font: 600 10.5px/1.15 var(--mono); padding: 3px 5px; white-space: nowrap; }
+  .tag b { display: block; font: 700 12px/1.15 var(--sans); color: var(--grafito); }
+  .hint { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: center; pointer-events: none; }
+  .hint span { background: rgba(35,39,46,.82); color: #FFFFFF; font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 999px; text-align: center; }
+  .joy { position: absolute; left: 16px; bottom: 16px; width: 112px; height: 112px; border-radius: 999px; background: rgba(255,255,255,.55); border: 2px solid rgba(23,58,99,.55); display: none; touch-action: none; }
+  .joy i { position: absolute; left: 50%; top: 50%; width: 46px; height: 46px; margin: -23px 0 0 -23px; border-radius: 999px; background: var(--cian); box-shadow: 0 4px 12px rgba(0,0,0,.25); }
+  .mini { position: absolute; right: 12px; bottom: 12px; width: 108px; background: rgba(237,241,244,.94); border: 1.5px solid var(--cian); display: none; }
+  .mini svg { display: block; width: 100%; height: auto; }
+  body[data-mode="walk"] .joy, body[data-mode="walk"] .mini { display: block; }
+  .nogl { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; padding: 24px; text-align: center; background: var(--calco); font-weight: 600; }
+
+  .ctrl { padding: 12px; border-top: 1.5px solid var(--cian); display: flex; flex-direction: column; gap: 12px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .row > span { font: 600 12px/1 var(--mono); color: var(--gris); min-width: 66px; }
+  .chip { min-height: 44px; padding: 0 14px; border: 1.5px solid var(--linea); border-radius: 999px; background: var(--blanco); color: var(--grafito); font-weight: 600; font-size: 14.5px; cursor: pointer; }
+  .chip[aria-pressed="true"] { border-color: var(--cian); background: var(--cian); color: var(--blanco); }
+  .rooms .chip { border-color: var(--cian2); }
+
+  /* Ficha */
+  .ficha { margin-top: 26px; display: grid; gap: 18px; }
+  @media (min-width: 900px) { .ficha { grid-template-columns: 1.1fr .9fr; align-items: start; } }
+  .ficha h2, .inmo h2 { font: 700 clamp(24px, 6vw, 34px)/1.1 var(--sans); letter-spacing: -0.01em; margin: 0 0 12px; }
+  table.sup { width: 100%; border-collapse: collapse; font-size: 15.5px; background: var(--blanco); border: 1.5px solid var(--cian); }
+  table.sup td { padding: 10px 12px; border-bottom: 1px solid var(--linea); }
+  table.sup td:last-child { text-align: right; font-family: var(--mono); font-size: 14px; color: var(--cian); white-space: nowrap; }
+  table.sup tr:last-child td { border-bottom: 0; font-weight: 700; background: #F6F8FA; }
+  table.sup tr.on td { background: #FFF6D1; }
+  .acts { display: flex; flex-direction: column; gap: 10px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 20px; border-radius: 999px; border: 0; font-weight: 700; font-size: 16px; cursor: pointer; text-decoration: none; }
+  .btn.wa { background: var(--wa); color: #0B2B17; }
+  .btn.sec { background: var(--blanco); color: var(--cian); border: 1.5px solid var(--cian); }
+  .note { font-size: 13.5px; color: var(--gris); margin: 4px 0 0; }
+
+  /* Para inmobiliarias */
+  .inmo { margin-top: 40px; padding: 22px 18px; background: var(--cian); color: #E4ECF4; }
+  .inmo h2 { color: var(--blanco); }
+  .inmo ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; counter-reset: p; }
+  @media (min-width: 900px) { .inmo ol { grid-template-columns: repeat(3, 1fr); } }
+  .inmo li { counter-increment: p; border-top: 1.5px solid rgba(255,255,255,.35); padding-top: 12px; }
+  .inmo li::before { content: "Paso " counter(p); display: block; font: 600 12px/1 var(--mono); color: var(--marcador); margin-bottom: 6px; }
+  .inmo li b { display: block; color: var(--blanco); font-size: 17px; margin-bottom: 2px; }
+  .inmo p.small { margin: 16px 0 0; font-size: 14px; color: #C3D2E2; }
+
+  .made { padding: 28px 16px 110px; font: 14px/1.5 system-ui, -apple-system, sans-serif; color: var(--gris); }
+  .made .in { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+  .made-box { display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: 18px; background: var(--grafito); color: #D8DEE5; }
+  .made-box b { color: #FFFFFF; font-size: 16px; }
+  .made-box a { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; padding: 12px 22px; border-radius: 999px; background: var(--wa); color: #0B2B17; font-weight: 700; text-decoration: none; flex-shrink: 0; }
+  @media (min-width: 760px) { .made-box { flex-direction: row; align-items: center; justify-content: space-between; } }
+
+  .mdl { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: none; align-items: flex-end; justify-content: center; z-index: 60; padding: 10px; }
+  .mdl.on { display: flex; }
+  .sh { background: #FFFFFF; color: #16181D; border-radius: 22px; padding: 18px; width: 100%; max-width: 480px; font-family: system-ui, -apple-system, sans-serif; }
+  .sh h3 { margin: 0; font-size: 19px; }
+  .sh .bub { margin-top: 12px; background: #DCF8C6; border-radius: 16px 16px 4px 16px; padding: 12px 14px; font-size: 15.5px; white-space: pre-line; }
+  .sh p { margin: 10px 0 0; font-size: 13.5px; color: #5A5F6A; }
+  .sh button { margin-top: 12px; width: 100%; min-height: 50px; border: none; border-radius: 12px; background: #16181D; color: #FFFFFF; font: 700 16px/1 system-ui, sans-serif; cursor: pointer; }
+  @media (min-width: 760px) { .mdl { align-items: center; } }
+</style>
+</head>
+<body data-mode="plan">
+<div class="demo-bar"><div class="in"><span><i></i>Demo con datos ficticios, hecha por MARCEM</span><a href="./">Volver a MARCEM</a></div></div>
+
+<main class="wrap">
+  <div class="rotulo" aria-label="Datos de la unidad">
+    <div><b>Edificio Ejemplo · Unidad 3B</b>San Nicolás · en pozo (ejemplo)</div>
+    <div><b>2 amb.</b>Esc. 1:100</div>
+  </div>
+
+  <h1>Caminá el departamento desde su plano</h1>
+  <p class="lead">El plano de siempre, convertido en una maqueta que se gira y se <mark>recorre desde el celular</mark>. Probá cambiar el piso o sacar los muebles.</p>
+
+  <section class="stage-box" aria-label="Recorrido de la unidad">
+    <div class="modes" role="group" aria-label="Vista">
+      <button type="button" data-mode="plan" aria-pressed="true">Plano</button>
+      <button type="button" data-mode="model" aria-pressed="false">Maqueta 3D</button>
+      <button type="button" data-mode="walk" aria-pressed="false">Recorrer</button>
+    </div>
+    <div class="stage" id="stage">
+      <canvas id="cv" aria-label="Vista 3D del departamento"></canvas>
+      <div class="tags" id="tags" aria-hidden="true"></div>
+      <div class="hint" id="hint" hidden><span id="hint-t"></span></div>
+      <div class="joy" id="joy" aria-hidden="true"><i id="knob"></i></div>
+      <div class="mini" id="mini" aria-hidden="true"></div>
+      <div class="plan" id="plan"></div>
+      <button type="button" class="go3d" id="go3d">Levantar las paredes</button>
+      <div class="nogl" id="nogl">Este navegador no puede mostrar la vista 3D. Probá desde Chrome o Safari actualizados.</div>
+    </div>
+    <div class="ctrl">
+      <div class="row rooms" id="rooms" role="group" aria-label="Ir a un ambiente"><span>Ir a</span></div>
+      <div class="row" id="floorSel" role="group" aria-label="Piso"><span>Piso</span>
+        <button type="button" class="chip" data-v="madera" aria-pressed="true">Madera</button>
+        <button type="button" class="chip" data-v="porcelanato" aria-pressed="false">Porcelanato</button>
+      </div>
+      <div class="row" id="furnSel" role="group" aria-label="Muebles"><span>Muebles</span>
+        <button type="button" class="chip" data-v="1" aria-pressed="true">Amueblado</button>
+        <button type="button" class="chip" data-v="0" aria-pressed="false">Vacío</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="ficha">
+    <div>
+      <h2>Superficies</h2>
+      <table class="sup" id="sup"></table>
+      <p class="note">Unidad, medidas y terminaciones de ejemplo. Los muebles son de referencia para dar escala.</p>
+    </div>
+    <div class="acts">
+      <h2>¿Te interesa?</h2>
+      <button type="button" class="btn wa" id="ask">Consultar por la unidad 3B</button>
+      <button type="button" class="btn sec" id="share">Mandar el recorrido a alguien</button>
+      <p class="note">Cada unidad tiene su propio link: se comparte por WhatsApp y abre directo en el celular, sin instalar nada.</p>
+    </div>
+  </section>
+
+  <section class="inmo" aria-labelledby="inmo-h">
+    <h2 id="inmo-h">Para tu inmobiliaria</h2>
+    <ol>
+      <li><b>Me pasás el plano</b>El PDF de la constructora, una foto del plano o un croquis con medidas.</li>
+      <li><b>Lo paso a 3D</b>Paredes, aberturas, pisos y muebles de referencia. Lo revisás y ajustamos.</li>
+      <li><b>Lo compartís</b>Un link por unidad para mandar por WhatsApp, sumar a la publicación o mostrar en la oficina.</li>
+    </ol>
+    <p class="small">Sirve sobre todo para unidades en pozo o a estrenar, donde todavía no hay fotos. No reemplaza las fotos de una propiedad usada.</p>
+  </section>
+</main>
+
+<footer class="made"><div class="in"><div class="made-box"><div><b>Esta página es una demo de MARCEM.</b><br>El edificio, la unidad y las medidas son ficticios. Así puede verse el plano de una propiedad tuya.</div><a href="https://wa.me/5493364626434?text=Hola%20Marcelo%2C%20vi%20la%20demo%20del%20recorrido%203D%20desde%20el%20plano%20y%20quiero%20una%20as%C3%AD%20para%20mi%20inmobiliaria." target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg>Quiero una así</a></div><span>Demo hecha por <a href="./">MARCEM · Soluciones digitales</a></span></div></footer>
+
+<div class="mdl" id="mdl" role="dialog" aria-modal="true" aria-labelledby="mdl-h"><div class="sh"><h3 id="mdl-h">Así llega por WhatsApp</h3><div class="bub" id="mdl-m"></div><p>En la web real este botón abre WhatsApp con el mensaje listo. En la demo solo te lo mostramos.</p><button type="button" id="mdl-x">Entendido</button></div></div>
+
+<script type="module">
+import * as THREE from './vendor/three-0.160.0.module.min.js';
+
+const $ = (id) => document.getElementById(id);
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- La unidad, en metros (x hacia la derecha, z hacia abajo del plano) ---------- */
+const H = 2.6;
+const ROOMS = [
+  { id: 'living', name: 'Living comedor', x0: 0, z0: 2.6, x1: 5, z1: 7, floor: 'main', spot: [2.2, 3.4, Math.PI * 0.82] },
+  { id: 'cocina', name: 'Cocina', x0: 0, z0: 0, x1: 2.6, z1: 2.6, floor: 'tile', spot: [2.15, 2.2, Math.PI * 0.22, -0.35] },
+  { id: 'hall', name: 'Entrada', x0: 2.6, z0: 0, x1: 5, z1: 2.6, floor: 'main', spot: [3.85, 0.55, Math.PI] },
+  { id: 'dorm', name: 'Dormitorio', x0: 5, z0: 2, x1: 8.4, z1: 7, floor: 'main', spot: [5.6, 3.1, -Math.PI * 0.72] },
+  { id: 'bano', name: 'Baño', x0: 5, z0: 0, x1: 8.4, z1: 2, floor: 'bath', spot: [5.5, 1.0, -Math.PI / 2] },
+  { id: 'balcon', name: 'Balcón', x0: 0, z0: 7, x1: 5, z1: 8.4, floor: 'deck', spot: [3.9, 7.7, Math.PI * 1.9], out: true },
+];
+// Paredes rectas: a→b, espesor, aberturas medidas desde a. door: puerta; win: ventana; open: paso libre; bar: desayunador.
+const WALLS = [
+  { a: [0, 0], b: [8.4, 0], t: 0.2, ops: [{ s: 3.4, e: 4.3, k: 'door' }] },
+  { a: [0, 0], b: [0, 7], t: 0.2, ops: [{ s: 0.7, e: 1.9, k: 'win', sill: 1.05, head: 2.1 }, { s: 3.6, e: 5.6, k: 'win', sill: 0.9, head: 2.2 }] },
+  { a: [0, 7], b: [8.4, 7], t: 0.2, ops: [{ s: 0.6, e: 4.4, k: 'win', sill: 0, head: 2.3 }, { s: 5.8, e: 7.6, k: 'win', sill: 0.9, head: 2.2 }] },
+  { a: [8.4, 0], b: [8.4, 7], t: 0.2, ops: [{ s: 0.6, e: 1.3, k: 'win', sill: 1.6, head: 2.1 }] },
+  { a: [2.6, 0], b: [2.6, 2.6], t: 0.1, ops: [{ s: 1.55, e: 2.6, k: 'open', head: 2.1 }] },
+  { a: [0, 2.6], b: [2.6, 2.6], t: 0.1, ops: [{ s: 0.6, e: 2.6, k: 'bar', sill: 0.95, head: 2.6 }] },
+  { a: [5, 0], b: [5, 7], t: 0.1, ops: [{ s: 0.55, e: 1.35, k: 'door' }, { s: 2.9, e: 3.7, k: 'door' }] },
+  { a: [5, 2], b: [8.4, 2], t: 0.1, ops: [] },
+];
+const RAIL = [[0, 7, 0, 8.4], [0, 8.4, 5, 8.4], [5, 7, 5, 8.4]];
+const area = (r) => (r.x1 - r.x0) * (r.z1 - r.z0);
+const m2 = (n) => n.toFixed(1).replace('.', ',') + ' m²';
+
+/* ---------- Plano en SVG (mismo dato que el 3D) ---------- */
+function planSVG(mini) {
+  const pad = mini ? 0.3 : 0.9;
+  let s = `<svg viewBox="${-pad} ${-pad} ${8.4 + pad * 2} ${8.4 + pad * 2}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Plano de la unidad 3B">`;
+  ROOMS.forEach((r) => {
+    s += `<rect x="${r.x0}" y="${r.z0}" width="${r.x1 - r.x0}" height="${r.z1 - r.z0}" fill="${r.out ? '#E3EAF0' : '#FFFFFF'}" ${r.out ? 'stroke="#173A63" stroke-width="0.04" stroke-dasharray="0.12 0.08"' : ''}/>`;
+  });
+  if (!mini) {
+    // muebles livianos, en línea fina
+    s += '<g fill="none" stroke="#2C5D93" stroke-width="0.025" opacity=".75">';
+    FURN.forEach((f) => { if (f.plan !== false) s += `<rect x="${f.x - f.w / 2}" y="${f.z - f.d / 2}" width="${f.w}" height="${f.d}"/>`; });
+    s += '</g>';
+  }
+  WALLS.forEach((w) => {
+    const horiz = w.a[1] === w.b[1];
+    const len = horiz ? w.b[0] - w.a[0] : w.b[1] - w.a[1];
+    let cur = 0;
+    const seg = (s0, s1) => {
+      if (s1 - s0 < 0.001) return '';
+      return horiz
+        ? `<rect x="${w.a[0] + s0}" y="${w.a[1] - w.t / 2}" width="${s1 - s0}" height="${w.t}" fill="#173A63"/>`
+        : `<rect x="${w.a[0] - w.t / 2}" y="${w.a[1] + s0}" width="${w.t}" height="${s1 - s0}" fill="#173A63"/>`;
+    };
+    w.ops.slice().sort((p, q) => p.s - q.s).forEach((o) => {
+      s += seg(cur, o.s);
+      if (!mini && o.k === 'win') {
+        s += horiz
+          ? `<rect x="${w.a[0] + o.s}" y="${w.a[1] - w.t / 2}" width="${o.e - o.s}" height="${w.t}" fill="#FFFFFF" stroke="#173A63" stroke-width="0.03"/><line x1="${w.a[0] + o.s}" x2="${w.a[0] + o.e}" y1="${w.a[1]}" y2="${w.a[1]}" stroke="#173A63" stroke-width="0.03"/>`
+          : `<rect x="${w.a[0] - w.t / 2}" y="${w.a[1] + o.s}" width="${w.t}" height="${o.e - o.s}" fill="#FFFFFF" stroke="#173A63" stroke-width="0.03"/><line y1="${w.a[1] + o.s}" y2="${w.a[1] + o.e}" x1="${w.a[0]}" x2="${w.a[0]}" stroke="#173A63" stroke-width="0.03"/>`;
+      }
+      if (!mini && o.k === 'bar') {
+        s += horiz ? `<rect x="${w.a[0] + o.s}" y="${w.a[1] - 0.2}" width="${o.e - o.s}" height="0.4" fill="none" stroke="#173A63" stroke-width="0.03"/>` : '';
+      }
+      if (!mini && o.k === 'door') {
+        const L = o.e - o.s;
+        if (horiz) {
+          const x = w.a[0] + o.s, z = w.a[1];
+          s += `<path d="M${x} ${z} L${x} ${z + L} A${L} ${L} 0 0 0 ${x + L} ${z}" fill="none" stroke="#173A63" stroke-width="0.025"/>`;
+        } else {
+          const x = w.a[0], z = w.a[1] + o.s;
+          s += `<path d="M${x} ${z} L${x + L} ${z} A${L} ${L} 0 0 1 ${x} ${z + L}" fill="none" stroke="#173A63" stroke-width="0.025"/>`;
+        }
+      }
+      cur = o.e;
+    });
+    s += seg(cur, len);
+  });
+  RAIL.forEach((r) => { s += `<line x1="${r[0]}" y1="${r[1]}" x2="${r[2]}" y2="${r[3]}" stroke="#173A63" stroke-width="0.06"/>`; });
+  if (!mini) {
+    ROOMS.forEach((r) => {
+      const cx = (r.x0 + r.x1) / 2, cz = (r.z0 + r.z1) / 2 + (r.id === 'living' ? -0.6 : 0) + (r.id === 'dorm' ? -1.2 : 0);
+      s += `<text x="${cx}" y="${cz - 0.06}" text-anchor="middle" font-family="Familjen Grotesk, system-ui, sans-serif" font-weight="700" font-size="0.34" fill="#23272E">${r.name}</text>`;
+      s += `<text x="${cx}" y="${cz + 0.34}" text-anchor="middle" font-family="JetBrains Mono, ui-monospace, monospace" font-size="0.24" fill="#2C5D93">${m2(area(r))}</text>`;
+    });
+    // cotas generales
+    s += '<g stroke="#2C5D93" stroke-width="0.02" fill="#2C5D93" font-family="JetBrains Mono, ui-monospace, monospace" font-size="0.24">';
+    s += '<line x1="0" y1="-0.55" x2="8.4" y2="-0.55"/><line x1="0" y1="-0.7" x2="0" y2="-0.4"/><line x1="8.4" y1="-0.7" x2="8.4" y2="-0.4"/><text x="4.2" y="-0.66" text-anchor="middle" stroke="none">8,40</text>';
+    s += '<line x1="8.95" y1="0" x2="8.95" y2="7"/><line x1="8.8" y1="0" x2="9.1" y2="0"/><line x1="8.8" y1="7" x2="9.1" y2="7"/><text x="8.85" y="3.5" text-anchor="middle" stroke="none" transform="rotate(90 8.85 3.5)">7,00</text>';
+    s += '</g>';
+  } else {
+    s += '<g id="me"><path d="M0 -0.75 L0.42 0.05 L-0.42 0.05 Z" fill="#FFD54A" opacity=".9"/><circle r="0.24" fill="#E5372B" stroke="#FFFFFF" stroke-width="0.07"/></g>';
+  }
+  return s + '</svg>';
+}
+
+/* ---------- Muebles de referencia (cajas simples) ---------- */
+// x,z = centro; w (x), d (z), h alto, y base
+const C = { sofa: '#5E6B78', madera: '#A97B52', claro: '#E7E2D9', blanco: '#F4F4F2', tela: '#C9B79C', verde: '#5F8A5A', negro: '#2B2F33', vidrio: '#BFD9E6', mesada: '#3A3F45', mueble: '#D8D2C6' };
+const FURN = [
+  // living
+  { x: 1.3, z: 6.25, w: 2.3, d: 0.9, h: 0.42, c: C.sofa }, { x: 1.3, z: 6.62, w: 2.3, d: 0.18, h: 0.85, c: C.sofa, plan: false },
+  { x: 1.3, z: 5.15, w: 1.0, d: 0.55, h: 0.4, c: C.madera }, { x: 1.3, z: 5.4, w: 2.6, d: 1.9, h: 0.01, c: C.tela, plan: false },
+  { x: 1.3, z: 3.0, w: 1.7, d: 0.4, h: 0.5, c: C.mueble }, { x: 1.3, z: 2.95, w: 1.3, d: 0.06, h: 0.72, y: 0.75, c: C.negro, plan: false },
+  { x: 3.85, z: 4.6, w: 1.5, d: 0.85, h: 0.75, c: C.madera },
+  { x: 3.35, z: 4.0, w: 0.45, d: 0.45, h: 0.46, c: C.claro }, { x: 4.35, z: 4.0, w: 0.45, d: 0.45, h: 0.46, c: C.claro },
+  { x: 3.35, z: 5.2, w: 0.45, d: 0.45, h: 0.46, c: C.claro }, { x: 4.35, z: 5.2, w: 0.45, d: 0.45, h: 0.46, c: C.claro },
+  { x: 4.55, z: 6.55, w: 0.45, d: 0.45, h: 1.1, c: C.verde },
+  // cocina
+  { x: 1.3, z: 0.4, w: 2.6, d: 0.6, h: 0.9, c: C.mesada }, { x: 0.4, z: 1.45, w: 0.6, d: 1.5, h: 0.9, c: C.mesada },
+  { x: 1.6, z: 0.28, w: 1.8, d: 0.35, h: 0.7, y: 1.5, c: C.blanco, plan: false },
+  { x: 2.2, z: 1.0, w: 0.65, d: 0.65, h: 1.85, c: C.blanco },
+  { x: 1.6, z: 2.6, w: 2.0, d: 0.42, h: 0.08, y: 0.95, c: C.madera, plan: false },
+  { x: 1.2, z: 3.05, w: 0.38, d: 0.38, h: 0.75, c: C.negro }, { x: 2.0, z: 3.05, w: 0.38, d: 0.38, h: 0.75, c: C.negro },
+  // dormitorio
+  { x: 7.4, z: 4.9, w: 2.0, d: 1.6, h: 0.5, c: C.claro }, { x: 8.25, z: 4.9, w: 0.1, d: 1.7, h: 1.05, c: C.madera, plan: false },
+  { x: 8.05, z: 5.1, w: 0.4, d: 1.2, h: 0.14, y: 0.5, c: C.blanco, plan: false },
+  { x: 8.1, z: 3.75, w: 0.5, d: 0.45, h: 0.55, c: C.madera }, { x: 8.1, z: 6.05, w: 0.5, d: 0.45, h: 0.55, c: C.madera },
+  { x: 7.0, z: 2.35, w: 2.6, d: 0.6, h: 2.4, c: C.mueble },
+  { x: 5.5, z: 6.6, w: 0.8, d: 0.45, h: 0.75, c: C.madera },
+  // baño
+  { x: 7.65, z: 1.0, w: 1.3, d: 1.5, h: 0.08, c: C.blanco }, { x: 7.0, z: 1.0, w: 0.03, d: 1.5, h: 2.0, y: 0.08, c: C.vidrio, glass: true, plan: false },
+  { x: 6.2, z: 0.3, w: 0.8, d: 0.5, h: 0.85, c: C.madera }, { x: 6.2, z: 0.1, w: 0.7, d: 0.03, h: 0.8, y: 1.05, c: C.vidrio, plan: false },
+  { x: 5.45, z: 1.65, w: 0.4, d: 0.6, h: 0.42, c: C.blanco },
+  // balcón
+  { x: 1.0, z: 7.7, w: 0.5, d: 0.5, h: 0.45, c: C.negro }, { x: 1.7, z: 7.7, w: 0.5, d: 0.5, h: 0.45, c: C.negro },
+  { x: 4.6, z: 8.05, w: 0.45, d: 0.45, h: 0.9, c: C.verde },
+];
+
+/* ---------- Superficies ---------- */
+(function sup() {
+  const cub = ROOMS.filter((r) => !r.out).reduce((a, r) => a + area(r), 0);
+  let h = '';
+  ROOMS.forEach((r) => { h += `<tr data-r="${r.id}"><td>${r.name}</td><td>${m2(area(r))}</td></tr>`; });
+  h += `<tr><td>Total cubierto + balcón</td><td>${m2(cub)} + ${m2(area(ROOMS[5]))}</td></tr>`;
+  $('sup').innerHTML = h;
+})();
+$('plan').innerHTML = planSVG(false);
+$('mini').innerHTML = planSVG(true);
+
+/* ---------- WhatsApp (demo: se muestra, no se envía) ---------- */
+const showWA = (m) => { $('mdl-m').textContent = m; $('mdl').classList.add('on'); $('mdl-x').focus(); };
+$('mdl-x').onclick = () => $('mdl').classList.remove('on');
+$('mdl').addEventListener('click', (e) => { if (e.target.id === 'mdl') $('mdl').classList.remove('on'); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') $('mdl').classList.remove('on'); });
+let floorType = 'madera';
+$('ask').onclick = () => showWA(`Hola, recorrí la unidad 3B del Edificio Ejemplo (2 ambientes con balcón, 59 m²).\nMe gustó con piso de ${floorType}.\n¿Me pasás precio, forma de pago y fecha de entrega?`);
+$('share').onclick = () => showWA('Mirá este departamento, se puede recorrer desde el celular:\ninmobiliariaejemplo.com.ar/3b\n(2 ambientes con balcón, 59 m², en pozo)');
+
+/* ---------- 3D ---------- */
+const stage = $('stage'), cv = $('cv');
+let renderer;
+try { renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true }); } catch (e) { renderer = null; }
+if (!renderer) { $('nogl').style.display = 'flex'; $('go3d').hidden = true; document.querySelectorAll('.modes [data-mode]:not([data-mode="plan"])').forEach((b) => (b.disabled = true)); }
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#DCE6EE');
+scene.fog = new THREE.Fog('#DCE6EE', 30, 90);
+const camera = new THREE.PerspectiveCamera(50, 1, 0.05, 200);
+scene.add(new THREE.HemisphereLight('#FFFFFF', '#9A9184', 2.3));
+const sun = new THREE.DirectionalLight('#FFF4E2', 1.6); sun.position.set(-6, 12, 14); scene.add(sun);
+
+function tex(draw, size = 256) {
+  const c = document.createElement('canvas'); c.width = c.height = size; draw(c.getContext('2d'), size);
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4; return t;
+}
+let seed = 7; const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+const TEX = {
+  // 1 tile de textura = 1 m
+  madera: tex((g, S) => { const n = 6; for (let i = 0; i < n; i++) { for (let k = 0; k < 2; k++) { const l = 120 + rnd() * 26; g.fillStyle = `hsl(28,${38 + rnd() * 10}%,${l / 3.2}%)`; const off = (i % 2) * S / 2; g.fillRect((off + k * S / 2) % S, i * S / n, S / 2, S / n); g.fillRect((off + k * S / 2) % S - S, i * S / n, S / 2, S / n); } g.fillStyle = 'rgba(40,24,10,.35)'; g.fillRect(0, i * S / n, S, 1.5); } }),
+  porcelanato: tex((g, S) => { g.fillStyle = '#C9C7C2'; g.fillRect(0, 0, S, S); for (let i = 0; i < 2; i++) for (let k = 0; k < 2; k++) { g.fillStyle = `rgba(255,255,255,${0.05 + rnd() * 0.08})`; g.fillRect(i * S / 2, k * S / 2, S / 2, S / 2); } g.strokeStyle = '#A9A6A0'; g.lineWidth = 2; g.strokeRect(0, 0, S / 2, S / 2); g.strokeRect(S / 2, S / 2, S / 2, S / 2); g.strokeRect(0, S / 2, S / 2, S / 2); g.strokeRect(S / 2, 0, S / 2, S / 2); }),
+  tile: tex((g, S) => { g.fillStyle = '#E9ECEE'; g.fillRect(0, 0, S, S); g.strokeStyle = '#B9C0C6'; g.lineWidth = 2; for (let i = 0; i <= 3; i++) { g.beginPath(); g.moveTo(i * S / 3, 0); g.lineTo(i * S / 3, S); g.stroke(); g.beginPath(); g.moveTo(0, i * S / 3); g.lineTo(S, i * S / 3); g.stroke(); } }),
+  deck: tex((g, S) => { for (let i = 0; i < 8; i++) { g.fillStyle = `hsl(25,22%,${40 + rnd() * 8}%)`; g.fillRect(0, i * S / 8, S, S / 8 - 3); } }),
+};
+const MAT = {
+  wall: new THREE.MeshLambertMaterial({ color: '#F3F1EC' }),
+  cap: new THREE.MeshLambertMaterial({ color: '#173A63' }),
+  glass: new THREE.MeshLambertMaterial({ color: '#BFD9E6', transparent: true, opacity: 0.28, depthWrite: false }),
+  frame: new THREE.MeshLambertMaterial({ color: '#3B4148' }),
+  ceil: new THREE.MeshLambertMaterial({ color: '#FBFAF7', side: THREE.BackSide }),
+  slab: new THREE.MeshLambertMaterial({ color: '#B7C1CA' }),
+};
+const floorMats = {};
+['madera', 'porcelanato', 'tile', 'deck'].forEach((k) => (floorMats[k] = new THREE.MeshLambertMaterial({ map: TEX[k] })));
+const mainFloorMeshes = [];
+
+const house = new THREE.Group(); scene.add(house);
+const wallsG = new THREE.Group(); house.add(wallsG);
+const furnG = new THREE.Group(); house.add(furnG);
+const ceilG = new THREE.Group(); house.add(ceilG);
+const SOLIDS = []; // cajas en planta que frenan al caminar: [x0,z0,x1,z1]
+
+function box(w, h, d, mat, x, y, z, parent, solid) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y + h / 2, z); parent.add(m);
+  if (solid) SOLIDS.push([x - w / 2, z - d / 2, x + w / 2, z + d / 2]);
+  return m;
+}
+function wallPiece(w, s0, s1, y0, y1) {
+  if (s1 - s0 < 0.001 || y1 - y0 < 0.001) return;
+  const horiz = w.a[1] === w.b[1];
+  const L = s1 - s0, mid = (s0 + s1) / 2;
+  const mats = [MAT.wall, MAT.wall, MAT.cap, MAT.wall, MAT.wall, MAT.wall];
+  const geo = horiz ? new THREE.BoxGeometry(L, y1 - y0, w.t) : new THREE.BoxGeometry(w.t, y1 - y0, L);
+  const m = new THREE.Mesh(geo, y1 >= H - 0.001 ? mats : MAT.wall);
+  m.position.set(horiz ? w.a[0] + mid : w.a[0], y0 + (y1 - y0) / 2, horiz ? w.a[1] : w.a[1] + mid);
+  wallsG.add(m);
+  if (y0 < 1.2) {
+    const t = w.t / 2 + 0.01;
+    SOLIDS.push(horiz ? [w.a[0] + s0, w.a[1] - t, w.a[0] + s1, w.a[1] + t] : [w.a[0] - t, w.a[1] + s0, w.a[0] + t, w.a[1] + s1]);
+  }
+}
+WALLS.forEach((w) => {
+  const horiz = w.a[1] === w.b[1];
+  const len = horiz ? w.b[0] - w.a[0] : w.b[1] - w.a[1];
+  let cur = 0;
+  w.ops.slice().sort((p, q) => p.s - q.s).forEach((o) => {
+    wallPiece(w, cur, o.s, 0, H);
+    const head = o.head ?? 2.1, sill = o.sill ?? 0;
+    wallPiece(w, o.s, o.e, head, H);
+    if (o.k === 'win' || o.k === 'bar') wallPiece(w, o.s, o.e, 0, sill);
+    if (o.k === 'win') {
+      const L = o.e - o.s, mid = (o.s + o.e) / 2;
+      const gx = horiz ? w.a[0] + mid : w.a[0], gz = horiz ? w.a[1] : w.a[1] + mid;
+      // ventanal a piso: una hoja fija de vidrio y la otra corrida (se puede pasar)
+      const GL = sill === 0 ? L / 2 : L, gm = sill === 0 ? o.s + GL / 2 : mid;
+      const g = new THREE.Mesh(horiz ? new THREE.BoxGeometry(GL, head - sill, 0.02) : new THREE.BoxGeometry(0.02, head - sill, GL), MAT.glass);
+      g.position.set(horiz ? w.a[0] + gm : w.a[0], sill + (head - sill) / 2, horiz ? w.a[1] : w.a[1] + gm); wallsG.add(g);
+      // parantes del marco
+      const nf = Math.max(1, Math.round(L / 1.2));
+      for (let i = 0; i <= nf; i++) {
+        const p = o.s + (L * i) / nf;
+        const fx = horiz ? w.a[0] + p : w.a[0], fz = horiz ? w.a[1] : w.a[1] + p;
+        box(horiz ? 0.05 : 0.08, head - sill, horiz ? 0.08 : 0.05, MAT.frame, fx, sill, fz, wallsG, false);
+      }
+      if (sill === 0) { const t = w.t / 2 + 0.01; SOLIDS.push(horiz ? [w.a[0] + o.s, w.a[1] - t, w.a[0] + o.s + L * 0.5, w.a[1] + t] : [w.a[0] - t, w.a[1] + o.s, w.a[0] + t, w.a[1] + o.e]); }
+    }
+    if (o.k === 'door') {
+      const L = o.e - o.s;
+      // hoja de puerta abierta a 90°
+      const leaf = new THREE.Mesh(new THREE.BoxGeometry(horiz ? 0.04 : L - 0.04, 2.05, horiz ? L - 0.04 : 0.04), new THREE.MeshLambertMaterial({ color: '#D9CFC0' }));
+      if (horiz) leaf.position.set(w.a[0] + o.s + 0.02, 1.025, w.a[1] + L / 2);
+      else leaf.position.set(w.a[0] + L / 2, 1.025, w.a[1] + o.s + 0.02);
+      wallsG.add(leaf);
+    }
+    cur = o.e;
+  });
+  wallPiece(w, cur, len, 0, H);
+});
+// baranda de vidrio del balcón
+RAIL.forEach((r) => {
+  const horiz = r[1] === r[3];
+  const L = horiz ? r[2] - r[0] : r[3] - r[1];
+  const cx = (r[0] + r[2]) / 2, cz = (r[1] + r[3]) / 2;
+  box(horiz ? L : 0.03, 1.0, horiz ? 0.03 : L, MAT.glass, cx, 0.05, cz, wallsG, true);
+  box(horiz ? L + 0.06 : 0.06, 0.05, horiz ? 0.06 : L + 0.06, MAT.frame, cx, 1.05, cz, wallsG, false);
+});
+// pisos
+ROOMS.forEach((r) => {
+  const w = r.x1 - r.x0, d = r.z1 - r.z0;
+  const g = new THREE.PlaneGeometry(w, d); const uv = g.attributes.uv;
+  for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * w, uv.getY(i) * d);
+  const key = r.floor === 'main' ? 'madera' : r.floor;
+  const m = new THREE.Mesh(g, floorMats[key]); m.rotation.x = -Math.PI / 2; m.position.set(r.x0 + w / 2, 0.002, r.z0 + d / 2);
+  house.add(m); if (r.floor === 'main') mainFloorMeshes.push(m);
+  if (!r.out) { const c = new THREE.Mesh(new THREE.BoxGeometry(w, 0.02, d), MAT.ceil); c.position.set(r.x0 + w / 2, H - 0.01, r.z0 + d / 2); ceilG.add(c); }
+});
+box(8.8, 0.25, 8.8, MAT.slab, 4.2, -0.25, 4.2, house, false);
+ceilG.visible = false;
+// muebles
+FURN.forEach((f) => {
+  const mat = f.glass ? MAT.glass : new THREE.MeshLambertMaterial({ color: f.c });
+  box(f.w, f.h, f.d, mat, f.x, f.y || 0, f.z, furnG, (f.y || 0) < 0.6 && f.h > 0.05);
+});
+// entorno: suelo lejano y algunas siluetas de edificios (3er piso)
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.MeshLambertMaterial({ color: '#AEB9A4' }));
+ground.rotation.x = -Math.PI / 2; ground.position.y = -9; scene.add(ground);
+const city = new THREE.Group(); scene.add(city);
+seed = 11;
+for (let i = 0; i < 26; i++) {
+  const ang = (i / 26) * Math.PI * 2 + rnd() * 0.2, dist = 24 + rnd() * 26;
+  const h = 6 + rnd() * 22, w = 4 + rnd() * 6;
+  const b = new THREE.Mesh(new THREE.BoxGeometry(w, h, w), new THREE.MeshLambertMaterial({ color: new THREE.Color().setHSL(0.58, 0.08, 0.72 + rnd() * 0.12) }));
+  b.position.set(4.2 + Math.cos(ang) * dist, -9 + h / 2, 4.2 + Math.sin(ang) * dist); city.add(b);
+}
+
+/* ---------- Cámara: maqueta (órbita) y recorrido (primera persona) ---------- */
+const CENTER = new THREE.Vector3(4.2, 0.6, 4.2);
+const orbit = { th: -0.5, ph: 0.8, r: 14.5 };
+const walker = { x: 3.85, z: 0.55, yaw: Math.PI, pitch: -0.05 };
+let mode = 'plan', rise = 0, riseTarget = 0;
+
+function fitOrbit() { const a = stage.clientWidth / stage.clientHeight; orbit.r = a < 0.85 ? 17.5 : 13.5; }
+function placeOrbit() {
+  const { th, ph, r } = orbit;
+  camera.position.set(CENTER.x + r * Math.sin(ph) * Math.sin(th), CENTER.y + r * Math.cos(ph), CENTER.z + r * Math.sin(ph) * Math.cos(th));
+  camera.lookAt(CENTER);
+}
+function placeWalker() {
+  camera.position.set(walker.x, 1.6, walker.z);
+  camera.rotation.order = 'YXZ'; camera.rotation.set(walker.pitch, walker.yaw, 0);
+}
+function resize() {
+  if (!renderer) return;
+  const w = stage.clientWidth, h = stage.clientHeight;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  if (mode !== 'walk') fitOrbit();
+}
+window.addEventListener('resize', resize);
+
+const HINTS = {
+  model: 'Arrastrá para girar · pellizcá o usá la rueda para acercar',
+  walk: matchMedia('(pointer: coarse)').matches ? 'Usá el círculo para caminar y arrastrá para mirar' : 'Caminá con W A S D o las flechas · arrastrá para mirar',
+};
+let hintTimer;
+function showHint(m) { const h = $('hint'); $('hint-t').textContent = HINTS[m]; h.hidden = false; clearTimeout(hintTimer); hintTimer = setTimeout(() => (h.hidden = true), 4200); }
+
+function setMode(m) {
+  if (!renderer && m !== 'plan') return;
+  mode = m; document.body.dataset.mode = m;
+  document.querySelectorAll('.modes [data-mode]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.mode === m));
+  $('plan').classList.toggle('off', m !== 'plan');
+  $('go3d').hidden = m !== 'plan';
+  ceilG.visible = m === 'walk';
+  if (m === 'plan') { riseTarget = 0; rise = 0; $('hint').hidden = true; }
+  else {
+    riseTarget = 1; if (reduce || m === 'walk') rise = 1;
+    if (m === 'model') { orbit.th = -0.5; orbit.ph = 0.8; fitOrbit(); }
+    camera.fov = m === 'walk' ? 72 : 50;
+    if (m === 'walk') placeWalker();
+    showHint(m);
+  }
+  resize();
+}
+document.querySelectorAll('.modes [data-mode]').forEach((b) => (b.onclick = () => setMode(b.dataset.mode)));
+$('go3d').onclick = () => { rise = 0; setMode('model'); };
+
+// Ir a un ambiente
+ROOMS.forEach((r) => {
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = r.name; b.setAttribute('aria-pressed', 'false');
+  b.onclick = () => { walker.x = r.spot[0]; walker.z = r.spot[1]; walker.yaw = r.spot[2]; walker.pitch = r.spot[3] ?? -0.05; if (mode !== 'walk') setMode('walk'); else placeWalker(); markRoom(); };
+  $('rooms').appendChild(b);
+});
+function roomAt(x, z) { return ROOMS.find((r) => x >= r.x0 && x <= r.x1 && z >= r.z0 && z <= r.z1); }
+let lastRoom = '';
+function markRoom() {
+  const r = mode === 'walk' ? roomAt(walker.x, walker.z) : null; const id = r ? r.id : '';
+  if (id === lastRoom) return; lastRoom = id;
+  document.querySelectorAll('#rooms .chip').forEach((b, i) => b.setAttribute('aria-pressed', ROOMS[i].id === id));
+  document.querySelectorAll('#sup tr[data-r]').forEach((tr) => tr.classList.toggle('on', tr.dataset.r === id));
+}
+
+// Piso y muebles
+function pills(id, cb) { const g = $(id); g.addEventListener('click', (e) => { const b = e.target.closest('[data-v]'); if (!b) return; g.querySelectorAll('[data-v]').forEach((x) => x.setAttribute('aria-pressed', x === b)); cb(b.dataset.v); }); }
+pills('floorSel', (v) => { floorType = v; mainFloorMeshes.forEach((m) => (m.material = floorMats[v])); });
+pills('furnSel', (v) => { furnG.visible = v === '1'; });
+
+// Gestos
+const ptrs = new Map(); let pinch0 = 0, r0 = 0;
+cv.addEventListener('pointerdown', (e) => { if (mode === 'plan') return; cv.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY }); if (ptrs.size === 2) { const [a, b] = [...ptrs.values()]; pinch0 = Math.hypot(a.x - b.x, a.y - b.y); r0 = orbit.r; } });
+cv.addEventListener('pointermove', (e) => {
+  const p = ptrs.get(e.pointerId); if (!p) return;
+  const dx = e.clientX - p.x, dy = e.clientY - p.y; p.x = e.clientX; p.y = e.clientY;
+  if (ptrs.size === 2 && mode === 'model') { const [a, b] = [...ptrs.values()]; const d = Math.hypot(a.x - b.x, a.y - b.y); if (pinch0) orbit.r = Math.min(26, Math.max(7, r0 * pinch0 / d)); return; }
+  if (mode === 'model') { orbit.th -= dx * 0.008; orbit.ph = Math.min(1.35, Math.max(0.2, orbit.ph - dy * 0.006)); }
+  if (mode === 'walk') { walker.yaw += dx * 0.005; walker.pitch = Math.min(0.9, Math.max(-0.9, walker.pitch + dy * 0.004)); }
+});
+const up = (e) => { ptrs.delete(e.pointerId); pinch0 = 0; };
+cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+cv.addEventListener('wheel', (e) => { if (mode !== 'model') return; e.preventDefault(); orbit.r = Math.min(26, Math.max(7, orbit.r * (1 + e.deltaY * 0.001))); }, { passive: false });
+
+// Joystick
+const joy = $('joy'), knob = $('knob'); const move = { f: 0, s: 0 };
+let joyId = null;
+function joyAt(e) { const r = joy.getBoundingClientRect(); let x = e.clientX - (r.left + r.width / 2), y = e.clientY - (r.top + r.height / 2); const L = Math.hypot(x, y), M = r.width / 2 - 14; if (L > M) { x *= M / L; y *= M / L; } knob.style.transform = `translate(${x}px,${y}px)`; move.s = x / M; move.f = -y / M; }
+joy.addEventListener('pointerdown', (e) => { joyId = e.pointerId; joy.setPointerCapture(e.pointerId); joyAt(e); e.stopPropagation(); });
+joy.addEventListener('pointermove', (e) => { if (e.pointerId === joyId) joyAt(e); });
+const joyEnd = (e) => { if (e.pointerId !== joyId) return; joyId = null; knob.style.transform = ''; move.f = move.s = 0; };
+joy.addEventListener('pointerup', joyEnd); joy.addEventListener('pointercancel', joyEnd);
+const keys = {};
+window.addEventListener('keydown', (e) => { if (mode !== 'walk') return; const k = e.key.toLowerCase(); if (['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright'].includes(k)) { keys[k] = true; if (k.startsWith('arrow')) e.preventDefault(); } });
+window.addEventListener('keyup', (e) => { keys[e.key.toLowerCase()] = false; });
+
+const RAD = 0.22;
+function collide(x, z) {
+  x = Math.min(8.4 - RAD, Math.max(RAD, x)); z = Math.min(8.4 - RAD, Math.max(RAD, z));
+  for (const b of SOLIDS) {
+    const cx = Math.max(b[0], Math.min(x, b[2])), cz = Math.max(b[1], Math.min(z, b[3]));
+    const dx = x - cx, dz = z - cz, d = Math.hypot(dx, dz);
+    if (d < RAD) {
+      if (d > 1e-5) { x = cx + (dx / d) * RAD; z = cz + (dz / d) * RAD; }
+      else { // centro adentro de la caja: empujar por el lado más cercano
+        const o = [x - b[0], b[2] - x, z - b[1], b[3] - z], i = o.indexOf(Math.min(...o));
+        if (i === 0) x = b[0] - RAD; else if (i === 1) x = b[2] + RAD; else if (i === 2) z = b[1] - RAD; else z = b[3] + RAD;
+      }
+    }
+  }
+  return [x, z];
+}
+
+// Etiquetas de ambientes en la maqueta
+const tagsEl = $('tags');
+ROOMS.forEach((r) => { const d = document.createElement('div'); d.className = 'tag'; d.innerHTML = `<b>${r.name}</b>${m2(area(r))}`; r.tag = d; tagsEl.appendChild(d); });
+const v3 = new THREE.Vector3();
+function drawTags() {
+  const show = mode === 'model' && rise > 0.95;
+  tagsEl.style.display = show ? '' : 'none'; if (!show) return;
+  const w = stage.clientWidth, h = stage.clientHeight;
+  ROOMS.forEach((r) => { v3.set((r.x0 + r.x1) / 2, 0.4, (r.z0 + r.z1) / 2).project(camera); r.tag.style.left = ((v3.x + 1) / 2) * w + 'px'; r.tag.style.top = ((1 - v3.y) / 2) * h + 'px'; });
+}
+
+const me = () => $('mini').querySelector('#me');
+let last = performance.now(), visible = true;
+new IntersectionObserver((en) => { visible = en[0].isIntersecting; }).observe(stage);
+function loop(t) {
+  requestAnimationFrame(loop);
+  const dt = Math.min(0.05, (t - last) / 1000); last = t;
+  if (!renderer || !visible || mode === 'plan') return;
+  if (rise < riseTarget) rise = Math.min(1, rise + dt / 1.6);
+  const e = 1 - Math.pow(1 - rise, 3);
+  wallsG.scale.y = Math.max(0.001, e);
+  furnG.position.y = (1 - Math.min(1, Math.max(0, rise * 2 - 1))) * 3;
+  if (mode === 'model') {
+    // durante la subida la cámara baja desde vista de plano a la maqueta
+    const sp = orbit.ph, st = orbit.th;
+    orbit.ph = sp * e + 0.02 * (1 - e); orbit.th = st * e;
+    placeOrbit(); orbit.ph = sp; orbit.th = st;
+  } else if (mode === 'walk') {
+    let f = move.f, s = move.s;
+    if (keys.w || keys.arrowup) f = 1; if (keys.s || keys.arrowdown) f = -1;
+    if (keys.a) s = -1; if (keys.d) s = 1;
+    if (keys.arrowleft) walker.yaw += dt * 1.8; if (keys.arrowright) walker.yaw -= dt * 1.8;
+    const sp = 1.6 * dt;
+    if (f || s) {
+      const nx = walker.x + (-Math.sin(walker.yaw) * f + Math.cos(walker.yaw) * s) * sp;
+      const nz = walker.z + (-Math.cos(walker.yaw) * f - Math.sin(walker.yaw) * s) * sp;
+      [walker.x, walker.z] = collide(nx, nz);
+    }
+    placeWalker(); markRoom();
+    const m = me(); if (m) m.setAttribute('transform', `translate(${walker.x} ${walker.z}) rotate(${-walker.yaw * 180 / Math.PI})`);
+  }
+  renderer.render(scene, camera);
+  drawTags();
+}
+resize(); requestAnimationFrame(loop);
+window.__demo = { setMode, walker, collide };
+</script>
+</body>
+</html>
