@@ -245,6 +245,7 @@ const area = (r) => (r.x1 - r.x0) * (r.z1 - r.z0);
 const m2 = (n) => n.toFixed(1).replace('.', ',') + ' m²';
 
 /* ---------- Muebles: tipo, centro (x,z), medidas en planta (w en x, d en z) y hacia dónde mira el frente ---------- */
+let showFurn = true; // muebles a la vista
 const ITEMS = [
   // living
   { t: 'rug', x: 3.25, z: 5.9, w: 2.1, d: 2.5, solid: false },
@@ -288,7 +289,7 @@ function planSVG(mini) {
   });
   if (!mini) {
     s += '<g fill="none" stroke="#2C5D93" stroke-width="0.025" opacity=".75">';
-    ITEMS.forEach((f) => { if (f.plan !== false && f.t !== 'rug') s += `<rect x="${f.x - f.w / 2}" y="${f.z - f.d / 2}" width="${f.w}" height="${f.d}" rx="${f.t === 'plant' || f.t === 'stool' ? f.w / 2 : 0.03}"/>`; });
+    ITEMS.forEach((f) => { if (f.plan !== false && f.t !== 'rug' && showFurn) s += `<rect x="${f.x - f.w / 2}" y="${f.z - f.d / 2}" width="${f.w}" height="${f.d}" rx="${f.t === 'plant' || f.t === 'stool' ? f.w / 2 : 0.03}"/>`; });
     s += '</g>';
   }
   WALLS.forEach((w) => {
@@ -702,7 +703,7 @@ ITEMS.forEach((it) => {
   const lw = side ? it.d : it.w, ld = side ? it.w : it.d;
   BUILD[it.t](g, lw, ld, it);
   g.rotation.y = FACE[f]; g.position.set(it.x, 0, it.z); furnG.add(g);
-  if (it.solid !== false) SOLIDS.push([it.x - it.w / 2, it.z - it.d / 2, it.x + it.w / 2, it.z + it.d / 2]);
+  if (it.solid !== false) SOLIDS.push([it.x - it.w / 2, it.z - it.d / 2, it.x + it.w / 2, it.z + it.d / 2, true]);
 });
 // la ducha se puede pisar: solo frena la mampara
 for (let i = SOLIDS.length - 1; i >= 0; i--) { const s = SOLIDS[i]; if (Math.abs(s[0] - 7.12) < 0.01 && Math.abs(s[1] - 0.1) < 0.01) SOLIDS.splice(i, 1); }
@@ -818,7 +819,7 @@ function markRoom() {
 // Piso y muebles
 function pills(id, cb) { const g = $(id); g.addEventListener('click', (e) => { const b = e.target.closest('[data-v]'); if (!b) return; g.querySelectorAll('[data-v]').forEach((x) => x.setAttribute('aria-pressed', x === b)); cb(b.dataset.v); }); }
 pills('floorSel', (v) => { floorType = v; mainFloorMeshes.forEach((m) => (m.material = floorMats[v])); });
-pills('furnSel', (v) => { furnG.visible = v === '1'; });
+pills('furnSel', (v) => { showFurn = furnG.visible = v === '1'; $('plan').innerHTML = planSVG(false); });
 
 // Gestos
 const ptrs = new Map(); let pinch0 = 0, r0 = 0;
@@ -851,6 +852,7 @@ function collide(x, z) {
   x = Math.min(8.4 - RAD, Math.max(RAD, x)); z = Math.min(8.4 - RAD, Math.max(RAD, z));
   if (z > 7) x = Math.min(x, 5 - RAD);
   for (const b of SOLIDS) {
+    if (b[4] && !showFurn) continue; // muebles ocultos: no frenan
     const cx = Math.max(b[0], Math.min(x, b[2])), cz = Math.max(b[1], Math.min(z, b[3]));
     const dx = x - cx, dz = z - cz, d = Math.hypot(dx, dz);
     if (d < RAD) {
