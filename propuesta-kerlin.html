@@ -87,26 +87,6 @@
   .foto[hidden] { display: none; }
   .foto img { flex: 1; min-height: 0; width: 100%; object-fit: contain; }
   .foto-bar { display: flex; gap: 10px; align-items: center; justify-content: space-between; padding: 10px 12px; background: #101418; color: #E4ECF4; font-size: 13.5px; }
-  .pano { position: relative; height: min(118vw, 620px); min-height: 380px; background: #101418; display: flex; flex-direction: column; }
-  @media (min-width: 900px) { .pano { height: 560px; } }
-  .opt { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 0 0 14px; border: 1.5px solid var(--cian); }
-  .opt button { text-align: left; padding: 12px 14px; border: 0; border-right: 1.5px solid var(--cian); background: var(--blanco); color: var(--grafito); cursor: pointer; font: inherit; display: flex; flex-direction: column; gap: 3px; }
-  .opt button:last-child { border-right: 0; }
-  .opt .o-n { font: 600 12px/1 var(--mono); color: var(--cian2); text-transform: uppercase; letter-spacing: .04em; }
-  .opt .o-t { font: 700 16px/1.2 var(--sans); }
-  .opt .o-p { font: 700 15px/1.2 var(--sans); color: var(--cian); }
-  .opt button[aria-pressed="true"] { background: var(--cian); color: var(--blanco); box-shadow: inset 0 -5px 0 var(--marcador); }
-  .opt button[aria-pressed="true"] .o-n { color: var(--marcador); }
-  .opt button[aria-pressed="true"] .o-p { color: var(--blanco); }
-  @media (min-width: 760px) { .opt .o-t { font-size: 18px; } }
-  .op-head { padding: 10px 14px; background: var(--cian); color: var(--blanco); font-weight: 700; font-size: 15px; display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; justify-content: space-between; }
-  .op-head small { font-weight: 500; color: #C3D2E2; font-size: 13px; }
-  .op-note { padding: 12px 14px; border-top: 1.5px solid var(--cian); font-size: 14.5px; background: var(--blanco); }
-  .op-note button { margin-top: 10px; }
-  .ver { margin-top: 6px; align-self: flex-start; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1.5px solid var(--cian); background: var(--blanco); color: var(--cian); font-weight: 700; font-size: 14.5px; cursor: pointer; }
-  .pano canvas { flex: 1; min-height: 0; width: 100%; display: block; touch-action: none; cursor: grab; }
-  .pano canvas:active { cursor: grabbing; }
-  .pano-tip { position: absolute; left: 50%; top: 12px; transform: translateX(-50%); padding: 6px 12px; border-radius: 999px; background: rgba(16,20,24,.72); color: #fff; font-size: 13px; font-weight: 600; pointer-events: none; white-space: nowrap; }
   .planes { margin-top: 40px; }
   .planes h2 { font: 700 clamp(24px, 6vw, 34px)/1.1 var(--sans); letter-spacing: -0.01em; margin: 0 0 6px; }
   .planes > p { margin: 0 0 16px; color: var(--gris); max-width: 62ch; }
@@ -192,16 +172,10 @@
   </div>
 
   <h1>Recorré el depto antes de ir a verlo</h1>
-  <p class="lead">Dos formas de mostrar el depto, para <mark>recorrer desde el celular</mark>. La opción 1 ya está armada con las fotos de la publicación: el mismo cerámico, la columna azul, la cocina y el baño. La opción 2 le suma una foto 360 por ambiente.</p>
+  <p class="lead">Armado con las fotos de la publicación: el mismo cerámico, la columna azul, la cocina con desayunador y el baño. Se gira, se <mark>recorre desde el celular</mark> y en cada ambiente podés ver la foto real.</p>
   <p class="approx">Distribución aproximada: la saqué de las fotos y de los 43 m² publicados. Con el plano queda a medida exacta.</p>
 
-  <div class="opt" id="optSel" role="group" aria-label="Elegí qué opción ver">
-    <button type="button" data-o="1" aria-pressed="true"><span class="o-n">Opción 1</span><span class="o-t">Recorrido 3D con fotos</span><span class="o-p">Armada con este depto</span></button>
-    <button type="button" data-o="2" aria-pressed="false"><span class="o-n">Opción 2</span><span class="o-t">3D + fotos 360</span><span class="o-p">Ejemplo de cómo se ve</span></button>
-  </div>
-
-  <section class="stage-box" id="op1" aria-label="Opción 1: recorrido 3D con fotos">
-    <div class="op-head">Opción 1 · maqueta 3D de este depto <small>con las fotos de la publicación</small></div>
+  <section class="stage-box" id="op1" aria-label="Recorrido de la unidad">
     <div class="modes" role="group" aria-label="Vista">
       <button type="button" data-mode="plan" aria-pressed="true">Plano</button>
       <button type="button" data-mode="model" aria-pressed="false">Maqueta 3D</button>
@@ -233,11 +207,6 @@
     </div>
   </section>
 
-  <section class="stage-box" id="op2" hidden aria-label="Opción 2: fotos 360">
-    <div class="op-head">Opción 2 · foto 360 de cada ambiente <small>ejemplo con una foto libre de otro depto</small></div>
-    <div class="pano" id="pano"><canvas id="pano-cv" tabindex="0" aria-label="Foto 360: arrastrá para mirar alrededor"></canvas><div class="pano-tip" id="pano-tip">Cargando la foto 360…</div></div>
-    <div class="op-note">Así se ve una foto 360: el interesado está parado en el ambiente y gira para mirar todo, piso y techo incluidos. En esta opción, cada ambiente de la maqueta 3D de la opción 1 suma su propia 360, sacada en este depto. Esta foto es de otro departamento (Poly Haven, uso libre), solo para que vean cómo se mira.<br><button type="button" class="ver" data-goto="1">Ver la maqueta 3D (opción 1)</button></div>
-  </section>
 
   <section class="ficha">
     <div>
@@ -1051,61 +1020,8 @@ function drawTags() {
 const me = () => $('mini').querySelector('#me');
 let last = performance.now(), visible = true, frames = 0, ftime = 0, autoQ = true;
 new IntersectionObserver((en) => { visible = en[0].isIntersecting; }).observe(stage);
-// Foto 360 de ejemplo: esfera vista desde adentro, se arrastra para mirar
-let pano = null;
-function closePano() { if (!pano || !pano.raf) return; cancelAnimationFrame(pano.raf); pano.raf = 0; }
-function openPano() {
-  if (!pano) {
-    const cv = $('pano-cv');
-    let r;
-    try { r = new THREE.WebGLRenderer({ canvas: cv, antialias: true }); } catch (e) { $('pano-tip').textContent = 'Este navegador no puede mostrar la foto 360.'; return; }
-    r.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2)); r.outputColorSpace = THREE.SRGBColorSpace;
-    const sc = new THREE.Scene(), cam = new THREE.PerspectiveCamera(75, 1, 0.1, 100);
-    const t = new THREE.TextureLoader().load('./img-360-ejemplo.jpg', () => { $('pano-tip').textContent = 'Arrastrá para mirar alrededor'; setTimeout(() => { $('pano-tip').hidden = true; }, 3500); });
-    t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = Math.min(8, r.capabilities.getMaxAnisotropy());
-    const geo = new THREE.SphereGeometry(10, 64, 32); geo.scale(-1, 1, 1);
-    sc.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ map: t })));
-    pano = { r, sc, cam, lon: 205, lat: -4, fov: cv.clientWidth < cv.clientHeight ? 90 : 75, raf: 0, touched: false };
-    const pts = new Map(); let drag = null, pinch = null;
-    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-    cv.addEventListener('pointerdown', (e) => { cv.setPointerCapture(e.pointerId); pts.set(e.pointerId, [e.clientX, e.clientY]); pano.touched = true; drag = { x: e.clientX, y: e.clientY, lon: pano.lon, lat: pano.lat }; pinch = null; });
-    cv.addEventListener('pointermove', (e) => {
-      if (!pts.has(e.pointerId)) return; pts.set(e.pointerId, [e.clientX, e.clientY]);
-      if (pts.size === 2) { const [a, b] = [...pts.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); if (pinch) pano.fov = clamp(pinch.fov * pinch.d / d, 35, 90); else pinch = { d, fov: pano.fov }; return; }
-      if (!drag) return; const k = pano.fov / Math.max(1, cv.clientHeight);
-      pano.lon = drag.lon - (e.clientX - drag.x) * k; pano.lat = clamp(drag.lat + (e.clientY - drag.y) * k, -85, 85);
-    });
-    const up = (e) => { pts.delete(e.pointerId); pinch = null; if (pts.size === 1) { const [a] = [...pts.values()]; drag = { x: a[0], y: a[1], lon: pano.lon, lat: pano.lat }; } else if (!pts.size) drag = null; };
-    cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
-    cv.addEventListener('wheel', (e) => { e.preventDefault(); pano.fov = clamp(pano.fov + e.deltaY * 0.04, 35, 90); }, { passive: false });
-    cv.addEventListener('keydown', (e) => { const m = { ArrowLeft: [-6, 0], ArrowRight: [6, 0], ArrowUp: [0, 5], ArrowDown: [0, -5] }[e.key]; if (m) { e.preventDefault(); pano.touched = true; pano.lon += m[0]; pano.lat = clamp(pano.lat + m[1], -85, 85); } });
-  }
-  const tick = () => {
-    pano.raf = requestAnimationFrame(tick);
-    const cv = pano.r.domElement, w = cv.clientWidth, h = cv.clientHeight;
-    if (cv.width !== Math.round(w * pano.r.getPixelRatio()) || cv.height !== Math.round(h * pano.r.getPixelRatio())) pano.r.setSize(w, h, false);
-    if (!pano.touched && !reduce) pano.lon += 0.04;
-    pano.cam.aspect = w / Math.max(1, h); pano.cam.fov = pano.fov; pano.cam.updateProjectionMatrix();
-    const phi = THREE.MathUtils.degToRad(90 - pano.lat), th = THREE.MathUtils.degToRad(pano.lon);
-    pano.cam.lookAt(Math.sin(phi) * Math.cos(th), Math.cos(phi), Math.sin(phi) * Math.sin(th));
-    pano.r.render(pano.sc, pano.cam);
-  };
-  cancelAnimationFrame(pano.raf); tick();
-}
-// Selector de opción: cada una con su propia vista
-function showOpt(o, scroll) {
-  document.querySelectorAll('#optSel [data-o]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.o === o));
-  $('op1').hidden = o !== '1'; $('op2').hidden = o !== '2';
-  if (o === '2') { $('foto').hidden = true; photoOpen = ''; openPano(); } else { closePano(); resize(); }
-  if (scroll) $('optSel').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-}
-document.querySelectorAll('#optSel [data-o]').forEach((b) => (b.onclick = () => showOpt(b.dataset.o)));
-document.querySelectorAll('[data-goto]').forEach((b) => (b.onclick = () => showOpt(b.dataset.goto, true)));
-window.__pano = () => pano;
-
 function loop(t) {
   requestAnimationFrame(loop);
-  if (pano && pano.raf) return; // con la 360 abierta, el 3D descansa
   const raw = (t - last) / 1000, dt = Math.min(0.05, raw); last = t;
   if (!renderer || !visible || mode === 'plan') return;
   // si el equipo no da, bajar la calidad (una vez por nivel)
