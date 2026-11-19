@@ -125,6 +125,17 @@
   .extras div { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--linea); font-size: 15px; }
   .extras div:last-child { border-bottom: 0; }
   .extras b { white-space: nowrap; font-family: var(--mono); font-size: 14.5px; color: var(--cian); }
+  .pk-h { font: 700 21px/1.2 var(--sans); margin: 26px 0 10px; }
+  .pk-wrap { overflow-x: auto; }
+  .pk { width: 100%; border-collapse: collapse; background: var(--blanco); border: 1.5px solid var(--linea); font-size: 15px; }
+  .pk th, .pk td { padding: 10px 12px; border-bottom: 1px solid var(--linea); text-align: left; vertical-align: top; }
+  .pk thead th { background: var(--cian); color: var(--blanco); font-size: 14px; }
+  .pk thead th span { display: block; font-weight: 500; font-size: 12.5px; color: #C3D2E2; }
+  .pk tbody th { font-weight: 600; white-space: nowrap; }
+  .pk tbody th em { font-style: normal; display: inline-block; margin-left: 4px; padding: 1px 6px; background: var(--marcador); font: 700 12px/1.4 var(--mono); }
+  .pk td b { display: block; font: 700 17px/1.2 var(--sans); color: var(--cian); }
+  .pk td span { display: block; font-size: 12.5px; color: var(--gris); }
+  @media (max-width: 420px) { .pk th, .pk td { padding: 9px 8px; } .pk tbody th em { display: block; margin: 3px 0 0; width: max-content; } }
   .planes .cond { font-size: 13.5px; color: var(--gris); margin: 12px 0 0; max-width: 70ch; }
   .foto-bar button { min-height: 44px; padding: 0 16px; border: 0; border-radius: 999px; background: var(--marcador); color: var(--grafito); font-weight: 700; font-size: 14.5px; cursor: pointer; white-space: nowrap; }
   .see { position: absolute; right: 12px; top: 54px; z-index: 4; min-height: 44px; padding: 0 14px; border: 0; border-radius: 999px; background: var(--marcador); color: var(--grafito); font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,.2); display: none; }
@@ -266,7 +277,7 @@
 
   <section class="planes" aria-labelledby="pl-h">
     <h2 id="pl-h">Opciones y precios</h2>
-    <p>Precio por departamento, pago único: sin abono mensual.</p>
+    <p>Precio por unidad, pago único: sin abono mensual. Los precios de abajo son para deptos; una casa o unidad de más de 70 m² suma $80.000 en la opción 1 y $100.000 en la opción 2.</p>
     <div class="pl-grid">
       <article class="pl">
         <span class="tag2">Opción 1</span>
@@ -294,8 +305,20 @@
         <button type="button" class="ver" data-goto="2">Ver la opción 2</button>
       </article>
     </div>
-    <div class="extras" aria-label="Extras y packs">
-      <div><span>Pack de 3 departamentos (opción 1)</span><b>$560.000</b></div>
+    <h3 class="pk-h">Packs de deptos y casas</h3>
+    <div class="pk-wrap">
+      <table class="pk">
+        <thead><tr><th scope="col">Pack</th><th scope="col">Opción 1<span>3D con fotos</span></th><th scope="col">Opción 2<span>3D + fotos 360</span></th></tr></thead>
+        <tbody>
+          <tr><th scope="row">1 unidad</th><td><b>$220.000</b></td><td><b>$300.000</b></td></tr>
+          <tr><th scope="row">3 unidades <em>−15%</em></th><td><b>$560.000</b><span>$187.000 c/u</span></td><td><b>$765.000</b><span>$255.000 c/u</span></td></tr>
+          <tr><th scope="row">5 unidades <em>−20%</em></th><td><b>$880.000</b><span>$176.000 c/u</span></td><td><b>$1.200.000</b><span>$240.000 c/u</span></td></tr>
+          <tr><th scope="row">10 unidades <em>−25%</em></th><td><b>$1.650.000</b><span>$165.000 c/u</span></td><td><b>$2.250.000</b><span>$225.000 c/u</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cond">En un pack se pueden mezclar deptos y casas: cada casa o unidad de más de 70 m² suma la diferencia ($80.000 en la opción 1, $100.000 en la opción 2). Las unidades del pack se usan dentro de los 6 meses, a medida que les entran propiedades.</p>
+    <div class="extras" aria-label="Extras">
       <div><span>Fotos del depto vacío amuebladas desde el 3D, para la publicación</span><b>$40.000 c/u</b></div>
     </div>
     <p class="cond">Incluye una ronda de ajustes. El link queda online 12 meses o hasta que se alquila o se vende. Para armar el recorrido hace falta el plano con medidas y una foto de cada ambiente.</p>
