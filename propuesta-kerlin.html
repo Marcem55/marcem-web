@@ -87,6 +87,31 @@
   .foto[hidden] { display: none; }
   .foto img { flex: 1; min-height: 0; width: 100%; object-fit: contain; }
   .foto-bar { display: flex; gap: 10px; align-items: center; justify-content: space-between; padding: 10px 12px; background: #101418; color: #E4ECF4; font-size: 13.5px; }
+  .pano { position: absolute; inset: 0; z-index: 7; background: #101418; display: flex; flex-direction: column; }
+  .pano[hidden] { display: none; }
+  .pano canvas { flex: 1; min-height: 0; width: 100%; display: block; touch-action: none; cursor: grab; }
+  .pano canvas:active { cursor: grabbing; }
+  .pano-tip { position: absolute; left: 50%; top: 12px; transform: translateX(-50%); padding: 6px 12px; border-radius: 999px; background: rgba(16,20,24,.72); color: #fff; font-size: 13px; font-weight: 600; pointer-events: none; white-space: nowrap; }
+  .chip.c360 { border-color: var(--marcador); background: #FFF6D6; }
+  .planes { margin-top: 40px; }
+  .planes h2 { font: 700 clamp(24px, 6vw, 34px)/1.1 var(--sans); letter-spacing: -0.01em; margin: 0 0 6px; }
+  .planes > p { margin: 0 0 16px; color: var(--gris); max-width: 62ch; }
+  .pl-grid { display: grid; gap: 14px; }
+  @media (min-width: 760px) { .pl-grid { grid-template-columns: 1fr 1fr; } }
+  .pl { background: var(--blanco); border: 1.5px solid var(--linea); padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+  .pl.top { border: 2px solid var(--cian); box-shadow: 6px 6px 0 var(--marcador); }
+  .pl .tag2 { font: 600 12px/1 var(--mono); color: var(--cian2); text-transform: uppercase; letter-spacing: .04em; }
+  .pl h3 { margin: 0; font: 700 21px/1.15 var(--sans); }
+  .pl .monto { font: 700 30px/1 var(--sans); color: var(--cian); }
+  .pl .monto small { font: 500 14px/1.3 var(--sans); color: var(--gris); }
+  .pl ul { margin: 0; padding-left: 18px; font-size: 15px; }
+  .pl ul li { margin: 3px 0; }
+  .pl .ideal { margin: auto 0 0; font-size: 14px; color: var(--gris); border-top: 1px solid var(--linea); padding-top: 8px; }
+  .extras { margin-top: 14px; background: var(--blanco); border: 1.5px solid var(--linea); padding: 6px 18px; }
+  .extras div { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--linea); font-size: 15px; }
+  .extras div:last-child { border-bottom: 0; }
+  .extras b { white-space: nowrap; font-family: var(--mono); font-size: 14.5px; color: var(--cian); }
+  .planes .cond { font-size: 13.5px; color: var(--gris); margin: 12px 0 0; max-width: 70ch; }
   .foto-bar button { min-height: 44px; padding: 0 16px; border: 0; border-radius: 999px; background: var(--marcador); color: var(--grafito); font-weight: 700; font-size: 14.5px; cursor: pointer; white-space: nowrap; }
   .see { position: absolute; right: 12px; top: 54px; z-index: 4; min-height: 44px; padding: 0 14px; border: 0; border-radius: 999px; background: var(--marcador); color: var(--grafito); font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,.2); display: none; }
   body[data-mode="walk"] .see.on { display: block; }
@@ -172,6 +197,7 @@
       <button type="button" class="go3d" id="go3d">Levantar las paredes</button>
       <button type="button" class="see" id="see">Ver foto real</button>
       <div class="foto" id="foto" hidden role="dialog" aria-label="Foto real del ambiente"><img id="foto-img" alt=""><div class="foto-bar"><span id="foto-cap"></span><button type="button" id="foto-x">Volver al 3D</button></div></div>
+      <div class="pano" id="pano" hidden role="dialog" aria-label="Ejemplo de foto 360"><canvas id="pano-cv" tabindex="0" aria-label="Foto 360: arrastrá para mirar alrededor"></canvas><div class="pano-tip" id="pano-tip">Cargando la foto 360…</div><div class="foto-bar"><span>Ejemplo con una foto 360 libre de otro departamento (Poly Haven, CC0). Con las 360 de este depto, cada ambiente se ve así.</span><button type="button" id="pano-x">Volver al 3D</button></div></div>
       <div class="nogl" id="nogl">Este navegador no puede mostrar la vista 3D. Probá desde Chrome o Safari actualizados.</div>
     </div>
     <div class="ctrl">
@@ -180,6 +206,7 @@
         <button type="button" class="chip" data-v="cocina">Cocina</button>
         <button type="button" class="chip" data-v="living">Living</button>
         <button type="button" class="chip" data-v="bano">Baño</button>
+        <button type="button" class="chip c360" id="open360">Foto 360 (ejemplo)</button>
       </div>
       <div class="row" id="furnSel" role="group" aria-label="Muebles"><span>Muebles</span>
         <button type="button" class="chip" data-v="0" aria-pressed="true">Vacío, como está</button>
@@ -211,6 +238,41 @@
       <li><b>Cómo se usa</b>Un link por departamento para mandar a cada interesado, sumar a la publicación o mostrar en la oficina.</li>
     </ol>
     <p class="small">El interesado ve la distribución y el tamaño antes de pedir la visita, y ustedes coordinan visitas con gente que ya sabe lo que va a ver.</p>
+  </section>
+
+  <section class="planes" aria-labelledby="pl-h">
+    <h2 id="pl-h">Opciones y precios</h2>
+    <p>Precio por departamento, pago único: sin abono mensual.</p>
+    <div class="pl-grid">
+      <article class="pl">
+        <span class="tag2">Opción 1</span>
+        <h3>Recorrido 3D con fotos</h3>
+        <div class="monto">$220.000 <small>por departamento</small></div>
+        <ul>
+          <li>Maqueta 3D desde el plano, para recorrer desde el celular</li>
+          <li>Plano con medidas y superficies</li>
+          <li>Botón "Ver foto real" en cada ambiente que tenga foto</li>
+          <li>Opción vacío o con muebles de idea</li>
+        </ul>
+        <p class="ideal">Ideal para deptos que ya tienen fotos comunes, y para unidades en pozo, que se arman solo con el plano.</p>
+      </article>
+      <article class="pl top">
+        <span class="tag2">Opción 2 · la más completa</span>
+        <h3>Recorrido 3D + fotos 360</h3>
+        <div class="monto">$300.000 <small>por departamento</small></div>
+        <ul>
+          <li>Todo lo de la opción 1</li>
+          <li>En cada ambiente se abre la foto 360 real: el interesado gira y mira para todos lados</li>
+          <li>Salto entre ambientes desde el plano</li>
+        </ul>
+        <p class="ideal">Ideal para deptos que quieren mostrar terminaciones reales. Fotos 360: las pasan ustedes, o las saca un fotógrafo que coordinamos nosotros (sesión aparte).</p>
+      </article>
+    </div>
+    <div class="extras" aria-label="Extras y packs">
+      <div><span>Pack de 3 departamentos (opción 1)</span><b>$560.000</b></div>
+      <div><span>Fotos del depto vacío amuebladas desde el 3D, para la publicación</span><b>$40.000 c/u</b></div>
+    </div>
+    <p class="cond">Incluye una ronda de ajustes. El link queda online 12 meses o hasta que se alquila o se vende. Para armar el recorrido hace falta el plano con medidas y una foto de cada ambiente.</p>
   </section>
 </main>
 
@@ -363,7 +425,7 @@ $('mini').innerHTML = planSVG(true);
 const showWA = (m) => { $('mdl-m').textContent = m; $('mdl').classList.add('on'); $('mdl-x').focus(); };
 $('mdl-x').onclick = () => $('mdl').classList.remove('on');
 $('mdl').addEventListener('click', (e) => { if (e.target.id === 'mdl') $('mdl').classList.remove('on'); });
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { $('mdl').classList.remove('on'); const f = $('foto'); if (f) f.hidden = true; } });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { $('mdl').classList.remove('on'); const f = $('foto'); if (f) f.hidden = true; closePano(); } });
 $('ask').onclick = () => showWA('Hola, vi el recorrido 3D del depto de 2 ambientes en alquiler (cód. KAP12452559).\n¿Cuándo lo puedo ir a ver?');
 $('share').onclick = () => showWA('Mirá este depto, se puede recorrer desde el celular:\n(link del recorrido)\n2 ambientes con balcón, 43 m², $500.000 por mes');
 
@@ -999,8 +1061,57 @@ function drawTags() {
 const me = () => $('mini').querySelector('#me');
 let last = performance.now(), visible = true, frames = 0, ftime = 0, autoQ = true;
 new IntersectionObserver((en) => { visible = en[0].isIntersecting; }).observe(stage);
+// Foto 360 de ejemplo: esfera vista desde adentro, se arrastra para mirar
+let pano = null;
+function closePano() { if (!pano || $('pano').hidden) return; $('pano').hidden = true; cancelAnimationFrame(pano.raf); pano.raf = 0; }
+function openPano() {
+  $('foto').hidden = true; photoOpen = '';
+  $('pano').hidden = false;
+  if (!pano) {
+    const cv = $('pano-cv');
+    let r;
+    try { r = new THREE.WebGLRenderer({ canvas: cv, antialias: true }); } catch (e) { $('pano-tip').textContent = 'Este navegador no puede mostrar la foto 360.'; return; }
+    r.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2)); r.outputColorSpace = THREE.SRGBColorSpace;
+    const sc = new THREE.Scene(), cam = new THREE.PerspectiveCamera(75, 1, 0.1, 100);
+    const t = new THREE.TextureLoader().load('./img-360-ejemplo.jpg', () => { $('pano-tip').textContent = 'Arrastrá para mirar alrededor'; setTimeout(() => { $('pano-tip').hidden = true; }, 3500); });
+    t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = Math.min(8, r.capabilities.getMaxAnisotropy());
+    const geo = new THREE.SphereGeometry(10, 64, 32); geo.scale(-1, 1, 1);
+    sc.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ map: t })));
+    pano = { r, sc, cam, lon: 205, lat: -4, fov: 75, raf: 0, touched: false };
+    const pts = new Map(); let drag = null, pinch = null;
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+    cv.addEventListener('pointerdown', (e) => { cv.setPointerCapture(e.pointerId); pts.set(e.pointerId, [e.clientX, e.clientY]); pano.touched = true; drag = { x: e.clientX, y: e.clientY, lon: pano.lon, lat: pano.lat }; pinch = null; });
+    cv.addEventListener('pointermove', (e) => {
+      if (!pts.has(e.pointerId)) return; pts.set(e.pointerId, [e.clientX, e.clientY]);
+      if (pts.size === 2) { const [a, b] = [...pts.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); if (pinch) pano.fov = clamp(pinch.fov * pinch.d / d, 35, 90); else pinch = { d, fov: pano.fov }; return; }
+      if (!drag) return; const k = pano.fov / Math.max(1, cv.clientHeight);
+      pano.lon = drag.lon - (e.clientX - drag.x) * k; pano.lat = clamp(drag.lat + (e.clientY - drag.y) * k, -85, 85);
+    });
+    const up = (e) => { pts.delete(e.pointerId); pinch = null; if (pts.size === 1) { const [a] = [...pts.values()]; drag = { x: a[0], y: a[1], lon: pano.lon, lat: pano.lat }; } else if (!pts.size) drag = null; };
+    cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', up);
+    cv.addEventListener('wheel', (e) => { e.preventDefault(); pano.fov = clamp(pano.fov + e.deltaY * 0.04, 35, 90); }, { passive: false });
+    cv.addEventListener('keydown', (e) => { const m = { ArrowLeft: [-6, 0], ArrowRight: [6, 0], ArrowUp: [0, 5], ArrowDown: [0, -5] }[e.key]; if (m) { e.preventDefault(); pano.touched = true; pano.lon += m[0]; pano.lat = clamp(pano.lat + m[1], -85, 85); } });
+  }
+  $('pano-cv').focus();
+  const tick = () => {
+    pano.raf = requestAnimationFrame(tick);
+    const cv = pano.r.domElement, w = cv.clientWidth, h = cv.clientHeight;
+    if (cv.width !== Math.round(w * pano.r.getPixelRatio()) || cv.height !== Math.round(h * pano.r.getPixelRatio())) pano.r.setSize(w, h, false);
+    if (!pano.touched && !reduce) pano.lon += 0.04;
+    pano.cam.aspect = w / Math.max(1, h); pano.cam.fov = pano.fov; pano.cam.updateProjectionMatrix();
+    const phi = THREE.MathUtils.degToRad(90 - pano.lat), th = THREE.MathUtils.degToRad(pano.lon);
+    pano.cam.lookAt(Math.sin(phi) * Math.cos(th), Math.cos(phi), Math.sin(phi) * Math.sin(th));
+    pano.r.render(pano.sc, pano.cam);
+  };
+  cancelAnimationFrame(pano.raf); tick();
+}
+$('open360').onclick = openPano;
+$('pano-x').onclick = closePano;
+window.__pano = () => pano;
+
 function loop(t) {
   requestAnimationFrame(loop);
+  if (pano && pano.raf) return; // con la 360 abierta, el 3D descansa
   const raw = (t - last) / 1000, dt = Math.min(0.05, raw); last = t;
   if (!renderer || !visible || mode === 'plan') return;
   // si el equipo no da, bajar la calidad (una vez por nivel)
