@@ -75,6 +75,8 @@
   .stage .go3d { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); min-height: 50px; padding: 0 22px; border: 0; border-radius: 999px; background: var(--grafito); color: var(--blanco); font-weight: 700; font-size: 16px; cursor: pointer; box-shadow: 0 10px 26px rgba(23,58,99,.28); white-space: nowrap; }
   .tags { position: absolute; inset: 0; pointer-events: none; }
   .tag { position: absolute; transform: translate(-50%, -50%); background: rgba(255,255,255,.9); border: 1.5px solid var(--cian); color: var(--cian); font: 600 10.5px/1.15 var(--mono); padding: 3px 5px; white-space: nowrap; }
+  .tag { opacity: 0; transition: opacity .25s ease; }
+  .tag.on { opacity: 1; }
   .tag b { display: block; font: 700 12px/1.15 var(--sans); color: var(--grafito); }
   .hint { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: center; pointer-events: none; }
   .hint span { background: rgba(35,39,46,.82); color: #FFFFFF; font-size: 13px; font-weight: 600; padding: 6px 12px; border-radius: 999px; text-align: center; }
@@ -230,7 +232,7 @@ const ROOMS = [
   { id: 'dorm1', name: 'Dormitorio 1', x0: 0.15, z0: 12.2, x1: 3.21, z1: 15.58, floor: 'main', spot: [2.85, 15.25, 0.72, -0.1] },
   { id: 'bano', name: 'Baño', x0: 0.15, z0: 15.73, x1: 2.06, z1: 17.58, floor: 'bath', spot: [2.7, 16.95, Math.PI / 2 + 0.25, -0.12] },
   { id: 'paso', name: 'Paso', x0: 2.21, z0: 15.73, x1: 3.21, z1: 17.58, floor: 'main', nochip: true },
-  { id: 'dorm2', name: 'Dormitorio 2', x0: 0.15, z0: 17.73, x1: 3.21, z1: 21.01, floor: 'main', spot: [2.85, 18.1, 2.45, -0.1] },
+  { id: 'dorm2', name: 'Dormitorio 2', x0: 0.15, z0: 17.73, x1: 3.21, z1: 21.01, floor: 'main', spot: [2.3, 18.1, 2.65, -0.1] },
   { id: 'lavadero', name: 'Lavadero', x0: 6.88, z0: 12.2, x1: 8.53, z1: 15.7, floor: 'bath', spot: [7.45, 15.5, 0.05, -0.1] },
   { id: 'lav2', name: 'Lavadero', x0: 8.53, z0: 12.2, x1: 9.85, z1: 12.92, floor: 'bath', nochip: true, part: true },
   { id: 'lav3', name: 'Lavadero', x0: 8.53, z0: 15.08, x1: 9.85, z1: 15.7, floor: 'bath', nochip: true, part: true },
@@ -441,6 +443,7 @@ if (!renderer) { $('nogl').style.display = 'flex'; $('go3d').hidden = true; docu
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(50, 1, 0.05, 300);
 let composer, aoPass;
+const BK = { ok: false, root: null, cats: {}, floorMain: [], maps: {} }; // luz horneada (se completa al cargar)
 if (renderer) {
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 0.92;
@@ -861,10 +864,10 @@ function buildComposer() {
 function applyQuality() {
   if (!renderer) return;
   const dpr = window.devicePixelRatio || 1;
-  renderer.setPixelRatio(Math.min(dpr, quality === 2 ? 2 : quality === 1 ? 1.5 : 1));
+  renderer.setPixelRatio(Math.min(dpr, quality === 2 || (BK.ok && quality === 1) ? 2 : quality === 1 ? 1.5 : 1));
   sun.shadow.mapSize.set(quality === 0 ? 1024 : 2048, quality === 0 ? 1024 : 2048); if (sun.shadow.map) { sun.shadow.map.dispose(); sun.shadow.map = null; }
   composer = null; aoPass = null;
-  if (quality === 2) buildComposer();
+  if (quality === 2 && !BK.ok) buildComposer();
   resize();
 }
 
@@ -896,7 +899,7 @@ function resize() {
 window.addEventListener('resize', resize);
 
 const HINTS = {
-  model: 'Arrastrá para girar · pellizcá o usá la rueda para acercar',
+  model: coarse ? 'Arrastrá para girar · pellizcá para acercar y ver los m²' : 'Arrastrá para girar · acercá con la rueda para ver los m²',
   walk: coarse ? 'Usá el círculo para caminar y arrastrá para mirar' : 'Caminá con W A S D o las flechas · arrastrá para mirar',
 };
 let hintTimer;
@@ -908,8 +911,9 @@ function setMode(m) {
   document.querySelectorAll('.modes [data-mode]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.mode === m));
   $('plan').classList.toggle('off', m !== 'plan');
   $('go3d').hidden = m !== 'plan';
-  ceilG.visible = interior.visible = m === 'walk';
+  ceilG.visible = m === 'walk'; interior.visible = m === 'walk' && !BK.ok;
   hemi.intensity = m === 'walk' ? 0.35 : 0.55;
+  bakedApply();
   if (m === 'plan') { riseTarget = 0; rise = 0; $('hint').hidden = true; }
   else {
     riseTarget = 1; if (reduce || m === 'walk') rise = 1;
@@ -943,8 +947,8 @@ function markRoom() {
 
 // Piso y muebles
 function pills(id, cb) { const g = $(id); g.addEventListener('click', (e) => { const b = e.target.closest('[data-v]'); if (!b) return; g.querySelectorAll('[data-v]').forEach((x) => x.setAttribute('aria-pressed', x === b)); cb(b.dataset.v); }); }
-pills('floorSel', (v) => { mainFloorMeshes.forEach((m) => (m.material = floorMats[v])); });
-pills('furnSel', (v) => { showFurn = furnG.visible = v === '1'; $('plan').innerHTML = planSVG(false); });
+pills('floorSel', (v) => { mainFloorMeshes.forEach((m) => (m.material = floorMats[v])); BK.floorMain.forEach((m) => (m.map = floorMats[v].map)); });
+pills('furnSel', (v) => { showFurn = furnG.visible = v === '1'; $('plan').innerHTML = planSVG(false); bakedApply(); });
 
 // Gestos
 const ptrs = new Map(); let pinch0 = 0, r0 = 0;
@@ -994,13 +998,32 @@ function collide(x, z) {
 const tagsEl = $('tags');
 ROOMS.forEach((r) => { if (r.part || r.notag || r.id === 'paso') return; const d = document.createElement('div'); d.className = 'tag'; d.innerHTML = `<b>${svgEsc(r.name)}</b>${m2(roomArea(r))}`; r.tag = d; tagsEl.appendChild(d); });
 const v3 = new THREE.Vector3();
+const TAGS = ROOMS.filter((r) => r.tag).sort((a, b) => roomArea(b) - roomArea(a));
 function drawTags() {
   const show = mode === 'model' && rise > 0.95;
   tagsEl.style.display = show ? '' : 'none'; if (!show) return;
-  const w = stage.clientWidth, h = stage.clientHeight;
-  ROOMS.forEach((r) => { if (!r.tag) return; v3.set((r.x0 + r.x1) / 2, 0.4, (r.z0 + r.z1) / 2).project(camera); r.tag.style.left = ((v3.x + 1) / 2) * w + 'px'; r.tag.style.top = ((1 - v3.y) / 2) * h + 'px'; });
+  const w = stage.clientWidth, h = stage.clientHeight, placed = [];
+  // de mayor a menor: un cartel aparece si entra en el ambiente tal como se ve en pantalla y no pisa a otro
+  TAGS.forEach((r) => {
+    let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9, back = false;
+    for (const [x, z] of [[r.x0, r.z0], [r.x1, r.z0], [r.x0, r.z1], [r.x1, r.z1]]) {
+      v3.set(x, 0, z).project(camera); if (v3.z > 1) back = true;
+      const px = ((v3.x + 1) / 2) * w, py = ((1 - v3.y) / 2) * h;
+      x0 = Math.min(x0, px); x1 = Math.max(x1, px); y0 = Math.min(y0, py); y1 = Math.max(y1, py);
+    }
+    v3.set((r.x0 + r.x1) / 2, 0.4, (r.z0 + r.z1) / 2).project(camera);
+    const cx = ((v3.x + 1) / 2) * w, cy = ((1 - v3.y) / 2) * h;
+    if (!r.tw) { r.tw = r.tag.offsetWidth; r.th = r.tag.offsetHeight; }
+    const box = [cx - r.tw / 2 - 4, cy - r.th / 2 - 4, cx + r.tw / 2 + 4, cy + r.th / 2 + 4];
+    const fits = !back && (x1 - x0) > r.tw * 0.95 && (y1 - y0) > r.th * 1.15;
+    const inView = box[0] > 0 && box[2] < w && box[1] > 0 && box[3] < h;
+    const free = !placed.some((b) => box[0] < b[2] && box[2] > b[0] && box[1] < b[3] && box[3] > b[1]);
+    const on = r.tw > 0 && fits && inView && free;
+    if (on) placed.push(box);
+    r.tag.classList.toggle('on', on);
+    r.tag.style.left = cx + 'px'; r.tag.style.top = cy + 'px';
+  });
 }
-
 const me = () => $('mini').querySelector('#me');
 let last = performance.now(), visible = true, frames = 0, ftime = 0, autoQ = true;
 new IntersectionObserver((en) => { visible = en[0].isIntersecting; }).observe(stage);
@@ -1014,6 +1037,7 @@ function loop(t) {
   const e = 1 - Math.pow(1 - rise, 3);
   wallsG.scale.y = Math.max(0.001, e);
   furnG.position.y = (1 - Math.min(1, Math.max(0, rise * 2 - 1))) * 3;
+  if (BK.ok) { BK.cats.A.scale.y = BK.cats.G.scale.y = wallsG.scale.y; BK.cats.M.position.y = furnG.position.y; }
   if (mode === 'model') {
     const sp = orbit.ph, st = orbit.th;
     orbit.ph = sp * e + 0.02 * (1 - e); orbit.th = st * e;
@@ -1036,7 +1060,58 @@ function loop(t) {
   drawTags();
 }
 applyQuality(); requestAnimationFrame(loop);
-window.__demo = { setMode, walker, collide, setQuality: (q) => { autoQ = false; quality = q; applyQuality(); } };
+/* ---------- Luz horneada en Blender (Cycles): se carga encima de la maqueta ---------- */
+// Cada mapa guarda la luz que recibe cada superficie (sol, cielo, rebotes y lámparas). K: luz que se guardó como blanco.
+const LM = {"A_closed": {"file": "lm-a-closed.webp", "k": 2.4}, "A_open": {"file": "lm-a-open.webp", "k": 2.4}, "C_closed": {"file": "lm-c-closed.webp", "k": 2.4}, "F_closed": {"file": "lm-f-closed.webp", "k": 2.4}, "F_closed_vacio": {"file": "lm-f-closed-vacio.webp", "k": 2.4}, "F_open": {"file": "lm-f-open.webp", "k": 2.4}, "F_open_vacio": {"file": "lm-f-open-vacio.webp", "k": 2.4}, "M_closed": {"file": "lm-m-closed.webp", "k": 2.4}, "M_open": {"file": "lm-m-open.webp", "k": 2.4}};
+const BASE = 'recorrido-arquitectura/';
+const EXPO = { open: 1.0, closed: 1.0 };
+function bakedApply() {
+  if (!BK.ok) return;
+  const md = mode === 'walk' ? 'closed' : 'open';
+  BK.root.traverse((o) => {
+    if (!o.isMesh || !o.material.userData.lm) return;
+    const c = o.material.userData.cat;
+    let key = c === 'F' && !showFurn ? `F_${md}_vacio` : `${c}_${md}`;
+    if (!BK.maps[key]) key = `${c}_closed`;
+    if (!BK.maps[key]) return;
+    o.material.lightMap = BK.maps[key]; o.material.lightMapIntensity = LM[key].k * Math.PI * EXPO[md];
+  });
+  BK.cats.C.visible = md === 'closed';
+  BK.cats.M.visible = showFurn;
+}
+async function loadBaked() {
+  if (!renderer) return;
+  try {
+    const { GLTFLoader } = await import('./vendor/three-addons-0.160.0/loaders/GLTFLoader.js');
+    const tl = new THREE.TextureLoader();
+    const ld = (f) => new Promise((res, rej) => tl.load(BASE + f, (t) => { t.flipY = false; t.colorSpace = THREE.SRGBColorSpace; t.channel = 1; res(t); }, undefined, rej));
+    const names = Object.keys(LM);
+    const [gltf, ...texs] = await Promise.all([new GLTFLoader().loadAsync(BASE + 'casa.glb'), ...names.map((n) => ld(LM[n].file))]);
+    names.forEach((n, i) => (BK.maps[n] = texs[i]));
+    const root = gltf.scene;
+    root.children.forEach((n) => (BK.cats[n.name] = n));
+    const src = (nm) => { nm = (nm || '').replace(/\.\d+$/, ''); return nm.startsWith('piso_') ? floorMats[nm.slice(5)] : M[nm]; };
+    root.traverse((o) => {
+      if (!o.isMesh) return;
+      let top = o; while (top.parent && top.parent !== root) top = top.parent;
+      const cat = top.name, nm = (o.material.name || '').replace(/\.\d+$/, ''), s = src(nm) || { color: new THREE.Color('#CCCCCC') };
+      let m;
+      if (cat === 'G') m = new THREE.MeshBasicMaterial({ color: s.color, transparent: true, opacity: 0.22, depthWrite: false });
+      else if (nm === 'luz') m = new THREE.MeshBasicMaterial({ color: '#FFF1D6' });
+      else { m = new THREE.MeshBasicMaterial({ color: s.color, map: s.map || null }); m.userData.lm = true; }
+      m.userData.cat = cat; o.material = m;
+      if (nm === 'piso_roble') BK.floorMain.push(m);
+    });
+    // si ya eligieron otro piso, respetarlo
+    const sel = document.querySelector('#floorSel [aria-pressed="true"]'); if (sel) BK.floorMain.forEach((m) => (m.map = floorMats[sel.dataset.v].map));
+    scene.add(root); BK.root = root; BK.ok = true;
+    house.visible = false; interior.visible = false; sun.castShadow = false;
+    bakedApply(); applyQuality();
+  } catch (e) { console.warn('Sin luz horneada', e); }
+}
+loadBaked();
+Object.entries(M).forEach(([k, m]) => (m.name = k)); Object.entries(floorMats).forEach(([k, m]) => (m.name = 'piso_' + k));
+window.__demo = { setMode, walker, collide, setQuality: (q) => { autoQ = false; quality = q; applyQuality(); }, groups: { scene, house, wallsG, furnG, fixedG, ceilG, env }, M, floorMats };
 </script>
 </body>
 </html>
