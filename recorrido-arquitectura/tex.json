@@ -1,0 +1,82 @@
+{
+"piso_roble": {
+"file": "t-piso-roble.webp",
+"m": 1.7
+},
+"piso_miel": {
+"file": "t-piso-miel.webp",
+"m": 2.08
+},
+"piso_greige": {
+"file": "t-piso-greige.webp",
+"m": 1.7
+},
+"piso_stone": {
+"file": "t-piso-stone.webp",
+"m": 1.5
+},
+"piso_concrete": {
+"file": "t-piso-concrete.webp",
+"m": 1.85
+},
+"roble": {
+"file": "t-roble.webp",
+"m": 1.83
+},
+"nogal": {
+"file": "t-nogal.webp",
+"m": 1.83
+},
+"pergola": {
+"file": "t-pergola.webp",
+"m": 1.83
+},
+"puerta": {
+"file": "t-puerta.webp",
+"m": 1.83
+},
+"tela": {
+"file": "t-tela.webp",
+"m": 0.27
+},
+"alfombra": {
+"file": "t-alfombra.webp",
+"m": 0.27
+},
+"Bar Chair": {
+"file": "m-bar-chair-round-01.webp"
+},
+"dining_chair_02": {
+"file": "m-dining-chair-02.webp"
+},
+"modern_ceiling_lamp_01_glass": {
+"file": "m-modern-ceiling-lamp-01.webp"
+},
+"modern_ceiling_lamp_01": {
+"file": "m-modern-ceiling-lamp-01.webp"
+},
+"modern_ceiling_globe": {
+"file": "m-modern-ceiling-lamp-01.webp"
+},
+"modern_coffee_table_01": {
+"file": "m-modern-coffee-table-01.webp"
+},
+"modern_wooden_cabinet": {
+"file": "m-modern-wooden-cabinet.webp"
+},
+"potted_plant_01_pot": {
+"file": "m-potted-plant-01-pot.webp"
+},
+"potted_plant_01_leaves": {
+"file": "m-potted-plant-01-leaves.webp"
+},
+"potted_plant_02_pot": {
+"file": "m-potted-plant-02-pot.webp"
+},
+"potted_plant_02_leaves": {
+"file": "m-potted-plant-02-leaves.webp"
+},
+"side_table_01": {
+"file": "m-side-table-01.webp"
+}
+}
