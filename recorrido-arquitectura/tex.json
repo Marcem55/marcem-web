@@ -43,20 +43,16 @@
 "file": "t-alfombra.webp",
 "m": 0.27
 },
-"Bar Chair": {
-"file": "m-bar-chair-round-01.webp"
+"boucle": {
+"file": "t-boucle.webp",
+"m": 0.27
+},
+"azulejo": {
+"file": "t-azulejo.webp",
+"m": 0.6
 },
 "dining_chair_02": {
 "file": "m-dining-chair-02.webp"
-},
-"modern_ceiling_lamp_01_glass": {
-"file": "m-modern-ceiling-lamp-01.webp"
-},
-"modern_ceiling_lamp_01": {
-"file": "m-modern-ceiling-lamp-01.webp"
-},
-"modern_ceiling_globe": {
-"file": "m-modern-ceiling-lamp-01.webp"
 },
 "modern_coffee_table_01": {
 "file": "m-modern-coffee-table-01.webp"

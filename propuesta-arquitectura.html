@@ -245,7 +245,7 @@ const ROOMS = [
   { id: 'lavadero', name: 'Lavadero', x0: 6.88, z0: 12.2, x1: 8.53, z1: 15.7, floor: 'bath', spot: [7.45, 15.5, 0.05, -0.1] },
   { id: 'lav2', name: 'Lavadero', x0: 8.53, z0: 12.2, x1: 9.85, z1: 12.92, floor: 'bath', nochip: true, part: true },
   { id: 'lav3', name: 'Lavadero', x0: 8.53, z0: 15.08, x1: 9.85, z1: 15.7, floor: 'bath', nochip: true, part: true },
-  { id: 'toilette', name: 'Toilette', x0: 8.65, z0: 13.04, x1: 9.85, z1: 14.96, floor: 'bath', spot: [7.6, 14.0, -Math.PI / 2, -0.15] },
+  { id: 'toilette', name: 'Toilette', x0: 8.65, z0: 13.04, x1: 9.85, z1: 14.96, floor: 'bath', spot: [9.0, 12.55, Math.PI, -0.25] },
   { id: 'estudio', name: 'Estudio', x0: 6.88, z0: 15.7, x1: 9.85, z1: 17.65, floor: 'main', spot: [7.4, 15.9, Math.PI * 0.82, -0.12] },
   { id: 'garage', name: 'Garage', x0: 6.88, z0: 17.95, x1: 9.85, z1: 24.83, floor: 'concrete', spot: [7.3, 18.3, Math.PI * 0.97, -0.08] },
   { id: 'porch', name: 'Porch', x0: 0.15, z0: 21.31, x1: 3.21, z1: 22.59, floor: 'stone', spot: [2.7, 24.4, -0.08, -0.04], semi: true },
@@ -277,8 +277,8 @@ const WALLS = [
   { a: [0, 21.16], b: [3.285, 21.16], t: 0.3, ops: [{ s: 0.8, e: 2.6, k: 'win', sill: 0.9, head: 2.2 }] },
   { a: [3.285, 22.41], b: [6.805, 22.41], t: 0.3, ops: [{ s: 0.45, e: 3.05, k: 'win', sill: 0.45, head: 2.25 }] },
   // toilette y lavadero
-  { a: [8.59, 12.92], b: [8.59, 15.08], t: 0.12, ops: [{ s: 0.75, e: 1.4, k: 'door' }] },
-  { a: [8.59, 12.98], b: [10, 12.98], t: 0.12, ops: [] },
+  { a: [8.59, 12.92], b: [8.59, 15.08], t: 0.12, ops: [] },
+  { a: [8.59, 12.98], b: [10, 12.98], t: 0.12, ops: [{ s: 0.1, e: 0.8, k: 'door' }] }, // al toilette se entra desde el pasillo de la galería
   { a: [8.59, 15.02], b: [10, 15.02], t: 0.12, ops: [] },
   // garage
   { a: [6.805, 17.8], b: [10, 17.8], t: 0.3, ops: [{ s: 0.3, e: 1.1, k: 'door' }] },
@@ -306,12 +306,15 @@ const ITEMS = [
   { t: 'chair', x: 4.38, z: 16.15, w: 0.46, d: 0.44, f: '+x', ph: 'dining_chair_02' }, { t: 'chair', x: 4.38, z: 16.75, w: 0.46, d: 0.44, f: '+x', ph: 'dining_chair_02' }, { t: 'chair', x: 4.38, z: 17.35, w: 0.46, d: 0.44, f: '+x', ph: 'dining_chair_02' },
   { t: 'chair', x: 5.72, z: 16.15, w: 0.46, d: 0.44, f: '-x', ph: 'dining_chair_02' }, { t: 'chair', x: 5.72, z: 16.75, w: 0.46, d: 0.44, f: '-x', ph: 'dining_chair_02' }, { t: 'chair', x: 5.72, z: 17.35, w: 0.46, d: 0.44, f: '-x', ph: 'dining_chair_02' },
   // cocina (fija)
-  { t: 'base', x: 3.66, z: 13.15, w: 0.6, d: 1.9, f: '+x', cook: true, fixed: true },
-  { t: 'upper', x: 3.54, z: 13.15, w: 0.35, d: 1.9, f: '+x', plan: false, solid: false, fixed: true },
+  { t: 'base', x: 3.66, z: 13.15, w: 0.6, d: 1.9, f: '+x', cook: true, kit: true, fixed: true },
+  { t: 'tile', x: 3.37, z: 13.15, w: 0.02, d: 1.9, f: '+x', plan: false, solid: false, fixed: true },
+  { t: 'upper', x: 3.54, z: 13.15, w: 0.35, d: 1.9, f: '+x', kit: true, plan: false, solid: false, fixed: true },
   { t: 'fridge', x: 3.7, z: 14.55, w: 0.66, d: 0.7, f: '+x', fixed: true },
+  { t: 'tall', x: 3.68, z: 15.25, w: 0.62, d: 0.6, f: '+x', fixed: true },
+  { t: 'bridge', x: 3.68, z: 14.55, w: 0.62, d: 0.78, f: '+x', plan: false, solid: false, fixed: true },
   { t: 'base', x: 5.0, z: 13.55, w: 0.95, d: 1.9, f: '+x', sink: true, island: true, fixed: true },
-  { t: 'stool', x: 5.85, z: 13.0, w: 0.4, d: 0.4, f: '-x', ph: 'bar_chair_round_01' }, { t: 'stool', x: 5.85, z: 13.55, w: 0.4, d: 0.4, f: '-x', ph: 'bar_chair_round_01' }, { t: 'stool', x: 5.85, z: 14.1, w: 0.4, d: 0.4, f: '-x', ph: 'bar_chair_round_01' },
-  { t: 'pend', x: 5.0, z: 13.15, w: 0.3, d: 0.3, ph: 'modern_ceiling_lamp_01', solid: false, plan: false }, { t: 'pend', x: 5.0, z: 13.95, w: 0.3, d: 0.3, ph: 'modern_ceiling_lamp_01', solid: false, plan: false },
+  { t: 'stool', x: 5.9, z: 12.95, w: 0.44, d: 0.44, f: '-x' }, { t: 'stool', x: 5.9, z: 13.55, w: 0.44, d: 0.44, f: '-x' }, { t: 'stool', x: 5.9, z: 14.15, w: 0.44, d: 0.44, f: '-x' },
+  { t: 'plant', x: 5.0, z: 12.95, w: 0.3, d: 0.3, h: 0.45, y: 0.94, ph: 'potted_plant_02', solid: false, plan: false },
   // dormitorio 1
   { t: 'rug', x: 1.4, z: 13.9, w: 2.4, d: 2.5, solid: false },
   { t: 'bed', x: 1.18, z: 13.9, w: 2.05, d: 1.65, f: '+x' },
@@ -329,8 +332,8 @@ const ITEMS = [
   // lavadero, toilette y estudio
   { t: 'base', x: 8.22, z: 13.95, w: 0.6, d: 1.6, f: '-x', sink: true, fixed: true },
   { t: 'upper', x: 8.35, z: 13.95, w: 0.35, d: 1.6, f: '-x', plan: false, solid: false, fixed: true },
-  { t: 'vanity', x: 9.3, z: 13.32, w: 0.5, d: 0.4, f: '+z', fixed: true },
-  { t: 'toilet', x: 9.6, z: 14.5, w: 0.62, d: 0.4, f: '-x', fixed: true },
+  { t: 'vanity', x: 9.62, z: 13.45, w: 0.4, d: 0.45, f: '-x', fixed: true },
+  { t: 'toilet', x: 9.2, z: 14.65, w: 0.4, d: 0.62, f: '-z', fixed: true },
   { t: 'desk', x: 8.6, z: 17.32, w: 1.3, d: 0.55, f: '-z' },
   { t: 'chair', x: 8.6, z: 16.8, w: 0.46, d: 0.44, f: '+z' },
   { t: 'wardrobe', x: 9.56, z: 16.45, w: 0.45, d: 1.3, f: '-x' },
@@ -521,6 +524,12 @@ const TEX = {
   tela: tex((g, S) => { g.fillStyle = '#E3DDD2'; g.fillRect(0, 0, S, S); for (let i = 0; i < 9000; i++) { g.fillStyle = `rgba(${rnd() < 0.5 ? '255,255,255' : '90,80,70'},${0.04 + rnd() * 0.05})`; g.fillRect(rnd() * S, rnd() * S, 2, 2); } }, 256),
   alfombra: tex((g, S) => { g.fillStyle = '#DDD3C3'; g.fillRect(0, 0, S, S); for (let i = 0; i < 14000; i++) { g.fillStyle = `rgba(${rnd() < 0.5 ? '255,255,255' : '110,95,75'},${0.05 + rnd() * 0.06})`; g.fillRect(rnd() * S, rnd() * S, 2, 2); } }, 512),
 };
+TEX.azulejo = tex((g, S) => { // azulejos verticales blancos, 7,5 × 30 cm, junta fina
+  g.fillStyle = '#D9D6D0'; g.fillRect(0, 0, S, S);
+  const cw = S / 8, ch = S / 2;
+  for (let i = 0; i < 8; i++) for (let k = 0; k < 2; k++) { const l = 93 + rnd() * 4; g.fillStyle = `hsl(40,12%,${l}%)`; g.fillRect(i * cw + 2, k * ch + 2, cw - 4, ch - 4); }
+}, 512);
+TEX.azulejo.wrapS = TEX.azulejo.wrapT = THREE.RepeatWrapping;
 TEX.tela.repeat.set(2, 2); TEX.stone.repeat.set(1, 1);
 const std = (o) => new THREE.MeshStandardMaterial(o);
 const M = {
@@ -538,6 +547,10 @@ const M = {
   laca: std({ color: '#F2EFEA', roughness: 0.35 }),
   verdeLaca: std({ color: '#F2EFEA', roughness: 0.35 }),
   isla: std({ color: '#E8E1D5', roughness: 0.3 }),
+  salvia: std({ color: '#93A58C', roughness: 0.55 }),   // laca verde salvia de la cocina
+  cuarzo: std({ color: '#F2F0EC', roughness: 0.2 }),    // mesada blanca
+  azulejo: std({ color: '#FFFFFF', map: TEX.azulejo, roughness: 0.15 }),
+  boucle: std({ color: '#F1EEE8', map: TEX.tela, roughness: 1 }),
   negro: std({ color: '#1E2125', roughness: 0.35, metalness: 0.6 }),
   acero: std({ color: '#C6CBD0', roughness: 0.28, metalness: 0.85 }),
   piedra: std({ color: '#E9E3D8', roughness: 0.25 }),
@@ -674,6 +687,8 @@ ROOMS.forEach((r) => {
     if (!r.part && r.id !== 'paso') { const lamp = new THREE.Mesh(new THREE.CylinderGeometry(0.16, 0.16, 0.03, 28), M.luz); lamp.position.set(r.x0 + w / 2, H - 0.03, r.z0 + d / 2); ceilG.add(lamp); }
   }
 });
+// spots embutidos sobre la mesada y la isla de la cocina
+[[3.95, 12.55], [3.95, 13.25], [3.95, 13.95], [5.0, 12.9], [5.0, 14.2]].forEach(([x, z]) => { const sp = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 0.012, 20), M.luz); sp.position.set(x, H - 0.026, z); ceilG.add(sp); });
 GRASS.forEach(([x0, z0, x1, z1]) => {
   const w = x1 - x0, d = z1 - z0; const g = new THREE.PlaneGeometry(w, d); const uv = g.attributes.uv;
   for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * w / 2, uv.getY(i) * d / 2);
@@ -743,7 +758,15 @@ const BUILD = {
     put(g, new THREE.Mesh(new THREE.SphereGeometry(0.06, 16, 12), M.luz), 0, 1.68, 0);
   },
   chair(g, w, d) { put(g, rbox(w, 0.05, d, 0.02, M.roble), 0, 0.45, 0.02); legs(g, w, d, 0.43, 0.04, M.negro, 0.013); put(g, rbox(w, 0.38, 0.04, 0.02, M.roble), 0, 0.72, -d / 2 + 0.03); },
-  stool(g, w) { put(g, shade(new THREE.Mesh(new THREE.CylinderGeometry(w / 2, w / 2, 0.05, 24), M.roble)), 0, 0.72, 0); legs(g, w * 0.8, w * 0.8, 0.7, 0.03, M.negro, 0.011); },
+  stool(g, w) { // banqueta tapizada blanca con patas de roble
+    put(g, rbox(w * 0.92, 0.09, w * 0.86, 0.04, M.boucle), 0, 0.68, 0.01);
+    const b = put(g, rbox(w * 0.92, 0.26, 0.07, 0.035, M.boucle), 0, 0.86, -w * 0.4); b.rotation.x = -0.18;
+    [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([a, c]) => { const l = put(g, shade(new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.012, 0.66, 10), M.roble)), a * w * 0.34, 0.33, c * w * 0.32); l.rotation.set(-c * 0.08, 0, a * 0.08); });
+    put(g, new THREE.Mesh(new THREE.TorusGeometry(w * 0.33, 0.007, 6, 28), M.negro), 0, 0.26, 0).rotation.x = Math.PI / 2;
+  },
+  tile(g, w, d) { put(g, new THREE.Mesh(new THREE.BoxGeometry(w, 0.58, 0.012), M.azulejo), 0, 0.92 + 0.29, -d / 2 + 0.006); },
+  tall(g, w, d) { put(g, rbox(w, 2.5, d, 0.004, M.salvia), 0, 1.25, 0); put(g, new THREE.Mesh(new THREE.BoxGeometry(w - 0.02, 0.006, 0.004), M.negro), 0, 0.95, d / 2); },
+  bridge(g, w, d) { put(g, rbox(w, 0.62, d, 0.004, M.salvia), 0, 1.88 + 0.31, 0); [-0.03, 0.03].forEach((o) => put(g, rbox(0.02, 1.88, d, 0.004, M.salvia), o < 0 ? -w / 2 + 0.01 : w / 2 - 0.01, 0.94, 0)); },
   rug(g, w, d) { const m = put(g, new THREE.Mesh(new THREE.BoxGeometry(w, 0.012, d), M.alfombra), 0, 0.006, 0); m.receiveShadow = true; },
   plant(g, w, d, it) {
     const h = it.h || 1;
@@ -759,14 +782,23 @@ const BUILD = {
     }
   },
   base(g, w, d, it) {
-    put(g, rbox(w, 0.8, d - 0.02, 0.005, it.island ? M.isla : M.verdeLaca), 0, 0.48, -0.01); put(g, new THREE.Mesh(new THREE.BoxGeometry(w - 0.04, 0.08, d - 0.08), M.negro), 0, 0.04, -0.04);
-    put(g, rbox(w + 0.02, 0.04, d + 0.02, 0.005, M.piedra), 0, 0.9, 0);
-    const n = Math.round(w / 0.5); for (let i = 1; i < n; i++) put(g, new THREE.Mesh(new THREE.BoxGeometry(0.006, 0.76, 0.004), M.negro), -w / 2 + (w / n) * i, 0.48, d / 2 - 0.02);
-    for (let i = 0; i < n; i++) put(g, new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.014, 0.02), M.acero), -w / 2 + (w / n) * (i + 0.5), 0.8, d / 2);
+    if (it.island) { // isla: mesada blanca en cascada, frente de roble del lado de las banquetas
+      put(g, rbox(w - 0.1, 0.86, d - 0.14, 0.004, M.laca), 0, 0.45, -0.07);
+      put(g, rbox(w - 0.1, 0.86, 0.03, 0.004, M.roble), 0, 0.45, d / 2 - 0.12);
+      put(g, rbox(w, 0.05, d + 0.16, 0.004, M.cuarzo), 0, 0.905, 0.08);
+      [-1, 1].forEach((a) => put(g, rbox(0.05, 0.88, d + 0.16, 0.004, M.cuarzo), a * (w / 2 - 0.025), 0.44, 0.08));
+    } else {
+      put(g, rbox(w, 0.8, d - 0.02, 0.005, it.kit ? M.salvia : M.verdeLaca), 0, 0.48, -0.01); put(g, new THREE.Mesh(new THREE.BoxGeometry(w - 0.04, 0.08, d - 0.08), M.negro), 0, 0.04, -0.04);
+      put(g, rbox(w + 0.02, 0.04, d + 0.02, 0.005, it.kit ? M.cuarzo : M.piedra), 0, 0.9, 0);
+    }
+    const n = Math.round(w / 0.5);
+    if (!it.island) for (let i = 1; i < n; i++) put(g, new THREE.Mesh(new THREE.BoxGeometry(0.006, 0.76, 0.004), M.negro), -w / 2 + (w / n) * i, 0.48, d / 2 - 0.02);
+    if (it.kit) put(g, new THREE.Mesh(new THREE.BoxGeometry(w - 0.02, 0.012, 0.004), M.negro), 0, 0.83, d / 2 - 0.01); // uñero corrido, sin tiradores
+    else if (!it.island) for (let i = 0; i < n; i++) put(g, new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.014, 0.02), M.acero), -w / 2 + (w / n) * (i + 0.5), 0.8, d / 2);
     if (it.cook) { put(g, new THREE.Mesh(new THREE.BoxGeometry(0.58, 0.012, 0.5), M.pantalla), -0.3, 0.925, 0); [[-0.14, -0.12], [0.14, -0.12], [-0.14, 0.12], [0.14, 0.12]].forEach(([a, b]) => put(g, new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.006, 6, 24), M.negro), -0.3 + a, 0.933, b).rotation.x = Math.PI / 2); }
-    if (it.sink) { put(g, new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.01, 0.38), M.acero), 0, 0.921, 0); put(g, shade(new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.3, 8), M.acero)), 0, 1.07, -d / 2 + 0.07); const p = put(g, new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.01, 0.16, 8), M.acero), 0, 1.21, -d / 2 + 0.14); p.rotation.x = Math.PI / 2; }
+    if (it.sink) { put(g, new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.01, 0.38), M.acero), 0, it.island ? 0.932 : 0.921, 0); put(g, shade(new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.3, 8), M.acero)), 0, 1.07, -d / 2 + 0.07); const p = put(g, new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.01, 0.16, 8), M.acero), 0, 1.21, -d / 2 + 0.14); p.rotation.x = Math.PI / 2; }
   },
-  upper(g, w, d) { put(g, rbox(w, 0.7, d, 0.005, M.laca), 0, 1.5 + 0.35, 0); const n = Math.round(w / 0.5); for (let i = 1; i < n; i++) put(g, new THREE.Mesh(new THREE.BoxGeometry(0.006, 0.66, 0.004), M.negro), -w / 2 + (w / n) * i, 1.85, d / 2); put(g, new THREE.Mesh(new THREE.BoxGeometry(w - 0.1, 0.02, 0.03), M.luz), 0, 1.49, d / 2 - 0.08); },
+  upper(g, w, d, it) { const hh = it.kit ? 0.98 : 0.7; put(g, rbox(w, hh, d, 0.005, it.kit ? M.roble : M.laca), 0, 1.5 + hh / 2, 0); const n = Math.round(w / 0.5); for (let i = 1; i < n; i++) put(g, new THREE.Mesh(new THREE.BoxGeometry(0.006, hh - 0.04, 0.004), M.negro), -w / 2 + (w / n) * i, 1.5 + hh / 2, d / 2); put(g, new THREE.Mesh(new THREE.BoxGeometry(w - 0.1, 0.02, 0.03), M.luz), 0, 1.49, d / 2 - 0.08); },
   fridge(g, w, d) { put(g, rbox(w, 1.85, d, 0.03, M.acero), 0, 0.925, 0); put(g, new THREE.Mesh(new THREE.BoxGeometry(w - 0.02, 0.006, 0.01), M.negro), 0, 1.25, d / 2); put(g, rbox(0.025, 0.5, 0.04, 0.01, M.negro), -w / 2 + 0.07, 1.55, d / 2 + 0.02); put(g, rbox(0.025, 0.35, 0.04, 0.01, M.negro), -w / 2 + 0.07, 0.95, d / 2 + 0.02); },
   bed(g, w, d) {
     put(g, rbox(w, 0.28, d, 0.02, M.nogal), 0, 0.2, 0.05);
@@ -852,8 +884,8 @@ ITEMS.forEach((it) => {
   const side = f === '+x' || f === '-x';
   const lw = side ? it.d : it.w, ld = side ? it.w : it.d;
   BUILD[it.t](g, lw, ld, it);
-  g.rotation.y = FACE[f]; g.position.set(it.x, 0, it.z); (it.fixed ? fixedG : furnG).add(g);
-  if (it.ph) g.userData.ph = { id: it.ph, x: it.x, z: it.z, ry: FACE[f], lw, ld, h: it.h || 0, spin: !!it.spin, top: it.t === 'pend' ? H : 0 };
+  g.rotation.y = FACE[f]; g.position.set(it.x, it.y || 0, it.z); (it.fixed ? fixedG : furnG).add(g);
+  if (it.ph) g.userData.ph = { id: it.ph, x: it.x, z: it.z, ry: FACE[f], lw, ld, h: it.h || 0, spin: !!it.spin, top: it.t === 'pend' ? H : 0, y: it.y || 0 };
   if (it.solid !== false && it.t !== 'bush' && it.t !== 'tree') SOLIDS.push([it.x - it.w / 2, it.z - it.d / 2, it.x + it.w / 2, it.z + it.d / 2, !it.fixed]);
   if (it.t === 'tree') SOLIDS.push([it.x - 0.15, it.z - 0.15, it.x + 0.15, it.z + 0.15]);
 });
