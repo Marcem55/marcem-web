@@ -270,6 +270,16 @@ body[data-view="panel"] .dock{display:none}
 .ptop{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px;padding-top:22px}
 .ptop h1{margin:0;font-size:26px;font-weight:800;color:var(--azh);line-height:1.15}
 .ptop p{margin:4px 0 0;color:var(--mut);font-size:14.5px}
+.pacts{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;width:100%}
+.rolesel{margin:0;flex:1;min-width:200px}
+.rolesel select{min-height:44px}
+.pacts .btn{min-height:44px}
+.ag li.free{border-style:dashed;background:transparent}
+.ag li.free .who b{font-weight:600;color:var(--mut)}
+.ag li.blk{background:#F1F3F8;border-color:#E1E5EF}
+.ag li.blk .who b{color:var(--mut)}
+.tabs button[hidden]{display:none}
+@media (min-width:720px){.pacts{width:auto}.rolesel{min-width:240px}}
 .todo{margin-top:16px;display:grid;gap:8px}
 .todo button{display:flex;gap:12px;align-items:center;width:100%;text-align:left;min-height:56px;padding:10px 14px;border-radius:14px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:14.5px}
 .todo .n{flex:none;min-width:32px;height:32px;padding:0 6px;border-radius:999px;display:grid;place-items:center;font-weight:800;font-size:14px;background:var(--cielo);color:var(--azh)}
@@ -596,8 +606,9 @@ details[open] summary::after{content:"+";transform:rotate(45deg)}
 <main id="panel">
   <div class="w">
     <div class="ptop">
-      <div><h1>Panel de Humanus</h1><p id="p-date"></p></div>
-      <button type="button" class="btn btn-a btn-sm" id="p-add">Cargar un turno</button>
+      <div><h1 id="p-h">Panel de Humanus</h1><p id="p-date"></p></div>
+      <div class="pacts"><div class="field rolesel"><label for="role">Ver el panel como</label><select id="role"><option value="">Recepción (todo Humanus)</option><option value="agustin">Agustín Peñalba</option><option value="josefina">Josefina Fonseca</option></select></div>
+      <button type="button" class="btn btn-a btn-sm" id="p-add">Cargar un turno</button></div>
     </div>
     <div class="todo" id="todo"></div>
     <div class="tabs" role="tablist" aria-label="Secciones del panel">
@@ -715,15 +726,15 @@ function seed() {
     { id: uid(), n: 'Graciela Ejemplo', tel: '336 420-0001', serv: 'Nutrición', fr: 'Tarde', st: 'nuevo', when: d[0] },
     { id: uid(), n: 'Diego Ejemplo', tel: '336 420-0002', serv: 'Masoterapia', fr: 'Mañana', st: 'pasado', when: d[0] }
   ];
-  return { pac: pac, t: t, al: al, cupo: 4, cons: cons, alq: [] };
+  return { pac: pac, t: t, al: al, cupo: 4, cons: cons, alq: [], bl: [] };
 }
 var S;
 function load() { try { var r = localStorage.getItem(KEY); if (r) { var o = JSON.parse(r); if (o && o.v === TODAY) return o.s; } } catch (e) {} return seed(); }
 function save() { try { localStorage.setItem(KEY, JSON.stringify({ v: TODAY, s: S })); } catch (e) {} }
-S = load();
+S = load(); if (!S.bl) S.bl = [];
 
 /* ---------- disponibilidad ---------- */
-function busy(day, h, pro) { return S.t.some(function (x) { return x.day === day && x.h === h && x.pro === pro && x.st !== 'aus'; }); }
+function busy(day, h, pro) { if ((S.bl || []).some(function (b) { return b.day === day && b.h === h && b.pro === pro; })) return true; return S.t.some(function (x) { return x.day === day && x.h === h && x.pro === pro && x.st !== 'aus'; }); }
 function freePros(day, h) { if (isPast(day, h)) return []; return PROS.filter(function (p) { return !busy(day, h, p.id); }); }
 function pilCount(k) { return S.al.filter(function (a) { return a.slots.indexOf(k) >= 0; }).length; }
 function nextFree(n) {
@@ -1027,10 +1038,18 @@ $('#alq-btn').addEventListener('click', function () {
 });
 
 /* ---------- PANEL ---------- */
-var TAB = 'agenda', PDAY = WD[0], PQ = '';
+var TAB = 'agenda', PDAY = WD[0], PQ = '', ROLE = '';
+function mine(pro) { return !ROLE || pro === ROLE; }
+function blocked(day, h, pro) { return (S.bl || []).some(function (b) { return b.day === day && b.h === h && b.pro === pro; }); }
 function renderTodo() {
-  var nuevos = S.t.filter(function (x) { return x.st === 'nuevo'; }).length + S.cons.filter(function (x) { return x.st === 'nuevo'; }).length;
-  var ordenes = S.pac.filter(function (p) { return p.orden && p.orden.tot - p.orden.us <= 2; }).length;
+  var nuevos = S.t.filter(function (x) { return x.st === 'nuevo' && mine(x.pro); }).length + (ROLE ? 0 : S.cons.filter(function (x) { return x.st === 'nuevo'; }).length);
+  var ordenes = S.pac.filter(function (p) { return p.orden && p.orden.tot - p.orden.us <= 2 && mine(p.pro); }).length;
+  if (ROLE) {
+    var hoyN = S.t.filter(function (x) { return x.day === WD[0] && x.pro === ROLE && x.st !== 'aus'; }).length;
+    var it = function (n, t, tab) { return '<button type="button" data-ptab="' + tab + '"><span class="n ' + (n ? (tab === 'agenda' ? 'hot' : '') : 'zero') + '">' + n + '</span><span>' + t + '</span></button>'; };
+    $('#todo').innerHTML = it(nuevos, nuevos === 1 ? 'Turno nuevo tuyo para confirmar' : 'Turnos nuevos tuyos para confirmar', 'agenda') + it(hoyN, hoyN === 1 ? 'Paciente en tu agenda de hoy' : 'Pacientes en tu agenda de hoy', 'agenda') + it(ordenes, ordenes === 1 ? 'Paciente tuyo con la orden por terminar' : 'Pacientes tuyos con la orden por terminar', 'pacientes');
+    return;
+  }
   var cuotas = S.al.filter(function (a) { return !a.pago; }).length;
   var pilNew = S.al.filter(function (a) { return a.st === 'nuevo'; }).length;
   var item = function (n, t, tab) { return '<button type="button" data-ptab="' + tab + '"><span class="n ' + (n ? (tab === 'agenda' || tab === 'pilates' && pilNew ? 'hot' : '') : 'zero') + '">' + n + '</span><span>' + t + '</span></button>'; };
@@ -1053,11 +1072,23 @@ function agItem(t) {
   return '<li class="' + (t.st === 'nuevo' ? 'new' : t.st === 'at' ? 'done' : '') + '"><span class="h">' + hh(t.h) + '</span><div class="who"><b>' + esc(t.n) + '</b><span>' + esc(t.tipo) + (t.nota ? ' · ' + esc(t.nota) : '') + '</span><div style="margin-top:5px">' + tags + '</div></div><div class="acts">' + acts + '</div></li>';
 }
 function renderAgenda() {
-  var days = '<div class="days" role="group" aria-label="Día">' + WD.slice(0, 8).map(function (d) { var dd = parse(d), n = S.t.filter(function (x) { return x.day === d && x.st === 'nuevo'; }).length; return '<button type="button" class="chip" data-pday="' + d + '" aria-pressed="' + pressed(PDAY === d) + '"><small>' + (d === TODAY ? 'hoy' : DOWS[dd.getDay()]) + '</small><b>' + dd.getDate() + '</b>' + (n ? '<small style="color:inherit;font-weight:800">' + n + ' nuevo' + (n > 1 ? 's' : '') + '</small>' : '') + '</button>'; }).join('') + '</div>';
+  var days = '<div class="days" role="group" aria-label="Día">' + WD.slice(0, 8).map(function (d) { var dd = parse(d), n = S.t.filter(function (x) { return x.day === d && x.st === 'nuevo' && mine(x.pro); }).length; return '<button type="button" class="chip" data-pday="' + d + '" aria-pressed="' + pressed(PDAY === d) + '"><small>' + (d === TODAY ? 'hoy' : DOWS[dd.getDay()]) + '</small><b>' + dd.getDate() + '</b>' + (n ? '<small style="color:inherit;font-weight:800">' + n + ' nuevo' + (n > 1 ? 's' : '') + '</small>' : '') + '</button>'; }).join('') + '</div>';
+  if (ROLE) {
+    var me = proById(ROLE);
+    var rows = HOURS.map(function (h) {
+      var tt = S.t.filter(function (x) { return x.day === PDAY && x.pro === ROLE && x.h === h; });
+      if (tt.length) return tt.map(agItem).join('');
+      if (blocked(PDAY, h, ROLE)) return '<li class="blk"><span class="h">' + hh(h) + '</span><div class="who"><b>Bloqueado</b><span>La página no ofrece este horario.</span></div><div class="acts"><button type="button" class="mini" data-act="unblock" data-h="' + h + '">Liberar</button></div></li>';
+      if (isPast(PDAY, h)) return '';
+      return '<li class="free"><span class="h">' + hh(h) + '</span><div class="who"><b>Libre</b><span>Se ofrece en la página.</span></div><div class="acts"><button type="button" class="mini" data-act="block" data-h="' + h + '">Bloquear</button><button type="button" class="mini" data-act="addhere" data-h="' + h + '">Darle un turno</button></div></li>';
+    }).join('');
+    var anyFree = HOURS.some(function (h) { return !busy(PDAY, h, ROLE) && !isPast(PDAY, h); });
+    return '<div class="pbox"><div class="prow"><div><h2>Tu agenda, ' + esc(first(me.n)) + '</h2><p style="margin:4px 0 0;color:var(--mut);font-size:14px">Confirmás tus turnos, cargás los que te piden por WhatsApp y bloqueás horarios. Lo que bloqueás deja de aparecer en la página al instante.</p></div>' + (anyFree ? '<button type="button" class="mini" data-act="dayoff">No atiendo este día</button>' : '') + '</div>' + days + '<ul class="ag" style="margin-top:12px">' + (rows || '<li class="empty" style="display:block">No quedan horarios este día.</li>') + '</ul></div>';
+  }
   var cols = PROS.map(function (p) {
-    var list = S.t.filter(function (x) { return x.day === PDAY && x.pro === p.id; }).sort(function (a, b) { return a.h - b.h; });
+    var list = S.t.filter(function (x) { return x.day === PDAY && x.pro === p.id; }).concat((S.bl || []).filter(function (b) { return b.day === PDAY && b.pro === p.id; }).map(function (b) { return { blk: true, h: b.h }; })).sort(function (a, b) { return a.h - b.h; });
     var free = HOURS.filter(function (h) { return !busy(PDAY, h, p.id) && !isPast(PDAY, h); }).length;
-    return '<div class="col"><h3><span class="av">' + avatar(p) + '</span>' + esc(p.n) + '</h3><ul class="ag">' + (list.length ? list.map(agItem).join('') : '<li class="empty" style="display:block">Sin turnos.</li>') + '</ul><p class="hint">' + free + ' horarios libres que la página ofrece.</p></div>';
+    return '<div class="col"><h3><span class="av">' + avatar(p) + '</span>' + esc(p.n) + '</h3><ul class="ag">' + (list.length ? list.map(function (x) { return x.blk ? '<li class="blk"><span class="h">' + hh(x.h) + '</span><div class="who"><b>Bloqueado por ' + esc(first(p.n)) + '</b></div></li>' : agItem(x); }).join('') : '<li class="empty" style="display:block">Sin turnos.</li>') + '</ul><p class="hint">' + free + ' horarios libres que la página ofrece.</p></div>';
   }).join('');
   var cons = S.cons.filter(function (c) { return c.st === 'nuevo'; });
   var consCol = '<div class="col"><h3>Consultorios</h3><ul class="ag">' + (cons.length ? cons.map(function (c) { return '<li class="new"><span class="h" style="font-size:12px">' + esc(c.fr) + '</span><div class="who"><b>' + esc(c.n) + '</b><span>' + esc(c.serv) + '</span></div><div class="acts"><button type="button" class="mini wa" data-act="cons" data-id="' + c.id + '">Ofrecerle turnos</button></div></li>'; }).join('') : '<li class="empty" style="display:block">Sin pedidos nuevos.</li>') + '</ul><p class="hint">Los pedidos de especialidades llegan acá para pasarle días y horarios.</p></div>';
@@ -1065,7 +1096,7 @@ function renderAgenda() {
 }
 function renderPacientes() {
   var q = PQ.toLowerCase();
-  var list = S.pac.filter(function (p) { return !q || p.n.toLowerCase().indexOf(q) >= 0; }).slice().sort(function (a, b) {
+  var list = S.pac.filter(function (p) { return (!q || p.n.toLowerCase().indexOf(q) >= 0) && mine(p.pro); }).slice().sort(function (a, b) {
     var la = a.orden ? a.orden.tot - a.orden.us : 99, lb = b.orden ? b.orden.tot - b.orden.us : 99; return la - lb;
   });
   var html = list.map(function (p) {
@@ -1075,7 +1106,7 @@ function renderPacientes() {
       (o ? '<div class="bar" role="img" aria-label="' + o.us + ' de ' + o.tot + ' sesiones usadas"><i style="width:' + Math.round(o.us / o.tot * 100) + '%"></i></div><div class="bar-l"><span>' + o.us + ' de ' + o.tot + ' sesiones de la orden</span><span>' + (left <= 0 ? 'Orden terminada' : left === 1 ? 'Queda 1' : 'Quedan ' + left) + '</span></div>' : (p.cob === 'os' ? '<p class="sub2" style="margin:8px 0 0">Sin orden cargada.</p>' : '')) +
       '<div class="acts" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">' + (alert ? '<button type="button" class="mini wa" data-act="orden" data-pid="' + p.id + '">Pedirle nueva orden</button>' : '') + '<button type="button" class="mini" data-act="ficha" data-pid="' + p.id + '">Ver ficha</button></div></li>';
   }).join('');
-  return '<div class="pbox"><h2>Pacientes y órdenes</h2><p>Cada paciente con su orden médica: cuántas sesiones autorizó la obra social y cuántas quedan. Los que están por terminar aparecen primero, para pedir la orden nueva a tiempo.</p><div class="field search"><label class="sr" for="pq">Buscar paciente</label><input id="pq" type="search" placeholder="Buscar por nombre" value="' + esc(PQ) + '" autocomplete="off"></div><ul class="pl">' + (html || '<li class="empty">No hay pacientes con ese nombre.</li>') + '</ul></div>';
+  return '<div class="pbox"><h2>' + (ROLE ? 'Tus pacientes' : 'Pacientes y órdenes') + '</h2><p>Cada paciente con su orden médica: cuántas sesiones autorizó la obra social y cuántas quedan. Los que están por terminar aparecen primero, para pedir la orden nueva a tiempo.</p><div class="field search"><label class="sr" for="pq">Buscar paciente</label><input id="pq" type="search" placeholder="Buscar por nombre" value="' + esc(PQ) + '" autocomplete="off"></div><ul class="pl">' + (html || '<li class="empty">No hay pacientes con ese nombre.</li>') + '</ul></div>';
 }
 function renderPilPanel() {
   var g = '<div></div>' + [1, 2, 3, 4, 5].map(function (d) { return '<div class="hd">' + DOWS[d] + '</div>'; }).join('');
@@ -1107,6 +1138,9 @@ function renderConsPanel() {
 }
 function renderPanel() {
   var ds = new Intl.DateTimeFormat('es-AR', { weekday: 'long', day: 'numeric', month: 'long' }).format(NOW); $('#p-date').textContent = ds.charAt(0).toUpperCase() + ds.slice(1);
+  $('#p-h').textContent = ROLE ? 'Hola, ' + first(proById(ROLE).n) : 'Panel de Humanus';
+  if (ROLE && (TAB === 'pilates' || TAB === 'consultorios')) TAB = 'agenda';
+  $$('.tabs [data-tab]').forEach(function (b) { var x = b.getAttribute('data-tab'); b.hidden = !!ROLE && (x === 'pilates' || x === 'consultorios'); });
   renderTodo();
   $$('.tabs [data-tab]').forEach(function (b) { b.setAttribute('aria-selected', pressed(b.getAttribute('data-tab') === TAB)); });
   $('#pv').innerHTML = TAB === 'agenda' ? renderAgenda() : TAB === 'pacientes' ? renderPacientes() : TAB === 'pilates' ? renderPilPanel() : renderConsPanel();
@@ -1150,17 +1184,22 @@ document.addEventListener('click', function (e) {
   if (act === 'pago') { a = findA(id); a.pago = true; after(); flashRow('[data-act="pilconf"][data-id="' + id + '"],[data-id="' + id + '"]'); toast('Pago registrado: ' + a.n); return; }
   if (act === 'cuota') { a = findA(id); waDlg('Recordar cuota', a.n + ' (' + a.tel + ')', 'Hola ' + first(a.n) + '! Te recordamos que está pendiente la cuota de pilates de este mes' + (a.move ? ' (con tu 10% de MOVE)' : '') + '. Podés pagarla en tu próxima clase o por transferencia. ¡Gracias!'); return; }
   if (act === 'cons') { var c; S.cons.forEach(function (x) { if (x.id === id) c = x; }); c.st = 'pasado'; after(); waDlg('Ofrecer turnos', c.n + ' (' + c.tel + ')', 'Hola ' + first(c.n) + '! Te escribimos de Humanus por tu turno de ' + c.serv.toLowerCase() + '. Tenemos estos turnos ' + (c.fr === 'Me da igual' ? '' : 'a la ' + c.fr.toLowerCase() + ' ') + 'esta semana: [días y horarios]. ¿Cuál te queda mejor?'); return; }
+  if (act === 'block') { S.bl.push({ day: PDAY, h: +b.getAttribute('data-h'), pro: ROLE }); after(); toast('Horario bloqueado. Ya no aparece en la página'); return; }
+  if (act === 'unblock') { var hb = +b.getAttribute('data-h'); S.bl = S.bl.filter(function (x) { return !(x.day === PDAY && x.h === hb && x.pro === ROLE); }); after(); toast('Horario liberado. Vuelve a ofrecerse en la página'); return; }
+  if (act === 'dayoff') { HOURS.forEach(function (h) { if (!busy(PDAY, h, ROLE) && !isPast(PDAY, h)) S.bl.push({ day: PDAY, h: h, pro: ROLE }); }); after(); toast('Listo, ese día no se ofrece en la página'); return; }
+  if (act === 'addhere') { openAdd(PDAY, +b.getAttribute('data-h')); return; }
   if (act === 'cupo-' || act === 'cupo+') { S.cupo = Math.max(1, Math.min(12, S.cupo + (act === 'cupo+' ? 1 : -1))); after(); return; }
 });
-$('#p-add').addEventListener('click', function () {
+$('#p-add').addEventListener('click', function () { openAdd(); });
+function openAdd(preDay, preH) {
   var opts = S.pac.map(function (p) { return '<option value="' + p.id + '">' + esc(p.n) + '</option>'; }).join('');
   openDlg('Turno por teléfono, WhatsApp o en persona', 'Cargar un turno',
     '<div class="field"><label for="ct-p">Paciente</label><select id="ct-p">' + opts + '</select></div>' +
-    '<div class="field"><label for="ct-pro">Profesional</label><select id="ct-pro">' + PROS.map(function (p) { return '<option value="' + p.id + '">' + esc(p.n) + '</option>'; }).join('') + '</select></div>' +
+    '<div class="field"' + (ROLE ? ' hidden' : '') + '><label for="ct-pro">Profesional</label><select id="ct-pro">' + PROS.map(function (p) { return '<option value="' + p.id + '"' + (p.id === ROLE ? ' selected' : '') + '>' + esc(p.n) + '</option>'; }).join('') + '</select></div>' +
     '<div class="field"><label for="ct-d">Día</label><select id="ct-d">' + WD.map(function (d) { return '<option value="' + d + '"' + (d === PDAY ? ' selected' : '') + '>' + esc(dayLong(d)) + '</option>'; }).join('') + '</select></div>' +
     '<div class="field"><label for="ct-h">Horario libre</label><select id="ct-h"></select></div>',
     '<button type="button" class="btn btn-o" data-close>Cancelar</button><button type="button" class="btn btn-a" id="ct-ok">Guardar turno</button>');
-  function fillH() { var d = $('#ct-d').value, pr = $('#ct-pro').value, hs = HOURS.filter(function (h) { return !busy(d, h, pr) && !isPast(d, h); }); $('#ct-h').innerHTML = hs.length ? hs.map(function (h) { return '<option value="' + h + '">' + hh(h) + '</option>'; }).join('') : '<option value="">Sin horarios libres</option>'; }
+  function fillH() { var d = $('#ct-d').value, pr = $('#ct-pro').value, hs = HOURS.filter(function (h) { return !busy(d, h, pr) && !isPast(d, h); }); $('#ct-h').innerHTML = hs.length ? hs.map(function (h) { return '<option value="' + h + '"' + (h === preH ? ' selected' : '') + '>' + hh(h) + '</option>'; }).join('') : '<option value="">Sin horarios libres</option>'; }
   fillH(); $('#ct-d').addEventListener('change', fillH); $('#ct-pro').addEventListener('change', fillH);
   $('#ct-ok').addEventListener('click', function () {
     var h = parseInt($('#ct-h').value, 10); if (!h) { toast('Elegí otro día o profesional'); return; }
@@ -1168,7 +1207,8 @@ $('#p-add').addEventListener('click', function () {
     S.t.push({ id: uid(), day: $('#ct-d').value, h: h, pro: $('#ct-pro').value, pid: p.id, n: p.n, tel: p.tel, tipo: p.tipo || 'A evaluar', cob: p.cob, os: p.os, st: 'conf', src: 'panel' });
     PDAY = $('#ct-d').value; TAB = 'agenda'; closeDlg(); after(); toast('Turno guardado. Ese horario ya no aparece en la página');
   });
-});
+}
+$('#role').addEventListener('change', function () { ROLE = $('#role').value; renderPanel(); fresh($('#pv')); fresh($('#todo')); });
 $('#reset').addEventListener('click', function () { S = seed(); pilSel = []; after(); toast('Volvimos a los datos de ejemplo'); });
 
 /* ---------- vistas ---------- */
