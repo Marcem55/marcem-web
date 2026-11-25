@@ -363,7 +363,67 @@ body[data-view="panel"] .dock{display:none}
   .pros{grid-template-columns:repeat(3,1fr)}
   .todo{grid-template-columns:repeat(4,1fr)}
 }
+
+/* ===== movimiento ===== */
+:root{interpolate-size:allow-keywords;--ease:cubic-bezier(.22,1,.36,1)}
+section{scroll-margin-top:72px}
+.btn,.mini,.opt,.chip,.slot,.cell,.trae button,.next li button,.radios button,.todo button,.tabs button,.x{transition:transform .18s var(--ease),background-color .22s,border-color .22s,color .22s,box-shadow .22s}
+.btn:active,.mini:active,.opt:active,.chip:active,.slot:active:not(:disabled),.cell:active:not(:disabled),.trae button:active,.next li button:active,.radios button:active,.todo button:active,.x:active{transform:scale(.96)}
+@media (hover:hover){
+  .btn:hover,.mini:hover{transform:translateY(-1px)}
+  .trae button:hover,.next li button:hover,.todo button:hover{transform:translateY(-2px);box-shadow:0 14px 30px -20px rgba(14,47,140,.5)}
+  .area,.pro{transition:transform .35s var(--ease),box-shadow .35s}
+  .area:hover,.pro:hover{transform:translateY(-3px);box-shadow:0 22px 44px -28px rgba(14,47,140,.55)}
+  .trae button:hover .go{transform:translateX(3px)}
+}
+.trae .go{transition:transform .25s var(--ease)}
+.seg i{transition:transform .4s var(--ease)}
+/* portada: un solo momento orquestado */
+.hero-ph img{animation:heroZoom 1.8s var(--ease) both}
+.hero .lead-s,.hero h1,.facts,.hero .ctas,.next{animation:rise .9s var(--ease) both}
+.hero .lead-s{animation-delay:.15s}.hero h1{animation-delay:.3s}.facts{animation-delay:.42s}.hero .ctas{animation-delay:.54s}.next{animation-delay:.7s}
+@keyframes heroZoom{from{transform:scale(1.08);opacity:.4}}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}}
+/* aparición al bajar */
+#cliente .rv{opacity:0;transform:translateY(26px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+#cliente .rv.in{opacity:1;transform:none}
+/* diálogo */
+dialog[open]{animation:sheetIn .42s var(--ease)}
+dialog[open]::backdrop{animation:fadeIn .3s ease}
+dialog.closing{animation:sheetOut .24s cubic-bezier(.4,0,1,1) forwards}
+dialog.closing::backdrop{animation:fadeOut .24s ease forwards}
+@keyframes sheetIn{from{transform:translateY(100%)}}
+@keyframes sheetOut{to{transform:translateY(100%)}}
+@keyframes popIn{from{opacity:0;transform:translateY(18px) scale(.96)}}
+@keyframes popOut{to{opacity:0;transform:translateY(12px) scale(.97)}}
+@keyframes fadeIn{from{opacity:0}}
+@keyframes fadeOut{to{opacity:0}}
+@media (min-width:720px){dialog[open]{animation-name:popIn}dialog.closing{animation-name:popOut}}
+.step-fwd{animation:stepFwd .34s var(--ease)}
+.step-back{animation:stepBack .34s var(--ease)}
+@keyframes stepFwd{from{opacity:0;transform:translateX(32px)}}
+@keyframes stepBack{from{opacity:0;transform:translateX(-32px)}}
+.pop{animation:pop .38s var(--ease)}
+@keyframes pop{0%{transform:scale(.86)}60%{transform:scale(1.07)}100%{transform:scale(1)}}
+.flash{animation:flash 1.1s ease}
+@keyframes flash{0%{background:#C9D8FF}100%{}}
+.slide-in{animation:fadeUp .4s var(--ease)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}}
+.fresh{animation:fadeUp .4s var(--ease)}
+.fresh .bar i{transform-origin:left;animation:grow .9s .12s var(--ease) both}
+.fresh .ag li.new{animation:glow 1.6s .35s ease 2}
+@keyframes grow{from{transform:scaleX(0)}}
+@keyframes glow{50%{box-shadow:inset 4px 0 0 var(--az),0 0 0 5px rgba(36,83,200,.18)}}
+.bar i{transition:width .6s var(--ease)}
+details::details-content{block-size:0;overflow:hidden;transition:block-size .4s var(--ease),content-visibility .4s allow-discrete}
+details[open]::details-content{block-size:auto}
+details summary::after{transition:transform .35s var(--ease)}
+details[open] summary::after{content:"+";transform:rotate(45deg)}
+.toast{transition:opacity .3s,transform .4s var(--ease)}
 @media (prefers-reduced-motion:reduce){
+  *,*::before,*::after,dialog,dialog::backdrop{animation:none!important;transition:none!important}
+  #cliente .rv{opacity:1;transform:none}
+  details::details-content{transition:none}
   html{scroll-behavior:auto}
   .ribbon path{animation:none;stroke-dashoffset:0}
   .seg i,.prog i,.toast{transition:none}
@@ -621,6 +681,10 @@ function isPast(day, h) { return day === TODAY && h <= NOW.getHours(); }
 function proById(id) { for (var i = 0; i < PROS.length; i++) if (PROS[i].id === id) return PROS[i]; return null; }
 function avatar(p) { return p && IMG[p.img] ? '<img src="' + IMG[p.img] + '" alt="">' : esc((p ? p.n : '?').charAt(0)); }
 function uid() { return Math.random().toString(36).slice(2, 9); }
+var RM = window.matchMedia ? matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+function anim(el, cls) { if (!el || RM.matches) return; el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls); var f = function (e) { if (e.target !== el) return; el.classList.remove(cls); el.removeEventListener('animationend', f); }; el.addEventListener('animationend', f); }
+function fresh(el) { if (!el || RM.matches) return; el.classList.remove('fresh'); void el.offsetWidth; el.classList.add('fresh'); clearTimeout(el._fr); el._fr = setTimeout(function () { el.classList.remove('fresh'); }, 1500); }
+function flashRow(sel) { var n = $(sel); if (n) { var li = n.closest('li'); anim(li, 'flash'); } }
 function toast(t) { var el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(function () { el.classList.remove('on'); }, 2600); }
 
 /* ---------- datos (de ejemplo) ---------- */
@@ -712,22 +776,34 @@ function renderPil() {
     }
   });
   $('#pgrid').innerHTML = g;
-  var sel = $('#pil-sel');
-  if (!pilSel.length) { sel.innerHTML = '<p>Elegí 1, 2 o 3 horarios fijos por semana.</p>'; return; }
+  var sel = $('#pil-sel'), had = sel.getAttribute('data-n') || '0';
+  sel.setAttribute('data-n', pilSel.length);
+  if (!pilSel.length) { sel.innerHTML = '<p>Elegí 1, 2 o 3 horarios fijos por semana.</p>'; if (had !== '0') anim(sel, 'slide-in'); return; }
+  if (had === '0') anim(sel, 'slide-in');
   sel.innerHTML = '<p><b>' + pilSel.length + (pilSel.length === 1 ? ' vez' : ' veces') + ' por semana:</b> ' + esc(pilSel.map(slotLabel).join(', ')) + '</p><button type="button" class="btn btn-a" data-book="pilates">Reservar mi lugar</button>';
 }
 function slotLabel(k) { var p = k.split('-'); return DOW[+p[0]].toLowerCase() + ' ' + hh(+p[1]); }
 
 /* ---------- diálogo ---------- */
 var dlg = $('#dlg');
-function openDlg(sub, title, body, foot, prog) {
+function openDlg(sub, title, body, foot, prog, opt) {
+  opt = opt || {};
+  var b = $('#dlg-b'), st = b.scrollTop, ch = $('.chips', b), cl = ch ? ch.scrollLeft : 0, was = dlg.open && !dlg.classList.contains('closing');
+  dlg.classList.remove('closing'); clearTimeout(closeDlg.t);
   $('#dlg-s').textContent = sub || ''; $('#dlg-t').textContent = title;
-  $('#dlg-b').innerHTML = body; $('#dlg-f').innerHTML = foot || '';
+  b.innerHTML = body; $('#dlg-f').innerHTML = foot || '';
   var p = $('#dlg-p'); if (prog == null) p.hidden = true; else { p.hidden = false; p.firstChild.style.width = Math.round(prog * 100) + '%'; }
   if (!dlg.open) { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); }
-  $('#dlg-b').scrollTop = 0;
+  if (opt.keep) { b.scrollTop = st; var c2 = $('.chips', b); if (c2) c2.scrollLeft = cl; }
+  else { b.scrollTop = 0; if (was) anim(b, opt.dir === 'back' ? 'step-back' : 'step-fwd'); }
 }
-function closeDlg() { if (dlg.open) { if (dlg.close) dlg.close(); else dlg.removeAttribute('open'); } }
+function closeDlg() {
+  if (!dlg.open || dlg.classList.contains('closing')) return;
+  var done = function () { dlg.classList.remove('closing'); if (dlg.close) dlg.close(); else dlg.removeAttribute('open'); };
+  if (RM.matches) { done(); return; }
+  dlg.classList.add('closing'); closeDlg.t = setTimeout(done, 240);
+}
+dlg.addEventListener('cancel', function (e) { e.preventDefault(); closeDlg(); });
 $('#dlg-x').addEventListener('click', closeDlg);
 dlg.addEventListener('click', function (e) { if (e.target === dlg) closeDlg(); });
 
@@ -759,7 +835,12 @@ function back() {
   if (i > 0) { B.step = f[i - 1]; renderBook(); } else { B.step = 'area'; renderBook(); }
 }
 function pressed(v) { return v ? 'true' : 'false'; }
+var LASTSTEP = null, ORDER = ['area', 'tipo', 'serv', 'pilnone', 'pro', 'pref', 'dia', 'datos', 'ok'];
 function renderBook() {
+  var same = LASTSTEP === B.step && dlg.open, dir = ORDER.indexOf(B.step) < ORDER.indexOf(LASTSTEP) ? 'back' : 'fwd';
+  var ae = document.activeElement, refocus = null;
+  if (same && ae && ae.getAttribute) ['data-bk-day', 'data-bk-h', 'data-bk-cob', 'data-bk-orden', 'data-bk-pv', 'data-bk-fr', 'data-bk-move'].some(function (a) { if (ae.hasAttribute(a)) { refocus = '[' + a + (ae.getAttribute(a) ? '="' + ae.getAttribute(a) + '"' : '') + ']'; return true; } });
+  LASTSTEP = B.step;
   var s = B.step, body = '', foot = '', title = 'Pedir turno', sub = '';
   var backBtn = '<button type="button" class="btn btn-o" data-bk="back">Volver</button>';
   if (s === 'area') {
@@ -825,8 +906,10 @@ function renderBook() {
     body = '<div class="sum">' + sumRows() + '</div><p class="note">Humanus recibe el pedido con todos tus datos y te confirma por WhatsApp. Este es el mensaje que les llega:</p><div class="wa-msg" style="margin-top:10px">' + esc(B.msg) + '</div>';
     foot = '<button type="button" class="btn btn-o" data-close>Cerrar</button><button type="button" class="btn btn-a" data-goto-panel>Ver cómo le llega al panel</button>';
   }
-  openDlg(sub, title, body, foot, s === 'area' || s === 'pilnone' ? null : prog());
-  var f = $('#bk-n'); if (f && !B.n) setTimeout(function () { try { f.focus({ preventScroll: true }); } catch (e) {} }, 60);
+  openDlg(sub, title, body, foot, s === 'area' || s === 'pilnone' ? null : prog(), { keep: same, dir: dir });
+  if (refocus) { var rf = $('#dlg-b ' + refocus); if (rf) { try { rf.focus({ preventScroll: true }); } catch (e) {} anim(rf, 'pop'); } }
+  if (s === 'dia' && same && B.h) { var nb2 = $('[data-bk="next"]'); if (nb2) anim(nb2, 'pop'); }
+  var f = $('#bk-n'); if (f && !B.n && !same) setTimeout(function () { try { f.focus({ preventScroll: true }); } catch (e) {} }, 60);
 }
 function field(id, label, val, type, ac, err) {
   return '<div class="field" id="f-' + id + '"><label for="' + id + '">' + esc(label) + '</label><input id="' + id + '" type="' + type + '" value="' + esc(val) + '" autocomplete="' + ac + '" maxlength="60"' + (type === 'tel' ? ' inputmode="tel"' : '') + '>' + (err ? '<span class="err">' + esc(err) + '</span>' : '') + '</div>';
@@ -902,16 +985,16 @@ function findOrAddPac() {
 document.addEventListener('click', function (e) {
   var t = e.target.closest('button, a'); if (!t) return;
   if (t.hasAttribute('data-close')) { closeDlg(); return; }
-  if (t.hasAttribute('data-book')) {
+  if (t.hasAttribute('data-book')) { LASTSTEP = null;
     var a = t.getAttribute('data-book'); startBook(a, { pro: t.getAttribute('data-pro') || '' }); return;
   }
-  if (t.hasAttribute('data-next')) { var p = t.getAttribute('data-next').split('|'); startBook('kine', { day: p[0], h: +p[1], pro: p[2], tipo: 'Traumatológica' }); B.fromNext = true; B.step = 'tipo'; renderBook(); return; }
-  if (t.hasAttribute('data-trae')) { var x = TRAE[+t.getAttribute('data-trae')]; if (x.area === 'pilates') { location.hash = 'pilates'; $('#pilates').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; } startBook(x.area, { tipo: x.tipo || '' }); return; }
+  if (t.hasAttribute('data-next')) { LASTSTEP = null; var p = t.getAttribute('data-next').split('|'); startBook('kine', { day: p[0], h: +p[1], pro: p[2], tipo: 'Traumatológica' }); B.fromNext = true; B.step = 'tipo'; renderBook(); return; }
+  if (t.hasAttribute('data-trae')) { var x = TRAE[+t.getAttribute('data-trae')]; if (x.area === 'pilates') { location.hash = 'pilates'; $('#pilates').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); return; } LASTSTEP = null; startBook(x.area, { tipo: x.tipo || '' }); return; }
   if (t.hasAttribute('data-bk-area')) { B.area = t.getAttribute('data-bk-area'); B.step = B.area === 'kine' ? 'tipo' : B.area === 'cons' ? 'serv' : (pilSel.length ? 'datos' : 'pilnone'); renderBook(); return; }
   if (t.hasAttribute('data-bk-tipo')) { B.tipo = t.getAttribute('data-bk-tipo'); if (B.tipo.indexOf('No sé') === 0) B.tipo = 'A evaluar'; B.step = B.fromNext && B.day ? 'datos' : (B.pro ? 'dia' : 'pro'); renderBook(); return; }
   if (t.hasAttribute('data-bk-pro')) { B.pro = t.getAttribute('data-bk-pro'); B.h = 0; B.day = ''; B.step = 'dia'; renderBook(); return; }
   if (t.hasAttribute('data-bk-day')) { B.day = t.getAttribute('data-bk-day'); B.h = 0; renderBook(); return; }
-  if (t.hasAttribute('data-bk-h')) { B.h = +t.getAttribute('data-bk-h'); renderBook(); var nb = $('[data-bk="next"]'); if (nb) nb.focus(); return; }
+  if (t.hasAttribute('data-bk-h')) { B.h = +t.getAttribute('data-bk-h'); renderBook(); return; }
   if (t.hasAttribute('data-bk-serv')) { B.serv = t.getAttribute('data-bk-serv'); B.step = 'pref'; renderBook(); return; }
   if (t.hasAttribute('data-bk-fr')) { B.fr = t.getAttribute('data-bk-fr'); renderBook(); return; }
   if (t.hasAttribute('data-bk-cob')) { readFields(); B.cob = t.getAttribute('data-bk-cob'); renderBook(); return; }
@@ -922,7 +1005,7 @@ document.addEventListener('click', function (e) {
   if (t.getAttribute('data-bk') === 'next') { if (B.area === 'kine' && B.step === 'dia' && B.pro === 'any') { /* se asigna al confirmar */ } var fl = FLOW[B.area]; B.step = fl[fl.indexOf(B.step) + 1]; renderBook(); return; }
   if (t.getAttribute('data-bk') === 'confirm') { confirmBook(); return; }
   if (t.hasAttribute('data-goto-panel')) { closeDlg(); setView('panel'); return; }
-  if (t.hasAttribute('data-pk')) { var k = t.getAttribute('data-pk'), i = pilSel.indexOf(k); if (i >= 0) pilSel.splice(i, 1); else { if (pilSel.length >= 3) { toast('Podés elegir hasta 3 horarios por semana'); return; } pilSel.push(k); } renderPil(); var c = $('[data-pk="' + k + '"]'); if (c) c.focus(); return; }
+  if (t.hasAttribute('data-pk')) { var k = t.getAttribute('data-pk'), i = pilSel.indexOf(k); if (i >= 0) pilSel.splice(i, 1); else { if (pilSel.length >= 3) { toast('Podés elegir hasta 3 horarios por semana'); return; } pilSel.push(k); } renderPil(); var c = $('[data-pk="' + k + '"]'); if (c) { c.focus({ preventScroll: true }); anim(c, 'pop'); } return; }
   if (t.hasAttribute('data-wa') && t.getAttribute('data-wa') === 'consulta') { waDlg('Consulta', 'Humanus (336 459-9242)', 'Hola Humanus! Les escribo desde la página. Quería hacer una consulta:'); return; }
 });
 $('#os-ask').addEventListener('click', function () {
@@ -1049,22 +1132,22 @@ function ficha(pid) {
 }
 document.addEventListener('click', function (e) {
   var b = e.target.closest('[data-act],[data-tab],[data-ptab],[data-pday],[data-pclass]'); if (!b) return;
-  if (b.hasAttribute('data-tab') || b.hasAttribute('data-ptab')) { TAB = b.getAttribute('data-tab') || b.getAttribute('data-ptab'); renderPanel(); if (b.hasAttribute('data-ptab')) $('.tabs').scrollIntoView({ block: 'start' }); return; }
-  if (b.hasAttribute('data-pday')) { PDAY = b.getAttribute('data-pday'); renderPanel(); return; }
+  if (b.hasAttribute('data-tab') || b.hasAttribute('data-ptab')) { TAB = b.getAttribute('data-tab') || b.getAttribute('data-ptab'); renderPanel(); fresh($('#pv')); if (b.hasAttribute('data-ptab')) $('.tabs').scrollIntoView({ block: 'start' }); return; }
+  if (b.hasAttribute('data-pday')) { var sl = $('.days') ? $('.days').scrollLeft : 0; PDAY = b.getAttribute('data-pday'); renderPanel(); if ($('.days')) $('.days').scrollLeft = sl; anim($('.cols'), 'slide-in'); return; }
   if (b.hasAttribute('data-pclass')) {
     var k = b.getAttribute('data-pclass'), al = S.al.filter(function (a) { return a.slots.indexOf(k) >= 0; });
     openDlg('Clase de pilates', DOW[+k.split('-')[0]] + ' ' + hh(+k.split('-')[1]), '<p class="q">' + al.length + ' de ' + S.cupo + ' lugares ocupados</p>' + (al.length ? '<ul class="pl">' + al.map(function (a) { return '<li><b>' + esc(a.n) + '</b><div class="sub2">' + (a.pago ? 'Pagó el mes' : 'Debe el mes') + (a.move ? ', MOVE' : '') + '</div></li>'; }).join('') + '</ul>' : '<p class="empty">Clase sin alumnos todavía.</p>'), '<button type="button" class="btn btn-a" data-close>Listo</button>');
     return;
   }
   var act = b.getAttribute('data-act'), id = b.getAttribute('data-id'), t, a, p;
-  if (act === 'conf') { t = findT(id); t.st = 'conf'; var pr = proById(t.pro); after(); waDlg('Confirmar turno', t.n + ' (' + t.tel + ')', 'Hola ' + first(t.n) + '! Te confirmamos tu turno de kinesiología con ' + pr.n + ' el ' + dayLong(t.day).toLowerCase() + ' a las ' + hh(t.h) + ' en Humanus, De La Nación 394.' + (t.cob === 'os' ? ' Traé la credencial de la obra social' + (t.orden === 'no' ? ' y, si podés, la orden médica.' : ' y la orden médica.') : '') + ' ¡Te esperamos!'); return; }
+  if (act === 'conf') { t = findT(id); t.st = 'conf'; var pr = proById(t.pro); after(); flashRow('[data-act="at"][data-id="' + id + '"]'); waDlg('Confirmar turno', t.n + ' (' + t.tel + ')', 'Hola ' + first(t.n) + '! Te confirmamos tu turno de kinesiología con ' + pr.n + ' el ' + dayLong(t.day).toLowerCase() + ' a las ' + hh(t.h) + ' en Humanus, De La Nación 394.' + (t.cob === 'os' ? ' Traé la credencial de la obra social' + (t.orden === 'no' ? ' y, si podés, la orden médica.' : ' y la orden médica.') : '') + ' ¡Te esperamos!'); return; }
   if (act === 'rec') { t = findT(id); waDlg('Recordatorio', t.n + ' (' + t.tel + ')', 'Hola ' + first(t.n) + '! Te recordamos tu turno en Humanus el ' + dayLabel(t.day) + ' a las ' + hh(t.h) + ' con ' + proById(t.pro).n + '. Si no podés venir, avisanos así se lo damos a otra persona. ¡Gracias!'); return; }
-  if (act === 'at') { t = findT(id); t.st = 'at'; p = pacOf(t); if (p && p.orden) p.orden.us = Math.min(p.orden.tot, p.orden.us + 1); after(); toast(p && p.orden ? 'Atendido. ' + (p.orden.tot - p.orden.us) + ' sesiones quedan en la orden' : 'Turno marcado como atendido'); return; }
+  if (act === 'at') { t = findT(id); t.st = 'at'; p = pacOf(t); if (p && p.orden) p.orden.us = Math.min(p.orden.tot, p.orden.us + 1); after(); flashRow('[data-pid="' + t.pid + '"][data-act="ficha"]'); toast(p && p.orden ? 'Atendido. ' + (p.orden.tot - p.orden.us) + ' sesiones quedan en la orden' : 'Turno marcado como atendido'); return; }
   if (act === 'aus') { t = findT(id); t.st = 'aus'; after(); toast('Marcado como ausente. El horario vuelve a estar libre en la página'); return; }
   if (act === 'ficha') { ficha(b.getAttribute('data-pid')); return; }
   if (act === 'orden') { p = findP(b.getAttribute('data-pid')); waDlg('Pedir nueva orden', p.n + ' (' + p.tel + ')', 'Hola ' + first(p.n) + '! Te escribimos de Humanus. ' + (p.orden.tot - p.orden.us <= 0 ? 'Ya usaste todas las sesiones de tu orden médica.' : 'Te ' + (p.orden.tot - p.orden.us === 1 ? 'queda 1 sesión' : 'quedan ' + (p.orden.tot - p.orden.us) + ' sesiones') + ' de tu orden médica.') + ' Para seguir con el tratamiento sin cortar, pedile a tu médico una orden nueva y mandanos una foto por acá. ¡Gracias!'); return; }
   if (act === 'pilconf') { a = findA(id); a.st = 'conf'; after(); waDlg('Confirmar lugar en pilates', a.n + ' (' + a.tel + ')', 'Hola ' + first(a.n) + '! Te confirmamos tu lugar en pilates: ' + a.slots.map(slotLabel).join(' y ') + '.' + (a.move ? ' Tenés el 10% off por ser alumno/a de MOVE.' : '') + ' El valor del mes es $[a cargar]. ¡Te esperamos en De La Nación 394!'); return; }
-  if (act === 'pago') { a = findA(id); a.pago = true; after(); toast('Pago registrado: ' + a.n); return; }
+  if (act === 'pago') { a = findA(id); a.pago = true; after(); flashRow('[data-act="pilconf"][data-id="' + id + '"],[data-id="' + id + '"]'); toast('Pago registrado: ' + a.n); return; }
   if (act === 'cuota') { a = findA(id); waDlg('Recordar cuota', a.n + ' (' + a.tel + ')', 'Hola ' + first(a.n) + '! Te recordamos que está pendiente la cuota de pilates de este mes' + (a.move ? ' (con tu 10% de MOVE)' : '') + '. Podés pagarla en tu próxima clase o por transferencia. ¡Gracias!'); return; }
   if (act === 'cons') { var c; S.cons.forEach(function (x) { if (x.id === id) c = x; }); c.st = 'pasado'; after(); waDlg('Ofrecer turnos', c.n + ' (' + c.tel + ')', 'Hola ' + first(c.n) + '! Te escribimos de Humanus por tu turno de ' + c.serv.toLowerCase() + '. Tenemos estos turnos ' + (c.fr === 'Me da igual' ? '' : 'a la ' + c.fr.toLowerCase() + ' ') + 'esta semana: [días y horarios]. ¿Cuál te queda mejor?'); return; }
   if (act === 'cupo-' || act === 'cupo+') { S.cupo = Math.max(1, Math.min(12, S.cupo + (act === 'cupo+' ? 1 : -1))); after(); return; }
@@ -1094,12 +1177,19 @@ function setView(v) {
   document.body.setAttribute('data-view', v);
   $('#seg').setAttribute('data-v', v);
   $$('#seg button').forEach(function (b) { b.setAttribute('aria-pressed', pressed(b.getAttribute('data-view') === v)); });
-  if (v === 'panel') { var nw = S.t.filter(function (x) { return x.st === 'nuevo'; }); if (nw.length) PDAY = nw[nw.length - 1].day; if (!S.t.some(function (x) { return x.st === 'nuevo'; }) && S.al.some(function (a) { return a.st === 'nuevo'; })) TAB = 'pilates'; renderPanel(); } else renderAllClient();
-  window.scrollTo(0, 0);
+  anim($(v === 'panel' ? '#panel' : '#cliente'), 'slide-in');
+  if (v === 'panel') { fresh($('#pv')); var nw = S.t.filter(function (x) { return x.st === 'nuevo'; }); if (nw.length) PDAY = nw[nw.length - 1].day; if (!S.t.some(function (x) { return x.st === 'nuevo'; }) && S.al.some(function (a) { return a.st === 'nuevo'; })) TAB = 'pilates'; renderPanel(); } else renderAllClient();
+  window.scrollTo({ top: 0, behavior: 'instant' in document.documentElement.style ? 'instant' : 'auto' });
 }
 $$('#seg button').forEach(function (b) { b.addEventListener('click', function () { setView(b.getAttribute('data-view')); }); });
 
 renderTrae(); renderAreas(); renderPros(); renderAllClient();
+if ('IntersectionObserver' in window && !RM.matches) {
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { var el = e.target; el.classList.add('in'); io.unobserve(el); setTimeout(function () { el.classList.remove('rv', 'in'); el.style.transitionDelay = ''; }, 1300); } }); }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  ['#cliente section .sh', '.trae > button', '.areas > .area', '.pil', '.promo > div', '.pros > .pro', '.two > .box', '.espacio > *', '.alq', '#preguntas details', '.made-box'].forEach(function (q) {
+    $$(q).forEach(function (el, i) { el.classList.add('rv'); el.style.transitionDelay = Math.min(i, 5) * 70 + 'ms'; io.observe(el); });
+  });
+}
 })();
 </script>
 </body>
