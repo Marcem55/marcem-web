@@ -459,7 +459,6 @@ dialog[open]{animation:sheetIn .38s var(--ease)}
   <div class="w">
     <div class="ptop">
       <div><h1>Panel del taller</h1><p id="p-date"></p></div>
-      <div class="field rolesel"><label for="role">Ver como</label><select id="role"><option value="">Todo Bien Asado</option><option value="lucas">Lucas</option><option value="federico">Federico</option></select></div>
     </div>
     <div class="todo" id="todo"></div>
     <div class="tabs" role="tablist" aria-label="Secciones del panel">
@@ -469,7 +468,7 @@ dialog[open]{animation:sheetIn .38s var(--ease)}
       <button type="button" role="tab" aria-selected="false" data-tab="envios">Envíos</button>
     </div>
     <div id="pv" role="tabpanel"></div>
-    <p class="note">Panel con consultas y pedidos de ejemplo. En la versión real entran Lucas y Federico con su usuario y contraseña, y los datos se guardan en una base protegida, no en el navegador.</p>
+    <p class="note">Panel con consultas y pedidos de ejemplo. En la versión real entran con usuario y contraseña, y los datos se guardan en una base protegida, no en el navegador.</p>
     <p class="note"><button type="button" class="linkbtn" id="reset">Volver a los datos de ejemplo</button></p>
   </div>
 </main>
@@ -747,7 +746,7 @@ function renderTodo() {
 }
 function renderConsultas() {
   var list = S.cons.filter(mine);
-  if (!list.length) return '<p class="meta">No hay consultas para ' + (ROLE ? VEND[ROLE].n : 'mostrar') + '.</p>';
+  if (!list.length) return '<p class="meta">No hay consultas por ahora.</p>';
   return '<div class="list">' + list.map(function (c) {
     var st = ST_C[c.st] || ['', ''], p = priceOf(c.spec), z = zonaById(c.zona);
     return '<article class="card' + (c.fresh ? ' new flash' : '') + '"><div class="card-h"><div><span class="code">' + esc(c.code) + ' · ' + esc(c.when) + '</span><br><b>' + esc(c.n) + '</b></div><span class="tag ' + st[1] + '">' + st[0] + '</span></div>' +
@@ -799,7 +798,6 @@ function findC(code) { return S.cons.filter(function (c) { return c.code === cod
 function findO(code) { return S.orders.filter(function (o) { return o.code === code; })[0]; }
 $('.tabs').addEventListener('click', function (e) { var b = e.target.closest('[data-tab]'); if (!b) return; TAB = b.getAttribute('data-tab'); renderPanel(); anim($('#pv'), 'slide-in'); });
 $('#todo').addEventListener('click', function (e) { var b = e.target.closest('[data-go]'); if (!b) return; TAB = b.getAttribute('data-go'); renderPanel(); anim($('#pv'), 'slide-in'); });
-$('#role').addEventListener('change', function () { ROLE = $('#role').value; renderPanel(); anim($('#pv'), 'slide-in'); });
 $('#pv').addEventListener('click', function (e) {
   var b = e.target.closest('button'); if (!b) return;
   var c, o;
