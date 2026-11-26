@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Planje para Switch Point · Demo</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --noche:#0E1320;
+    --noche-2:#161D2E;
+    --noche-3:#212A3F;
+    --verde:#00D96B;
+    --verde-o:#00A855;
+    --verde-bg:#E6F8EE;
+    --tinta:#0E1320;
+    --gris:#5B6475;
+    --gris-2:#8A93A3;
+    --linea:#E5E8EE;
+    --fondo:#F5F7FA;
+    --ambar:#B86E00;
+    --ambar-bg:#FFF4E0;
+    --azul:#1F5FD1;
+    --azul-bg:#E8F0FD;
+    --rojo:#C8372D;
+    --radio:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:Inter,system-ui,sans-serif;
+    background:var(--noche);
+    color:#fff;
+    line-height:1.45;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.pop{font-family:Poppins,Inter,sans-serif}
+  button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+  input{font:inherit}
+  .wrap{max-width:480px;margin:0 auto;padding:0 18px}
+
+  /* Cinta demo */
+  .cinta{
+    background:var(--verde);color:var(--noche);
+    font-size:12.5px;font-weight:700;text-align:center;
+    padding:7px 12px;letter-spacing:.2px;
+  }
+
+  /* Hero */
+  .hero{padding-block:26px 20px}
+  .logo{display:flex;align-items:center;gap:9px;font-family:Poppins;font-weight:700;font-size:19px}
+  .logo svg{width:30px;height:30px}
+  .hero h1{font-size:31px;line-height:1.12;margin:22px 0 12px;font-weight:700;letter-spacing:-.5px}
+  .hero h1 span{color:var(--verde)}
+  .dolor{font-size:16px;color:#C9CFDA;max-width:400px}
+  .dolor b{color:#fff;font-weight:600}
+  .hero-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+  .hero-tags span{font-size:12px;border:1px solid var(--noche-3);background:var(--noche-2);color:#C9CFDA;padding:5px 10px;border-radius:99px}
+
+  /* Tabs */
+  .tabs-bar{
+    position:sticky;top:0;z-index:20;
+    background:rgba(14,19,32,.94);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--noche-3);
+  }
+  .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding-block:10px}
+  .tab{
+    padding:8px 2px;border-radius:11px;
+    font-size:11.5px;font-weight:600;color:#9AA3B5;
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    transition:background .2s,color .2s;
+  }
+  .tab .n{
+    font-family:Poppins;font-size:12px;width:22px;height:22px;border-radius:50%;
+    display:grid;place-items:center;background:var(--noche-3);color:#C9CFDA;
+  }
+  .tab[aria-selected="true"]{background:var(--noche-2);color:#fff}
+  .tab[aria-selected="true"] .n{background:var(--verde);color:var(--noche)}
+
+  /* Secciones */
+  .panel{display:none;padding:22px 0 8px;animation:entra .28s ease}
+  .panel.activo{display:block}
+  @keyframes entra{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .kicker{font-size:12px;font-weight:700;color:var(--verde);text-transform:uppercase;letter-spacing:1px}
+  .panel h2{font-size:23px;line-height:1.2;margin:6px 0 8px;font-weight:700}
+  .panel .bajada{color:#C9CFDA;font-size:15px;margin-bottom:16px}
+
+  /* Pantalla (blanca, de trabajo) */
+  .pantalla{
+    background:#fff;color:var(--tinta);
+    border-radius:22px;overflow:hidden;
+    box-shadow:0 18px 40px rgba(0,0,0,.35);
+    margin-bottom:16px;
+  }
+  .p-top{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 14px;border-bottom:1px solid var(--linea);background:#fff;
+  }
+  .p-top .t{font-family:Poppins;font-weight:600;font-size:15px}
+  .p-top .s{font-size:11.5px;color:var(--gris-2)}
+  .ej{font-size:10.5px;font-weight:700;color:var(--ambar);background:var(--ambar-bg);padding:3px 7px;border-radius:6px;white-space:nowrap}
+  .p-body{padding:14px;background:var(--fondo)}
+  .card{background:#fff;border:1px solid var(--linea);border-radius:14px;padding:12px 13px;margin-bottom:10px}
+  .card:last-child{margin-bottom:0}
+  .fila{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .tit{font-weight:600;font-size:14.5px}
+  .sub{font-size:12.5px;color:var(--gris)}
+  .monto{font-family:Poppins;font-weight:600;font-size:15px;white-space:nowrap}
+  .chip{font-size:11px;font-weight:700;padding:4px 8px;border-radius:99px;white-space:nowrap}
+  .c-verde{background:var(--verde-bg);color:var(--verde-o)}
+  .c-ambar{background:var(--ambar-bg);color:var(--ambar)}
+  .c-azul{background:var(--azul-bg);color:var(--azul)}
+  .c-gris{background:#EEF0F4;color:var(--gris)}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:7px;
+    background:var(--verde-o);color:#fff;font-weight:600;font-size:14.5px;
+    padding:12px 16px;border-radius:12px;width:100%;
+    transition:transform .1s,background .2s;
+  }
+  .btn:active{transform:scale(.98)}
+  .btn.sec{background:#fff;color:var(--tinta);border:1px solid var(--linea)}
+  .btn.chico{width:auto;padding:8px 12px;font-size:13px;border-radius:10px}
+  .mt{margin-top:10px}
+  .sep{height:1px;background:var(--linea);margin:10px 0}
+  .mini{font-size:11.5px;color:var(--gris-2)}
+  .link-box{
+    display:flex;align-items:center;gap:8px;margin-top:10px;
+    background:var(--verde-bg);border-radius:10px;padding:8px 10px;
+    font-size:12.5px;color:var(--verde-o);font-weight:600;
+  }
+  .link-box code{font-family:Inter;font-weight:500;color:var(--tinta);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+
+  /* Lista de reparaciones */
+  .rep{cursor:pointer;transition:border-color .2s,box-shadow .2s}
+  .rep:hover,.rep.sel{border-color:var(--verde-o);box-shadow:0 0 0 3px rgba(0,168,85,.12)}
+  .rep .nro{font-size:11.5px;font-weight:700;color:var(--gris-2)}
+
+  /* Vista pública */
+  .publica{background:#fff}
+  .pub-head{background:var(--noche);color:#fff;padding:16px 16px 18px}
+  .pub-head .marca{font-family:Poppins;font-weight:700;font-size:17px}
+  .pub-head .mini{color:#9AA3B5}
+  .consulta{display:flex;gap:8px;margin-top:12px}
+  .consulta input{
+    flex:1;min-width:0;border:1px solid var(--noche-3);background:var(--noche-2);color:#fff;
+    border-radius:11px;padding:11px 12px;font-size:15px;text-transform:uppercase;
+  }
+  .consulta input::placeholder{color:#6B7488;text-transform:none}
+  .consulta button{background:var(--verde);color:var(--noche);font-weight:700;border-radius:11px;padding:0 14px;font-size:13.5px;white-space:nowrap}
+  .pub-body{padding:16px}
+  .pasos{list-style:none;position:relative;margin-top:14px}
+  .paso{display:flex;gap:12px;position:relative;padding-bottom:16px}
+  .paso:last-child{padding-bottom:0}
+  .paso::before{content:"";position:absolute;left:11px;top:24px;bottom:0;width:2px;background:var(--linea)}
+  .paso:last-child::before{display:none}
+  .paso.ok::before{background:var(--verde-o)}
+  .bola{width:24px;height:24px;border-radius:50%;flex:none;display:grid;place-items:center;border:2px solid var(--linea);background:#fff;z-index:1}
+  .paso.ok .bola{background:var(--verde-o);border-color:var(--verde-o)}
+  .paso.ahora .bola{border-color:var(--verde-o);box-shadow:0 0 0 4px rgba(0,168,85,.15)}
+  .paso.ahora .bola::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--verde-o)}
+  .paso .tit{font-size:14px}
+  .paso:not(.ok):not(.ahora) .tit{color:var(--gris-2);font-weight:500}
+  .aviso{font-size:13px;background:var(--fondo);border-radius:12px;padding:11px 12px;margin-top:14px;color:var(--gris)}
+  .error{color:var(--rojo);font-size:13px;margin-top:8px;display:none}
+
+  /* Stock */
+  .filtros{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none}
+  .filtros::-webkit-scrollbar{display:none}
+  .filtro{font-size:13px;font-weight:600;padding:7px 12px;border-radius:99px;background:#fff;border:1px solid var(--linea);color:var(--gris);white-space:nowrap}
+  .filtro.on{background:var(--tinta);color:#fff;border-color:var(--tinta)}
+  .imei{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;color:var(--gris)}
+  .regalos{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+  .regalos span{font-size:11px;background:var(--verde-bg);color:var(--verde-o);padding:3px 7px;border-radius:6px;font-weight:600}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+  .stat{background:#fff;border:1px solid var(--linea);border-radius:12px;padding:9px 10px}
+  .stat b{display:block;font-family:Poppins;font-size:18px}
+  .stat span{font-size:11px;color:var(--gris)}
+
+  /* Canje */
+  .flujo{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center}
+  .eq{background:#fff;border:1px solid var(--linea);border-radius:14px;padding:11px;text-align:center}
+  .eq .sub{font-size:11.5px}
+  .flecha{color:var(--verde-o);font-size:20px;font-weight:700}
+  .cuenta .fila{padding:5px 0;font-size:14px}
+  .cuenta .total{font-weight:700;font-size:15px}
+  .cuotas{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+  .cuotas div{background:var(--fondo);border-radius:10px;padding:8px;text-align:center;font-size:11.5px;color:var(--gris)}
+  .cuotas b{display:block;font-family:Poppins;color:var(--tinta);font-size:14px}
+  .exito{display:none;border:1px solid var(--verde-o);background:var(--verde-bg)}
+  .exito.ver{display:block;animation:entra .3s ease}
+  .check{list-style:none;font-size:13.5px}
+  .check li{padding:4px 0 4px 24px;position:relative}
+  .check li::before{content:"";position:absolute;left:2px;top:8px;width:13px;height:13px;border-radius:50%;background:var(--verde-o)}
+  .check li::after{content:"";position:absolute;left:6px;top:11px;width:5px;height:3px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg)}
+  .nuevo-stock{animation:brilla 1.6s ease 2}
+  @keyframes brilla{50%{box-shadow:0 0 0 4px rgba(0,168,85,.25);border-color:var(--verde-o)}}
+
+  /* Caja */
+  .barra{height:8px;background:#EEF0F4;border-radius:99px;overflow:hidden;display:flex;margin:10px 0 6px}
+  .barra i{display:block;height:100%}
+  .leyenda{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--gris)}
+  .leyenda span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:5px;background:var(--c)}
+  .contar{display:flex;gap:8px;align-items:center;margin-top:8px}
+  .contar input{flex:1;min-width:0;border:1px solid var(--linea);border-radius:10px;padding:10px 12px;font-size:16px;font-weight:600}
+  .dif{font-size:13px;font-weight:600;margin-top:8px}
+  .vend{display:flex;align-items:center;gap:10px}
+  .avatar{width:36px;height:36px;border-radius:50%;background:var(--noche);color:var(--verde);display:grid;place-items:center;font-family:Poppins;font-weight:600;font-size:14px;flex:none}
+  .prog{height:6px;background:#EEF0F4;border-radius:99px;margin-top:8px;overflow:hidden}
+  .prog i{display:block;height:100%;background:var(--verde-o);border-radius:99px}
+  .permisos{list-style:none;font-size:13px}
+  .permisos li{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--linea)}
+  .permisos li:last-child{border:0}
+  .si{color:var(--verde-o);font-weight:700}
+  .no{color:var(--gris-2);font-weight:600}
+
+  /* Navegación entre pantallas */
+  .nav{display:flex;justify-content:space-between;gap:10px;padding:6px 0 4px}
+  .nav button{flex:1;border:1px solid var(--noche-3);border-radius:12px;padding:11px;font-size:13.5px;font-weight:600;color:#C9CFDA}
+  .nav button.sig{background:var(--verde);border-color:var(--verde);color:var(--noche)}
+  .nav button[disabled]{opacity:.3;cursor:default}
+  .swipe{font-size:12px;color:#6B7488;text-align:center;margin-top:6px}
+
+  /* Cierre */
+  .cierre{padding-block:34px 30px;text-align:left}
+  .cierre h2{font-size:27px;line-height:1.15;font-weight:700;margin-bottom:10px}
+  .cierre h2 span{color:var(--verde)}
+  .cierre p{color:#C9CFDA;font-size:15px}
+  .oferta{
+    margin:20px 0;border:1px solid rgba(0,217,107,.35);
+    background:linear-gradient(160deg,rgba(0,217,107,.12),rgba(0,217,107,.02));
+    border-radius:20px;padding:18px;
+  }
+  .oferta .kicker{margin-bottom:6px}
+  .oferta h3{font-size:19px;font-weight:600;margin-bottom:12px}
+  .oferta ul{list-style:none}
+  .oferta li{display:flex;gap:10px;align-items:flex-start;padding:6px 0;font-size:14.5px;color:#E2E6EE}
+  .oferta li b{color:var(--verde);font-family:Poppins;min-width:62px}
+  .cta{
+    display:flex;align-items:center;justify-content:center;
+    background:var(--verde);color:var(--noche);font-family:Poppins;font-weight:600;
+    font-size:16px;padding:15px;border-radius:14px;text-decoration:none;
+  }
+  .cta-sec{
+    display:flex;align-items:center;justify-content:center;margin-top:10px;
+    border:1px solid var(--noche-3);color:#fff;font-weight:600;font-size:14.5px;
+    padding:13px;border-radius:14px;text-decoration:none;
+  }
+  .letra{font-size:12px;color:#6B7488;margin-top:18px;line-height:1.5}
+  footer{border-top:1px solid var(--noche-3);padding:16px 0 30px;font-size:12px;color:#6B7488}
+
+  @media (min-width:700px){
+    .hero h1{font-size:38px}
+  }
+</style>
+</head>
+<body>
+
+<div class="cinta">Demo con datos de ejemplo · IMEI, clientes y montos de caja son inventados</div>
+
+<header class="wrap hero">
+  <div class="logo">
+    <svg viewBox="0 0 32 32" aria-hidden="true">
+      <rect width="32" height="32" rx="9" fill="#00D96B"/>
+      <path d="M10 25V7h7.2a6 6 0 0 1 0 12H10" fill="none" stroke="#0E1320" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M13.5 13h5m-2-2.3 2.3 2.3-2.3 2.3" fill="none" stroke="#0E1320" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Planje
+  </div>
+  <h1>Planje para <span>Switch Point</span></h1>
+  <p class="dolor">Afuera la tienda brilla: <b>791 reseñas con 5,0</b>. Esto es para que adentro todo vaya igual de rápido: reparaciones, stock y canje en un solo lugar, y ese <b>"Consultar orden"</b> que pensaste para tus clientes, funcionando.</p>
+  <div class="hero-tags">
+    <span>Reparaciones</span><span>Stock por IMEI</span><span>Canje</span><span>Caja y equipo</span>
+  </div>
+</header>
+
+<div class="tabs-bar">
+  <nav class="wrap tabs" role="tablist" aria-label="Pantallas de la demo">
+    <button class="tab" role="tab" aria-selected="true" data-i="0"><span class="n">1</span>Reparaciones</button>
+    <button class="tab" role="tab" aria-selected="false" data-i="1"><span class="n">2</span>Stock</button>
+    <button class="tab" role="tab" aria-selected="false" data-i="2"><span class="n">3</span>Canje</button>
+    <button class="tab" role="tab" aria-selected="false" data-i="3"><span class="n">4</span>Caja</button>
+  </nav>
+</div>
+
+<main class="wrap" id="paneles">
+
+  <!-- 1. REPARACIONES -->
+  <section class="panel activo" role="tabpanel" data-i="0">
+    <div class="kicker">El "Consultar orden", andando</div>
+    <h2>Que el cliente vea cómo va su equipo, sin escribirte.</h2>
+    <p class="bajada">Cada reparación sale con un link. El cliente lo abre y ve el estado paso a paso. Vos dejás de contestar "¿y, cómo va?" por WhatsApp.</p>
+
+    <div class="pantalla">
+      <div class="p-top">
+        <div><div class="t">Reparaciones</div><div class="s">Tocá una para ver lo que ve el cliente</div></div>
+        <span class="ej">Ejemplo</span>
+      </div>
+      <div class="p-body" id="lista-rep"></div>
+    </div>
+
+    <div class="pantalla publica">
+      <div class="pub-head">
+        <div class="mini">Lo que ve el cliente desde el link</div>
+        <div class="marca">Switch Point · Consultar orden</div>
+        <form class="consulta" id="form-orden" autocomplete="off">
+          <input id="in-orden" placeholder="N.º de orden (ej. SP-0418)" aria-label="Número de orden">
+          <button type="submit">Consultar</button>
+        </form>
+        <div class="error" id="err-orden">No encontramos esa orden. Probá con SP-0418, SP-0421 o SP-0423.</div>
+      </div>
+      <div class="pub-body" id="vista-pub"></div>
+    </div>
+  </section>
+
+  <!-- 2. STOCK -->
+  <section class="panel" role="tabpanel" data-i="1">
+    <div class="kicker">Stock por IMEI</div>
+    <h2>Cada iPhone con su IMEI, su precio y su garantía.</h2>
+    <p class="bajada">Sabés qué tenés en la vitrina, cuál es usado y qué regalo le toca. Al vender un usado, la garantía de 3 meses y el regalo se cargan solos.</p>
+
+    <div class="pantalla">
+      <div class="p-top">
+        <div><div class="t">Productos</div><div class="s">Switch Point · Francia 45, local 5</div></div>
+        <span class="ej">IMEI y precios de ejemplo</span>
+      </div>
+      <div class="p-body">
+        <div class="stats">
+          <div class="stat"><b id="st-total">0</b><span>Equipos</span></div>
+          <div class="stat"><b id="st-usados">0</b><span>Usados</span></div>
+          <div class="stat"><b id="st-acc">0</b><span>Accesorios</span></div>
+        </div>
+        <div class="filtros" id="filtros">
+          <button class="filtro on" data-f="todos">Todos</button>
+          <button class="filtro" data-f="nuevo">Nuevos</button>
+          <button class="filtro" data-f="usado">Usados</button>
+          <button class="filtro" data-f="acc">Accesorios</button>
+        </div>
+        <div id="lista-stock"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. CANJE -->
+  <section class="panel" role="tabpanel" data-i="2">
+    <div class="kicker">Venta con canje</div>
+    <h2>Trae su 13 Pro Max, se lleva un 17 Pro.</h2>
+    <p class="bajada">Lo cotizás con Planje Canje, la diferencia va en 3 cuotas y el usado entra solo al stock. Rápido, sencillo y transparente, como ya dicen tus reseñas.</p>
+
+    <div class="pantalla">
+      <div class="p-top">
+        <div><div class="t">Nueva venta</div><div class="s">Cliente: Martín G. (ejemplo)</div></div>
+        <span class="ej">Montos de ejemplo</span>
+      </div>
+      <div class="p-body">
+        <div class="flujo">
+          <div class="eq">
+            <div class="mini">Entrega</div>
+            <div class="tit">iPhone 13 Pro Max</div>
+            <div class="sub">256 GB · Batería 86%</div>
+            <span class="chip c-azul" style="display:inline-block;margin-top:6px">Planje Canje</span>
+          </div>
+          <div class="flecha" aria-hidden="true">&rarr;</div>
+          <div class="eq">
+            <div class="mini">Se lleva</div>
+            <div class="tit">iPhone 17 Pro</div>
+            <div class="sub">256 GB · Nuevo</div>
+            <span class="chip c-verde" style="display:inline-block;margin-top:6px">En stock</span>
+          </div>
+        </div>
+
+        <div class="card mt">
+          <div class="fila"><span class="tit">Cotización del usado</span><span class="chip c-azul">Planje Canje</span></div>
+          <div class="sub" style="margin-top:4px">Modelo, capacidad, batería y estado de pantalla. Precio sugerido según tu tabla.</div>
+          <div class="sep"></div>
+          <div class="fila"><span class="sub">Toma acordada</span><span class="monto">$780.000</span></div>
+        </div>
+
+        <div class="card cuenta">
+          <div class="fila"><span>iPhone 17 Pro 256 GB</span><span class="monto">$2.340.000</span></div>
+          <div class="fila"><span>Canje 13 Pro Max</span><span class="monto" style="color:var(--verde-o)">− $780.000</span></div>
+          <div class="sep"></div>
+          <div class="fila total"><span>Diferencia</span><span class="monto">$1.560.000</span></div>
+          <div class="cuotas">
+            <div><b>$520.000</b>Cuota 1</div>
+            <div><b>$520.000</b>Cuota 2</div>
+            <div><b>$520.000</b>Cuota 3</div>
+          </div>
+          <div class="mini" style="margin-top:8px">3 cuotas sin interés con tarjeta.</div>
+          <button class="btn mt" id="btn-venta">Confirmar venta</button>
+        </div>
+
+        <div class="card exito" id="exito">
+          <div class="tit" style="color:var(--verde-o);margin-bottom:6px">Venta cerrada. Esto pasó solo:</div>
+          <ul class="check">
+            <li>El 17 Pro salió del stock con su IMEI.</li>
+            <li>El 13 Pro Max entró al stock como usado, listo para revisar y vender.</li>
+            <li>Se cargó la garantía del equipo nuevo.</li>
+            <li>La venta sumó a la comisión de la vendedora.</li>
+          </ul>
+          <div class="card mt nuevo-stock" style="margin-bottom:0">
+            <div class="fila"><span class="tit">iPhone 13 Pro Max 256 GB</span><span class="chip c-ambar">Recién ingresado</span></div>
+            <div class="imei">IMEI 35 384911 207745 3 · ejemplo</div>
+            <div class="sub">Origen: canje · Costo $780.000</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. CAJA Y EQUIPO -->
+  <section class="panel" role="tabpanel" data-i="3">
+    <div class="kicker">Caja y equipo</div>
+    <h2>Cerrás la caja en dos minutos y sabés cuánto le toca a cada uno.</h2>
+    <p class="bajada">El cierre te guía: contás el efectivo, Planje te dice si cierra. Y la comisión de la vendedora se arma sola con cada venta.</p>
+
+    <div class="pantalla">
+      <div class="p-top">
+        <div><div class="t">Cierre de caja</div><div class="s">Jueves · turno tarde 16:30 a 20:00</div></div>
+        <span class="ej">Montos de ejemplo</span>
+      </div>
+      <div class="p-body">
+        <div class="card">
+          <div class="fila"><span class="sub">Vendido hoy</span><span class="monto" style="font-size:19px">$3.418.500</span></div>
+          <div class="barra" aria-hidden="true">
+            <i style="width:14%;background:#0E1320"></i>
+            <i style="width:31%;background:#00A855"></i>
+            <i style="width:55%;background:#7FD3A6"></i>
+          </div>
+          <div class="leyenda">
+            <span style="--c:#0E1320">Efectivo $486.500</span>
+            <span style="--c:#00A855">Transferencia $1.062.000</span>
+            <span style="--c:#7FD3A6">Tarjeta $1.870.000</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="tit">Contá el efectivo</div>
+          <div class="sub">Abriste con $50.000. Deberías tener <b>$536.500</b>.</div>
+          <div class="contar">
+            <input id="in-efectivo" inputmode="numeric" value="536.500" aria-label="Efectivo contado">
+            <button class="btn chico" id="btn-cerrar">Cerrar caja</button>
+          </div>
+          <div class="dif" id="dif"></div>
+        </div>
+
+        <div class="card">
+          <div class="fila" style="margin-bottom:4px"><span class="tit">Movimientos del turno</span><span class="mini">7</span></div>
+          <div class="fila sub" style="padding:4px 0"><span>Venta iPhone 17 Pro + canje</span><span>Tarjeta</span></div>
+          <div class="fila sub" style="padding:4px 0"><span>Batería iPhone 14 · SP-0421</span><span>Efectivo</span></div>
+          <div class="fila sub" style="padding:4px 0"><span>JBL Flip 7</span><span>Transferencia</span></div>
+          <div class="fila sub" style="padding:4px 0"><span>Seña pantalla iPhone 15 Pro</span><span>Transferencia</span></div>
+          <div class="fila sub" style="padding:4px 0"><span>Retiro para proveedor</span><span style="color:var(--rojo)">− Efectivo</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pantalla">
+      <div class="p-top">
+        <div><div class="t">Vendedores</div><div class="s">Noviembre</div></div>
+        <span class="ej">Ejemplo</span>
+      </div>
+      <div class="p-body">
+        <div class="card">
+          <div class="vend">
+            <div class="avatar">V</div>
+            <div style="flex:1">
+              <div class="fila"><span class="tit">Vendedora</span><span class="monto">$187.400</span></div>
+              <div class="sub">14 ventas · 2% de comisión · $9.370.000 vendidos</div>
+            </div>
+          </div>
+          <div class="prog"><i style="width:78%"></i></div>
+          <div class="mini" style="margin-top:5px">78% del objetivo del mes</div>
+        </div>
+        <div class="card">
+          <div class="tit" style="margin-bottom:4px">Qué puede ver y hacer</div>
+          <ul class="permisos">
+            <li><span>Vender y cobrar</span><span class="si">Sí</span></li>
+            <li><span>Cargar reparaciones</span><span class="si">Sí</span></li>
+            <li><span>Ver costos de los equipos</span><span class="no">No</span></li>
+            <li><span>Cambiar precios</span><span class="no">No</span></li>
+          </ul>
+          <div class="mini" style="margin-top:6px">Los permisos los elegís vos, usuario por usuario.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="nav">
+    <button id="ant">&larr; Anterior</button>
+    <button id="sig" class="sig">Siguiente &rarr;</button>
+  </div>
+  <div class="swipe">También podés deslizar para cambiar de pantalla</div>
+</main>
+
+<section class="wrap cierre">
+  <h2>Vos atendé.<br><span>Planje lleva las cuentas.</span></h2>
+  <p>Reparaciones con seguimiento, stock por IMEI, canje y caja, en un solo lugar. Hecho para tiendas de celulares como la tuya.</p>
+
+  <div class="oferta">
+    <div class="kicker">Tiendas fundadoras</div>
+    <h3>Si entrás ahora, arrancás con ventaja.</h3>
+    <ul>
+      <li><b>30 días</b><span>de prueba gratis con todo el plan Pro.</span></li>
+      <li><b>1 mes</b><span>gratis al sumarte como tienda fundadora.</span></li>
+      <li><b>50%</b><span>de descuento los 3 meses siguientes.</span></li>
+    </ul>
+  </div>
+
+  <a class="cta" href="https://planje.app" target="_blank" rel="noopener">Probalo 30 días gratis en planje.app</a>
+  <a class="cta-sec" href="https://canje.planje.app" target="_blank" rel="noopener">Cotizá usados gratis con Planje Canje</a>
+
+  <p class="letra">Esta demo usa datos de ejemplo: los IMEI, los clientes, las órdenes y los montos de caja y comisiones son inventados. Los precios de reparación (pantalla iPhone 15 Pro $621.900 y batería iPhone 14 $110.000) y los modelos son los publicados en switchpoint.ar. Los precios de los equipos y la cotización del canje son de ejemplo.</p>
+</section>
+
+<footer class="wrap">Planje · planje.app · Demo preparada para Switch Point, San Nicolás</footer>
+
+<script>
+(function(){
+  /* ---------- Reparaciones ---------- */
+  var ordenes = {
+    "SP-0418": {
+      equipo:"iPhone 15 Pro", trabajo:"Cambio de pantalla", precio:"$621.900",
+      cliente:"Lucía M.", ingreso:"Lun 23/11", chip:["En reparación","c-azul"], paso:2,
+      nota:"Ya llegó la pantalla y la estamos colocando. Te avisamos apenas esté lista."
+    },
+    "SP-0421": {
+      equipo:"iPhone 14", trabajo:"Cambio de batería", precio:"$110.000",
+      cliente:"Santiago R.", ingreso:"Mié 25/11", chip:["Listo para retirar","c-verde"], paso:4,
+      nota:"Tu equipo está listo. Pasá a retirarlo por Francia 45, local 5."
+    },
+    "SP-0423": {
+      equipo:"iPhone 13", trabajo:"Diagnóstico de placa", precio:"A presupuestar",
+      cliente:"Florencia D.", ingreso:"Jue 26/11", chip:["En diagnóstico","c-ambar"], paso:1,
+      nota:"Estamos revisando la placa. Cuando tengamos el presupuesto te lo mandamos para que lo apruebes."
+    }
+  };
+  var pasos = ["Recibido","En diagnóstico","En reparación","Control de calidad","Listo para retirar"];
+
+  var lista = document.getElementById("lista-rep");
+  var html = "";
+  Object.keys(ordenes).forEach(function(k){
+    var o = ordenes[k];
+    html += '<div class="card rep" data-k="'+k+'" tabindex="0" role="button">'+
+      '<div class="fila"><span class="nro">'+k+' · '+o.ingreso+'</span><span class="chip '+o.chip[1]+'">'+o.chip[0]+'</span></div>'+
+      '<div class="fila" style="margin-top:5px"><span class="tit">'+o.trabajo+' · '+o.equipo+'</span></div>'+
+      '<div class="fila" style="margin-top:2px"><span class="sub">'+o.cliente+' (ejemplo)</span><span class="monto">'+o.precio+'</span></div>'+
+      '<div class="link-box"><span>Link</span><code>switchpoint · orden '+k+'</code><span>Copiar</span></div>'+
+    '</div>';
+  });
+  lista.innerHTML = html;
+
+  var vista = document.getElementById("vista-pub");
+  var err = document.getElementById("err-orden");
+  var inOrden = document.getElementById("in-orden");
+
+  function mostrar(k){
+    var o = ordenes[k];
+    if(!o){ err.style.display="block"; return; }
+    err.style.display="none";
+    inOrden.value = k;
+    document.querySelectorAll(".rep").forEach(function(el){ el.classList.toggle("sel", el.dataset.k===k); });
+    var p = "";
+    pasos.forEach(function(nombre,i){
+      var cls = i < o.paso ? "ok" : (i===o.paso ? "ahora" : "");
+      if(o.paso===4 && i===4) cls = "ok";
+      var icono = cls==="ok" ? '<svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2 5 8.5l4.5-5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' : "";
+      var det = i===o.paso ? '<div class="sub">'+(o.paso===4?"Listo hoy":"Ahora")+'</div>' : "";
+      p += '<li class="paso '+cls+'"><span class="bola">'+icono+'</span><div><div class="tit">'+nombre+'</div>'+det+'</div></li>';
+    });
+    vista.innerHTML =
+      '<div class="fila"><div><div class="mini">Orden '+k+'</div><div class="tit" style="font-size:16px">'+o.equipo+'</div><div class="sub">'+o.trabajo+'</div></div>'+
+      '<span class="chip '+o.chip[1]+'">'+o.chip[0]+'</span></div>'+
+      '<ol class="pasos">'+p+'</ol>'+
+      '<div class="aviso">'+o.nota+'</div>'+
+      '<div class="fila mt"><span class="sub">Total</span><span class="monto">'+o.precio+'</span></div>'+
+      '<button class="btn mt" type="button">Escribirle a Switch Point por WhatsApp</button>'+
+      '<div class="mini" style="margin-top:8px;text-align:center">Datos de ejemplo</div>';
+  }
+
+  lista.addEventListener("click", function(e){
+    var c = e.target.closest(".rep"); if(c){ mostrar(c.dataset.k); }
+  });
+  lista.addEventListener("keydown", function(e){
+    if(e.key==="Enter"){ var c = e.target.closest(".rep"); if(c) mostrar(c.dataset.k); }
+  });
+  document.getElementById("form-orden").addEventListener("submit", function(e){
+    e.preventDefault();
+    var v = inOrden.value.trim().toUpperCase().replace(/\s/g,"");
+    if(/^\d+$/.test(v)) v = "SP-" + v.padStart(4,"0");
+    mostrar(v);
+  });
+  mostrar("SP-0418");
+
+  /* ---------- Stock ---------- */
+  var regaloUsado = ["Cargador","Templado","Voucher"];
+  var stock = [
+    {t:"nuevo", n:"iPhone 17", d:"256 GB · Negro", imei:"35 671204 118392 6", p:"$1.690.000"},
+    {t:"nuevo", n:"iPhone 17 Pro", d:"256 GB · Plata", imei:"35 671204 552019 4", p:"$2.340.000"},
+    {t:"nuevo", n:"iPhone 18 Pro Max", d:"256 GB · Titanio", imei:"35 902817 334106 1", p:"$3.150.000"},
+    {t:"nuevo", n:"iPhone Duo", d:"256 GB", imei:"35 902817 760244 8", p:"$2.890.000"},
+    {t:"usado", n:"iPhone 13 Pro Max", d:"128 GB · Batería 88%", imei:"35 384911 095522 0", p:"$820.000"},
+    {t:"usado", n:"iPhone 15 Pro Max", d:"256 GB · Batería 91%", imei:"35 517830 641877 2", p:"$1.380.000"},
+    {t:"usado", n:"iPhone 16 Pro", d:"128 GB · Batería 95%", imei:"35 640119 283350 5", p:"$1.520.000"},
+    {t:"acc", n:"JBL Flip 7", d:"Parlante · 3 unidades", p:"$249.000"},
+    {t:"acc", n:"AirPods Pro 3", d:"2 unidades", p:"$489.000"}
+  ];
+  var ls = document.getElementById("lista-stock");
+  function pintar(f){
+    var h = "";
+    stock.forEach(function(s){
+      if(f!=="todos" && s.t!==f) return;
+      var chip = s.t==="nuevo" ? '<span class="chip c-verde">Nuevo</span>' : s.t==="usado" ? '<span class="chip c-ambar">Usado</span>' : '<span class="chip c-gris">Accesorio</span>';
+      h += '<div class="card">'+
+        '<div class="fila"><span class="tit">'+s.n+'</span>'+chip+'</div>'+
+        '<div class="fila" style="margin-top:3px"><span class="sub">'+s.d+'</span><span class="monto">'+s.p+'</span></div>'+
+        (s.imei ? '<div class="imei" style="margin-top:4px">IMEI '+s.imei+'</div>' : '')+
+        (s.t==="usado" ? '<div class="sep"></div><div class="fila"><span class="sub"><b>Garantía 3 meses</b> al vender</span></div><div class="regalos">'+regaloUsado.map(function(r){return '<span>Regalo: '+r+'</span>';}).join("")+'</div>' : '')+
+        
+      '</div>';
+    });
+    ls.innerHTML = h;
+  }
+  document.getElementById("st-total").textContent = stock.filter(function(s){return s.t!=="acc";}).length;
+  document.getElementById("st-usados").textContent = stock.filter(function(s){return s.t==="usado";}).length;
+  document.getElementById("st-acc").textContent = 5;
+  document.getElementById("filtros").addEventListener("click", function(e){
+    var b = e.target.closest(".filtro"); if(!b) return;
+    document.querySelectorAll(".filtro").forEach(function(x){ x.classList.toggle("on", x===b); });
+    pintar(b.dataset.f);
+  });
+  pintar("todos");
+
+  /* ---------- Canje ---------- */
+  var btnVenta = document.getElementById("btn-venta");
+  btnVenta.addEventListener("click", function(){
+    var ex = document.getElementById("exito");
+    ex.classList.add("ver");
+    btnVenta.textContent = "Venta confirmada";
+    btnVenta.disabled = true;
+    btnVenta.style.background = "#8A93A3";
+    ex.scrollIntoView({behavior:"smooth", block:"nearest"});
+  });
+
+  /* ---------- Caja ---------- */
+  var esperado = 536500;
+  var inEf = document.getElementById("in-efectivo");
+  var dif = document.getElementById("dif");
+  function fmt(n){ return "$" + Math.abs(n).toLocaleString("es-AR"); }
+  function revisar(cerrar){
+    var v = parseInt(inEf.value.replace(/\D/g,""),10) || 0;
+    var d = v - esperado;
+    if(d===0){ dif.style.color="var(--verde-o)"; dif.textContent = cerrar ? "Caja cerrada. Cierra justo, sin diferencias." : "Cierra justo."; }
+    else if(d<0){ dif.style.color="var(--rojo)"; dif.textContent = "Faltan " + fmt(d) + ". Revisá los movimientos antes de cerrar."; }
+    else { dif.style.color="var(--ambar)"; dif.textContent = "Sobran " + fmt(d) + ". Fijate si quedó algún cobro sin cargar."; }
+  }
+  inEf.addEventListener("input", function(){
+    var v = inEf.value.replace(/\D/g,"");
+    inEf.value = v ? parseInt(v,10).toLocaleString("es-AR") : "";
+    revisar(false);
+  });
+  document.getElementById("btn-cerrar").addEventListener("click", function(){ revisar(true); });
+  revisar(false);
+
+  /* ---------- Pestañas + deslizar ---------- */
+  var tabs = document.querySelectorAll(".tab");
+  var panels = document.querySelectorAll(".panel");
+  var ant = document.getElementById("ant"), sig = document.getElementById("sig");
+  var actual = 0;
+  function ir(i, scroll){
+    if(i<0 || i>=panels.length) return;
+    actual = i;
+    tabs.forEach(function(t,j){ t.setAttribute("aria-selected", j===i ? "true" : "false"); });
+    panels.forEach(function(p,j){ p.classList.toggle("activo", j===i); });
+    ant.disabled = i===0;
+    sig.textContent = i===panels.length-1 ? "Ver la oferta →" : "Siguiente →";
+    if(scroll){
+      var y = document.getElementById("paneles").getBoundingClientRect().top + window.scrollY - 70;
+      window.scrollTo({top:y, behavior:"smooth"});
+    }
+  }
+  tabs.forEach(function(t){ t.addEventListener("click", function(){ ir(+t.dataset.i, true); }); });
+  ant.addEventListener("click", function(){ ir(actual-1, true); });
+  sig.addEventListener("click", function(){
+    if(actual===panels.length-1){ document.querySelector(".cierre").scrollIntoView({behavior:"smooth"}); }
+    else ir(actual+1, true);
+  });
+  var x0=null, y0=null;
+  var zona = document.getElementById("paneles");
+  zona.addEventListener("touchstart", function(e){ if(e.target.closest(".filtros,input")){x0=null;return;} x0=e.touches[0].clientX; y0=e.touches[0].clientY; }, {passive:true});
+  zona.addEventListener("touchend", function(e){
+    if(x0===null) return;
+    var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+    if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)*1.5){ ir(actual + (dx<0?1:-1), true); }
+    x0=null;
+  }, {passive:true});
+  ir(0, false);
+})();
+</script>
+</body>
+</html>

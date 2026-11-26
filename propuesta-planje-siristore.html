@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Planje para Siri Store · Demo con datos de ejemplo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --noche:#0E1320;
+    --noche-2:#161D2E;
+    --noche-3:#222B40;
+    --verde:#00D96B;
+    --verde-osc:#00A855;
+    --papel:#FFFFFF;
+    --papel-2:#F4F6F8;
+    --tinta:#0E1320;
+    --gris:#5B6475;
+    --gris-claro:#9AA3B2;
+    --linea:#E3E7EC;
+    --alerta:#E8A317;
+    --r:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--noche);
+    color:#fff;
+    font-family:Inter,system-ui,sans-serif;
+    font-size:15px;
+    line-height:1.45;
+    -webkit-font-smoothing:antialiased;
+  }
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  .wrap{max-width:460px;margin:0 auto;padding:0 18px}
+  .num{font-variant-numeric:tabular-nums}
+  h1,h2,h3,.pop{font-family:Poppins,Inter,sans-serif}
+
+  /* ---------- franja demo ---------- */
+  .demo-bar{
+    background:repeating-linear-gradient(-45deg,#1b2336 0 10px,#151c2c 10px 20px);
+    border-bottom:1px solid var(--noche-3);
+    font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+    color:var(--gris-claro);text-align:center;padding:7px 12px;
+  }
+  .demo-bar b{color:var(--verde)}
+
+  /* ---------- cabecera ---------- */
+  header{padding:22px 0 8px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand svg{flex:none}
+  .brand-txt{font-family:Poppins;font-weight:600;font-size:15px;letter-spacing:-.01em}
+  .brand-txt span{color:var(--gris-claro);font-weight:500}
+  .hero-h{
+    font-size:34px;line-height:1.05;font-weight:800;letter-spacing:-.03em;
+    margin:26px 0 12px;
+  }
+  .hero-h em{font-style:normal;color:var(--verde);display:block}
+  .hero-p{color:#C9D0DC;font-size:15.5px;max-width:34ch}
+
+  /* ---------- talonario (pestañas) ---------- */
+  .tabs-wrap{
+    position:sticky;top:0;z-index:20;
+    background:linear-gradient(var(--noche) 78%,rgba(14,19,32,0));
+    padding:14px 0 12px;margin-top:18px;
+  }
+  .tabs{
+    display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;
+    scroll-snap-type:x proximity;padding:0 18px;margin:0 -18px;
+  }
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{
+    flex:none;scroll-snap-align:start;
+    display:flex;align-items:center;gap:7px;
+    padding:8px 12px 8px 8px;border-radius:999px;
+    background:var(--noche-2);border:1px solid var(--noche-3);
+    font-size:13px;font-weight:600;color:#C9D0DC;white-space:nowrap;
+    transition:background .2s,color .2s,border-color .2s;
+  }
+  .tab i{
+    font-style:normal;font-family:Poppins;font-size:11px;font-weight:700;
+    width:22px;height:22px;border-radius:50%;display:grid;place-items:center;
+    background:var(--noche-3);color:var(--gris-claro);
+  }
+  .tab[aria-selected="true"]{background:var(--verde);color:var(--noche);border-color:var(--verde)}
+  .tab[aria-selected="true"] i{background:var(--noche);color:var(--verde)}
+  .progress{height:3px;background:var(--noche-3);border-radius:3px;margin-top:12px;overflow:hidden}
+  .progress span{display:block;height:100%;width:20%;background:var(--verde);transition:width .35s ease}
+
+  /* ---------- paneles ---------- */
+  .panel{display:none;padding:6px 0 10px;animation:entra .35s ease}
+  .panel.on{display:block}
+  @keyframes entra{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .kicker{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--verde);margin-bottom:6px}
+  .panel h2{font-size:23px;line-height:1.15;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
+  .panel .lead{color:#C9D0DC;margin-bottom:18px}
+
+  /* pantalla de trabajo (blanca) */
+  .screen{
+    background:var(--papel);color:var(--tinta);border-radius:var(--r);
+    box-shadow:0 18px 50px rgba(0,0,0,.45);overflow:hidden;
+  }
+  .screen-top{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    padding:12px 14px;border-bottom:1px solid var(--linea);background:var(--papel-2);
+    font-size:12.5px;color:var(--gris);font-weight:600;
+  }
+  .screen-top .dots{display:flex;gap:5px}
+  .screen-top .dots span{width:8px;height:8px;border-radius:50%;background:#D5DAE1}
+  .screen-body{padding:16px 14px}
+  .chip{
+    display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;
+    padding:3px 8px;border-radius:999px;background:#E7F8EF;color:var(--verde-osc);white-space:nowrap;
+  }
+  .chip.gris{background:#EEF1F4;color:var(--gris)}
+  .chip.ambar{background:#FDF3DD;color:#9A6A00}
+  .chip.noche{background:var(--noche);color:#fff}
+
+  .points{list-style:none;margin:18px 0 4px;display:grid;gap:10px}
+  .points li{display:flex;gap:10px;align-items:flex-start;color:#DDE2EA;font-size:14.5px}
+  .points li svg{flex:none;margin-top:2px}
+
+  .actions{display:flex;gap:8px;margin-top:16px}
+  .btn{
+    flex:1;display:flex;align-items:center;justify-content:center;gap:8px;
+    padding:13px 14px;border-radius:12px;font-weight:700;font-size:14px;
+  }
+  .btn-verde{background:var(--verde);color:var(--noche)}
+  .btn-linea{border:1px solid var(--noche-3);background:var(--noche-2);color:#fff}
+  .btn:active{transform:scale(.98)}
+
+  .next{
+    display:flex;justify-content:space-between;align-items:center;margin-top:22px;
+    padding-top:14px;border-top:1px dashed var(--noche-3);font-size:13.5px;color:var(--gris-claro)
+  }
+  .next button{color:var(--verde);font-weight:700;display:flex;align-items:center;gap:6px}
+
+  /* ---------- 1. comprobante ---------- */
+  .ticket-stage{position:relative;padding:4px 6px 10px}
+  .ticket{
+    position:relative;background:var(--papel);color:var(--tinta);
+    padding:22px 18px 26px;
+    transform:rotate(-1.2deg);
+    filter:drop-shadow(0 20px 30px rgba(0,0,0,.5));
+    --z:8px;
+    -webkit-mask:
+      conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/calc(var(--z)*2) var(--z) repeat-x,
+      conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) top/calc(var(--z)*2) var(--z) repeat-x,
+      linear-gradient(#000 0 0) center/100% calc(100% - var(--z)*2) no-repeat;
+            mask:
+      conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/calc(var(--z)*2) var(--z) repeat-x,
+      conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) top/calc(var(--z)*2) var(--z) repeat-x,
+      linear-gradient(#000 0 0) center/100% calc(100% - var(--z)*2) no-repeat;
+  }
+  .t-head{text-align:center;padding-bottom:12px;border-bottom:1.5px dashed #C9CFD8}
+  .t-logo{font-family:Poppins;font-weight:800;font-size:24px;letter-spacing:.14em}
+  .t-sub{font-size:11.5px;color:var(--gris);margin-top:2px}
+  .t-sub .falta{color:#B4232B;font-weight:600}
+  .t-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;font-size:12px;padding:12px 0;border-bottom:1.5px dashed #C9CFD8}
+  .t-meta dt{color:var(--gris);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+  .t-meta dd{font-weight:600}
+  .t-item{padding:12px 0;border-bottom:1px solid var(--linea)}
+  .t-row{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+  .t-name{font-weight:700;font-size:13.5px;line-height:1.25}
+  .t-price{font-weight:700;font-size:13.5px;white-space:nowrap}
+  .t-imei{
+    display:inline-flex;gap:6px;align-items:center;margin-top:6px;
+    font-size:11.5px;font-weight:600;background:var(--papel-2);border:1px solid var(--linea);
+    border-radius:6px;padding:3px 7px;letter-spacing:.03em;
+  }
+  .t-imei b{color:var(--gris);font-weight:700;font-size:10px;letter-spacing:.06em}
+  .t-gar{
+    display:flex;align-items:center;gap:6px;margin-top:6px;font-size:11.5px;color:var(--verde-osc);font-weight:700
+  }
+  .t-gar span{color:var(--gris);font-weight:500}
+  .t-item.canje .t-price{color:var(--verde-osc)}
+  .t-item.canje .t-name::before{content:"Canje · ";color:var(--verde-osc)}
+  .t-tot{padding:12px 0 6px;font-size:12.5px;display:grid;gap:4px}
+  .t-tot .t-row span:first-child{color:var(--gris)}
+  .t-total{
+    display:flex;justify-content:space-between;align-items:baseline;
+    border-top:2px solid var(--tinta);margin-top:6px;padding-top:10px;
+  }
+  .t-total span{font-family:Poppins;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+  .t-total strong{font-family:Poppins;font-weight:800;font-size:22px;letter-spacing:-.02em}
+  .t-foot{text-align:center;font-size:11px;color:var(--gris);margin-top:14px;line-height:1.5}
+  .t-legal{
+    display:block;margin-top:10px;padding:7px;border:1.5px solid var(--tinta);
+    font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--tinta)
+  }
+  .t-tot{position:relative}
+  .sello{
+    position:absolute;left:50%;top:0;margin-left:-38px;
+    width:84px;height:84px;border-radius:50%;
+    border:3px solid var(--verde-osc);color:var(--verde-osc);
+    display:grid;place-items:center;text-align:center;
+    transform:rotate(-14deg);opacity:.9;pointer-events:none;
+    font-family:Poppins;font-weight:800;font-size:10.5px;line-height:1.1;letter-spacing:.04em;
+    background:rgba(255,255,255,.7);
+  }
+  .sello::before{content:"";position:absolute;inset:5px;border-radius:50%;border:1.5px dashed var(--verde-osc)}
+  .sello small{display:block;font-size:7.5px;font-weight:600;margin-top:3px;letter-spacing:.06em}
+
+  /* ---------- 2. stock ---------- */
+  .search{
+    display:flex;align-items:center;gap:8px;border:1.5px solid var(--linea);border-radius:12px;
+    padding:10px 12px;background:#fff;
+  }
+  .search:focus-within{border-color:var(--verde-osc)}
+  .search input{border:0;outline:0;font:inherit;font-size:16px;width:100%;color:var(--tinta);background:none}
+  .filters{display:flex;gap:6px;margin:10px 0 4px;overflow-x:auto;scrollbar-width:none}
+  .filters::-webkit-scrollbar{display:none}
+  .filters button{
+    flex:none;font-size:12.5px;font-weight:600;padding:6px 11px;border-radius:999px;
+    background:var(--papel-2);color:var(--gris);border:1px solid var(--linea)
+  }
+  .filters button.on{background:var(--noche);color:#fff;border-color:var(--noche)}
+  .stock-sum{font-size:12px;color:var(--gris);margin:8px 0 2px}
+  .items{list-style:none}
+  .item{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--linea)}
+  .item:last-child{border-bottom:0}
+  .ico{
+    flex:none;width:42px;height:42px;border-radius:10px;background:var(--papel-2);
+    display:grid;place-items:center;color:var(--tinta)
+  }
+  .item-main{flex:1;min-width:0}
+  .item-name{font-weight:700;font-size:14px;line-height:1.25}
+  .item-id{font-size:12px;color:var(--gris);margin-top:2px;letter-spacing:.02em;word-break:break-all}
+  .item-id mark{background:#D6F7E6;color:var(--tinta);border-radius:3px}
+  .item-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+  .item-price{font-weight:700;font-size:14px;white-space:nowrap;text-align:right}
+  .empty{padding:22px 0;text-align:center;color:var(--gris);font-size:13.5px;display:none}
+
+  /* ---------- 3. reparación ---------- */
+  .ot-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .ot-head h3{font-size:16px;font-weight:700;line-height:1.2}
+  .ot-head p{font-size:12.5px;color:var(--gris);margin-top:2px}
+  .ot-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}
+  .ot-grid div{background:var(--papel-2);border-radius:10px;padding:9px 10px}
+  .ot-grid dt{font-size:10.5px;color:var(--gris);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+  .ot-grid dd{font-size:13px;font-weight:700;margin-top:1px}
+  .steps{list-style:none;margin:4px 0 14px;position:relative}
+  .steps li{display:flex;gap:12px;align-items:flex-start;padding:0 0 14px;position:relative}
+  .steps li::before{
+    content:"";position:absolute;left:10px;top:22px;bottom:0;width:2px;background:var(--linea)
+  }
+  .steps li:last-child{padding-bottom:0}
+  .steps li:last-child::before{display:none}
+  .steps li.done::before{background:var(--verde-osc)}
+  .dot{
+    flex:none;width:22px;height:22px;border-radius:50%;border:2px solid var(--linea);background:#fff;
+    display:grid;place-items:center;position:relative;z-index:1
+  }
+  .steps li.done .dot{background:var(--verde-osc);border-color:var(--verde-osc)}
+  .steps li.now .dot{border-color:var(--verde-osc);box-shadow:0 0 0 4px #D6F7E6}
+  .steps li.now .dot::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--verde-osc)}
+  .steps b{display:block;font-size:13.5px}
+  .steps small{font-size:12px;color:var(--gris)}
+  .steps li.todo b{color:var(--gris-claro);font-weight:600}
+  .btn-dark{background:var(--noche);color:#fff;width:100%}
+  .link-box{
+    display:flex;align-items:center;gap:8px;margin-top:10px;
+    border:1.5px dashed var(--verde-osc);border-radius:12px;padding:10px 12px;background:#F2FCF7
+  }
+  .link-box code{font-family:Inter;font-weight:700;font-size:13px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .link-box button{font-size:12.5px;font-weight:700;color:var(--verde-osc)}
+
+  .client-view{margin-top:22px}
+  .client-view .lbl{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gris-claro);margin-bottom:10px;text-align:center}
+  .phone{
+    width:236px;margin:0 auto;background:#05080F;border-radius:34px;padding:9px;
+    box-shadow:0 0 0 1.5px #2A3348,0 20px 40px rgba(0,0,0,.5)
+  }
+  .phone-in{background:#fff;color:var(--tinta);border-radius:26px;overflow:hidden;min-height:330px}
+  .notch{width:76px;height:20px;background:#05080F;border-radius:0 0 14px 14px;margin:0 auto}
+  .pv{padding:12px 14px 16px}
+  .pv-store{font-family:Poppins;font-weight:800;letter-spacing:.12em;font-size:13px;text-align:center}
+  .pv-small{font-size:10.5px;color:var(--gris);text-align:center}
+  .pv-card{margin-top:12px;background:var(--papel-2);border-radius:14px;padding:12px}
+  .pv-card h4{font-family:Poppins;font-size:13.5px}
+  .pv-state{font-family:Poppins;font-weight:700;font-size:17px;color:var(--verde-osc);margin:6px 0 2px;line-height:1.15}
+  .pv-bar{height:6px;background:#E3E7EC;border-radius:6px;overflow:hidden;margin:8px 0 6px}
+  .pv-bar span{display:block;height:100%;background:var(--verde-osc);transition:width .4s ease}
+  .pv-note{font-size:11px;color:var(--gris)}
+
+  /* ---------- 4. canje ---------- */
+  .canje-brand{display:flex;align-items:center;gap:8px;font-family:Poppins;font-weight:700;font-size:13.5px}
+  .opt-lbl{font-size:12px;font-weight:700;color:var(--gris);text-transform:uppercase;letter-spacing:.05em;margin:14px 0 6px}
+  .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .seg button{
+    padding:9px 4px;border-radius:10px;border:1.5px solid var(--linea);background:#fff;
+    font-size:12.5px;font-weight:600;color:var(--tinta);line-height:1.2
+  }
+  .seg button.on{border-color:var(--verde-osc);background:#F2FCF7;color:var(--verde-osc);font-weight:700}
+  .trade{display:grid;gap:8px;margin-top:16px}
+  .trade-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 12px;border-radius:12px;background:var(--papel-2)}
+  .trade-row small{display:block;color:var(--gris);font-size:11.5px}
+  .trade-row b{font-size:14px}
+  .trade-row .v{font-weight:800;white-space:nowrap}
+  .trade-row.minus .v{color:var(--verde-osc)}
+  .diff{
+    background:var(--noche);color:#fff;border-radius:14px;padding:14px;margin-top:4px;
+    display:flex;justify-content:space-between;align-items:center
+  }
+  .diff span{font-size:12.5px;color:#C9D0DC}
+  .diff strong{font-family:Poppins;font-size:22px;font-weight:800;color:var(--verde)}
+  .bump{animation:bump .3s ease}
+  @keyframes bump{50%{transform:scale(1.06)}}
+
+  /* ---------- 5. usuarios ---------- */
+  .seats{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .seats b{font-size:13.5px}
+  .seat-dots{display:flex;gap:5px}
+  .seat-dots span{width:26px;height:8px;border-radius:8px;background:var(--verde-osc)}
+  .seat-dots span.free{background:var(--linea)}
+  .user{border:1px solid var(--linea);border-radius:14px;padding:12px;margin-bottom:10px}
+  .user-h{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .ava{
+    width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:none;
+    font-family:Poppins;font-weight:700;font-size:14px;color:#fff;background:var(--noche)
+  }
+  .ava.ro{background:var(--verde-osc)}
+  .user-h b{display:block;font-size:14.5px}
+  .user-h small{color:var(--gris);font-size:12px}
+  .perms{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px}
+  .perm{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:12.5px;padding:4px 0}
+  .sw{
+    flex:none;width:34px;height:20px;border-radius:20px;background:#D5DAE1;position:relative;transition:background .2s
+  }
+  .sw::after{content:"";position:absolute;left:2px;top:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+  .sw[aria-checked="true"]{background:var(--verde-osc)}
+  .sw[aria-checked="true"]::after{transform:translateX(14px)}
+  .sw[disabled]{opacity:.55;cursor:default}
+  .user.free{border-style:dashed;text-align:center;color:var(--gris);font-size:13px;padding:16px 12px}
+  .user.free b{color:var(--tinta);display:block;font-size:14px;margin-bottom:2px}
+  .firma{
+    margin-top:12px;font-size:12.5px;background:var(--papel-2);border-radius:10px;padding:10px 12px;color:var(--gris)
+  }
+  .firma b{color:var(--tinta)}
+
+  /* ---------- cierre ---------- */
+  .cierre{margin-top:34px;padding:30px 0 34px;border-top:1px solid var(--noche-3)}
+  .cierre h2{font-size:28px;line-height:1.08;font-weight:800;letter-spacing:-.03em}
+  .cierre h2 em{font-style:normal;color:var(--verde)}
+  .cierre p{color:#C9D0DC;margin:10px 0 18px}
+  .cta{
+    display:flex;align-items:center;justify-content:center;gap:10px;text-decoration:none;
+    background:var(--verde);color:var(--noche);font-family:Poppins;font-weight:700;font-size:16.5px;
+    padding:16px;border-radius:14px
+  }
+  .fund{
+    margin-top:14px;border:1.5px dashed var(--verde);border-radius:16px;padding:16px;position:relative;background:var(--noche-2)
+  }
+  .fund .kicker{margin-bottom:8px}
+  .fund-row{display:flex;gap:10px}
+  .fund-row div{flex:1;background:var(--noche);border-radius:12px;padding:12px}
+  .fund-row strong{display:block;font-family:Poppins;font-size:22px;font-weight:800;color:var(--verde);line-height:1}
+  .fund-row span{font-size:12.5px;color:#C9D0DC}
+  .fund small{display:block;margin-top:10px;color:var(--gris-claro);font-size:12px}
+  .legal{font-size:11.5px;color:var(--gris-claro);margin-top:22px;line-height:1.55}
+  footer{padding:18px 0 34px;display:flex;align-items:center;gap:8px;color:var(--gris-claro);font-size:12.5px}
+
+  /* ---------- toast ---------- */
+  .toast{
+    position:fixed;left:50%;bottom:22px;transform:translate(-50%,30px);opacity:0;
+    background:#fff;color:var(--tinta);font-weight:600;font-size:13.5px;
+    padding:11px 16px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.4);
+    transition:all .25s ease;z-index:50;width:max-content;max-width:calc(100vw - 32px);text-align:center
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0)}
+
+  @media (min-width:700px){
+    .hero-h{font-size:40px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+  }
+</style>
+</head>
+<body>
+
+<div class="demo-bar">Demo con datos de ejemplo · <b>IMEI, clientes y montos inventados</b></div>
+
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true">
+        <rect width="40" height="40" rx="10" fill="#161D2E"/>
+        <path d="M13 31V9h9a7.5 7.5 0 0 1 0 15h-9" fill="none" stroke="#00D96B" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M17.5 19.5l5-5M18.5 14.5h4v4" fill="none" stroke="#00D96B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="brand-txt">Planje <span>para</span> Siri Store</div>
+    </div>
+
+    <h1 class="hero-h">Comprar seguro, <em>ahora con comprobante.</em></h1>
+    <p class="hero-p">Ustedes lo dicen en cada video. Planje lo pone en papel: IMEI, garantía y todo, en un PDF que el cliente se lleva.</p>
+  </header>
+
+  <!-- talonario -->
+  <nav class="tabs-wrap" aria-label="Pantallas de la demo">
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" aria-controls="p1" id="t1"><i>1</i>Comprobante</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p2" id="t2"><i>2</i>Stock por IMEI</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p3" id="t3"><i>3</i>Reparación</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p4" id="t4"><i>4</i>Canje</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="p5" id="t5"><i>5</i>Pablo y Ro</button>
+    </div>
+    <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+  </nav>
+
+  <main id="panels">
+
+    <!-- ===== 1. COMPROBANTE ===== -->
+    <section class="panel on" id="p1" role="tabpanel" aria-labelledby="t1">
+      <div class="kicker">El gancho</div>
+      <h2>"¿Y si me sale fallado?"<br>Le das esto.</h2>
+      <p class="lead">Cada venta sale con su comprobante: el IMEI del equipo, la garantía de cada cosa y hasta cuándo vale. Sin cuaderno, sin foto del ticket.</p>
+
+      <div class="ticket-stage">
+        <article class="ticket" aria-label="Comprobante de venta de ejemplo">
+          <div class="t-head">
+            <div class="t-logo">SIRI STORE</div>
+            <div class="t-sub">San Nicolás de los Arroyos</div>
+            <div class="t-sub">Mirá el stock en planje.app/siristore</div>
+          </div>
+
+          <dl class="t-meta num">
+            <div><dt>Venta</dt><dd>#1284</dd></div>
+            <div><dt>Fecha</dt><dd>26/11/2026 · 18:42</dd></div>
+            <div><dt>Cliente</dt><dd>Lucía Fernández</dd></div>
+            <div><dt>Te atendió</dt><dd>Ro</dd></div>
+          </dl>
+
+          <div class="t-item">
+            <div class="t-row">
+              <div class="t-name">iPhone 18 Pro Max 256 GB<br>Burgundy · Nuevo, sellado</div>
+              <div class="t-price num">$2.540.000</div>
+            </div>
+            <div class="t-imei num"><b>IMEI</b>353914104827163</div>
+            <div class="t-gar">
+              <svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></svg>
+              Garantía 12 meses <span>· hasta 26/11/2027</span>
+            </div>
+          </div>
+
+          <div class="t-item">
+            <div class="t-row">
+              <div class="t-name">Funda MagSafe transparente<br><span style="font-weight:500;color:var(--gris)">Regalo por la compra</span></div>
+              <div class="t-price num">$0</div>
+            </div>
+            <div class="t-gar">
+              <svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></svg>
+              Garantía 30 días <span>· hasta 26/12/2026</span>
+            </div>
+          </div>
+
+          <div class="t-item canje">
+            <div class="t-row">
+              <div class="t-name">iPhone 15 Pro 128 GB<br><span style="font-weight:500;color:var(--gris)">Batería 87% · marcas leves</span></div>
+              <div class="t-price num">−$760.000</div>
+            </div>
+            <div class="t-imei num"><b>IMEI</b>357201338861045</div>
+          </div>
+
+          <div class="t-tot num">
+            <div class="sello" aria-hidden="true"><div>COMPRA<br>SEGURA<small>SIRI STORE</small></div></div>
+            <div class="t-row"><span>Subtotal</span><span>$2.540.000</span></div>
+            <div class="t-row"><span>Canje</span><span>−$760.000</span></div>
+            <div class="t-row"><span>Transferencia</span><span>$1.000.000</span></div>
+            <div class="t-row"><span>Efectivo</span><span>$780.000</span></div>
+            <div class="t-total"><span>Total</span><strong>$1.780.000</strong></div>
+          </div>
+
+          <div class="t-foot">
+            Para usar la garantía traé este comprobante o decinos el IMEI.<br>
+            Gracias por comprar seguro.
+            <span class="t-legal">Documento no válido como factura</span>
+          </div>
+
+        </article>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-verde" data-toast="En Planje sale el PDF y lo mandás por WhatsApp. Acá es de ejemplo.">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg>
+          Mandar por WhatsApp
+        </button>
+        <button class="btn btn-linea" data-toast="PDF de ejemplo: en tu Planje se descarga de verdad.">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          PDF
+        </button>
+      </div>
+
+      <ul class="points">
+        <li><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#00D96B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>¿Vuelve por garantía?</b> Buscás el IMEI y aparece la venta, la fecha y quién la hizo.</span></li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#00D96B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Garantía por ítem.</b> 12 meses al nuevo, la que ustedes decidan al usado, 30 días a la funda.</span></li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#00D96B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>El canje queda escrito.</b> Con su IMEI, por si el día de mañana alguien pregunta de dónde salió.</span></li>
+      </ul>
+
+      <div class="next"><span>1 de 5</span><button data-go="2">Ver el stock <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+    </section>
+
+    <!-- ===== 2. STOCK ===== -->
+    <section class="panel" id="p2" role="tabpanel" aria-labelledby="t2">
+      <div class="kicker">Stock por IMEI o número de serie</div>
+      <h2>Cada equipo con nombre y apellido.</h2>
+      <p class="lead">Nada de contar cajas a las nueve de la noche. Buscás por IMEI, serie o modelo y sabés qué hay, qué está señado y qué entró por canje.</p>
+
+      <div class="screen">
+        <div class="screen-top"><div class="dots"><span></span><span></span><span></span></div>Productos<span class="chip">Demo</span></div>
+        <div class="screen-body">
+          <label class="search">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="#5B6475" stroke-width="2.2"/><path d="M16 16l4 4" stroke="#5B6475" stroke-width="2.2" stroke-linecap="round"/></svg>
+            <input id="q" type="search" inputmode="search" placeholder="Probá: 3539, macbook, 15 pro…" aria-label="Buscar por IMEI, serie o modelo">
+          </label>
+          <div class="filters" id="filters">
+            <button class="on" data-f="todos">Todos</button>
+            <button data-f="nuevo">Nuevos</button>
+            <button data-f="usado">Usados premium</button>
+            <button data-f="iphone">iPhone</button>
+            <button data-f="otros">Mac, iPad, Watch, Play</button>
+          </div>
+          <div class="stock-sum num" id="sum"></div>
+          <ul class="items" id="items"></ul>
+          <div class="empty" id="empty">Ese IMEI no está en el local. Si no está acá, no está.</div>
+        </div>
+      </div>
+
+      <ul class="points">
+        <li><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#00D96B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>El que vendió Ro hace un rato ya figura <b>vendido</b>. Nadie lo ofrece dos veces por DM.</span></li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#00D96B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Batería y estado de cada usado, a la vista. Lo mismo que ven en <b>planje.app/siristore</b>.</span></li>
+      </ul>
+
+      <div class="next"><button data-go="1"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Atrás</button><span>2 de 5</span><button data-go="3">Reparación <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+    </section>
+
+    <!-- ===== 3. REPARACIÓN ===== -->
+    <section class="panel" id="p3" role="tabpanel" aria-labelledby="t3">
+      <div class="kicker">Servicio técnico</div>
+      <h2>Chau al "¿ya está?" cada dos horas.</h2>
+      <p class="lead">Cargás la reparación, le mandás el link al cliente y lo mira solo. Ustedes siguen con lo suyo.</p>
+
+      <div class="screen">
+        <div class="screen-top"><div class="dots"><span></span><span></span><span></span></div>Reparaciones<span class="chip">Demo</span></div>
+        <div class="screen-body">
+          <div class="ot-head">
+            <div>
+              <h3>iPhone 13 Pro · Cambio de batería</h3>
+              <p class="num">Orden R-0412 · Martín Gómez · IMEI 352847119054382</p>
+            </div>
+            <span class="chip" id="otChip">En reparación</span>
+          </div>
+          <dl class="ot-grid num">
+            <div><dt>Presupuesto</dt><dd>$95.000</dd></div>
+            <div><dt>Seña</dt><dd>$30.000</dd></div>
+            <div><dt>Ingresó</dt><dd>25/11 · 11:10</dd></div>
+            <div><dt>Garantía del trabajo</dt><dd>3 meses</dd></div>
+          </dl>
+          <ol class="steps" id="steps"></ol>
+          <button class="btn btn-dark" id="avanzar">Pasar al siguiente estado</button>
+          <div class="link-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" fill="none" stroke="#00A855" stroke-width="2.2" stroke-linecap="round"/></svg>
+            <code>planje.app/siristore/r/8F3K2</code>
+            <button data-toast="Link de ejemplo. En tu Planje cada reparación tiene el suyo.">Copiar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="client-view">
+        <div class="lbl">Lo que ve Martín en su celu</div>
+        <div class="phone">
+          <div class="phone-in">
+            <div class="notch"></div>
+            <div class="pv">
+              <div class="pv-store">SIRI STORE</div>
+              <div class="pv-small">Seguimiento de tu reparación</div>
+              <div class="pv-card">
+                <h4>iPhone 13 Pro</h4>
+                <div class="pv-small" style="text-align:left">Cambio de batería · R-0412</div>
+                <div class="pv-state" id="pvState">En reparación</div>
+                <div class="pv-bar"><span id="pvBar" style="width:60%"></span></div>
+                <div class="pv-note" id="pvNote">Tu equipo está en manos del técnico.</div>
+              </div>
+              <div class="pv-card num" style="font-size:11.5px">
+                <div style="display:flex;justify-content:space-between"><span style="color:var(--gris)">Presupuesto</span><b>$95.000</b></div>
+                <div style="display:flex;justify-content:space-between;margin-top:3px"><span style="color:var(--gris)">Ya pagaste</span><b>$30.000</b></div>
+                <div style="display:flex;justify-content:space-between;margin-top:3px"><span style="color:var(--gris)">Al retirar</span><b>$65.000</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="next"><button data-go="2"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Atrás</button><span>3 de 5</span><button data-go="4">Canje <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+    </section>
+
+    <!-- ===== 4. CANJE ===== -->
+    <section class="panel" id="p4" role="tabpanel" aria-labelledby="t4">
+      <div class="kicker">Canje</div>
+      <h2>Trae su 15 Pro, se lleva el 18.</h2>
+      <p class="lead">Lo cotizás con Planje Canje en un minuto, sin calculadora ni "dejame que lo hablo con mi socio". Tocá las opciones y mirá cómo cambia.</p>
+
+      <div class="screen">
+        <div class="screen-top">
+          <div class="canje-brand">
+            <svg width="20" height="20" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="10" fill="#0E1320"/><path d="M13 31V9h9a7.5 7.5 0 0 1 0 15h-9" fill="none" stroke="#00D96B" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Planje Canje
+          </div>
+          <span class="chip">Demo</span>
+        </div>
+        <div class="screen-body">
+          <div class="trade-row"><div><small>Equipo que entrega Lucía</small><b>iPhone 15 Pro 128 GB</b></div><span class="chip gris num">IMEI …1045</span></div>
+
+          <div class="opt-lbl">Batería</div>
+          <div class="seg" data-grupo="bat">
+            <button data-v="0">90% o más</button>
+            <button data-v="-60000" class="on">85 a 89%</button>
+            <button data-v="-140000">Menos de 85%</button>
+          </div>
+
+          <div class="opt-lbl">Estado</div>
+          <div class="seg" data-grupo="est">
+            <button data-v="0">Impecable</button>
+            <button data-v="-60000" class="on">Marcas leves</button>
+            <button data-v="-150000">Detalles visibles</button>
+          </div>
+
+          <div class="trade">
+            <div class="trade-row"><div><small>Se lleva</small><b>iPhone 18 Pro Max 256 GB Burgundy</b></div><span class="v num">$2.540.000</span></div>
+            <div class="trade-row minus"><div><small>Le tomás el 15 Pro en</small><b>Cotización</b></div><span class="v num" id="cotiz">−$760.000</span></div>
+            <div class="diff"><span>Diferencia que paga</span><strong class="num" id="dif">$1.780.000</strong></div>
+          </div>
+          <button class="btn btn-dark" style="margin-top:12px" data-go="1">Ver cómo queda en el comprobante</button>
+        </div>
+      </div>
+
+      <ul class="points">
+        <li><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#00D96B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>El 15 Pro entra solo al stock con su IMEI, listo para revisar y volver a vender.</span></li>
+        <li><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#00D96B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Planje Canje es gratis para siempre: <b>canje.planje.app</b>. Los valores los ponen ustedes.</span></li>
+      </ul>
+
+      <div class="next"><button data-go="3"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Atrás</button><span>4 de 5</span><button data-go="5">Pablo y Ro <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+    </section>
+
+    <!-- ===== 5. USUARIOS ===== -->
+    <section class="panel" id="p5" role="tabpanel" aria-labelledby="t5">
+      <div class="kicker">Usuarios</div>
+      <h2>Dos en el mostrador, una sola cuenta.</h2>
+      <p class="lead">Cada uno entra con su usuario y ve lo que le toca. Cada venta dice quién la hizo, así no hay "¿esto lo vendiste vos?".</p>
+
+      <div class="screen">
+        <div class="screen-top"><div class="dots"><span></span><span></span><span></span></div>Usuarios y permisos<span class="chip">Demo</span></div>
+        <div class="screen-body">
+          <div class="seats">
+            <b>Plan Pro · 2 de 3 usuarios</b>
+            <div class="seat-dots" aria-hidden="true"><span></span><span></span><span class="free"></span></div>
+          </div>
+
+          <div class="user">
+            <div class="user-h"><div class="ava">P</div><div><b>Pablo</b><small>Dueño · ve y toca todo</small></div></div>
+            <div class="perms" data-user="pablo"></div>
+          </div>
+
+          <div class="user">
+            <div class="user-h"><div class="ava ro">R</div><div><b>Ro</b><small>Ventas y técnico · permisos a medida</small></div></div>
+            <div class="perms" data-user="ro"></div>
+          </div>
+
+          <div class="user free">
+            <b>Lugar libre</b>
+            Para el que les da una mano los sábados.
+          </div>
+
+          <div class="firma">Los permisos de Ro son un ejemplo: <b>tocá los botones</b>, ustedes deciden quién ve qué.</div>
+        </div>
+      </div>
+
+      <div class="next"><button data-go="4"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Atrás</button><span>5 de 5</span><button data-go="1">Volver al comprobante</button></div>
+    </section>
+  </main>
+
+  <!-- ===== CIERRE ===== -->
+  <section class="cierre">
+    <div class="kicker">Siri Store, el siguiente unboxing es el de ustedes</div>
+    <h2>Probalo 30 días gratis en <em>planje.app</em></h2>
+    <p>Con todo lo que viste: comprobante, stock por IMEI, reparaciones, canje y los usuarios de Pablo y Ro.</p>
+    <a class="cta" href="https://planje.app" target="_blank" rel="noopener">
+      Empezar la prueba
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+
+    <div class="fund">
+      <div class="kicker">Oferta tiendas fundadoras</div>
+      <div class="fund-row num">
+        <div><strong>1 mes</strong><span>gratis</span></div>
+        <div><strong>3 meses</strong><span>al 50%</span></div>
+      </div>
+      <small class="num">Plan Pro: $92.900 por mes. Con la oferta, los 3 meses siguientes salen $46.450 cada uno.</small>
+    </div>
+
+    <p class="legal">Demo con datos de ejemplo: los IMEI, clientes, montos y la orden de reparación son inventados. El comprobante de Planje es un comprobante de venta interno y no reemplaza a la factura. Precios del plan en pesos, al día de hoy.</p>
+  </section>
+
+  <footer>
+    <svg width="20" height="20" viewBox="0 0 40 40" aria-hidden="true"><path d="M13 31V9h9a7.5 7.5 0 0 1 0 15h-9" fill="none" stroke="#00D96B" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Planje · Vos atendé. Planje lleva las cuentas. · @planje.app
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  var $ = function(s,c){return (c||document).querySelector(s)};
+  var $$ = function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+  var pesos = function(n){return '$' + Math.abs(n).toLocaleString('es-AR')};
+
+  /* ---------- toast ---------- */
+  var toast = $('#toast'), tt;
+  function avisar(msg){
+    toast.textContent = msg; toast.classList.add('show');
+    clearTimeout(tt); tt = setTimeout(function(){toast.classList.remove('show')}, 2600);
+  }
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('[data-toast]'); if(b) avisar(b.getAttribute('data-toast'));
+  });
+
+  /* ---------- pestañas + deslizar ---------- */
+  var tabs = $$('.tab'), panels = $$('.panel'), actual = 1, total = panels.length;
+  function ir(n, scroll){
+    n = Math.max(1, Math.min(total, n));
+    actual = n;
+    tabs.forEach(function(t,i){ t.setAttribute('aria-selected', i === n-1 ? 'true' : 'false'); });
+    panels.forEach(function(p,i){ p.classList.toggle('on', i === n-1); });
+    $('#bar').style.width = (n/total*100) + '%';
+    tabs[n-1].scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'});
+    if(scroll){
+      var top = $('#panels').getBoundingClientRect().top + window.pageYOffset - 90;
+      window.scrollTo({top: top, behavior:'smooth'});
+    }
+  }
+  tabs.forEach(function(t,i){ t.addEventListener('click', function(){ ir(i+1, false); }); });
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('[data-go]'); if(b) ir(parseInt(b.getAttribute('data-go'),10), true);
+  });
+  var h = /^#p([1-5])$/.exec(location.hash); if(h) ir(parseInt(h[1],10), false);
+  var x0 = null, y0 = null, zona = $('#panels');
+  zona.addEventListener('touchstart', function(e){
+    if(e.target.closest('input,.seg,.perms,.filters')){ x0 = null; return; }
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+  }, {passive:true});
+  zona.addEventListener('touchend', function(e){
+    if(x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+    if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)*1.5){ ir(actual + (dx < 0 ? 1 : -1), true); }
+    x0 = null;
+  }, {passive:true});
+
+  /* ---------- 2. stock ---------- */
+  var ICO = {
+    phone:'<svg width="20" height="20" viewBox="0 0 24 24"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.5 5.5h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+    mac:'<svg width="20" height="20" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M2 19h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+    ipad:'<svg width="20" height="20" viewBox="0 0 24 24"><rect x="4.5" y="2.5" width="15" height="19" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="18.3" r="1" fill="currentColor"/></svg>',
+    watch:'<svg width="20" height="20" viewBox="0 0 24 24"><rect x="6.5" y="6" width="11" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 6l.5-3.5h5L15 6M9 18l.5 3.5h5L15 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>',
+    play:'<svg width="20" height="20" viewBox="0 0 24 24"><path d="M7 8h10a4 4 0 0 1 4 4.5l-.5 3a2.5 2.5 0 0 1-4.3 1.3L14.5 15h-5l-1.7 1.8a2.5 2.5 0 0 1-4.3-1.3l-.5-3A4 4 0 0 1 7 8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>'
+  };
+  var stock = [
+    {n:'iPhone 18 Pro Max 256 GB Burgundy', t:'IMEI', id:'353914104827163', ico:'phone', tipo:'nuevo', cat:'iphone', p:2540000, tags:[['Nuevo','gris'],['Vendido hoy · #1284','noche']]},
+    {n:'iPhone 18 Pro Max 256 GB Burgundy', t:'IMEI', id:'353914104829011', ico:'phone', tipo:'nuevo', cat:'iphone', p:2540000, tags:[['Nuevo','gris'],['Disponible','']]},
+    {n:'iPhone 16 Pro 256 GB Titanio desierto', t:'IMEI', id:'356188472039514', ico:'phone', tipo:'usado', cat:'iphone', p:1240000, tags:[['Usado premium','gris'],['Batería 91%','gris'],['Disponible','']]},
+    {n:'iPhone 15 Pro Max 256 GB Titanio natural', t:'IMEI', id:'358420615573208', ico:'phone', tipo:'usado', cat:'iphone', p:1090000, tags:[['Usado premium','gris'],['Batería 86%','gris'],['Señado $200.000','ambar']]},
+    {n:'iPhone 15 Pro 128 GB Titanio negro', t:'IMEI', id:'357201338861045', ico:'phone', tipo:'usado', cat:'iphone', p:null, tags:[['Entró por canje','gris'],['Batería 87%','gris'],['En revisión','ambar']]},
+    {n:'MacBook Air 13" M4 16 GB / 256 GB', t:'Serie', id:'FVFXK21PQ6L4', ico:'mac', tipo:'nuevo', cat:'otros', p:1890000, tags:[['Nuevo','gris'],['Disponible','']]},
+    {n:'iPad Air 11" M3 128 GB Wi-Fi', t:'Serie', id:'DMPZK7Q3N1XW', ico:'ipad', tipo:'nuevo', cat:'otros', p:1050000, tags:[['Nuevo','gris'],['Disponible','']]},
+    {n:'Apple Watch Series 11 46 mm', t:'Serie', id:'H4KQ93LJ0XRT', ico:'watch', tipo:'nuevo', cat:'otros', p:690000, tags:[['Nuevo','gris'],['Disponible','']]},
+    {n:'PlayStation 5 Slim Digital 1 TB', t:'Serie', id:'S01F43728156', ico:'play', tipo:'nuevo', cat:'otros', p:1020000, tags:[['Nuevo','gris'],['Disponible','']]}
+  ];
+  var filtro = 'todos';
+  function esc(s){return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function pintarStock(){
+    var q = $('#q').value.trim().toLowerCase();
+    var qn = q.replace(/\s+/g,'');
+    var lista = stock.filter(function(s){
+      if(filtro === 'nuevo' && s.tipo !== 'nuevo') return false;
+      if(filtro === 'usado' && s.tipo !== 'usado') return false;
+      if(filtro === 'iphone' && s.cat !== 'iphone') return false;
+      if(filtro === 'otros' && s.cat !== 'otros') return false;
+      if(!q) return true;
+      return s.n.toLowerCase().indexOf(q) > -1 || s.id.toLowerCase().indexOf(qn) > -1;
+    });
+    $('#items').innerHTML = lista.map(function(s){
+      var id = esc(s.id);
+      if(qn){
+        var i = s.id.toLowerCase().indexOf(qn);
+        if(i > -1) id = esc(s.id.slice(0,i)) + '<mark>' + esc(s.id.slice(i,i+qn.length)) + '</mark>' + esc(s.id.slice(i+qn.length));
+      }
+      return '<li class="item"><div class="ico">'+ICO[s.ico]+'</div><div class="item-main"><div class="item-name">'+esc(s.n)+'</div>'+
+        '<div class="item-id num">'+s.t+' '+id+'</div><div class="item-tags">'+
+        s.tags.map(function(t){return '<span class="chip '+t[1]+'">'+esc(t[0])+'</span>'}).join('')+
+        '</div></div><div class="item-price num">'+(s.p ? pesos(s.p) : '<span style="color:var(--gris);font-weight:600">A definir</span>')+'</div></li>';
+    }).join('');
+    $('#empty').style.display = lista.length ? 'none' : 'block';
+    var disp = stock.filter(function(s){return s.tags.some(function(t){return t[0]==='Disponible'})}).length;
+    $('#sum').textContent = lista.length + ' de ' + stock.length + ' equipos · ' + disp + ' disponibles para vender';
+  }
+  $('#q').addEventListener('input', pintarStock);
+  $$('#filters button').forEach(function(b){
+    b.addEventListener('click', function(){
+      $$('#filters button').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on'); filtro = b.getAttribute('data-f'); pintarStock();
+    });
+  });
+  pintarStock();
+
+  /* ---------- 3. reparación ---------- */
+  var estados = [
+    {b:'Recibido', s:'25/11 · 11:10 · Ingresó con 71% de batería', c:'Recibimos tu equipo.'},
+    {b:'Diagnóstico', s:'25/11 · 13:30 · Batería al límite, el resto ok', c:'Lo estamos revisando.'},
+    {b:'Presupuesto aceptado', s:'25/11 · 14:05 · Martín dijo que sí por WhatsApp', c:'Aprobaste el presupuesto.'},
+    {b:'En reparación', s:'26/11 · 10:20 · En la mesa del técnico', c:'Tu equipo está en manos del técnico.'},
+    {b:'Listo para retirar', s:'Te esperamos en el local', c:'Ya podés pasar a buscarlo. Traé la orden o tu DNI.'},
+    {b:'Entregado', s:'Arranca la garantía de 3 meses', c:'Entregado. Garantía del trabajo: 3 meses.'}
+  ];
+  var paso = 3;
+  function pintarRep(){
+    $('#steps').innerHTML = estados.map(function(e,i){
+      var cl = i < paso ? 'done' : (i === paso ? 'now' : 'todo');
+      var chk = i < paso ? '<svg width="12" height="12" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '';
+      var sub = i <= paso ? '<small>'+e.s+'</small>' : '';
+      return '<li class="'+cl+'"><span class="dot">'+chk+'</span><div><b>'+e.b+'</b>'+sub+'</div></li>';
+    }).join('');
+    var e = estados[paso];
+    $('#otChip').textContent = e.b;
+    $('#pvState').textContent = e.b;
+    $('#pvNote').textContent = e.c;
+    $('#pvBar').style.width = Math.round((paso+1)/estados.length*100) + '%';
+    $('#avanzar').textContent = paso === estados.length-1 ? 'Volver a empezar la demo' : 'Pasar a: ' + estados[paso+1].b;
+  }
+  $('#avanzar').addEventListener('click', function(){
+    paso = paso === estados.length-1 ? 0 : paso+1; pintarRep();
+    var st = $('#pvState'); st.classList.remove('bump'); void st.offsetWidth; st.classList.add('bump');
+  });
+  pintarRep();
+
+  /* ---------- 4. canje ---------- */
+  var BASE = 880000, NUEVO = 2540000;
+  function pintarCanje(){
+    var v = BASE;
+    $$('.seg').forEach(function(g){ var on = $('button.on', g); v += parseInt(on.getAttribute('data-v'),10); });
+    $('#cotiz').textContent = '−' + pesos(v);
+    var d = $('#dif'); d.textContent = pesos(NUEVO - v);
+    d.classList.remove('bump'); void d.offsetWidth; d.classList.add('bump');
+  }
+  $$('.seg').forEach(function(g){
+    $$('button', g).forEach(function(b){
+      b.addEventListener('click', function(){
+        $$('button', g).forEach(function(x){x.classList.remove('on')}); b.classList.add('on'); pintarCanje();
+      });
+    });
+  });
+
+  /* ---------- 5. usuarios ---------- */
+  var permisos = ['Ventas','Reparaciones','Canje','Stock','Caja','Precios','Plata del local','Reportes'];
+  var ro = {'Ventas':1,'Reparaciones':1,'Canje':1,'Stock':1,'Caja':1,'Precios':0,'Plata del local':0,'Reportes':0};
+  $$('.perms').forEach(function(box){
+    var esPablo = box.getAttribute('data-user') === 'pablo';
+    box.innerHTML = permisos.map(function(p){
+      var on = esPablo ? true : !!ro[p];
+      return '<div class="perm"><span>'+p+'</span><button class="sw" role="switch" aria-label="'+p+'" aria-checked="'+on+'"'+(esPablo?' disabled':'')+' data-p="'+p+'"></button></div>';
+    }).join('');
+  });
+  document.addEventListener('click', function(e){
+    var s = e.target.closest('.sw'); if(!s || s.disabled) return;
+    var on = s.getAttribute('aria-checked') !== 'true';
+    s.setAttribute('aria-checked', on);
+    avisar(on ? 'Listo: Ro ya puede usar ' + s.getAttribute('data-p') + '.' : 'Ro ya no ve ' + s.getAttribute('data-p') + '.');
+  });
+})();
+</script>
+</body>
+</html>

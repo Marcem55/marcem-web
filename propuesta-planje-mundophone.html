@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Planje para Mundo Phone · Demo</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noche:#0E1320; --noche2:#161D2E; --noche3:#222B40;
+  --verde:#00D96B; --verdeo:#00A855; --verdel:#E6FBF0;
+  --tinta:#0E1320; --gris:#5B6475; --gris2:#8A93A3; --linea:#E6E9EF; --fondo:#F5F7FA;
+  --ambar:#B86E00; --ambarl:#FFF4E0;
+  --r:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:Inter,system-ui,sans-serif;background:var(--noche);color:#fff;line-height:1.45;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.pop{font-family:Poppins,Inter,sans-serif}
+.wrap{max-width:460px;margin:0 auto}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+
+/* Rótulo demo */
+.demo-tag{position:sticky;top:0;z-index:30;background:#FFD43B;color:#2A2100;font-size:12px;font-weight:700;text-align:center;padding:6px 12px;letter-spacing:.02em}
+
+/* HERO */
+.hero{padding:28px 20px 8px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-90px;top:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(0,217,107,.22),transparent 65%);pointer-events:none}
+.brand{display:flex;align-items:center;gap:10px;font-family:Poppins;font-weight:700;font-size:18px}
+.brand small{font-family:Inter;font-weight:500;font-size:12px;color:var(--gris2);margin-left:auto}
+.hero h1{font-size:30px;line-height:1.12;font-weight:800;margin:26px 0 6px;letter-spacing:-.02em}
+.hero h1 em{font-style:normal;color:var(--verde)}
+.dir{font-size:13px;color:var(--gris2);display:flex;align-items:center;gap:6px}
+.dolor{margin-top:18px;font-size:16px;color:#D7DCE5}
+.dolor b{color:#fff}
+
+/* Escena IG: el comentario */
+.ig{margin:22px 0 4px;background:var(--noche2);border:1px solid var(--noche3);border-radius:var(--r);padding:14px}
+.ig-h{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--gris2);margin-bottom:10px}
+.cm{display:flex;gap:9px;align-items:flex-start;margin-bottom:9px;font-size:14px}
+.av{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:11px;font-weight:700;color:var(--noche)}
+.cm p span{color:var(--gris2);font-size:12px;display:block}
+.cm.mp .av{background:var(--verde)}
+.cm.mp p{background:rgba(0,217,107,.1);border:1px solid rgba(0,217,107,.35);padding:8px 10px;border-radius:12px}
+.cm.mp a{color:var(--verde);font-weight:600;text-decoration:none}
+.ig-n{font-size:12px;color:var(--gris2);margin:2px 0 10px 37px}
+
+/* Navegación de pantallas */
+.nav{position:sticky;top:29px;z-index:20;background:rgba(14,19,32,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:12px 16px 10px;margin-top:18px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.tab{padding:8px 4px 9px;border-radius:12px;background:var(--noche2);border:1px solid var(--noche3);text-align:center;font-size:12px;font-weight:600;color:#AEB5C2;transition:.2s}
+.tab i{display:block;font-style:normal;font-family:Poppins;font-size:11px;color:var(--gris2);font-weight:600}
+.tab.on{background:var(--verde);color:var(--noche);border-color:var(--verde)}
+.tab.on i{color:var(--noche)}
+.hint{font-size:11px;color:var(--gris2);text-align:center;margin-top:8px}
+
+/* Carrusel */
+.track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.track::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;scroll-snap-align:start;padding:6px 16px 22px}
+.cap{padding:4px 4px 14px}
+.cap h2{font-size:21px;font-weight:700;line-height:1.2}
+.cap p{font-size:14px;color:#C5CBD6;margin-top:6px}
+
+/* Pantalla de trabajo (blanca) */
+.scr{background:#fff;color:var(--tinta);border-radius:22px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.35)}
+.bar{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--fondo);border-bottom:1px solid var(--linea);font-size:12px;color:var(--gris)}
+.url{flex:1;background:#fff;border:1px solid var(--linea);border-radius:999px;padding:6px 12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.url b{color:var(--tinta)}
+.pnl{display:flex;align-items:center;gap:8px;padding:11px 14px;background:var(--noche);color:#fff;font-size:13px;font-weight:600}
+.pnl span{margin-left:auto;font-weight:500;font-size:11px;color:var(--gris2)}
+.in{padding:14px}
+
+/* Vidriera */
+.st-head{padding:18px 14px 14px;background:linear-gradient(160deg,#0E1320 0%,#1B2438 100%);color:#fff}
+.st-head .logo{width:40px;height:40px;border-radius:12px;background:#fff;color:var(--noche);display:grid;place-items:center;font-family:Poppins;font-weight:800;font-size:15px}
+.st-row{display:flex;gap:10px;align-items:center}
+.st-head h3{font-size:18px;font-weight:700}
+.st-head p{font-size:12px;color:#B7BECB}
+.st-pills{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.st-pills span{font-size:11px;padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.1)}
+.filt{display:flex;gap:6px;padding:12px 14px 4px;overflow-x:auto;scrollbar-width:none}
+.filt::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:7px 12px;border-radius:999px;border:1px solid var(--linea);font-size:13px;font-weight:600;color:var(--gris);background:#fff}
+.chip.on{background:var(--tinta);color:#fff;border-color:var(--tinta)}
+.upd{font-size:11px;color:var(--gris2);padding:6px 14px 0}
+.list{padding:8px 14px 14px;display:grid;gap:8px}
+.it{display:flex;gap:11px;align-items:center;padding:11px;border:1px solid var(--linea);border-radius:14px;background:#fff}
+.it.hot{border:2px solid var(--verdeo);background:var(--verdel);position:relative}
+.ph{width:42px;height:54px;border-radius:9px;flex:none;position:relative;background:linear-gradient(150deg,var(--c1),var(--c2))}
+.ph::before{content:"";position:absolute;top:5px;left:5px;width:15px;height:15px;border-radius:5px;background:rgba(0,0,0,.28)}
+.it-t{flex:1;min-width:0}
+.it-t b{font-size:14px;display:block;line-height:1.25}
+.it-t small{font-size:12px;color:var(--gris);display:block}
+.it-r{text-align:right;flex:none}
+.it-r b{font-family:Poppins;font-size:15px;display:block}
+.stk{font-size:11px;font-weight:600;color:var(--verdeo)}
+.stk.low{color:var(--ambar)}
+.badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;margin-top:3px;background:var(--fondo);color:var(--gris)}
+.badge.v{background:var(--verdeo);color:#fff}
+.flag{position:absolute;top:-10px;left:12px;background:var(--verdeo);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;letter-spacing:.02em}
+.share{margin:0 14px 14px;padding:12px;border-radius:14px;background:var(--noche);color:#fff;display:flex;gap:10px;align-items:center;font-size:13px}
+.share b{color:var(--verde)}
+.share button{margin-left:auto;background:var(--verde);color:var(--noche);font-weight:700;font-size:12px;padding:8px 12px;border-radius:10px;flex:none}
+
+/* Segmento */
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--fondo);border:1px solid var(--linea);border-radius:12px;padding:3px;margin-bottom:14px}
+.seg button{padding:8px;border-radius:9px;font-size:13px;font-weight:600;color:var(--gris)}
+.seg button.on{background:#fff;color:var(--tinta);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.view{display:none}.view.on{display:block}
+
+/* Reparación */
+.ord{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px}
+.ord h3{font-size:17px;font-weight:700}
+.ord small{font-size:12px;color:var(--gris)}
+.pill{font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;background:var(--ambarl);color:var(--ambar);white-space:nowrap}
+.pill.ok{background:var(--verdel);color:var(--verdeo)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:13px;padding:12px;background:var(--fondo);border-radius:12px;margin-bottom:14px}
+.kv dt{color:var(--gris)}.kv dd{font-weight:600;text-align:right}
+.steps{list-style:none;position:relative;margin:4px 0 12px}
+.steps li{position:relative;padding:0 0 16px 32px;font-size:14px}
+.steps li::before{content:"";position:absolute;left:9px;top:20px;bottom:-2px;width:2px;background:var(--linea)}
+.steps li:last-child::before{display:none}
+.steps li .d{position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;border:2px solid var(--linea);background:#fff;display:grid;place-items:center;font-size:11px;color:#fff}
+.steps li.done .d{background:var(--verdeo);border-color:var(--verdeo)}
+.steps li.done::before{background:var(--verdeo)}
+.steps li.now .d{border-color:var(--verdeo);box-shadow:0 0 0 4px rgba(0,168,85,.15)}
+.steps li.now .d::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--verdeo)}
+.steps b{display:block;font-weight:600}
+.steps small{color:var(--gris);font-size:12px}
+.steps li.todo{color:var(--gris2)}
+.btn{display:block;width:100%;padding:13px;border-radius:12px;background:var(--verdeo);color:#fff;font-weight:700;font-size:14px;text-align:center}
+.btn.ghost{background:#fff;border:1px solid var(--linea);color:var(--tinta);margin-top:8px}
+.btn:disabled{background:var(--fondo);color:var(--gris2)}
+.note{font-size:12px;color:var(--gris);margin-top:10px;text-align:center}
+.cli{text-align:center;padding:6px 0 12px}
+.cli .big{width:64px;height:64px;border-radius:50%;margin:0 auto 10px;background:var(--verdel);display:grid;place-items:center}
+.cli h3{font-size:20px;font-weight:700}
+.cli p{font-size:14px;color:var(--gris);margin-top:4px}
+.bar-p{height:8px;background:var(--fondo);border-radius:999px;overflow:hidden;margin:14px 0 6px}
+.bar-p i{display:block;height:100%;width:75%;background:var(--verdeo);border-radius:999px;transition:width .4s}
+.sm{display:flex;justify-content:space-between;font-size:11px;color:var(--gris2)}
+
+/* Canje */
+.cot{border:1px solid var(--linea);border-radius:14px;padding:12px;margin-bottom:12px}
+.cot-h{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--verdeo);margin-bottom:10px}
+.lbl{font-size:12px;color:var(--gris);margin:10px 0 6px;font-weight:600}
+.opts{display:flex;gap:6px;flex-wrap:wrap}
+.opts button{padding:7px 11px;border-radius:10px;border:1px solid var(--linea);font-size:13px;font-weight:600;color:var(--gris)}
+.opts button.on{border-color:var(--verdeo);background:var(--verdel);color:var(--verdeo)}
+.res{margin-top:14px;padding:12px;border-radius:12px;background:var(--noche);color:#fff;display:flex;align-items:center;justify-content:space-between}
+.res small{font-size:12px;color:var(--gris2);display:block}
+.res b{font-family:Poppins;font-size:22px;color:var(--verde)}
+.arrow{text-align:center;font-size:12px;color:var(--gris);margin:4px 0 10px;font-weight:600}
+.stockcard{border:2px dashed var(--verdeo);border-radius:14px;padding:12px;background:#FBFFFD;opacity:.45;transition:.35s}
+.stockcard.in{opacity:1;border-style:solid}
+.stockcard .row{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid var(--linea)}
+.stockcard .row:last-child{border:0}
+.stockcard .row span{color:var(--gris)}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;letter-spacing:.02em}
+.sc-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.sc-h b{font-size:14px}
+
+/* Comprobante */
+.tk{border:1px solid var(--linea);border-radius:14px;overflow:hidden}
+.tk-h{padding:14px;text-align:center;border-bottom:1px dashed var(--linea)}
+.tk-h h3{font-size:17px;font-weight:800}
+.tk-h p{font-size:12px;color:var(--gris)}
+.tk-l{padding:12px 14px;border-bottom:1px solid var(--linea);font-size:13px}
+.tk-l .top{display:flex;justify-content:space-between;gap:8px}
+.tk-l .top b{font-weight:600}
+.tk-l .top .m{font-weight:700;white-space:nowrap}
+.tk-l small{display:block;color:var(--gris);font-size:12px;margin-top:2px}
+.gar{display:inline-flex;align-items:center;gap:5px;margin-top:6px;font-size:11px;font-weight:700;color:var(--verdeo);background:var(--verdel);padding:3px 8px;border-radius:999px}
+.gar.no{color:var(--gris);background:var(--fondo)}
+.neg{color:var(--verdeo)}
+.tk-t{padding:12px 14px;background:var(--fondo);font-size:13px}
+.tk-t div{display:flex;justify-content:space-between;padding:3px 0}
+.tk-t .tot{font-family:Poppins;font-weight:700;font-size:18px;border-top:1px solid var(--linea);margin-top:6px;padding-top:8px}
+.tk-f{padding:12px 14px;font-size:11px;color:var(--gris);text-align:center}
+
+/* Pager */
+.pager{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding:0 2px}
+.pager button{font-size:13px;font-weight:600;color:#C5CBD6;padding:8px 4px}
+.pager button.nx{color:var(--verde)}
+.dots{display:flex;gap:5px}
+.dots i{width:6px;height:6px;border-radius:999px;background:var(--noche3);transition:.25s}
+.dots i.on{width:18px;background:var(--verde)}
+
+/* Cierre */
+.close{padding:30px 20px 18px}
+.close h2{font-size:26px;font-weight:800;line-height:1.15;letter-spacing:-.01em}
+.close h2 em{font-style:normal;color:var(--verde)}
+.close > p{color:#C5CBD6;font-size:15px;margin-top:10px}
+.fund{margin-top:20px;border-radius:var(--r);padding:16px;background:linear-gradient(150deg,rgba(0,217,107,.16),rgba(0,217,107,.04));border:1px solid rgba(0,217,107,.4)}
+.fund h3{font-size:15px;font-weight:700;color:var(--verde)}
+.fund ul{list-style:none;margin-top:10px;display:grid;gap:8px}
+.fund li{display:flex;gap:10px;align-items:center;font-size:14px}
+.fund li b{font-family:Poppins;font-size:18px;min-width:62px}
+.fund p{font-size:12px;color:var(--gris2);margin-top:10px}
+.cta{display:block;margin-top:18px;text-align:center;background:var(--verde);color:var(--noche);font-family:Poppins;font-weight:700;font-size:16px;padding:15px;border-radius:14px;text-decoration:none}
+.sub{font-size:12px;color:var(--gris2);text-align:center;margin-top:10px}
+.foot{padding:18px 20px 34px;font-size:11px;color:var(--gris2);text-align:center;border-top:1px solid var(--noche2);margin-top:14px}
+
+@media (min-width:600px){
+  .hero h1{font-size:34px}
+}
+</style>
+</head>
+<body>
+
+<div class="demo-tag">Demo con datos de ejemplo · IMEI, clientes y precios inventados</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="brand">
+    <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#00D96B"/><path d="M10 25V7h7.5a6 6 0 0 1 0 12H10" fill="none" stroke="#0E1320" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 13h5m-2-2.3 2.3 2.3-2.3 2.3" fill="none" stroke="#0E1320" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Planje
+    <small>Demo personalizada</small>
+  </div>
+
+  <h1>Planje para <em>Mundo Phone</em></h1>
+  <div class="dir">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+    Mitre 122, local 1 · San Nicolás
+  </div>
+
+  <p class="dolor">Entre el <b>"comentá 13 pro"</b>, el <b>"¿ya está mi celu?"</b> y los canjes en el cuaderno, el día se te va en el celular y no en el mostrador.</p>
+
+  <div class="ig" aria-label="Ejemplo de comentarios en Instagram">
+    <div class="ig-h">Hoy en tu Instagram</div>
+    <div class="cm"><div class="av" style="background:#FFB4C6">LF</div><p>13 pro<span>lu.fernandez · hace 3 min</span></p></div>
+    <div class="cm"><div class="av" style="background:#B9D4FF">MG</div><p>13 pro precio?<span>martin.gz · hace 5 min</span></p></div>
+    <div class="ig-n">+ 21 comentarios más iguales</div>
+    <div class="cm mp"><div class="av">MP</div><p>¡Hola! Precio, batería y garantía acá: <a href="#s1" data-go="0">planje.app/mundophone</a></p></div>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Pantallas de la demo">
+  <div class="tabs" role="tablist">
+    <button class="tab on" data-go="0" role="tab"><i>01</i>Vidriera</button>
+    <button class="tab" data-go="1" role="tab"><i>02</i>Reparación</button>
+    <button class="tab" data-go="2" role="tab"><i>03</i>Canje</button>
+    <button class="tab" data-go="3" role="tab"><i>04</i>Comprobante</button>
+  </div>
+  <div class="hint">Deslizá o tocá una pestaña</div>
+</nav>
+
+<main class="track" id="track">
+
+  <!-- 1 VIDRIERA -->
+  <section class="slide" id="s1" aria-label="Tu vidriera">
+    <div class="cap">
+      <h2>Tu vidriera, como la ve tu cliente</h2>
+      <p>Un link con precios y stock al día. Lo mandás una vez y dejás de contestar comentario por comentario.</p>
+    </div>
+    <div class="scr">
+      <div class="bar">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+        <div class="url">planje.app/<b>mundophone</b></div>
+      </div>
+      <div class="st-head">
+        <div class="st-row">
+          <div class="logo">MP</div>
+          <div><h3>Mundo Phone</h3><p>Mitre 122, local 1 · San Nicolás</p></div>
+        </div>
+        <div class="st-pills"><span>Sellados</span><span>Usados premium</span><span>Servicio técnico</span><span>Tomamos tu iPhone</span></div>
+      </div>
+      <div class="filt" id="filt">
+        <button class="chip on" data-f="all">Todos</button>
+        <button class="chip" data-f="sell">Sellados</button>
+        <button class="chip" data-f="usad">Usados premium</button>
+      </div>
+      <div class="upd">Precios y stock actualizados hoy, 10:42</div>
+      <div class="list" id="list">
+        <div class="it hot" data-t="usad">
+          <span class="flag">El de "comentá 13 pro"</span>
+          <div class="ph" style="--c1:#7C93A8;--c2:#3E5468"></div>
+          <div class="it-t"><b>iPhone 13 Pro 128 GB</b><small>Usado premium · Batería 88% · Sierra Blue</small><span class="badge v">Garantía 3 meses</span></div>
+          <div class="it-r"><b>$690.000</b><span class="stk low">Quedan 2</span></div>
+        </div>
+        <div class="it" data-t="sell">
+          <div class="ph" style="--c1:#E9ECEF;--c2:#AEB6BF"></div>
+          <div class="it-t"><b>iPhone 16 128 GB</b><small>Sellado · Blanco, negro</small><span class="badge">Garantía 12 meses</span></div>
+          <div class="it-r"><b>$1.550.000</b><span class="stk">En stock</span></div>
+        </div>
+        <div class="it" data-t="sell">
+          <div class="ph" style="--c1:#F6D3DD;--c2:#D9A0B1"></div>
+          <div class="it-t"><b>iPhone 15 128 GB</b><small>Sellado · Rosa, negro</small><span class="badge">Garantía 12 meses</span></div>
+          <div class="it-r"><b>$1.250.000</b><span class="stk">En stock</span></div>
+        </div>
+        <div class="it" data-t="sell">
+          <div class="ph" style="--c1:#C9B9A6;--c2:#8E7B66"></div>
+          <div class="it-t"><b>iPhone 16 Pro 256 GB</b><small>Sellado · Titanio desierto</small><span class="badge">Garantía 12 meses</span></div>
+          <div class="it-r"><b>$2.290.000</b><span class="stk low">Queda 1</span></div>
+        </div>
+        <div class="it" data-t="usad">
+          <div class="ph" style="--c1:#5A5F6B;--c2:#2A2E36"></div>
+          <div class="it-t"><b>iPhone 14 128 GB</b><small>Usado premium · Batería 90% · Medianoche</small><span class="badge v">Garantía 3 meses</span></div>
+          <div class="it-r"><b>$720.000</b><span class="stk">En stock</span></div>
+        </div>
+        <div class="it" data-t="usad">
+          <div class="ph" style="--c1:#F2F2F2;--c2:#C4C8CE"></div>
+          <div class="it-t"><b>iPhone 13 128 GB</b><small>Usado premium · Batería 86% · Blanco</small><span class="badge v">Garantía 3 meses</span></div>
+          <div class="it-r"><b>$560.000</b><span class="stk">En stock</span></div>
+        </div>
+        <div class="it" data-t="usad">
+          <div class="ph" style="--c1:#2D4A7A;--c2:#16294A"></div>
+          <div class="it-t"><b>iPhone 12 64 GB</b><small>Usado premium · Batería 84% · Azul</small><span class="badge v">Garantía 3 meses</span></div>
+          <div class="it-r"><b>$430.000</b><span class="stk low">Queda 1</span></div>
+        </div>
+      </div>
+      <div class="share">
+        <span>Cuando vendés uno, <b>el stock baja solo</b> en la web.</span>
+        <button type="button" id="copy">Copiar link</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 REPARACIONES -->
+  <section class="slide" id="s2" aria-label="Reparaciones con link">
+    <div class="cap">
+      <h2>Reparaciones con link</h2>
+      <p>Vos movés el estado desde el mostrador. Tu cliente lo ve desde el link, sin escribirte "¿ya está mi celu?".</p>
+    </div>
+    <div class="scr">
+      <div class="pnl">Reparaciones<span>Panel de Mundo Phone</span></div>
+      <div class="in">
+        <div class="seg" id="seg">
+          <button class="on" data-v="vos">Lo que ves vos</button>
+          <button data-v="cli">Lo que ve tu cliente</button>
+        </div>
+
+        <div class="view on" id="v-vos">
+          <div class="ord">
+            <div><h3>Orden #0387</h3><small>Agustina R. · ingresó ayer 17:20</small></div>
+            <span class="pill" id="pillvos">En reparación</span>
+          </div>
+          <dl class="kv">
+            <dt>Equipo</dt><dd>iPhone 12 · Negro</dd>
+            <dt>IMEI</dt><dd class="mono">356728114093517</dd>
+            <dt>Falla</dt><dd>Pantalla rota, táctil ok</dd>
+            <dt>Presupuesto</dt><dd>$145.000</dd>
+            <dt>Seña</dt><dd>$50.000</dd>
+          </dl>
+          <ol class="steps" id="steps">
+            <li class="done"><span class="d">✓</span><b>Recibido</b><small>Ayer 17:20</small></li>
+            <li class="done"><span class="d">✓</span><b>Presupuesto aceptado</b><small>Ayer 18:05</small></li>
+            <li class="now"><span class="d"></span><b>En reparación</b><small>Cambio de módulo</small></li>
+            <li class="todo"><span class="d"></span><b>Listo para retirar</b><small>Te avisamos acá</small></li>
+          </ol>
+          <button class="btn" id="advance" type="button">Marcar "Listo para retirar"</button>
+          <p class="note">Un toque y el cliente lo ve en su link.</p>
+        </div>
+
+        <div class="view" id="v-cli">
+          <div class="bar" style="margin:-14px -14px 14px;border-radius:0">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            <div class="url">planje.app/<b>mundophone</b>/r/0387</div>
+          </div>
+          <div class="cli">
+            <div class="big" id="cliIcon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#00A855" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg>
+            </div>
+            <p>Hola, Agustina</p>
+            <h3 id="cliTitle">Tu iPhone 12 está en reparación</h3>
+            <p id="cliSub">Estamos cambiando el módulo. Te avisamos acá cuando esté.</p>
+          </div>
+          <div class="bar-p"><i id="cliBar"></i></div>
+          <div class="sm"><span>Recibido</span><span>Presupuesto</span><span>Reparación</span><span>Listo</span></div>
+          <dl class="kv" style="margin-top:14px">
+            <dt>Presupuesto</dt><dd>$145.000</dd>
+            <dt>Ya pagaste</dt><dd>$50.000</dd>
+            <dt>Te falta</dt><dd>$95.000</dd>
+            <dt>Retirás en</dt><dd>Mitre 122, local 1</dd>
+          </dl>
+          <p class="note">Sin descargar nada. Sin crear cuenta.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 CANJE -->
+  <section class="slide" id="s3" aria-label="Canje">
+    <div class="cap">
+      <h2>Te dejan el iPhone como parte de pago</h2>
+      <p>Lo cotizás con Planje Canje en un minuto y entra solo al stock por IMEI, con su garantía.</p>
+    </div>
+    <div class="scr">
+      <div class="pnl">Nueva venta · Canje<span>Planje Canje</span></div>
+      <div class="in">
+        <div class="cot">
+          <div class="cot-h">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg>
+            Cotizá el usado que te dejan
+          </div>
+          <div class="lbl">Modelo</div>
+          <div class="opts"><button class="on" type="button">iPhone 13 · 128 GB</button></div>
+          <div class="lbl">Batería</div>
+          <div class="opts" id="bat">
+            <button type="button" data-k="0">90% o más</button>
+            <button type="button" class="on" data-k="-20000">85 a 89%</button>
+            <button type="button" data-k="-55000">Menos de 85%</button>
+          </div>
+          <div class="lbl">Estado</div>
+          <div class="opts" id="est">
+            <button type="button" data-k="0">Impecable</button>
+            <button type="button" class="on" data-k="-25000">Marcas de uso</button>
+            <button type="button" data-k="-90000">Vidrio trasero roto</button>
+          </div>
+          <div class="res">
+            <div><small>Te lo tomamos a</small><b id="quote">$415.000</b></div>
+            <button class="btn" type="button" id="toStock" style="width:auto;padding:10px 14px;background:#00D96B;color:#0E1320">Tomarlo</button>
+          </div>
+        </div>
+
+        <div class="arrow">↓ entra solo al stock</div>
+
+        <div class="stockcard" id="stockcard">
+          <div class="sc-h"><b>iPhone 13 128 GB · Medianoche</b><span class="pill" id="scPill">Pendiente</span></div>
+          <div class="row"><span>IMEI</span><b class="mono">353914726105848</b></div>
+          <div class="row"><span>Origen</span><b>Canje · Venta #0142</b></div>
+          <div class="row"><span>Costo</span><b id="scCost">$415.000</b></div>
+          <div class="row"><span>Garantía al revenderlo</span><b>3 meses</b></div>
+          <div class="row"><span>Publicado en tu web</span><b id="scWeb">No</b></div>
+        </div>
+        <p class="note">Sabés qué te costó, cuánto ganás y de quién vino. Todo por IMEI.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 COMPROBANTE -->
+  <section class="slide" id="s4" aria-label="Comprobante">
+    <div class="cap">
+      <h2>Comprobante con garantía por ítem</h2>
+      <p>Cada equipo con su IMEI y su garantía. Si vuelve en dos meses, lo buscás y listo.</p>
+    </div>
+    <div class="scr">
+      <div class="in">
+        <div class="tk">
+          <div class="tk-h">
+            <h3>Mundo Phone</h3>
+            <p>Mitre 122, local 1 · San Nicolás</p>
+            <p style="margin-top:6px"><b style="color:#0E1320">Venta #0142</b> · 26/11/2026 · 16:35</p>
+            <p>Cliente: Lucía F.</p>
+          </div>
+          <div class="tk-l">
+            <div class="top"><b>iPhone 13 Pro 128 GB · Sierra Blue</b><span class="m">$690.000</span></div>
+            <small>Usado premium · Batería 88% · IMEI <span class="mono">352861093384216</span></small>
+            <span class="gar">✓ Garantía 3 meses · hasta 26/02/2027</span>
+          </div>
+          <div class="tk-l">
+            <div class="top"><b>Vidrio templado + funda</b><span class="m">$0</span></div>
+            <small>Regalo por la compra</small>
+            <span class="gar no">Sin garantía</span>
+          </div>
+          <div class="tk-l">
+            <div class="top"><b>Canje: iPhone 13 128 GB</b><span class="m neg" id="tkCanje">−$415.000</span></div>
+            <small>IMEI <span class="mono">353914726105848</span> · tomado como parte de pago</small>
+          </div>
+          <div class="tk-t">
+            <div><span>Subtotal</span><span>$690.000</span></div>
+            <div><span>Canje</span><span id="tkCanje2">−$415.000</span></div>
+            <div class="tot"><span>Pagó</span><span id="tkTot">$275.000</span></div>
+            <div><span style="color:#5B6475">Transferencia</span><span style="color:#5B6475" id="tkTot2">$275.000</span></div>
+          </div>
+          <div class="tk-f">Comprobante de venta · Lo mandás por link o lo imprimís</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div style="padding:0 16px">
+  <div class="pager">
+    <button type="button" id="prev">← Anterior</button>
+    <div class="dots" id="dots"><i class="on"></i><i></i><i></i><i></i></div>
+    <button type="button" class="nx" id="next">Siguiente →</button>
+  </div>
+</div>
+
+<section class="close">
+  <h2>Vos atendé.<br><em>Planje lleva las cuentas.</em></h2>
+  <p>Caja, stock por IMEI, canje, reparaciones y tu tienda online, en un solo lugar. Hecho para tiendas de celulares.</p>
+
+  <div class="fund">
+    <h3>Oferta tiendas fundadoras</h3>
+    <ul>
+      <li><b>1 mes</b> gratis</li>
+      <li><b>3 meses</b> al 50%</li>
+    </ul>
+    <p>Lugares limitados para las primeras tiendas.</p>
+  </div>
+
+  <a class="cta" href="https://planje.app" target="_blank" rel="noopener">Probalo 30 días gratis en planje.app</a>
+  <p class="sub">Sin tarjeta. Arrancás hoy con el plan Pro.</p>
+</section>
+
+<footer class="foot">
+  Demo armada para Mundo Phone con datos de ejemplo: IMEI, clientes, precios y montos son inventados.<br>Planje · planje.app
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var fmt=function(n){return '$'+n.toLocaleString('es-AR')};
+  var track=document.getElementById('track');
+  var slides=[].slice.call(track.children);
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  var dots=[].slice.call(document.querySelectorAll('#dots i'));
+  var cur=0;
+
+  function go(i,scroll){
+    i=Math.max(0,Math.min(slides.length-1,i));
+    if(scroll!==false){track.scrollTo({left:slides[i].offsetLeft,behavior:'smooth'})}
+    setActive(i);
+  }
+  function setActive(i){
+    cur=i;
+    tabs.forEach(function(t,k){t.classList.toggle('on',k===i);t.setAttribute('aria-selected',k===i)});
+    dots.forEach(function(d,k){d.classList.toggle('on',k===i)});
+  }
+  document.querySelectorAll('[data-go]').forEach(function(el){
+    el.addEventListener('click',function(e){
+      e.preventDefault();
+      var i=+el.getAttribute('data-go');
+      go(i);
+      var nav=document.querySelector('.nav');
+      if(nav.getBoundingClientRect().top>40){window.scrollTo({top:nav.offsetTop-29,behavior:'smooth'})}
+    });
+  });
+  document.getElementById('prev').onclick=function(){go(cur-1)};
+  document.getElementById('next').onclick=function(){go(cur+1)};
+  var t;
+  track.addEventListener('scroll',function(){
+    clearTimeout(t);
+    t=setTimeout(function(){setActive(Math.round(track.scrollLeft/track.clientWidth))},60);
+  },{passive:true});
+
+  // Vidriera: filtros
+  document.querySelectorAll('#filt .chip').forEach(function(c){
+    c.onclick=function(){
+      document.querySelectorAll('#filt .chip').forEach(function(x){x.classList.remove('on')});
+      c.classList.add('on');
+      var f=c.getAttribute('data-f');
+      document.querySelectorAll('#list .it').forEach(function(it){
+        it.style.display=(f==='all'||it.getAttribute('data-t')===f)?'':'none';
+      });
+    };
+  });
+  var copy=document.getElementById('copy');
+  copy.onclick=function(){copy.textContent='¡Copiado!';setTimeout(function(){copy.textContent='Copiar link'},1500)};
+
+  // Reparación: vistas y avance
+  document.querySelectorAll('#seg button').forEach(function(b){
+    b.onclick=function(){
+      document.querySelectorAll('#seg button').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on');
+      var v=b.getAttribute('data-v');
+      document.getElementById('v-vos').classList.toggle('on',v==='vos');
+      document.getElementById('v-cli').classList.toggle('on',v==='cli');
+    };
+  });
+  var adv=document.getElementById('advance');
+  adv.onclick=function(){
+    var li=document.querySelectorAll('#steps li');
+    li[2].className='done';li[2].querySelector('.d').textContent='✓';
+    li[3].className='done';li[3].querySelector('.d').textContent='✓';
+    li[3].querySelector('small').textContent='Hoy 11:15';
+    var p=document.getElementById('pillvos');p.textContent='Listo';p.classList.add('ok');
+    adv.disabled=true;adv.textContent='Listo. El cliente ya lo ve';
+    document.getElementById('cliBar').style.width='100%';
+    document.getElementById('cliTitle').textContent='¡Tu iPhone 12 está listo!';
+    document.getElementById('cliSub').textContent='Pasá a retirarlo cuando quieras.';
+    document.getElementById('cliIcon').innerHTML='<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#00A855" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+    setTimeout(function(){document.querySelector('#seg [data-v="cli"]').click()},700);
+  };
+
+  // Canje: cotizador
+  var base=460000;
+  function quote(){
+    var b=+document.querySelector('#bat .on').getAttribute('data-k');
+    var e=+document.querySelector('#est .on').getAttribute('data-k');
+    var q=base+b+e;
+    document.getElementById('quote').textContent=fmt(q);
+    document.getElementById('scCost').textContent=fmt(q);
+    document.getElementById('tkCanje').textContent='−'+fmt(q);
+    document.getElementById('tkCanje2').textContent='−'+fmt(q);
+    document.getElementById('tkTot').textContent=fmt(690000-q);
+    document.getElementById('tkTot2').textContent=fmt(690000-q);
+  }
+  ['bat','est'].forEach(function(id){
+    document.querySelectorAll('#'+id+' button').forEach(function(b){
+      b.onclick=function(){
+        document.querySelectorAll('#'+id+' button').forEach(function(x){x.classList.remove('on')});
+        b.classList.add('on');quote();
+      };
+    });
+  });
+  document.getElementById('toStock').onclick=function(){
+    document.getElementById('stockcard').classList.add('in');
+    var p=document.getElementById('scPill');p.textContent='En stock';p.classList.add('ok');
+    document.getElementById('scWeb').textContent='Sí, como usado premium';
+    this.textContent='Tomado ✓';
+  };
+  quote();
+})();
+</script>
+</body>
+</html>
