@@ -58,9 +58,11 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
 .hint{font-size:11px;color:var(--gris2);text-align:center;margin-top:8px}
 
 /* Carrusel */
-.track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.track::-webkit-scrollbar{display:none}
-.slide{flex:0 0 100%;scroll-snap-align:start;padding:6px 16px 22px}
+.track{display:block;touch-action:pan-y}
+.slide{display:none;padding:6px 16px 22px}
+.slide.on{display:block;animation:entra .25s ease}
+@keyframes entra{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.slide.on{animation:none}}
 .cap{padding:4px 4px 14px}
 .cap h2{font-size:21px;font-weight:700;line-height:1.2}
 .cap p{font-size:14px;color:#C5CBD6;margin-top:6px}
@@ -516,10 +518,19 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   var dots=[].slice.call(document.querySelectorAll('#dots i'));
   var cur=0;
 
-  function go(i,scroll){
+  var nav=document.querySelector('.nav');
+  // Una pantalla por vez. Al cambiar, si el usuario está más abajo de las pestañas, sube al principio de la pantalla nueva.
+  function go(i){
     i=Math.max(0,Math.min(slides.length-1,i));
-    if(scroll!==false){track.scrollTo({left:slides[i].offsetLeft,behavior:'smooth'})}
+    if(i===cur&&slides[i].classList.contains('on'))return;
+    slides.forEach(function(s,k){s.classList.toggle('on',k===i)});
     setActive(i);
+    // Llevar el principio de la pantalla justo debajo de las pestañas (que quedan fijas a 29 px del borde).
+    var debajoNav=29+nav.offsetHeight;
+    var trackTop=track.getBoundingClientRect().top;
+    if(trackTop<debajoNav-1||nav.getBoundingClientRect().top>40){
+      window.scrollTo({top:Math.max(0,trackTop+window.pageYOffset-debajoNav),behavior:'smooth'});
+    }
   }
   function setActive(i){
     cur=i;
@@ -529,19 +540,24 @@ button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
   document.querySelectorAll('[data-go]').forEach(function(el){
     el.addEventListener('click',function(e){
       e.preventDefault();
-      var i=+el.getAttribute('data-go');
-      go(i);
-      var nav=document.querySelector('.nav');
-      if(nav.getBoundingClientRect().top>40){window.scrollTo({top:nav.offsetTop-29,behavior:'smooth'})}
+      go(+el.getAttribute('data-go'));
     });
   });
   document.getElementById('prev').onclick=function(){go(cur-1)};
   document.getElementById('next').onclick=function(){go(cur+1)};
-  var t;
-  track.addEventListener('scroll',function(){
-    clearTimeout(t);
-    t=setTimeout(function(){setActive(Math.round(track.scrollLeft/track.clientWidth))},60);
+  // Deslizar con el dedo: solo gestos claramente horizontales y fuera de filtros, campos y botones de opciones.
+  var x0=null,y0=null;
+  track.addEventListener('touchstart',function(e){
+    if(e.target.closest('.filt, input, select, textarea, [data-noswipe]')){x0=null;return}
+    x0=e.touches[0].clientX;y0=e.touches[0].clientY;
   },{passive:true});
+  track.addEventListener('touchend',function(e){
+    if(x0===null)return;
+    var dx=e.changedTouches[0].clientX-x0, dy=e.changedTouches[0].clientY-y0;
+    x0=null;
+    if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5){go(cur+(dx<0?1:-1))}
+  },{passive:true});
+  slides.forEach(function(s,k){s.classList.toggle('on',k===0)});
 
   // Vidriera: filtros
   document.querySelectorAll('#filt .chip').forEach(function(c){
